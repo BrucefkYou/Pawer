@@ -1,0 +1,18 @@
+.box{
+    width: 356px;
+    height: 122px;
+    background: #e6e6eb;
+}
+.join-aside{
+    width: 370px;
+}
+.join-list-right{
+    max-width: 500px;
+    
+}
+.join-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    row-gap: 2rem;
+}
