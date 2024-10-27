@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 export default function Index(props) {
   return (
     <>
-      <main className="PT-list">
+      <div className="PT-list">
         {/* banner */}
         <div className="pet-banner-yen">
           <img src="./images/pic/Banner.jpg" alt="" />
@@ -492,7 +492,7 @@ export default function Index(props) {
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </>
   );
 }
