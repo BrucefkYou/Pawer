@@ -1,0 +1,26 @@
+.PT-sp-1 {
+  color: #f4b13e;
+}
+.PT-sp-2 {
+  color: #00000099;
+}
+
+.PT-sp-4 {
+  color: #22355c;
+}
+.PT-sp-none {
+  display: none !important;
+}
+.PT-sp-block {
+  display: block !important;
+}
+@media (max-width: 768px) {
+  .PT-sp-none-rwd {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) {
+  .PT-sp-3 {
+    background-color: #f5f5f5;
+  }
+}
