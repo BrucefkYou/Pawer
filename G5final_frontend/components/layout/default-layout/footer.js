@@ -42,14 +42,14 @@ export default function Footer() {
                     <li>LINE客服 | @pawerrrrr</li>
                     <li>信箱聯絡 | pawerrrrr@TESTMAIL.COM</li>
                     <hr />
-                    <div class="d-flex flex-row mb-3">
-                      <div class="p-3">
+                    <div className="d-flex flex-row mb-3">
+                      <div className="p-3">
                         <BsTelephone size={35} color="#f4b13e" />
                       </div>
-                      <div class="p-3">
+                      <div className="p-3">
                         <BsEnvelope size={35} color="#f4b13e" />
                       </div>
-                      <div class="p-3">
+                      <div className="p-3">
                         <BsMap size={35} color="#f4b13e" />
                       </div>
                     </div>
@@ -60,7 +60,7 @@ export default function Footer() {
           </div>
           <div className="footer-section-svg">
             <div className="powerSvg pb-2">
-              <Image width={64} height={35} src={logo} href="" />
+              <Image width={64} height={35} src={logo} href="./index" />
             </div>
             {/* <div>拋瓦股份有限公司 | 統編 09487561</div> */}
             <div>

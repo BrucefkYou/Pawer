@@ -15,9 +15,11 @@ export default function MyApp({ Component, pageProps }) {
     import('bootstrap/dist/js/bootstrap');
   }, []);
   // 最外(上)元件階層包裹提供者元件，讓父母元件可以提供給他
-  return (
-    <AuthProvider>
-      <CartProvider>{getLayout(<Component {...pageProps} />)}</CartProvider>
-    </AuthProvider>
-  );
+  return <CartProvider>{getLayout(<Component {...pageProps} />)}</CartProvider>;
 }
+
+// return (
+//   <AuthProvider>
+//     <CartProvider>{getLayout(<Component {...pageProps} />)}</CartProvider>
+//   </AuthProvider>
+// );

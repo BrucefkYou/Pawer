@@ -44,7 +44,7 @@ export default function EventCard({ data = '' }) {
               </h4>
 
               <div className="text-end">
-                <a href="#" className="btn text-warning p-0">
+                <a href="./index" className="btn text-warning p-0">
                   查看更多
                 </a>
               </div>
