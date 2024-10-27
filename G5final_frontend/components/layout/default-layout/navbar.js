@@ -1,7 +1,8 @@
 import React from 'react';
 import { BsPerson, BsCart2 } from 'react-icons/bs';
 import Image from 'next/image';
-import logo from 'assets/logo.svg';
+import Link from 'next/link';
+import logo from '/assets/logo.svg';
 export default function Navbar() {
   return (
     <>
@@ -24,26 +25,30 @@ export default function Navbar() {
                 />
               </svg>
             </div>
-            <a type="button" className="navbar-logo">
-              <Image width={115} height={84} src={logo} href="./index" />
-            </a>
+            <Link type="button" className="navbar-logo" href="/">
+              <Image width={115} height={84} src={logo} />
+            </Link>
           </div>
           <div className="navbar-list">
-            <a type="button" className="text-secondary" href="./index">
+            <Link type="button" className="text-secondary" href="./product">
               貓貓商品
-            </a>
-            <a type="button" className="text-secondary" href="./index">
+            </Link>
+            <Link type="button" className="text-secondary" href="./product">
               狗狗商品
-            </a>
-            <a type="button" className="text-secondary" href="./index">
+            </Link>
+            <Link type="button" className="text-secondary" href="./blog">
               部落格專區
-            </a>
-            <a type="button" className="text-secondary" href="./index">
+            </Link>
+            <Link type="button" className="text-secondary" href="./join">
               萌寵聚會
-            </a>
-            <a type="button" className="text-secondary" href="./index">
+            </Link>
+            <Link
+              type="button"
+              className="text-secondary"
+              href="./communicator"
+            >
               寵物溝通
-            </a>
+            </Link>
           </div>
 
           <div className="navbar-rightbtn">
