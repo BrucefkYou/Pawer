@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
 export default function CartInfo(props) {
+  const [selectedCity, setSelectedCity] = useState(''); // 初始值設為空字串
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+  };
+  const [selectedArea, setSelectedArea] = useState(''); // 初始值設為空字串
+
+  const handleAreaChange = (e) => {
+    setSelectedCity(e.target.value);
+  };
   return (
     <>
       <div className="container">
-        <form action>
+        <form action="">
           <div className="row">
             {/* 麵包屑 */}
             <div className="productList-crumb-wei col-sm-9 col-5">
@@ -150,8 +160,8 @@ export default function CartInfo(props) {
                     <input
                       className="mr20 checkbox-block"
                       type="checkbox"
-                      name
-                      id
+                      name="discountCheck"
+                      id="discountCheck"
                     />
                     優惠券
                   </div>
@@ -1566,21 +1576,21 @@ export default function CartInfo(props) {
                 </div>
                 {/* 基本資訊 */}
                 <div className="row row-cols-1 row-cols-lg-3 input-block-block">
-                  <div className>
+                  <div>
                     <input
                       className="mt10 w-100 h-36p input-block"
                       type="text"
                       placeholder="姓名"
                     />
                   </div>
-                  <div className>
+                  <div>
                     <input
                       className="mt10 w-100 h-36p input-block"
                       type="text"
                       placeholder="收貨人"
                     />
                   </div>
-                  <div className>
+                  <div>
                     <input
                       className="mt10 w-100 h-36p input-block"
                       type="text"
@@ -1594,21 +1604,29 @@ export default function CartInfo(props) {
                 </div>
                 <div className="row row-cols-2">
                   <div className="col w-50 mt10">
-                    <select className="form-select input-block" name id>
-                      <option value selected>
-                        請選擇縣市
-                      </option>
-                      <option value>台北市</option>
-                      <option value>新北市</option>
+                    <select
+                      className="form-select input-block"
+                      name="chooseCity"
+                      id="chooseCity"
+                      value={selectedCity}
+                      onChange={handleCityChange}
+                    >
+                      <option value="">請選擇縣市</option>
+                      <option value="taipei">台北市</option>
+                      <option value="New">新北市</option>
                     </select>
                   </div>
                   <div className="col w-50 mt10">
-                    <select className="form-select input-block" name id>
-                      <option value selected>
-                        請選擇區域
-                      </option>
-                      <option value>大安區</option>
-                      <option value>中正區</option>
+                    <select
+                      className="form-select input-block"
+                      name="area"
+                      id="area"
+                      value={selectedArea}
+                      onChange={handleAreaChange}
+                    >
+                      <option value="">請選擇區域</option>
+                      <option value="area1">大安區</option>
+                      <option value="area2">中正區</option>
                     </select>
                   </div>
                   <div className="col w-100 mt10">
