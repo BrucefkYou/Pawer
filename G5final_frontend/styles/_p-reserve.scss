@@ -1,26 +1,4 @@
-.PT-reserve {
-  /* 側邊欄佔位 */
-  .sidebar {
-    background: #ccc;
-    height: 300vh;
-  }
-  @media (max-width: 768px) {
-    .sidebar {
-      display: none;
-    }
-    .none {
-      display: none;
-    }
-    .navbutton {
-      text-align: center;
-    }
-  }
-  /* 右側區塊 */
-  .right-block {
-    height: 300vh;
-    // 外卡片陰影
-    .reserve-card {
-      margin-top: 10rem;
+.PT-reserve-card {
       background: white;
       box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
       border-radius: 5px;
@@ -158,5 +136,3 @@
         }
       }
     }
-  }
-}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Pagination from '@/components/pagination/pagination';
 
-export default function Index(props) {
+export default function list(props) {
   return (
     <>
       <div className="PT-list">
@@ -415,30 +416,8 @@ export default function Index(props) {
             </div>
           </div>
           {/* 分頁 */}
-          <div className="row pet-page-yen d-flex justify-content-between">
-            <div className="col">顯示1~10筆/共50筆</div>
-            <div className="col text-end">
-              <button className="page-btn-1">1</button>
-              <button className="page-btn-1">2</button>
-              <button className="page-btn-1">3</button>
-              <button className="page-btn-2">
-                下一頁
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={12}
-                  height={12}
-                  viewBox="0 0 12 12"
-                  fill="none"
-                >
-                  <path
-                    d="M1 2.25317L5.93245 9M6.06755 8.74683L11 2"
-                    stroke="#5B5B5B"
-                    strokeWidth="1.3"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </button>
-            </div>
+          <div className="d-flex justify-content-center">
+            <Pagination />
           </div>
         </div>
         {/* 廣告 */}
