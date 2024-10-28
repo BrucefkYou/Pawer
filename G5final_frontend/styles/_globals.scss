@@ -36,6 +36,32 @@ $box-shadow:0 0 22px 3px rgba(0, 0, 0, 0.08);
 // Google Roboto 字體
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); 
 
+h1 {
+  font-size: 62px;
+  line-height: 64px;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 44px;
+  // line-height: 48px;
+  font-weight: bold;
+}
+h3 {
+  font-size: 40px;
+  // line-height: 40px;
+  font-weight: bold;
+}
+h4 {
+  font-size: 36px;
+  // line-height: 40px;
+  font-weight: bold;
+}
+h5 {
+  font-size: 24px;
+  // line-height: 30px;
+  font-weight: bold;
+}
 
 // 定義中文字體用
 body {
