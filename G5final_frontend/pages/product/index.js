@@ -48,7 +48,7 @@ export default function Index(props) {
                 </div>
               </div>
             </div>
-            {/* 進階搜尋 */}
+            {/* 進階搜尋區 */}
             <div className="row">
               <div className="row d-flex flex-column align-items-start">
                 <div className="col d-flex mt-5">
