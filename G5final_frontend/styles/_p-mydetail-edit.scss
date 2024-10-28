@@ -1,0 +1,60 @@
+.PT-mydetail-edit {
+  /* 側邊欄佔位 */
+  .sidebar {
+    background: #ccc;
+    height: 200vh;
+  }
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+    .none {
+      display: none;
+    }
+    .navbutton {
+      text-align: center;
+    }
+  }
+  .right-block {
+    height: 300vh;
+
+    .PT-mydetail-card {
+      // 第一張卡
+      input {
+        color: #646464;
+      }
+      .sec1 {
+        box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
+        .avatar {
+          display: flex;
+          .icon {
+            object-fit: cover;
+            width: 100%;
+          }
+        }
+        .content-1 {
+          color: #646464;
+          .way {
+            display: inline-block;
+            background-color: #547cd7;
+            padding: 0.3rem 0.8rem;
+            color: white;
+            border-radius: 5px;
+          }
+        }
+      }
+      .content-title {
+        color: #646464;
+      }
+      // 第二張卡
+      .sec2 {
+        box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+        letter-spacing: 1.6px;
+        line-height: 30px;
+        color: #646464;
+        font-size: 16px;
+      }
+    }
+  }
+}

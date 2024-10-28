@@ -1,0 +1,66 @@
+.PT-create {
+  /* 側邊欄佔位 */
+  .sidebar {
+    background: #ccc;
+    height: 200vh;
+  }
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+    .none {
+      display: none;
+    }
+    .navbutton {
+      text-align: center;
+    }
+  }
+  .right-block {
+    height: 300vh;
+    // 第一張卡
+    .title-card {
+      text-align: center;
+      box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
+      padding: 2rem;
+      @media (max-width: 430px) {
+        text-align: start;
+      }
+      .title {
+        color: #c14545;
+      }
+      .title-text {
+        text-align: start;
+        font-size: 16px;
+      }
+    }
+    // 第二張卡
+    .input-card {
+      box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
+      padding: 2rem;
+      color: #646464;
+      @media (max-width: 992px) {
+        .pic-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+      .pic {
+        border-radius: 5px;
+        padding: 2rem;
+        background: #f7f7f7;
+        .icon {
+          object-fit: fill;
+          width: 100%;
+        }
+      }
+      .submit-btn {
+        border: none;
+        background-color: #253559;
+        color: white;
+        border-radius: 5px;
+        padding: 0.5rem 2rem;
+      }
+    }
+  }
+}

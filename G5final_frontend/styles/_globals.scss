@@ -4,6 +4,11 @@ $warning:   #f4b13e;
 $danger:    #C14545;
 $success:   #5AAC4D;
 $secondary: #F5F5F5;
+$darkgray:  #646464;
+
+// 麵包屑設定
+$breadcrumb-font-size:0.875rem;
+// margin-block 40px 要討論
 
 
 // 分頁籤設定
@@ -21,9 +26,11 @@ $headings-font-weight:  800;
 // 圓角、Button樣式調整
 $btn-border-radius: 2px;
 $border-radius:0.25rem;
+$border-radius-sm:0.125rem;
 
 $card-border-width:0px;
 $box-shadow:0 0 22px 3px rgba(0, 0, 0, 0.08);
+
 
 
 @import '~bootstrap/scss/bootstrap';
@@ -36,32 +43,6 @@ $box-shadow:0 0 22px 3px rgba(0, 0, 0, 0.08);
 // Google Roboto 字體
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); 
 
-h1 {
-  font-size: 62px;
-  line-height: 64px;
-  font-weight: 800;
-}
-
-h2 {
-  font-size: 44px;
-  // line-height: 48px;
-  font-weight: bold;
-}
-h3 {
-  font-size: 40px;
-  // line-height: 40px;
-  font-weight: bold;
-}
-h4 {
-  font-size: 36px;
-  // line-height: 40px;
-  font-weight: bold;
-}
-h5 {
-  font-size: 24px;
-  // line-height: 30px;
-  font-weight: bold;
-}
 
 // 定義中文字體用
 body {
@@ -72,6 +53,7 @@ body {
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   background-color: $secondary;
 }
+
 
 .btn-primary{
   &:hover{
@@ -99,6 +81,20 @@ body {
   border-radius: 4px;}
 }
 
+// 表單required * 樣式
+.required{
+  position: relative;
+  &::after{
+      content: "*";
+      font-size: 1.5rem;
+      color: $danger;
+      position: absolute;
+      top: -0.25rem;
+      padding-left: 0.25rem;
+  }
+}
+
+// 網頁內容適應高度
 main{
   padding-top: 84px;
 }
@@ -124,19 +120,30 @@ main{
 .navbar-leftbtn {
   height: 84px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: start;
   align-items: center;
 }
   .navbar-logo {
     display: flex;
-    justify-content: flex-start;
+    justify-content: start;
     align-items: center;
     margin: 7px 15px 7px 20px;
   }
 .navbar-rwd-listbar {
   display: none;
 }
-
+.navbar-hamburger{
+  background: none;
+    border: 0;
+    padding: 0;
+    width: 30px;
+    font-size: 30px;
+    color: $secondary;
+    &:hover {
+      color: $warning;
+        
+    }
+}
 .navbar-rightbtn {
   display: flex;
   align-items: center;
@@ -150,10 +157,9 @@ main{
     padding: 0;
     width: 30px;
     font-size: 30px;
+    color: $secondary;
     &:hover {
-        path {
-          fill: $yellow;
-        }
+      color: $warning;
     }
   }
   .navbar-member{
@@ -168,6 +174,7 @@ main{
 }
 
 .navbar-list {
+  font-size: 1rem;
   display: flex;
   gap: 36px;
 
@@ -335,8 +342,7 @@ main{
   }
   .navbar-list{
     a{
-      transition: all .4s ease-in;
-      font-size: 14px;
+      font-size: 0.9em;
     }
    
   }

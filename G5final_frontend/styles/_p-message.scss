@@ -1,0 +1,38 @@
+.PT-create {
+  /* 側邊欄佔位 */
+  .sidebar {
+    background: #ccc;
+    height: 200vh;
+  }
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+    .none {
+      display: none;
+    }
+    .navbutton {
+      text-align: center;
+    }
+  }
+  .right-block {
+    height: 300vh;
+    // 第一張卡
+    .message-card {
+      text-align: center;
+      box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
+      padding: 2rem;
+      color: #646464;
+      .message-btn {
+        background: #f4b13e;
+        border-radius: 5px;
+        color: white;
+        border: none;
+        padding: 1rem 3rem;
+      }
+      .text1 {
+        color: #f23333;
+      }
+    }
+  }
+}
