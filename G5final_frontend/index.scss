@@ -1,4 +1,5 @@
 @import "./styles/globals";
+@import "./styles/sidebar";
 
 // member
 @import "./styles/member.scss";
@@ -18,3 +19,12 @@
 // blog
 
 // pet-communicator
+@import "./styles/p-alert";
+@import "./styles/p-create";
+@import "./styles/p-detail";
+@import "./styles/p-list";
+@import "./styles/p-message";
+@import "./styles/p-mydetail-edit";
+@import "./styles/p-mydetail";
+@import "./styles/p-reserve";
+@import "./styles/PT";
