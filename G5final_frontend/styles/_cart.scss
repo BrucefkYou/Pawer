@@ -1,0 +1,304 @@
+* {
+	box-sizing: border-box;
+}
+:root {
+	--main-color: #22355c;
+	--second-color: #f4b434;
+}
+.bg-main-color {
+	background-color: var(--main-color);
+}
+.bg-second-color {
+	background-color: var(--second-color);
+}
+.mr-50 {
+    margin-right: 50px;
+}
+
+.main-color {
+    color: var(--main-color);
+}
+.second-color {
+    color: var(--second-color);
+}
+.set-middle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@media (min-width: 992px) {
+	.btn-page-size {
+		width: 36px;
+		height: 36px;
+	}
+	.btn-coupon-size {
+		width: 189px;
+		height: 43px;
+	}
+	.btn-keepShoping {
+		width: 170px;
+		height: 43px;
+		border: 1px solid var(--main-color);
+	}
+	.btn-main-border {
+		border: 2px solid var(--main-color);
+	}
+	.btn-checkd {
+		width: 250px;
+		height: 43px;
+	}
+	.tr-solid {
+		opacity: 1;
+		color: rgba(0, 0, 0, 0);
+		border-bottom: 1px solid black;
+		border-color: black;
+	}
+	.tr-none {
+		border-color: rgba(245, 245, 220, 0);
+	}
+	.tr-height {
+		height: 160px;
+	}
+    .mr-40{
+        margin-right: 40px;
+    }
+    .mr-55{
+        margin-right: 55px;
+    }
+	.hr-margin {
+		margin-block: 20px;
+	}
+	body {
+		background-color: #f5f5f5;
+	}
+	.container {
+		background-color: #f5f5f5;
+	}
+    .product-svg{
+        width: 100px;
+        height: 100px;
+    }
+	
+	.cart {
+		margin-block: auto;
+		margin-bottom: 50px;
+		border-radius: 20px;
+
+		.cart-title {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+		}
+		.cart-title hr {
+			margin: 0px;
+			width: 200px;
+			color: #ef4a1300;
+			border-bottom: 10px solid #f4b434;
+			border-radius: 20px;
+			opacity: 1;
+		}
+		h1 {
+			margin-block: auto;
+			color: #646464;
+		}
+		.cart-product {
+			padding: 50px;
+			background-color: white;
+			margin: 20px 0px 20px 0px;
+			border-radius: 20px;
+		}
+		.cart-section3 {
+			margin-top: 59px;
+		}
+		.cart-section3 hr {
+			opacity: 1;
+			color: rgba(0, 0, 0, 0.6);
+		}
+        /* 桌機-確認訂單資訊欄 */
+		.cart-check {
+			width: 250px;
+		}
+        .cart-page{
+            display: none;
+        }
+        .keep-shopping{
+            display: flex;
+            align-items: end;
+        }
+        .choose-discount{
+            margin-bottom: 20px;
+            height: 39px;
+            select {
+                width: 250px;
+                border-radius: 10px;
+                text-align: center;
+            }
+        }
+		/* 設定增加按鈕樣式 */
+		.choose-quantity-btn{
+			display: flex;
+			align-items: center;
+		}
+		.btn-increase{
+			width: 40px;
+			height: 40px;
+			border: 1px solid var(--main-color);
+			border-radius: 5px;
+		}
+		.btn-quantity {
+			border: 1px solid var(--main-color);
+			width: 50px;
+			height: 40px;
+		}
+	}
+	.cart-info {
+		.table {
+			margin-bottom: 50px;
+		}
+		.info-discount {
+			padding: 10px 50px 10px 50px;
+		}
+	}
+    /* grid */
+    .product-card{
+        padding-inline: 30px;
+    }
+    .product-card-block{
+        height: 160px;
+        padding-block: 30px;
+        border-bottom: 1px solid gray;
+    }
+   
+}
+
+@media (max-width: 576px) {
+	body {
+		background-color: #f5f5f5;
+	}
+	/* components */
+	.btn-number-mobile {
+		width: 20px;
+		height: 30px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0;
+	}
+	.btn-qtn-mobile {
+		width: 32px;
+		height: 30px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0;
+	}
+	.check-box {
+		font-size: 24px;
+	}
+	.mr-16 {
+		margin-right: 16px;
+	}
+    /* 手機-flex置中 */
+    .set-mobile-middle{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+	/* block */
+	.cart {
+		.mobile-product {
+            /* width: 100%; */
+			margin: auto;
+		}
+        /* 移除 */
+		.cart-title,
+		.cart-page {
+			display: none;
+		}
+		.product-title {
+            width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+            font-size: 14px;
+		}
+        .product-card-block{
+            padding-block: 30px;
+        }
+        /* 手機-垂直排列 */
+        .mobile-column{
+            flex-direction: column;
+        }
+        /* 手機-分頁移除 */
+        .cart-page{
+            display: none;
+        }
+        .btn-coupon-size {
+            width: 330px;
+            height: 36px;
+        }
+        /* 手機-繼續購物按鈕移除 */
+        .keep-shopping{
+            display: none;
+        }
+        .choose-discount{
+            margin-bottom: 20px;
+            width: 330px;
+            height: 38px;
+            select {
+                border-radius: 5px;
+                text-align: center;
+            }
+        }
+        .cart-check{
+            width: 100%;
+        }
+        .w100per{
+            width: 100%;
+        }
+        .cart-section3{
+            padding-inline: 10px;
+        }
+        /* 手機-去結帳按紐 */
+        .btn-checkd{
+            width: 310px;
+            /* height: 29px; */
+        }
+		/* 設定增加按鈕樣式 */
+		.choose-quantity-btn{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+		}
+		.btn-increase{
+			width: 20px;
+			height: 30px;
+			border: 1px solid var(--main-color);
+			border-radius: 5px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.btn-quantity {
+			border: 1px solid var(--main-color);
+			width: 30px;
+			height: 30px;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+	.cart-product {
+		background: #ffffff;
+		padding: 20px 10px;
+	}
+    /* prdocut-3 test */
+    
+    .product-svg{
+        width: 60px;
+        height: 60px;
+    }
+}
