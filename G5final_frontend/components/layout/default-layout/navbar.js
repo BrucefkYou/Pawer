@@ -1,5 +1,6 @@
 import React from 'react';
 import { BsPerson, BsCart2 } from 'react-icons/bs';
+import { IoIosLogOut } from 'react-icons/io';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '/assets/logo.svg';
@@ -58,6 +59,9 @@ export default function Navbar() {
             <button className="navbar-cart">
               {/* <img src="./images/icon/cart.svg" alt=""> */}
               <BsCart2 className="text-secondary BsCart2" />
+            </button>
+            <button className="navbar-logout">
+              <IoIosLogOut className="text-secondary" />
             </button>
           </div>
         </div>
