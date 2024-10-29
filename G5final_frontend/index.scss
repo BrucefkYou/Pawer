@@ -5,7 +5,8 @@
 @import "./styles/member.scss";
 
 // product
-
+@import "./styles/productlist.scss";
+@import "./styles/productdetail.scss";
 // cart
 @import "./styles/cart.scss";
 @import "./styles/cart-info.scss";
@@ -17,6 +18,7 @@
 @import "./styles/join.scss";
 
 // blog
+@import "./styles/_bl-create.scss";
 
 // pet-communicator
 @import "./styles/p-alert";

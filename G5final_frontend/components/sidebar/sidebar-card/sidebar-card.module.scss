@@ -1,0 +1,51 @@
+.sidebar-card {
+    width: 100%;
+    display: flex;
+    gap: 30px;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 30px 36px;
+    position: relative;
+
+  
+    .img{
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 59px;
+      height: 59px;
+      aspect-ratio: 1 / 1;
+    }
+
+    .title{
+      padding-bottom: 16px;
+      border-bottom: 2px dashed #EAEAEA  ;
+  }
+  h5 {
+      color: #22355C;
+      font-size: 24px;
+      font-family: Roboto;
+      font-weight: 700;
+      line-height: 30px;
+      word-wrap: break-word;
+      margin:0
+  }
+
+  // .tag-section {
+  //     display: flex;
+  //     align-items: stretch;
+  //     width: 100%;
+  //     gap: 4px;
+  // }
+
+  // .tag{
+  //     padding: 4px 12px;
+  //     color: white;
+  //     background-color: #22355C;
+  //     border-radius: 4px;
+  //     border: 1px solid #EDF0F3;
+  // }
+
+  
+  }
+  

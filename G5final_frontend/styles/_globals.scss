@@ -32,7 +32,6 @@ $card-border-width:0px;
 $box-shadow:0 0 22px 3px rgba(0, 0, 0, 0.08);
 
 
-
 @import '~bootstrap/scss/bootstrap';
 // ↓↓↓  其它客製樣式要寫在這行的"下面" ↓↓↓
 
@@ -120,12 +119,12 @@ main{
 .navbar-leftbtn {
   height: 84px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
   .navbar-logo {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     margin: 7px 15px 7px 20px;
   }
