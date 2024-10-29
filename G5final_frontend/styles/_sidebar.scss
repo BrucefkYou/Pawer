@@ -1,0 +1,36 @@
+.mb-sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 30px 36px;
+  border-radius: 4px;
+  position: relative;
+
+  .img {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 59px;
+    height: 59px;
+  }
+
+  .title {
+    padding-bottom: 16px;
+    border-bottom: 2px dashed #eaeaea;
+    color: $primary;
+    margin-bottom: 0px;
+  }
+  .nav {
+    list-style: none;
+  }
+  .nav-item {
+    border: rgba(0, 0, 0, 0.05) 1px solid;
+    font-size: 14px;
+    &.active {
+      background-color: $warning;
+    }
+  }
+  .nav-link {
+    color: $primary;
+  }
+}

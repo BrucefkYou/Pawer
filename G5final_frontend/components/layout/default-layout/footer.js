@@ -60,7 +60,7 @@ export default function Footer() {
           </div>
           <div className="footer-section-svg">
             <div className="powerSvg pb-2">
-              <Image width={64} height={35} src={logo} href="./index" />
+              <Image width={64} height={35} src={logo} href="/" />
             </div>
             {/* <div>拋瓦股份有限公司 | 統編 09487561</div> */}
             <div>

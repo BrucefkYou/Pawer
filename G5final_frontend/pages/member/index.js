@@ -1,5 +1,8 @@
 import Pagination from '@/components/pagination/pagination';
-
+import AdminLayout from '@/components/layout/admin-layout';
+member.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
 export default function member() {
   return (
     <>

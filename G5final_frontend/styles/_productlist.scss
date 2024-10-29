@@ -1,0 +1,307 @@
+.productList {
+    /* 麵包屑 */
+    .productList-crumb-wei {
+      font-family: Inter;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 21px;
+      padding: 24px 36px;
+      a {
+        color: #707070;
+      }
+  
+      a:link {
+        text-decoration: none;
+      }
+  
+      a:hover {
+        color: #253559;
+      }
+  
+      a.active {
+        color: #253559;
+      }
+    }
+    /* 側邊欄 */
+    .left {
+      width: 400px;
+    }
+    /* 文字搜尋 */
+    .search-text-mp {
+      padding: 0;
+    }
+    /* 搜尋框背景 */
+    .search-bg {
+      padding: 10px 6px;
+      border-radius: 8px 0px 0px 8px;
+      background: var(--primary, #22355c);
+      box-shadow: 0px 0px 7.5px 3px rgba(0, 0, 0, 0.07);
+    }
+    .search-shadow {
+      width: 100%;
+      border-radius: 0px 8px 8px 0px;
+      box-shadow: 0px 0px 7.5px 3px rgba(0, 0, 0, 0.07);
+    }
+    /* 顯示數量 頁數 排序 的排版 */
+    .choose-page {
+      width: 60%;
+      display: flex;
+      justify-content: flex-end;
+      margin-left: 21.7rem;
+    }
+    /* 顯示幾筆 */
+    .howmaney {
+      width: 310px;
+      margin: 0;
+      padding: 0;
+      color: #888;
+      text-align: center;
+      font-family: Inter;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 27px;
+    }
+    /* 搜尋 */
+    .selectpd {
+      padding: 8px 12px;
+    }
+    .rwd-select {
+      display: none;
+    }
+    /* 進階搜尋 */
+    .searchpro {
+      color: #5b5b5b;
+      text-align: justify;
+      font-family: Inter;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: normal;
+    }
+    /* 種類 */
+    .searchcategory {
+      color: #5b5b5b;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+    }
+    .line {
+      width: 100%;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    /* 貓狗標籤 要判斷狀態是否點選 預設false 灰色 true橘色 */
+    .pet-choose {
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .pet-choose-status1 {
+      color: var(--white, var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff));
+      font-family: Inter;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 21px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      background: var(--accent, #f4b13e);
+    }
+    .pet-choose-status2 {
+      color: var(--white, var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff));
+      font-family: Inter;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 21px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      background: var(--l-gary, rgba(0, 0, 0, 0.6));
+    }
+    /* 清除搜尋 */
+    .clean {
+      margin-top: 3rem;
+      width: 363px;
+      padding: 10px 100px;
+      gap: 10px;
+      border-radius: 4px;
+      background: var(--primary, #22355c);
+      color: var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff);
+      font-family: Inter;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: normal;
+    }
+    /* 類別 */
+    .category {
+      color: var(--primary, #22355c);
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+      padding: 50px 20px 10px 20px;
+    }
+    .category-add {
+      color: #5b5b5b;
+      text-align: justify;
+      font-family: Inter;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: normal;
+      padding: 50px 0px 10px 20px;
+    }
+    /* 類別細節 */
+    .category-detail {
+      width: 160px;
+      padding-right: 0;
+    }
+    .category-font {
+      color: #bfbfbf;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+    }
+    /* ---------------------------------商品------------------------------- */
+    .right {
+      width: 900px;
+    }
+    /* 卡片大小 */
+    .card-size {
+      width: 15.25rem;
+      height: 26rem;
+    }
+    /* 卡片外間距 */
+    .card-layout{
+      margin-top: 5rem;
+    }
+    /* 卡片文字 */
+    .pd-card-text {
+      color: #000;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+    }
+    .pd-card-textD {
+      color: #5b5b5b;
+      font-family: Inter;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+    }
+    /* 卡片價格 */
+    .be-nt {
+      color: #5b5b5b;
+      font-family: Inter;
+      font-size: 12px;
+      font-weight: 400;
+      text-decoration-line: line-through;
+    }
+    .new-nt {
+      color: #253559;
+      font-family: Inter;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 27px;
+    }
+    /* 卡片陰影 */
+    .shadow-for-card {
+      box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
+    }
+    /* 頁籤 */
+    .tab-true {
+      width: 32px;
+      height: 32px;
+      color: #fff;
+      padding: 2px 5.017px 2.96px 5px;
+      border-radius: 4px;
+      background: var(--accent, #f4b13e);
+      text-align: center;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .tab-false {
+      width: 32px;
+      height: 32px;
+      color: #888;
+      padding: 2px 5.017px 2.96px 5px;
+      text-align: center;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 500;
+    }
+  
+    /* RWD */
+    @media (max-width: 576px) {
+      /* 麵包屑 */
+      .productList-crumb-wei {
+        font-family: Inter;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 21px;
+        padding: 24px 15px;
+        a {
+          color: #707070;
+        }
+  
+        a:link {
+          text-decoration: none;
+        }
+  
+        a:hover {
+          color: #253559;
+        }
+  
+        a.active {
+          color: #253559;
+        }
+      }
+      /* 選單隱藏顯示 */
+      .rwd-none {
+        display: none;
+      }
+      .howmaney {
+        display: none;
+      }
+      .search-bg {
+        display: none;
+      }
+      .search-shadow {
+        display: none;
+      }
+      .rwd-select {
+        display: block;
+        width: 166px;
+      }
+      /* 側邊欄 */
+      .left {
+        display: none;
+      }
+      /* 商品卡片 */
+      .card-layout{
+        margin-top: 0rem;
+      }
+      .card-size {
+        width: 8.25rem;
+        height: 20rem;
+        margin-bottom: 1rem;
+      }
+      .new-nt {
+        color: #253559;
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 27px;
+      }
+      .pd-card-text {
+        color: #000;
+        font-family: Inter;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 24px;
+      }
+      /* 頁籤 */
+      .tab-rwd{
+        margin-left: 60px;
+      }
+    }
+  }
+  
