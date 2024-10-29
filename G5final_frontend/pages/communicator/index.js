@@ -7,7 +7,7 @@ export default function list(props) {
       <div className="PT-list">
         {/* banner */}
         <div className="pet-banner-yen">
-          <img src="./images/pic/Banner.jpg" alt="" />
+          <img src="./images/pic/Banner.jpg" alt="1" />
           <div className="banner-text">寵物溝通師</div>
         </div>
         {/* 主要內容 */}
@@ -94,7 +94,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -121,7 +121,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -148,7 +148,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -175,7 +175,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -202,7 +202,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -229,7 +229,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -256,7 +256,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -283,7 +283,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -310,7 +310,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -337,7 +337,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -364,7 +364,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -391,7 +391,7 @@ export default function list(props) {
               <img
                 className="hover-img"
                 src="./images/pic/teacher.png"
-                alt=""
+                alt="1"
               />
               <div className="contain">
                 <h4>IVY</h4>
@@ -426,18 +426,18 @@ export default function list(props) {
             <div className="row d-flex justify-content-center align-items-center">
               <div className="col-lg-4">
                 <div className="advertise-img">
-                  <img src="./images/pic/1.png" alt="" />
-                  <img src="./images/pic/2.png" alt="" />
-                  <img src="./images/pic/3.png" alt="" />
-                  <img className="img-none" src="./images/pic/4.png" alt="" />
-                  <img src="./images/pic/5.png" alt="" />
-                  <img src="./images/pic/6.png" alt="" />
-                  <img src="./images/pic/7.png" alt="" />
-                  <img className="img-none" src="./images/pic/8.png" alt="" />
-                  <img src="./images/pic/9.png" alt="" />
-                  <img src="./images/pic/10.png" alt="" />
-                  <img src="./images/pic/11.png" alt="" />
-                  <img className="img-none" src="./images/pic/12.png" alt="" />
+                  <img src="./images/pic/1.png" alt="1" />
+                  <img src="./images/pic/2.png" alt="1" />
+                  <img src="./images/pic/3.png" alt="1" />
+                  <img className="img-none" src="./images/pic/4.png" alt="1" />
+                  <img src="./images/pic/5.png" alt="1" />
+                  <img src="./images/pic/6.png" alt="1" />
+                  <img src="./images/pic/7.png" alt="1" />
+                  <img className="img-none" src="./images/pic/8.png" alt="1" />
+                  <img src="./images/pic/9.png" alt="1" />
+                  <img src="./images/pic/10.png" alt="1" />
+                  <img src="./images/pic/11.png" alt="1" />
+                  <img className="img-none" src="./images/pic/12.png" alt="1" />
                 </div>
               </div>
               <div className="col-lg-8 mt-3">

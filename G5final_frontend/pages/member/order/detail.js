@@ -123,7 +123,7 @@ export default function OrderDetail() {
             </div>
             <div className="row">
               <div className="cell justify-content-start  ">
-                <img src="/member/order-product.jpg" alt="" className="img" />{' '}
+                <img src="/member/order-product.jpg" alt="1" className="img" />{' '}
                 貓咪痕淨白 60顆
               </div>
               <div className="cell">$700</div>
@@ -132,7 +132,7 @@ export default function OrderDetail() {
             </div>
             <div className="row">
               <div className="cell justify-content-start  ">
-                <img src="/member/order-product.jpg" alt="" className="img" />{' '}
+                <img src="/member/order-product.jpg" alt="1" className="img" />{' '}
                 貓咪痕淨白 60顆
               </div>
               <div className="cell">$700</div>

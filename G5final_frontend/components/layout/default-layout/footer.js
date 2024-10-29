@@ -2,7 +2,7 @@ import React from 'react';
 import { BsTelephone, BsEnvelope, BsMap } from 'react-icons/bs';
 import Image from 'next/image';
 // eslint-disable-next-line import/no-unresolved
-import logo from 'assets/logo.svg';
+import logo from 'public/LOGO.svg';
 
 export default function Footer() {
   return (
@@ -60,7 +60,7 @@ export default function Footer() {
           </div>
           <div className="footer-section-svg">
             <div className="powerSvg pb-2">
-              <Image width={64} height={35} src={logo} href="/" />
+              <Image width={64} height={35} src={logo} href="/" alt="1" />
             </div>
             {/* <div>拋瓦股份有限公司 | 統編 09487561</div> */}
             <div>

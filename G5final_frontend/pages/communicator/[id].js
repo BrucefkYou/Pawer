@@ -10,7 +10,7 @@ export default function Id(props) {
               {/* 刊登照片 */}
               <div className="col-lg-6 d-flex avatar-wrapper">
                 <div className="avatar">
-                  <img src="./images/pic/teacher.png" alt="" />
+                  <img src="./images/pic/teacher.png" alt="1" />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={201}
