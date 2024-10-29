@@ -8,13 +8,13 @@ export default function Id(props) {
       <main className="productdetail">
         {/* 麵包屑 */}
         <div className="productdetail-crumb-wei d-flex">
-          <a href="./">首頁</a>
+          <a href="../">首頁</a>
           <div>&nbsp;/&nbsp;</div>
-          <a className="active" href="./product">
+          <a className="active" href="../product">
             犬貓通用
           </a>
           <div>&nbsp;/&nbsp;</div>
-          <a className="active" href="./product/[id]">
+          <a className="active" href="../product/[id]">
             鮮三精
           </a>
         </div>
@@ -28,7 +28,7 @@ export default function Id(props) {
                 <div>
                   <img
                     className="detail-left-img "
-                    src="../product/NU4Petimage01/C1.jpg"
+                    src="../product/NU4Petimage/NU4Petimage01/C1.jpg"
                     alt="圖片"
                   />
                 </div>
@@ -40,28 +40,28 @@ export default function Id(props) {
                 <div className="col">
                   <img
                     className="detail-left-img"
-                    src="../product/NU4Petimage01/P2.jpg"
+                    src="../product/NU4Petimage/NU4Petimage01/P2.jpg"
                     alt="1"
                   />
                 </div>
                 <div className="col">
                   <img
                     className="detail-left-img"
-                    src="../product/NU4Petimage01/P3.jpg"
+                    src="../product/NU4Petimage/NU4Petimage01/P3.jpg"
                     alt="1"
                   />
                 </div>
                 <div className="col">
                   <img
                     className="detail-left-img"
-                    src="../product/NU4Petimage01/P3.jpg"
+                    src="../product/NU4Petimage/NU4Petimage01/P3.jpg"
                     alt="1"
                   />
                 </div>
                 <div className="col">
                   <img
                     className="detail-left-img"
-                    src="../product/NU4Petimage01/P5.jpg"
+                    src="../product/NU4Petimage/NU4Petimage01/P5.jpg"
                     alt="1"
                   />
                 </div>
@@ -161,7 +161,7 @@ export default function Id(props) {
           <div className="d-flex justify-content-center pd-content-me5">
             <img
               className="pd-detail-img"
-              src="../product/NU4Petimage01/NU4Petimage01.png"
+              src="../product/NU4Petimage/NU4Petimage01/NU4Petimage01.png"
               alt="1"
             />
           </div>
