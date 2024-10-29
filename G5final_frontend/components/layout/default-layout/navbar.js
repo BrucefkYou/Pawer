@@ -4,6 +4,7 @@ import { IoIosLogOut } from 'react-icons/io';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '/assets/logo.svg';
+import { ClientPageRoot } from 'next/dist/client/components/client-page';
 export default function Navbar() {
   return (
     <>
@@ -11,6 +12,8 @@ export default function Navbar() {
         <div className="navbar">
           <div className="navbar-leftbtn">
             <div className="navbar-rwd-listbar">
+              {/* 下拉選單位置 */}
+              {/* 下拉選單svg icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={25}
@@ -54,14 +57,20 @@ export default function Navbar() {
 
           <div className="navbar-rightbtn">
             <button className="navbar-member">
-              <BsPerson className="text-secondary" />
+              <Link href="/member">
+                <BsPerson className="text-secondary" />
+              </Link>
             </button>
             <button className="navbar-cart">
               {/* <img src="./images/icon/cart.svg" alt=""> */}
-              <BsCart2 className="text-secondary BsCart2" />
+              <Link href="/cart">
+                <BsCart2 className="text-secondary BsCart2" />
+              </Link>
             </button>
             <button className="navbar-logout">
-              <IoIosLogOut className="text-secondary" />
+              <Link href="/logout">
+                <IoIosLogOut className="text-secondary" />
+              </Link>
             </button>
           </div>
         </div>
