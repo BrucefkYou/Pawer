@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Index(props) {
+export default function Preview(props) {
   return (
     <>
-      <div>index</div>
+      <div>preview</div>
     </>
   );
 }

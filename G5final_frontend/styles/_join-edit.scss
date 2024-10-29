@@ -1,26 +1,5 @@
-// join-list 樣式
-
-.breadcrumb{
-    margin-block: 40px;
-}
-.ji-aside{
-    max-width: 370px;
-}
-.ji-list-container{
-    max-width: 1200px;
-}
-.join-sort{
-    margin-bottom: 2rem;
-    select{
-        max-width: 250px;
-    }
-}
-
-
-
-// join-detail 活動細節樣
-
-.ji-detail-container{
+// join-editor 樣式
+.ji-edit-container{
     max-width: 1200px;
     .detail-section1{
         padding-inline: 1.8rem;
@@ -44,6 +23,19 @@
     .ji-form{
         border-radius: 4px;
         overflow: hidden;
+        position: relative;
+    }
+    .ji-ed-btngroup{
+        position: absolute;
+        right: 1rem;
+        top:1rem;
+       .btn{
+        letter-spacing: 0.125em;
+        padding-inline:0.875em 0.75em;
+       }
+        .btn-warning{
+            color: $secondary;
+        }
     }
     .ji-image{
         width: 100%;
@@ -69,54 +61,5 @@
         .ji-sidecard-info{
             font-size: 0.875rem;
         }
-    }
-}
-
-// 附近活動小卡樣式
-.ji-around-card{
-    max-width: 350px;
-}
-.card-title-mg{
-    line-height: 30px;
-}
-.ji-img{
-    width: 80px;
-    height: 80px;
-    overflow: hidden;
-    background-color: #5f7ca9;
-}
-.ji-info{
-margin-bottom: 2rem;
-}
-.ji-info-content{
-    font-size: 0.875em;
-    line-height: 17px;
-}
-// join-create 樣式區
-.ji-create-container{
-    max-width: 1200px;
-}
-.ji-create-title{
-    margin-bottom: 2.25rem;
-}
-.ji-ck{
-    color: $darkgray;
-}
-
-.required{
-    position: relative;
-    &::after{
-        content: "*";
-        font-size: 1.5rem;
-        color: $danger;
-        position: absolute;
-        top: -0.25rem;
-        padding-left: 0.25rem;
-    }
-}
-
-.ji-pr-btn{
-letter-spacing: 1rem;
-padding-inline: 4rem 3rem;
-height: 3rem;
+    }  
 }
