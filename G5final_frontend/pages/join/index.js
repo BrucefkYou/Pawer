@@ -16,11 +16,11 @@ export default function Join() {
       <div className="container ji-list-container px-3">
         {/* <p className="breadcrumb">首頁/活動</p> */}
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
               <a href="#">首頁</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li className="breadcrumb-item active" aria-current="page">
               活動
             </li>
           </ol>
@@ -45,16 +45,21 @@ export default function Join() {
             <div className="join-sort d-flex align-items-center justify-content-lg-end justify-content-md-center">
               <span className="d-none d-md-block">顯示第1-12筆 / 共60筆</span>
               <select
-                class="form-select d-none d-md-block mx-3"
+                defaultValue="0"
+                className="form-select d-none d-md-block mx-3"
                 aria-label="Default select example"
               >
-                <option selected>每頁幾筆</option>
+                <option value="0">每頁幾筆</option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
                 <option value="3">Three</option>
               </select>
-              <select class="form-select" aria-label="Default select example">
-                <option selected>排序</option>
+              <select
+                defaultValue="0"
+                className="form-select"
+                aria-label="Default select example"
+              >
+                <option value="0">排序</option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
                 <option value="3">Three</option>

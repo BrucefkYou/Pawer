@@ -23,14 +23,14 @@ export default function JoinCreatForm(props) {
     <>
       <div className="container ji-create-container">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
               <a href="#">首頁</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page">
+            <li className="breadcrumb-item" aria-current="page">
               <a href=""> 我的活動</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li className="breadcrumb-item active" aria-current="page">
               <a href="#">創建活動</a>
             </li>
           </ol>
@@ -223,16 +223,12 @@ export default function JoinCreatForm(props) {
                     name="eventTag"
                   >
                     <option value="cat">貓皇</option>
-                    <option value="dog" selected>
-                      狗
-                    </option>
+                    <option value="dog">狗</option>
                     <option value="basicHealth">基礎保健</option>
                     <option value="skin">皮毛保養</option>
                     <option value="innerHealth">肝臟保養</option>
                     <option value="eyeHealth">眼睛保護</option>
-                    <option value="pet" selected>
-                      寵物
-                    </option>
+                    <option value="pet">寵物</option>
                   </select>
                 </div>
               </div>

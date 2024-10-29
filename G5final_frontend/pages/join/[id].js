@@ -17,22 +17,29 @@ export default function JiDetail(props) {
       <Banner title="萌寵揪團聚會" bgImgUrl="/joins/banner-jism.jpg" />
       <div className="container ji-detail-container">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
               <a href="#">首頁</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li className="breadcrumb-item active" aria-current="page">
               <a href="#">活動</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li className="breadcrumb-item active" aria-current="page">
               <a href="#">活動明細</a>
             </li>
           </ol>
         </nav>
+
         <form className="ji-form bg-white" action="" method="POST">
           <div className="ji-image">
             {/* eslint-disable  */}
-            <Image className='ji-img1' width={1176} height={532} src='/joins/t5.jpg' alt=''/>
+            <Image
+              className="ji-img1"
+              width={1176}
+              height={532}
+              src="/joins/t5.jpg"
+              alt=""
+            />
           </div>
           <div className="detail-section1 px-3">
             <div className="d-flex flex-wrap flex-sm-nowrap py-4">
@@ -69,8 +76,8 @@ export default function JiDetail(props) {
               </div>
               <div className="flex-shrink-1">
                 {/* 側邊活動狀態小卡 */}
-                <div class="card ji-detail-side-card shadow ms-auto">
-                  <div class="card-body">
+                <div className="card ji-detail-side-card shadow ms-auto">
+                  <div className="card-body">
                     <div className=" d-flex align-items-center gap-2 ">
                       <div className="ji-sidecard-imgbox rounded-circle">
                         <img className="" src="" alt="" />
@@ -80,7 +87,7 @@ export default function JiDetail(props) {
                       </p>
                     </div>
                     <div className="row py-3 text-secondary-emphasis">
-                      <h5 class="col-8 card-title">快樂小狗的聚會</h5>
+                      <h5 className="col-8 card-title">快樂小狗的聚會</h5>
                       <div className="col-4 text-end ps-0 ji-side-colicon">
                         <BsBookmarkFill className="me-1" />
                         999
@@ -104,7 +111,7 @@ export default function JiDetail(props) {
                         </p>
                       </div>
                     </div>
-                    <a href="#" class="btn btn-primary w-100">
+                    <a href="#" className="btn btn-primary w-100">
                       立即報名
                       <BsChevronRight />
                     </a>

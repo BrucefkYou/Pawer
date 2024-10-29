@@ -17,14 +17,14 @@ export default function JiEditor(props) {
       <Banner bgImgUrl="/joins/t5.jpg" />
       <div className="container ji-edit-container">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
               <a href="#">首頁</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li className="breadcrumb-item active" aria-current="page">
               <a href="#">活動</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li className="breadcrumb-item active" aria-current="page">
               <a href="#">活動明細</a>
             </li>
           </ol>
@@ -40,7 +40,13 @@ export default function JiEditor(props) {
           </div>
           <div className="ji-image">
             {/* eslint-disable  */}
-            <Image className='ji-img1' width={1176} height={532} src='/joins/t5.jpg' alt=''/>
+            <Image
+              className="ji-img1"
+              width={1176}
+              height={532}
+              src="/joins/t5.jpg"
+              alt=""
+            />
           </div>
           <div className="detail-section1">
             <div className="d-flex flex-wrap flex-sm-nowrap py-4">
@@ -77,8 +83,8 @@ export default function JiEditor(props) {
               </div>
               <div className="flex-shrink-1">
                 {/* 側邊活動狀態小卡 */}
-                <div class="card ji-detail-side-card shadow ms-auto">
-                  <div class="card-body">
+                <div className="card ji-detail-side-card shadow ms-auto">
+                  <div className="card-body">
                     <div className=" d-flex align-items-center gap-2 ">
                       <div className="ji-sidecard-imgbox rounded-circle">
                         <img className="" src="" alt="" />
@@ -88,7 +94,7 @@ export default function JiEditor(props) {
                       </p>
                     </div>
                     <div className="row py-3 text-secondary-emphasis">
-                      <h5 class="col-8 card-title">快樂小狗的聚會</h5>
+                      <h5 className="col-8 card-title">快樂小狗的聚會</h5>
                       <div className="col-4 text-end ps-0 ji-side-colicon">
                         <BsBookmarkFill className="me-1" />
                         999
@@ -112,7 +118,7 @@ export default function JiEditor(props) {
                         </p>
                       </div>
                     </div>
-                    <a href="#" class="btn btn-primary w-100">
+                    <a href="#" className="btn btn-primary w-100">
                       立即報名
                       <BsChevronRight />
                     </a>
@@ -126,13 +132,33 @@ export default function JiEditor(props) {
             <p>
               請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內容請填寫活動內
             </p>
-            <div className='ji-image'>
-            <Image className='ji-img1' width={1144} height={500} src='/joins/t3.jpg' alt=''/></div>
-            <div className='ji-image'>
-            <Image className='ji-img1' width={1144} height={500} src='/joins/t4.jpg' alt=''/></div>
-            <div className='ji-image'>
-            <Image className='ji-img1' width={1144} height={500} src='/joins/t2.jpg' alt=''/></div>
-       
+            <div className="ji-image">
+              <Image
+                className="ji-img1"
+                width={1144}
+                height={500}
+                src="/joins/t3.jpg"
+                alt=""
+              />
+            </div>
+            <div className="ji-image">
+              <Image
+                className="ji-img1"
+                width={1144}
+                height={500}
+                src="/joins/t4.jpg"
+                alt=""
+              />
+            </div>
+            <div className="ji-image">
+              <Image
+                className="ji-img1"
+                width={1144}
+                height={500}
+                src="/joins/t2.jpg"
+                alt=""
+              />
+            </div>
           </div>
           <div className="detail-section3">
             <h5 className="h5">活動地點</h5>
