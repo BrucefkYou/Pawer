@@ -1,0 +1,30 @@
+
+.ji-card{
+    width: 367px;
+    overflow: hidden;
+    border-bottom: 4px solid #ccc;
+    &:hover{
+        border-bottom:4px solid #F4B434 ;
+    }
+}
+.colicon{
+    font-size: 1.25rem;
+    margin-top: -0.25rem;
+}
+.card-image{
+    overflow: hidden;
+    object-fit: cover;
+}
+.card-title{
+    overflow: hidden;
+    text-overflow: ellipsis;   
+    white-space: nowrap;
+}
+.card-body{
+    padding: 30px;
+    font-size: 14px;
+    p{
+        border-radius: 2px;
+        line-height: 26px;
+    }
+}

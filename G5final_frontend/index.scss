@@ -6,7 +6,8 @@
 @import "./styles/globals";
 @import "./styles/sidebar";
 
-
+// Navbar && Footer
+@import "./styles/navAndfooter";
 
 // member
 @import "./styles/member.scss";
@@ -25,6 +26,7 @@
 @import "./styles/join.scss";
 
 // blog
+@import "./styles/_bl-create.scss";
 
 // pet-communicator
 @import "./styles/p-alert";

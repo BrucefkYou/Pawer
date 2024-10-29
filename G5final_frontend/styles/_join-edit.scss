@@ -1,0 +1,65 @@
+// join-editor 樣式
+.ji-edit-container{
+    max-width: 1200px;
+    .detail-section1{
+        padding-inline: 1.8rem;
+    }
+    .detail-section2,.detail-section3{
+        padding-inline: 1.5rem;
+        color: $darkgray;
+        h5{
+        padding-bottom: 0.625rem;
+        border-bottom:1px solid $darkgray ;}
+        .content-img{
+            width: 100%;
+            height: 400px;
+            background-color: #5f7ca9;
+        }
+        .join-map{
+            width: 100%;
+            height: 500px;
+        }
+    }
+    .ji-form{
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+    }
+    .ji-ed-btngroup{
+        position: absolute;
+        right: 1rem;
+        top:1rem;
+       .btn{
+        letter-spacing: 0.125em;
+        padding-inline:0.875em 0.75em;
+       }
+        .btn-warning{
+            color: $secondary;
+        }
+    }
+    .ji-image{
+        width: 100%;
+        height: 532px;
+        overflow: hidden;
+        .ji-img1{
+            object-fit: cover;
+        }
+    
+        // background-color: #5f7ca9;
+    }
+    .ji-detail-side-card{
+        min-width: 16.5rem;
+        .ji-sidecard-imgbox{
+            width: 3rem;
+            height: 3rem;
+            background: #5f7ca9;
+            overflow: hidden;
+        }
+        .ji-side-colicon{
+            font-size: 0.875rem;
+        }
+        .ji-sidecard-info{
+            font-size: 0.875rem;
+        }
+    }  
+}

@@ -1,18 +1,122 @@
-.box{
-    width: 356px;
-    height: 122px;
-    background: #e6e6eb;
+// join-list 樣式
+
+.breadcrumb{
+    margin-block: 40px;
 }
-.join-aside{
-    width: 370px;
+.ji-aside{
+    max-width: 370px;
 }
-.join-list-right{
-    max-width: 500px;
+.ji-list-container{
+    max-width: 1200px;
+}
+.join-sort{
+    margin-bottom: 2rem;
+    select{
+        max-width: 250px;
+    }
+}
+
+
+
+// join-detail 活動細節樣
+
+.ji-detail-container{
+    max-width: 1200px;
+    .detail-section1{
+        padding-inline: 1.8rem;
+    }
+    .detail-section2,.detail-section3{
+        padding-inline: 1.5rem;
+        color: $darkgray;
+        h5{
+        padding-bottom: 0.625rem;
+        border-bottom:1px solid $darkgray ;}
+        .content-img{
+            width: 100%;
+            height: 400px;
+            background-color: #5f7ca9;
+        }
+        .join-map{
+            width: 100%;
+            height: 500px;
+        }
+    }
+    .ji-form{
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .ji-image{
+        width: 100%;
+        height: 532px;
+        overflow: hidden;
+        .ji-img1{
+            object-fit: cover;
+        }
     
+        // background-color: #5f7ca9;
+    }
+    .ji-detail-side-card{
+        min-width: 16.5rem;
+        .ji-sidecard-imgbox{
+            width: 3rem;
+            height: 3rem;
+            background: #5f7ca9;
+            overflow: hidden;
+        }
+        .ji-side-colicon{
+            font-size: 0.875rem;
+        }
+        .ji-sidecard-info{
+            font-size: 0.875rem;
+        }
+    }
 }
-.join-list{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    row-gap: 2rem;
+
+// 附近活動小卡樣式
+.ji-around-card{
+    max-width: 350px;
+}
+.card-title-mg{
+    line-height: 30px;
+}
+.ji-img{
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    background-color: #5f7ca9;
+}
+.ji-info{
+margin-bottom: 2rem;
+}
+.ji-info-content{
+    font-size: 0.875em;
+    line-height: 17px;
+}
+// join-create 樣式區
+.ji-create-container{
+    max-width: 1200px;
+}
+.ji-create-title{
+    margin-bottom: 2.25rem;
+}
+.ji-ck{
+    color: $darkgray;
+}
+
+.required{
+    position: relative;
+    &::after{
+        content: "*";
+        font-size: 1.5rem;
+        color: $danger;
+        position: absolute;
+        top: -0.25rem;
+        padding-left: 0.25rem;
+    }
+}
+
+.ji-pr-btn{
+letter-spacing: 1rem;
+padding-inline: 4rem 3rem;
+height: 3rem;
 }

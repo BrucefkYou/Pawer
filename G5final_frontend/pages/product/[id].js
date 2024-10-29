@@ -41,28 +41,28 @@ export default function Id(props) {
                   <img
                     className="detail-left-img"
                     src="../product/NU4Petimage01/P2.jpg"
-                    alt=""
+                    alt="1"
                   />
                 </div>
                 <div className="col">
                   <img
                     className="detail-left-img"
                     src="../product/NU4Petimage01/P3.jpg"
-                    alt=""
+                    alt="1"
                   />
                 </div>
                 <div className="col">
                   <img
                     className="detail-left-img"
                     src="../product/NU4Petimage01/P3.jpg"
-                    alt=""
+                    alt="1"
                   />
                 </div>
                 <div className="col">
                   <img
                     className="detail-left-img"
                     src="../product/NU4Petimage01/P5.jpg"
-                    alt=""
+                    alt="1"
                   />
                 </div>
               </div>
@@ -84,11 +84,11 @@ export default function Id(props) {
                     </div>
                     {/* 星級圖示 */}
                     <div className="star-rwd">
-                      <img src="../product/star=1.png" alt="" />
-                      <img src="../product/star=1.png" alt="" />
-                      <img src="../product/star=1.png" alt="" />
-                      <img src="../product/star=1.png" alt="" />
-                      <img src="../product/star=0.png" alt="" />
+                      <img src="../product/star=1.png" alt="1" />
+                      <img src="../product/star=1.png" alt="1" />
+                      <img src="../product/star=1.png" alt="1" />
+                      <img src="../product/star=1.png" alt="1" />
+                      <img src="../product/star=0.png" alt="1" />
                     </div>
                     <div>
                       <p className="star-text sell-how">
@@ -98,7 +98,7 @@ export default function Id(props) {
                   </div>
                   {/* 收藏圖 */}
                   <div className="col d-flex justify-content-end">
-                    <img src="../product/Detailsave.svg" alt="" />
+                    <img src="../product/Detailsave.svg" alt="1" />
                   </div>
                 </div>
                 {/* 文字內容簡介 */}
@@ -162,7 +162,7 @@ export default function Id(props) {
             <img
               className="pd-detail-img"
               src="../product/NU4Petimage01/NU4Petimage01.png"
-              alt=""
+              alt="1"
             />
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function Id(props) {
                       <img
                         className="commentimg"
                         src="../product/commentIng4.png"
-                        alt=""
+                        alt="1"
                       />
                     </div>
                     <div className="col-md-10 col-12">
@@ -190,11 +190,11 @@ export default function Id(props) {
                         <h5 className="pd-comment-title">世界第一等</h5>
                         {/* 星級  */}
                         <div className="d-flex">
-                          <img src="../product/star=1.png" alt="" />
-                          <img src="../product/star=1.png" alt="" />
-                          <img src="../product/star=1.png" alt="" />
-                          <img src="../product/star=1.png" alt="" />
-                          <img src="../product/star=0.png" alt="" />
+                          <img src="../product/star=1.png" alt="1" />
+                          <img src="../product/star=1.png" alt="1" />
+                          <img src="../product/star=1.png" alt="1" />
+                          <img src="../product/star=1.png" alt="1" />
+                          <img src="../product/star=0.png" alt="1" />
                         </div>
                         {/* 要抓商品名稱 */}
                         <p className="pd-comment-name">
@@ -225,7 +225,7 @@ export default function Id(props) {
                     <img
                       className="commentimg"
                       src="../product/commentIng1.png"
-                      alt=""
+                      alt="1"
                     />
                   </div>
                   <div className="col-md-10 col-12">
@@ -234,11 +234,11 @@ export default function Id(props) {
                       <h5 className="pd-comment-title">北區小辣椒</h5>
                       {/* 星級  */}
                       <div className="d-flex">
-                        <img src="../product/star=1.png" alt="" />
-                        <img src="../product/star=1.png" alt="" />
-                        <img src="../product/star=1.png" alt="" />
-                        <img src="../product/star=1.png" alt="" />
-                        <img src="../product/star=0.png" alt="" />
+                        <img src="../product/star=1.png" alt="1" />
+                        <img src="../product/star=1.png" alt="1" />
+                        <img src="../product/star=1.png" alt="1" />
+                        <img src="../product/star=1.png" alt="1" />
+                        <img src="../product/star=0.png" alt="1" />
                       </div>
                       {/* 要抓商品名稱 */}
                       <p className="pd-comment-name">
