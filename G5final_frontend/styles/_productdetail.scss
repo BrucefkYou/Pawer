@@ -1,0 +1,342 @@
+.productdetail {
+    /* 麵包屑 */
+    .productdetail-crumb-wei {
+      font-family: Inter;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 21px;
+      padding: 24px 36px;
+      a {
+        color: #707070;
+      }
+  
+      a:link {
+        text-decoration: none;
+      }
+  
+      a:hover {
+        color: #253559;
+      }
+  
+      a.active {
+        color: #253559;
+      }
+    }
+    /* 重置按鈕樣式 */
+    button {
+      all: unset; /* 重置所有樣式 */
+      display: inline-block; /* 使其像按鈕一樣顯示 */
+      cursor: pointer; /* 鼠標懸停時顯示手形光標 */
+  }
+    /* 第一個 container 間距 */
+    .detail-layout-up {
+      margin-top: 69.5px;
+      gap: 40px;
+    }
+    /* 商品簡介 左 */
+    .detail-left {
+      width: 43.1%;
+    }
+    /* 圖片主視圖大小 */
+    .detail-left-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* 輪播點選圖排版 */
+    .detail-left-turn {
+      gap: 20px;
+    }
+    /* ---------------- */
+    /* 商品簡介 右 */
+    .detail-right {
+      width: 56.9%;
+    }
+    /* 商品名稱文字樣式 */
+    .detail-title {
+      color: var(--primary, #22355c);
+      font-family: Roboto;
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 40px;
+    }
+    /* 星級文字顯示 */
+    .star-text {
+      color: var(--primary, #22355c);
+      text-align: center;
+      margin: 0;
+    }
+    /* 商品簡介文字 */
+    .detail-text-layout {
+      height: 255px;
+      margin-top: 2rem;
+      padding: 16px 0px;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+    .detail-text {
+      font-family: Inter;
+      font-size: 16px;
+      line-height: 25.6px;
+      overflow: hidden;
+      color: #585858;
+      margin: 0;
+    }
+    /* 加入購物車間距 */
+    .add-card{
+      margin-top: 3rem;
+    }
+    /* 商品價格 */
+    .detail-nt {
+      margin-top: 1.75rem;
+      color: var(--primary, #22355c);
+      font-family: Inter;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 33.6px;
+    }
+    /* 數量加減 */
+    .detail-buy {
+      color: var(--primary, #22355c);
+      text-align: center;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+      gap: 1.25rem;
+    }
+    /* - + */
+    .buy-dash{
+      width: 28px;
+      height: 34px;
+      border-radius: 10px 0px 0 10px;
+    }
+    .buy-add{
+      width: 28px;
+      height: 34px;
+      border-radius: 0 10px 10px 0;
+    }
+    /* 加減按鈕與數量 */
+    .many {
+      width: 165px;
+    }
+    /* 商品內的P標籤外間距 */
+    .detail-p {
+      margin: 0;
+      margin-top: 0.5rem;
+    }
+    /* 外框樣式 */
+    .border {
+      border: 1px solid #28375a !important;
+    }
+    /* 加入購物車 立即結帳 */
+    .detail-btn1 {
+      width: 100%;
+      height: 50px;
+      background: var(--accent, #f4b13e);
+      border: 1px solid #f4b13e;
+      color: var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff);
+      text-align: center;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+    }
+    .detail-btn2 {
+      width: 100%;
+      height: 50px;
+      background: var(--primary, #22355c);
+      border: 1px solid #28375a;
+      color: var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff);
+      text-align: center;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+    }
+    .detail-brt-gap {
+      gap: 20px;
+    }
+    /* 商品細節內容圖 */
+    .pd-detail-img {
+      width: 80%;
+      object-fit: cover;
+    }
+    /* 商品細節圖片 */
+    .pd-content-me5{
+      margin-right: 3rem;
+    }
+    /* 商品評論 */
+    .pd-comment {
+      margin: 0;
+      color: var(--primary, #22355c);
+      text-align: center;
+      font-family: Roboto;
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 40px;
+    }
+    /* 評論卡片頭像 */
+    .commentimg {
+      width: 112px;
+      height: 112px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    /* 卡陰影 */
+    .pd-comment-shadow {
+      width: 1200px;
+      box-shadow: 0px 4px 16px 0px rgba(40, 55, 90, 0.25);
+    }
+    /* 卡片title 要抓會員ID */
+    .pd-comment-title {
+      color: var(--primary, #22355c);
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+    }
+    /* 卡片 商品名稱 要抓商品ID */
+    .pd-comment-name {
+      margin-top: 0.5rem;
+      color: var(--d-gray, #646464);
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+    }
+    /* 商品評論內容 */
+    .pd-comment-content {
+      color: var(--d-gray, #646464);
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+    }
+    /* 留下評論 */
+    .comment-send-range {
+      width: 1200px;
+    }
+    .card {
+      --bs-border-color-translucent: none;
+    }
+    .pd-input {
+      margin-top: 10px;
+      height: 50px;
+    }
+    .pd-comment-send {
+      justify-content: end;
+      align-items: center;
+      margin-top: 2rem;
+      gap: 16px;
+    }
+    .comment-cancel {
+      width: 120px;
+      padding: 9.265px 0px 9.735px 0px;
+      border-radius: 4px;
+      border-color: rgba(0, 0, 0, 0.6);
+      background-color: var(--l-gary, rgba(0, 0, 0, 0.6));
+      color: var(--white, var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff));
+      text-align: center;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+    }
+    .comment-send {
+      width: 120px;
+      padding: 9.265px 0px 9.735px 0px;
+      border-radius: 4px;
+      border-color: var(--primary, #22355c);
+      background-color: var(--primary, #22355c);
+      color: var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff);
+      text-align: center;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+    }
+    /* 看更多 */
+    .pd-comment-more {
+      color: var(--l-gary, rgba(0, 0, 0, 0.6));
+      font-family: Inter;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: normal;
+      text-align: center;
+      margin-top: 1.5rem;
+      margin-bottom: 4rem;
+    }
+  /* RWD */
+    @media (max-width:576px) {
+    .detail-rwd-none{
+      display: none;
+    }
+    .commentimg {
+      margin-top: 1.5rem;
+      width: 112px;
+      height: 112px;
+      object-fit: cover;
+      border-radius: 50%;
+  }
+    .detail-left {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .detail-right {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .pd-comment-send {
+      justify-content: center;
+      align-items: center;
+      margin-top: 2rem;
+      gap: 16px;
+    }
+    .detail-title{
+      color: var(--primary, #22355c);
+      font-family: Roboto;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 40px;
+    }
+    .sell-how{
+      width: 7rem;
+    }
+    .star-rwd{
+      display: flex;
+    }
+    .detail-layout-up {
+      flex-direction: column;
+      margin-top: 0;
+      justify-content: center;
+    }
+    .pd-content-me5{
+      margin-right: 0rem;
+    }
+    .add-card{
+      margin-top: 0rem;
+    }
+    .detail-buy {
+      color: var(--primary, #22355c);
+      text-align: center;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25.6px;
+      gap: 1.25rem;
+      justify-content: end;
+    }
+    .detail-size{
+      margin-left: 1.1rem;
+    }
+    .detail-left-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      margin-left: 0.75rem;
+    }
+    }
+  }
