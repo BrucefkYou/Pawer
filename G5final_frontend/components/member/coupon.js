@@ -11,7 +11,7 @@ export default function Coupon(props) {
           width={385}
           height={165}
           className="coupon"
-          alt="1"
+          alt=""
         />
         <div className={styles['coupon-content']}>
           <div>DISCOUNT COUPON</div>
