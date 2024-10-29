@@ -28,12 +28,12 @@
     "sweetalert2": "^11.14.2",
     "sweetalert2-react-content": "^5.0.7",
     "use-immer": "^0.10.0",
-    "validator": "^13.12.0",
-    "webpack": "^5.95.0"
+    "validator": "^13.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "babel-preset-next": "^1.4.0",
+    "css-loader": "^7.1.2",
     "eslint": "^8",
     "eslint-config-next": "^14.1.4",
     "eslint-config-prettier": "^8.8.0",
@@ -43,7 +43,11 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss-loader": "^8.1.1",
     "prettier": "^2.8.8",
-    "sass": "^1.79.5"
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.79.5",
+    "sass-loader": "^16.0.2",
+    "webpack": "^5.95.0"
   }
 }
