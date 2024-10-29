@@ -1,0 +1,26 @@
+.search-bar{
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    gap:1em;
+    input{
+        border:1px solid #EAEAEA;
+        border-radius: 4px;
+        line-height: 36px;
+        padding: 2.5% 4.5%;
+        color: #7F7F7F;
+    }
+    
+    .search{
+        color: white;
+        padding: 4.5% 6.5%;
+        border-radius: 2px;
+        letter-spacing: 0.2em;
+        font-size: 16px;
+    }
+
+
+
+}
+
+    

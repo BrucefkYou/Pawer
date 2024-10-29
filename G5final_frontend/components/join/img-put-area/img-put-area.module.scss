@@ -1,0 +1,18 @@
+.dropbox{
+    // background-color: #913a3a;
+    border: 1px dashed #ccc;
+    text-align: center;
+    cursor: pointer;
+    height: 532px;
+    overflow: hidden;
+}
+.change-img-button{
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+}
+.view-img{
+    width: 100%;
+    max-height: 532px;
+    object-fit: cover;
+}
