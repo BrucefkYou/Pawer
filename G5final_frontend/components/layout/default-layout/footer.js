@@ -2,7 +2,7 @@ import React from 'react';
 import { BsTelephone, BsEnvelope, BsMap } from 'react-icons/bs';
 import Image from 'next/image';
 // eslint-disable-next-line import/no-unresolved
-import logo from 'assets/logo.svg';
+import logo from 'public/LOGO.svg';
 
 export default function Footer() {
   return (
