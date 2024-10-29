@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import joins from '@/data/Joins.json';
-import styles from '@/components/Join/event-card/event-card.module.scss';
+import styles from '@/components/Join/event-card/join-card.module.scss';
 import Image from 'next/image';
 import { BsBookmark, BsBookmarkFill, BsPersonPlusFill } from 'react-icons/bs';
 
-export default function EventCard({ data = '' }) {
+export default function JoinCard() {
   return (
     <>
       {joins.map((join, i) => {
@@ -21,8 +21,10 @@ export default function EventCard({ data = '' }) {
                 <div
                   className={`text-secondary d-flex justify-content-start column-gap-2 ${styles.status}`}
                 >
-                  <p className="bg-warning px-2 mb-2">{join.city}</p>
-                  <p className="bg-primary px-2 mb-2">{join.status}</p>
+                  <p className="bg-warning px-2 mb-2 rounded-1">{join.city}</p>
+                  <p className="bg-primary px-2 mb-2 rounded-1">
+                    {join.status}
+                  </p>
                   <p className="text-body-tertiary mb-2 ">
                     <BsPersonPlusFill className="me-1" />
                     <span className="align-middle">
@@ -44,7 +46,11 @@ export default function EventCard({ data = '' }) {
               </h4>
 
               <div className="text-end">
-                <a href="./index" className="btn text-warning p-0">
+                <a
+                  // data-bs-target="#home-tab-pane"
+                  href="../join/1"
+                  className="btn text-warning p-0"
+                >
                   查看更多
                 </a>
               </div>

@@ -116,11 +116,11 @@
         @media (max-width: 768px) {
           .btnn-group {
             flex-direction: row;
-            justify-content: start;
+            justify-content: flex-start;
             font-size: 14px;
           }
           .btnn-group-position {
-            justify-content: start;
+            justify-content: flex-start;
           }
         }
 
