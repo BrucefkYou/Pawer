@@ -2,7 +2,7 @@ import React from 'react';
 import { BsPerson, BsCart2 } from 'react-icons/bs';
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from '/assets/logo.svg';
+import logo from '@/assets/logo.svg';
 export default function Navbar() {
   return (
     <>
