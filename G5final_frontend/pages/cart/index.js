@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 export default function Cart(props) {
+  const [selectedCoupon, setSelectedCoupon] = useState(''); // 初始值設為空字串
+
+  const handleCouponChange = (e) => {
+    setSelectedCoupon(e.target.value);
+  };
   return (
     <>
       {/* cart-desktop */}
@@ -37,6 +42,7 @@ export default function Cart(props) {
             <div className="row row-cols-12 row-cols-md-12 row-cols-8 product-card product-card-block">
               <div className="col-lg-2 col-4 gap-2 set-middle d-flex justify-content-center align-items-center p-1">
                 <input type="checkbox" />
+                {/* svg */}
                 <svg
                   className="product-svg"
                   viewBox="0 0 101 100"
@@ -156,7 +162,7 @@ export default function Cart(props) {
                 </div>
                 <div className="choose-quantity-btn">
                   <div className="mr-55">NT$400</div>
-                  <div className>
+                  <div className="empty">
                     <div
                       className="btn-group"
                       role="group"
@@ -197,15 +203,15 @@ export default function Cart(props) {
                 <div className="col mt-lg-4 choose-discount set-mobile-middle">
                   <select
                     className="bg-main-color btn-coupon-size border-0 text-white"
-                    name
-                    id
+                    name="coupon"
+                    id="coupon"
+                    value={selectedCoupon}
+                    onChange={handleCouponChange}
                   >
-                    <option value selected>
-                      選擇優惠券
-                    </option>
-                    <option value>會員註冊禮</option>
-                    <option value>10週年優惠</option>
-                    <option value>雙11周年慶</option>
+                    <option value="">選擇優惠券</option>
+                    <option value="會員註冊禮">會員註冊禮</option>
+                    <option value="10週年優惠">10週年優惠</option>
+                    <option value="雙11周年慶">雙11周年慶</option>
                   </select>
                   {/* <button type="button"
 									class="btn btn-sm bg-main-color btn-coupon-size border-0 text-white">選擇優惠券</button> */}
