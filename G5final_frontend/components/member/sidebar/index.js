@@ -50,7 +50,7 @@ export default function MbSideBar(props) {
         <h5 className="title">會員中心</h5>
         <Image
           src="/pawButton.png"
-          alt=""
+          alt="1"
           className="img"
           width={59}
           height={59}

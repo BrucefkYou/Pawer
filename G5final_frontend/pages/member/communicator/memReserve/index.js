@@ -122,7 +122,7 @@ export default function Index(props) {
                     {/* !＃判斷 若取得資料為結束且於手機版?PT-sp-none-rwd */}
                     <div className="col-4 col-md-3 d-flex justify-content-center align-items-center ps-0">
                       <div className="imgg d-flex py-2">
-                        <img src="./images/pic/teacher.png" alt="" />
+                        <img src="./images/pic/teacher.png" alt="1" />
                       </div>
                     </div>
                     {/* 內容 */}
@@ -197,7 +197,7 @@ export default function Index(props) {
                     {/* 頭像 */}
                     <div className="col-4 col-md-3 d-flex justify-content-center align-items-center PT-sp-none-rwd">
                       <div className="imgg d-flex py-2">
-                        <img src="./images/pic/teacher.png" alt="" />
+                        <img src="./images/pic/teacher.png" alt="1" />
                       </div>
                     </div>
                     {/* 內容 */}

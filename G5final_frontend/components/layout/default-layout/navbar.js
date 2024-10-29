@@ -1,9 +1,10 @@
+/* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import { BsPerson, BsCart2 } from 'react-icons/bs';
 import { IoIosLogOut } from 'react-icons/io';
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from '@/assets/logo.svg';
+import logo from 'public/LOGO.svg';
 export default function Navbar() {
   // 狀態管理下拉選單的顯示與隱藏
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -132,7 +133,7 @@ export default function Navbar() {
               </button>
             </div> */}
             <Link type="button" className="navbar-logo" href="/">
-              <Image width={115} height={84} src={logo} />
+              <Image width={115} height={84} src={logo} alt="logo" priority />
             </Link>
           </div>
           <div className="navbar-list">
@@ -164,7 +165,7 @@ export default function Navbar() {
               </Link>
             </button>
             <button className="navbar-cart">
-              {/* <img src="./images/icon/cart.svg" alt=""> */}
+              {/* <img src="./images/icon/cart.svg" alt="1"> */}
               <Link href="/cart">
                 <BsCart2 className="text-secondary BsCart2" />
               </Link>

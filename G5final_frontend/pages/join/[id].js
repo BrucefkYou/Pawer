@@ -38,7 +38,7 @@ export default function JiDetail(props) {
               width={1176}
               height={532}
               src="/joins/t5.jpg"
-              alt=""
+              alt="1"
             />
           </div>
           <div className="detail-section1 px-3">
@@ -80,7 +80,7 @@ export default function JiDetail(props) {
                   <div className="card-body">
                     <div className=" d-flex align-items-center gap-2 ">
                       <div className="ji-sidecard-imgbox rounded-circle">
-                        <img className="" src="" alt="" />
+                        <img className="" src="" alt="1" />
                       </div>
                       <p className="my-auto text-primary">
                         想哭的我戴上貓的面具
@@ -131,7 +131,7 @@ export default function JiDetail(props) {
                 width={1144}
                 height={500}
                 src="/joins/t3.jpg"
-                alt=""
+                alt="1"
               />
             </div>
             <div className="ji-image">
@@ -140,7 +140,7 @@ export default function JiDetail(props) {
                 width={1144}
                 height={500}
                 src="/joins/t4.jpg"
-                alt=""
+                alt="1"
               />
             </div>
             <div className="ji-image">
@@ -149,7 +149,7 @@ export default function JiDetail(props) {
                 width={1144}
                 height={500}
                 src="/joins/t2.jpg"
-                alt=""
+                alt="1"
               />
             </div>
           </div>
@@ -196,7 +196,7 @@ export default function JiDetail(props) {
                       </div>
                       <div className="ji-member d-flex align-items-center gap-2">
                         <div className="rounded-circle ji-img">
-                          <img className="" src="" alt="" />
+                          <img className="" src="" alt="1" />
                         </div>
                         <p className="my-auto text-primary">
                           想哭的我戴上貓的面具
@@ -228,7 +228,7 @@ export default function JiDetail(props) {
                       </div>
                       <div className="ji-member d-flex align-items-center gap-2">
                         <div className="rounded-circle ji-img">
-                          <img className="" src="" alt="" />
+                          <img className="" src="" alt="1" />
                         </div>
                         <p className="my-auto text-primary">
                           想哭的我戴上貓的面具
@@ -260,7 +260,7 @@ export default function JiDetail(props) {
                       </div>
                       <div className="ji-member d-flex align-items-center gap-2">
                         <div className="rounded-circle ji-img">
-                          <img className="" src="" alt="" />
+                          <img className="" src="" alt="1" />
                         </div>
                         <p className="my-auto text-primary">
                           想哭的我戴上貓的面具
@@ -295,7 +295,7 @@ export default function JiDetail(props) {
                   </p>
                 </div>
                 <div className="ji-member d-flex align-items-center gap-2">
-                  <img className="rounded-circle ji-img" src="" alt="" />
+                  <img className="rounded-circle ji-img" src="" alt="1" />
                   <p className="my-auto text-primary">想哭的我戴上貓的面具</p>
                 </div>
               </div>
@@ -321,7 +321,7 @@ export default function JiDetail(props) {
                   </p>
                 </div>
                 <div className="ji-member d-flex align-items-center gap-2">
-                  <img className="rounded-circle ji-img" src="" alt="" />
+                  <img className="rounded-circle ji-img" src="" alt="1" />
                   <p className="my-auto text-primary">想哭的我戴上貓的面具</p>
                 </div>
               </div>
@@ -347,7 +347,7 @@ export default function JiDetail(props) {
                   </p>
                 </div>
                 <div className="ji-member d-flex align-items-center gap-2">
-                  <img className="rounded-circle ji-img" src="" alt="" />
+                  <img className="rounded-circle ji-img" src="" alt="1" />
                   <p className="my-auto text-primary">想哭的我戴上貓的面具</p>
                 </div>
               </div>
