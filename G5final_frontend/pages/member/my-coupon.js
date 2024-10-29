@@ -1,6 +1,5 @@
 import Coupon from '@/components/member/coupon';
 import MemberLayout from '@/components/layout/member-layout';
-import Pagination from '@/components/pagination/pagination';
 MyCoupon.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
@@ -77,7 +76,9 @@ export default function MyCoupon() {
             aria-labelledby="home-tab"
           >
             <div className="d-flex flex-wrap gap-4 pt-4">
-              <Coupon /> <Coupon /> <Coupon /> <Coupon />
+              <Coupon />
+              <Coupon />
+              <Coupon />
             </div>
           </div>
           <div
