@@ -1,0 +1,145 @@
+.bl-create {
+    background-image: url(../public/blog/blog-bg.png);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding-top: 80px;
+    padding-bottom: 50px;
+    gap: 30px;
+
+    @media (max-width: 768px) {
+        background-image: none;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 19px
+    }
+
+    /* 標題 */
+    .blog-create-title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: flex-start;
+        width: 100%;
+        max-width: 1260px;
+        padding-inline: 16px;
+        @media (max-width: 768px) {
+            display: none;
+        }
+
+    }
+
+    .blog-input {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        input {
+            width: 100%;
+        }
+    }
+
+
+
+    .main-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        width: 100%;
+        max-width: 1260px;
+        padding-inline: 16px;
+        gap: 35px;
+
+        .card-section {
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            width: 100%;
+            padding: 3.3% 4%;
+            background: white;
+            box-shadow: 0px 0px 5px 5px rgba(221.02, 221.02, 221.02, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            gap: 40px;
+
+        }
+
+        /* 文章封面 */
+        .cover {
+            flex-direction: column;
+            gap: 8px;
+
+            .content {
+                display: flex;
+                flex-direction: row-reverse;
+                gap: 26px;
+
+                @media (max-width: 768px) {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .cover-btn {
+                    display: flex;
+                    width: 100%;
+                    gap: 19px;
+                }
+                .left-info {
+                    width: 100%;
+                    .label{
+                        padding-bottom: 8px;
+                    }
+
+                    .upload-section {
+                        width: 100%;
+                        height: auto;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        gap: 26px;
+                        display: flex;
+
+                    }
+
+                }
+
+                .image-preview-wrapper {
+                    aspect-ratio: 16 / 9;
+                    border-radius: 10px;
+                    border: 1px solid lightgrey;
+                    position: relative;
+
+                    img {
+                        object-fit: scale-down;
+                        aspect-ratio: 16 / 9;
+                        max-width: 100%;
+                        max-height: 100%; 
+
+                        @media (max-width: 768px) {
+                            position: absolute; 
+                            top: 50%;
+                            left: 50%; 
+                            transform: translate(-50%, -50%); 
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // 底部按鈕
+    .blog-bottom-btn {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    
+    }
+
+}
+

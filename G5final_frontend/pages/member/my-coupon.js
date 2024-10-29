@@ -76,19 +76,8 @@ export default function MyCoupon() {
             role="tabpanel"
             aria-labelledby="home-tab"
           >
-            <div className="row">
-              <div className="col-sm-6 mt-4">
-                <Coupon />
-              </div>
-              <div className="col-sm-6 mt-4">
-                <Coupon />
-              </div>
-              <div className="col-sm-6 mt-4">
-                <Coupon />
-              </div>
-              <div className="col-sm-6 mt-4">
-                <Coupon />
-              </div>
+            <div className="d-flex flex-wrap gap-4 pt-4">
+              <Coupon /> <Coupon /> <Coupon /> <Coupon />
             </div>
           </div>
           <div

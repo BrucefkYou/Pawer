@@ -59,7 +59,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
    2. `git pull origin dev`
 2. 將本機dev更新回自己分支
    1. `git checkout devED` 
-   2. `git merge --no-ff -m "renew" dev`
+   2. `git merge --no-ff dev` (原本有-m "合併描述"，代表直接add與commit，省略的話可以看步驟只到把dev add到你的分支，可以到有哪些變更並人為檢查，檢查完再commit)
+   3. `git commit -m "修改描述"` (dev更新回自己分支)
 3. 修改程式並更新自己的分支git紀錄，與更新自己支線紀錄到github上
    1. `git add .`
    2. `git commit -m "修改描述"`
