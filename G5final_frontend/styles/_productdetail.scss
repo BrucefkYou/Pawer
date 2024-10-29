@@ -226,7 +226,7 @@
       height: 50px;
     }
     .pd-comment-send {
-      justify-content: end;
+      justify-content: flex-end;
       align-items: center;
       margin-top: 2rem;
       gap: 16px;
@@ -328,7 +328,7 @@
       font-weight: 400;
       line-height: 25.6px;
       gap: 1.25rem;
-      justify-content: end;
+      justify-content: flex-end;
     }
     .detail-size{
       margin-left: 1.1rem;
