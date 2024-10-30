@@ -39,7 +39,6 @@ export default function Cart(props) {
                 <div className="col" />
               </div>
               <hr className="cart-hr d-none d-sm-block" />
-              {/* 購物車商品列表 */}
               <List />
               {/* 優惠券 & 分頁 grid */}
               <div className="cart-section2">
