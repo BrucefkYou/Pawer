@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from '@/components/pagination/pagination';
+import Banner from '@/components/join/banner/banner';
+import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 
 export default function list(props) {
   return (
     <>
       <div className="PT-list">
         {/* banner */}
-        <div className="pet-banner-yen">
-          <img src="./images/pic/Banner.jpg" alt="1" />
-          <div className="banner-text">寵物溝通師</div>
-        </div>
+        <Banner bgImgUrl="./images/pic/Banner.jpg" />
         {/* 主要內容 */}
         <div className="container py-2">
           {/* 麵包屑 */}
-          <div className="row py-2">
+          <Breadcrumbs />
+          {/* <div className="row py-2">
             <div className="pet-crumb-yen">
               <a href="">首頁</a>/
               <a className="active" href="">
                 寵物溝通師列表
               </a>
             </div>
-          </div>
+          </div> */}
           {/* 搜尋框 */}
           <div className="row py-2 justify-content-center">
             <div className="col-8">
