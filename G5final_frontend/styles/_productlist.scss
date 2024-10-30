@@ -168,6 +168,11 @@
     width: 15.25rem;
     height: 26rem;
   }
+  .card-img-topme{
+    width: auto;
+    height: auto;
+    object-fit: cover;
+  }
   /* 卡片外間距 */
   .card-layout {
     margin-top: 5rem;
@@ -207,10 +212,6 @@
     font-size: 18px;
     font-weight: 400;
     line-height: 27px;
-  }
-  /* 卡片陰影 */
-  .shadow-for-card {
-    box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
   }
   /* 頁籤 */
   .tab-true {
