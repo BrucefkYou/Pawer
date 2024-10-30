@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import express from 'express'
 const router = express.Router()
 
@@ -8,6 +9,7 @@ import { getIdParam } from '#db-helpers/db-tool.js'
 import sequelize from '#configs/db.js'
 const { Product } = sequelize.models
 import { QueryTypes, Op } from 'sequelize'
+import db2 from '../configs/mysql.js'
 
 /* 
 測試連結:
@@ -148,7 +150,16 @@ router.get('/', async (req, res) => {
     })
   }
 })
-
+// 測試商品資料
+router.get('/productList', async function (req, res, next) {
+  try {
+    const [rows] = await db2.query('SELECT * FROM `Product`') // 確認資料表名稱是否正確
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
 // 獲得所有資料，加入分頁與搜尋字串功能，單一資料表處理
 // products/qs?page=1&keyword=Ele&brand_ids=1&cat_ids=4,5,6,7,8&sizes=1,2&tags=3,4&colors=1,2&orderby=id,asc&perpage=10&price_range=1500,10000
 // router.get('/qs', async (req, res, next) => {
