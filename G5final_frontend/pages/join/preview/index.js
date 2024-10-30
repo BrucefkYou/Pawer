@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import SideBarCard from '@/components/sidebar/sidebar-card/sidebar-card';
-import pawButton from '@/assets/pawButton.svg';
 import Banner from '@/components/join/banner/banner';
-import AroundJoinCard from '@/components/join/card/around-join-card/around-join-card';
 import {
   BsClock,
+  BsChevronRight,
   BsGeoAlt,
   BsBookmarkFill,
-  BsChevronRight,
 } from 'react-icons/bs';
+import Image from 'next/image';
 
-export default function JiDetail(props) {
+export default function Preview(props) {
   return (
     <>
-      <Banner title="萌寵揪團聚會" bgImgUrl="/join/banner-jism.jpg" />
+      <Banner
+        title="萌寵揪團聚會"
+        bgImgUrl="/join/banner-jism.jpg"
+        alt="萌寵揪團聚會"
+      />
       <div className="container ji-detail-container">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
@@ -30,15 +31,16 @@ export default function JiDetail(props) {
           </ol>
         </nav>
 
-        <form className="ji-form bg-white" action="" method="POST">
-          <div className="ji-image">
-            {/* eslint-disable  */}
+        <form className="ji-form" action="" method="POST">
+          <div className="ji-pr-card bg-white rounded-2s">
+            <div className="ji-image">
+              {/* eslint-disable  */}
             <Image
               className="ji-img1"
               width={1176}
               height={532}
               src="/join/t5.jpg"
-              alt="1"
+              alt=""
             />
           </div>
           <div className="detail-section1 px-3">
@@ -80,7 +82,7 @@ export default function JiDetail(props) {
                   <div className="card-body">
                     <div className=" d-flex align-items-center gap-2 ">
                       <div className="ji-sidecard-imgbox rounded-circle">
-                        <img className="object-fit-cover" src="/join/t1.jpg" alt="1" />
+                        <img className="" src="" alt="" />
                       </div>
                       <p className="my-auto text-primary">
                         想哭的我戴上貓的面具
@@ -131,7 +133,7 @@ export default function JiDetail(props) {
                 width={1144}
                 height={500}
                 src="/join/t3.jpg"
-                alt="1"
+                alt=""
               />
             </div>
             <div className="ji-image">
@@ -140,7 +142,7 @@ export default function JiDetail(props) {
                 width={1144}
                 height={500}
                 src="/join/t4.jpg"
-                alt="1"
+                alt=""
               />
             </div>
             <div className="ji-image">
@@ -149,7 +151,7 @@ export default function JiDetail(props) {
                 width={1144}
                 height={500}
                 src="/join/t2.jpg"
-                alt="1"
+                alt=""
               />
             </div>
           </div>
@@ -165,22 +167,21 @@ export default function JiDetail(props) {
             />
             <p className="py-1 text-center">會顯示地址的地方</p>
           </div>
+          </div>
+          <div className="ji-pr-btngroup d-grid gap-3 d-flex mb-3 justify-content-between">
+            <button className="btn btn-outline-primary " type="button">
+              返回編輯
+            </button>
+            <div className='d-grid gap-3 d-flex'> <button className="btn btn-outline-primary" type="button">
+              儲存活動
+            </button>
+            <button className="btn btn-primary" type="button">
+              立即發布
+            </button></div>
+           
+          </div>
         </form>
-        {/* join活動內頁下方的附近活動 */}
-        <div className="my-5">
-          <SideBarCard
-            title={'附近的活動'}
-            img={pawButton}
-            content={
-              <div className="row">
-               <AroundJoinCard/>
-               <AroundJoinCard/>
-               <AroundJoinCard/>
-              </div>
-            }
-          />
         </div>
-      </div>
     </>
   );
 }

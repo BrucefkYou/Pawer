@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import joins from '@/data/Joins.json';
-import styles from '@/components/Join/event-card/join-card.module.scss';
+import styles from '@/components/join/card/join-card/join-card.module.scss';
 import JiCard from './item/ji-card';
 
 export default function JoinCard2() {
