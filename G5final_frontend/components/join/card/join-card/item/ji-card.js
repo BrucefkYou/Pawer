@@ -2,20 +2,23 @@ import React from 'react';
 import Image from 'next/image';
 import { BsPersonPlusFill } from 'react-icons/bs';
 import ColIcon from './col-icon';
-import styles from '@/components/Join/event-card/join-card.module.scss';
+import { useRouter } from 'next/router';
+import styles from '@/components/join/card/join-card/join-card.module.scss';
+import Link from 'next/link';
 
 export default function JiCard({
   iconfillcolor = '',
   join = {},
   handleToggleFav = () => {},
 }) {
+  const router = useRouter();
   return (
     <div className={`card shadow ${styles['ji-card']}`}>
       <Image
         className={`${styles['card-image']}`}
         width={367}
         height={321}
-        src={`/joins/${join.photos.split(',')[0]}`}
+        src={`/join/${join.photos.split(',')[0]}`}
         alt={join.title}
       />
       <div className={`card-body ${styles['card-body']}`}>
@@ -49,9 +52,12 @@ export default function JiCard({
           {join.title}
         </h4>
         <div className="text-end">
-          <a href="../join/1" className="btn text-warning p-0">
+          <button
+            onClick={() => router.push('./join/1')}
+            className="btn text-warning p-0"
+          >
             查看更多
-          </a>
+          </button>
         </div>
       </div>
     </div>
