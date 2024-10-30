@@ -1,9 +1,6 @@
 .PT-mydetail {
   /* 側邊欄佔位 */
-  .sidebar {
-    background: #ccc;
-    height: 200vh;
-  }
+  
   @media (max-width: 768px) {
     .sidebar {
       display: none;
