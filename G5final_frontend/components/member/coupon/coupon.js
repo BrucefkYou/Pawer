@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '@/components/member/coupon.module.scss';
+import styles from '@/components/member/coupon/coupon.module.scss';
 import Image from 'next/image';
 
 export default function Coupon(props) {

@@ -1,4 +1,4 @@
-import Coupon from '@/components/member/coupon';
+import Coupon from '@/components/member/coupon/coupon';
 import MemberLayout from '@/components/layout/member-layout';
 MyCoupon.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
