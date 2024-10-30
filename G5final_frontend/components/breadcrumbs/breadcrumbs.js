@@ -46,9 +46,6 @@ export default function Breadcrumbs(props) {
               </li>
             );
           })}
-          <li className="breadcrumb-item">
-            <a href="#">now:{nowRouter}</a>
-          </li>
         </ol>
       </nav>
     </>
