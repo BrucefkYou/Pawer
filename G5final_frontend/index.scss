@@ -16,17 +16,19 @@
 @import "./styles/productlist.scss";
 @import "./styles/productdetail.scss";
 // cart
-@import "./styles/cart.scss";
-@import "./styles/cart-info.scss";
-@import "./styles/cart-success.scss";
-@import "./styles/fail.scss";
-@import "./styles/bread.scss";
+// @import "./styles/cart.scss";
+// @import "./styles/cart-info.scss";
+// @import "./styles/cart-success.scss";
+// @import "./styles/fail.scss";
+// @import "./styles/bread.scss";
 
 // join
 @import "./styles/join.scss";
+@import "./styles/join-edit.scss";
 
 // blog
 @import "./styles/_bl-create.scss";
+@import "./styles/bl-edit";
 
 // pet-communicator
 @import "./styles/p-alert";

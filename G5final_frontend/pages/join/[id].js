@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import {
-  BsClock,
-  BsGeoAlt,
-  BsBookmark,
-  BsBookmarkFill,
-  BsChevronRight,
-} from 'react-icons/bs';
 import SideBarCard from '@/components/sidebar/sidebar-card/sidebar-card';
 import pawButton from '@/assets/pawButton.svg';
 import Banner from '@/components/join/banner/banner';
+import AroundJoinCard from '@/components/join/card/around-join-card/around-join-card';
+import {
+  BsClock,
+  BsGeoAlt,
+  BsBookmarkFill,
+  BsChevronRight,
+} from 'react-icons/bs';
 
 export default function JiDetail(props) {
   return (
     <>
-      <Banner title="萌寵揪團聚會" bgImgUrl="/joins/banner-jism.jpg" />
+      <Banner title="萌寵揪團聚會" bgImgUrl="/join/banner-jism.jpg" />
       <div className="container ji-detail-container">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
@@ -37,7 +37,7 @@ export default function JiDetail(props) {
               className="ji-img1"
               width={1176}
               height={532}
-              src="/joins/t5.jpg"
+              src="/join/t5.jpg"
               alt="1"
             />
           </div>
@@ -80,7 +80,7 @@ export default function JiDetail(props) {
                   <div className="card-body">
                     <div className=" d-flex align-items-center gap-2 ">
                       <div className="ji-sidecard-imgbox rounded-circle">
-                        <img className="" src="" alt="1" />
+                        <img className="object-fit-cover" src="/join/t1.jpg" alt="1" />
                       </div>
                       <p className="my-auto text-primary">
                         想哭的我戴上貓的面具
@@ -130,7 +130,7 @@ export default function JiDetail(props) {
                 className="ji-img1"
                 width={1144}
                 height={500}
-                src="/joins/t3.jpg"
+                src="/join/t3.jpg"
                 alt="1"
               />
             </div>
@@ -139,7 +139,7 @@ export default function JiDetail(props) {
                 className="ji-img1"
                 width={1144}
                 height={500}
-                src="/joins/t4.jpg"
+                src="/join/t4.jpg"
                 alt="1"
               />
             </div>
@@ -148,7 +148,7 @@ export default function JiDetail(props) {
                 className="ji-img1"
                 width={1144}
                 height={500}
-                src="/joins/t2.jpg"
+                src="/join/t2.jpg"
                 alt="1"
               />
             </div>
@@ -173,187 +173,13 @@ export default function JiDetail(props) {
             img={pawButton}
             content={
               <div className="row">
-                <div className="col-md-6 col-lg-4 mb-3 ">
-                  <div className="card shadow border border-secondary ji-around-card">
-                    <div className="card-body py-4">
-                      <div className="d-flex justify-content-between mb-3">
-                        <h4 className="card-title card-title-mg text-secondary-emphasis m-0">
-                          快樂小狗的聚會
-                        </h4>
-                        <span className="bg-primary text-white px-2 py-1 rounded-1 my-auto">
-                          開團中
-                        </span>
-                      </div>
-                      <div className="ji-info">
-                        <p className="card-text mb-3 ji-info-content text-secondary-emphasis">
-                          <BsClock className="ms-1 me-2" />
-                          2024.10.09 14:00 - 2024.10.09 16:00
-                        </p>
-                        <p className="card-text m-0 ji-info-content text-secondary-emphasis">
-                          <BsGeoAlt className="ms-1 me-2" />
-                          2024.10.09 14:00 - 2024.10.09 16:00
-                        </p>
-                      </div>
-                      <div className="ji-member d-flex align-items-center gap-2">
-                        <div className="rounded-circle ji-img">
-                          <img className="" src="" alt="1" />
-                        </div>
-                        <p className="my-auto text-primary">
-                          想哭的我戴上貓的面具
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 col-lg-4 mb-3 ">
-                  <div className="card shadow border border-secondary ji-around-card">
-                    <div className="card-body py-4">
-                      <div className="d-flex justify-content-between mb-3">
-                        <h4 className="card-title card-title-mg text-secondary-emphasis m-0">
-                          快樂小狗的聚會
-                        </h4>
-                        <span className="bg-primary text-white px-2 py-1 rounded-1 my-auto">
-                          開團中
-                        </span>
-                      </div>
-                      <div className="ji-info">
-                        <p className="card-text mb-3 ji-info-content text-secondary-emphasis">
-                          <BsClock className="ms-1 me-2" />
-                          2024.10.09 14:00 - 2024.10.09 16:00
-                        </p>
-                        <p className="card-text m-0 ji-info-content text-secondary-emphasis">
-                          <BsGeoAlt className="ms-1 me-2" />
-                          2024.10.09 14:00 - 2024.10.09 16:00
-                        </p>
-                      </div>
-                      <div className="ji-member d-flex align-items-center gap-2">
-                        <div className="rounded-circle ji-img">
-                          <img className="" src="" alt="1" />
-                        </div>
-                        <p className="my-auto text-primary">
-                          想哭的我戴上貓的面具
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 col-lg-4 mb-3 ">
-                  <div className="card shadow border border-secondary ji-around-card">
-                    <div className="card-body py-4">
-                      <div className="d-flex justify-content-between mb-3">
-                        <h4 className="card-title card-title-mg text-secondary-emphasis m-0">
-                          快樂小狗的聚會
-                        </h4>
-                        <span className="bg-primary text-white px-2 py-1 rounded-1 my-auto">
-                          開團中
-                        </span>
-                      </div>
-                      <div className="ji-info">
-                        <p className="card-text mb-3 ji-info-content text-secondary-emphasis">
-                          <BsClock className="ms-1 me-2" />
-                          2024.10.09 14:00 - 2024.10.09 16:00
-                        </p>
-                        <p className="card-text m-0 ji-info-content text-secondary-emphasis">
-                          <BsGeoAlt className="ms-1 me-2" />
-                          2024.10.09 14:00 - 2024.10.09 16:00
-                        </p>
-                      </div>
-                      <div className="ji-member d-flex align-items-center gap-2">
-                        <div className="rounded-circle ji-img">
-                          <img className="" src="" alt="1" />
-                        </div>
-                        <p className="my-auto text-primary">
-                          想哭的我戴上貓的面具
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               <AroundJoinCard/>
+               <AroundJoinCard/>
+               <AroundJoinCard/>
               </div>
             }
           />
         </div>
-        {/* 附近活動卡片 */}
-        {/* <div className="row">
-          <div className="col-md-6 col-lg-4 mb-3 ">
-            <div className="card ji-around-card shadow">
-              <div className="card-body py-4">
-                <div className="d-flex justify-content-between mb-3">
-                  <h4 className="card-title card-title-mg text-body-tertiary m-0">
-                    快樂小狗的聚會
-                  </h4>
-                  <span className="bg-primary text-white px-2 py-1 rounded-1 my-auto">
-                    開團中
-                  </span>
-                </div>
-                <div className="ji-info">
-                  <p className="card-text mb-3 ji-info-content ">
-                    <BsClock /> 2024.10.09 14:00 - 2024.10.09 16:00
-                  </p>
-                  <p className="card-text m-0 ji-info-content">
-                    <BsGeoAlt /> 2024.10.09 14:00 - 2024.10.09 16:00
-                  </p>
-                </div>
-                <div className="ji-member d-flex align-items-center gap-2">
-                  <img className="rounded-circle ji-img" src="" alt="1" />
-                  <p className="my-auto text-primary">想哭的我戴上貓的面具</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-4 mb-3 ">
-            <div className="card ji-around-card">
-              <div className="card-body py-4">
-                <div className="d-flex justify-content-between mb-3">
-                  <h4 className="card-title card-title-mg text-body-tertiary m-0">
-                    快樂小狗的聚會
-                  </h4>
-                  <span className="bg-primary text-white px-2 py-1 rounded-1 my-auto">
-                    開團中
-                  </span>
-                </div>
-                <div className="ji-info">
-                  <p className="card-text mb-3 ji-info-content ">
-                    <BsClock /> 2024.10.09 14:00 - 2024.10.09 16:00
-                  </p>
-                  <p className="card-text m-0 ji-info-content">
-                    <BsGeoAlt /> 2024.10.09 14:00 - 2024.10.09 16:00
-                  </p>
-                </div>
-                <div className="ji-member d-flex align-items-center gap-2">
-                  <img className="rounded-circle ji-img" src="" alt="1" />
-                  <p className="my-auto text-primary">想哭的我戴上貓的面具</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-4 mb-3 ">
-            <div className="card ji-around-card">
-              <div className="card-body py-4">
-                <div className="d-flex justify-content-between mb-3">
-                  <h4 className="card-title card-title-mg text-body-tertiary m-0">
-                    快樂小狗的聚會
-                  </h4>
-                  <span className="bg-primary text-white px-2 py-1 rounded-1 my-auto">
-                    開團中
-                  </span>
-                </div>
-                <div className="ji-info">
-                  <p className="card-text mb-3 ji-info-content ">
-                    <BsClock /> 2024.10.09 14:00 - 2024.10.09 16:00
-                  </p>
-                  <p className="card-text m-0 ji-info-content">
-                    <BsGeoAlt /> 2024.10.09 14:00 - 2024.10.09 16:00
-                  </p>
-                </div>
-                <div className="ji-member d-flex align-items-center gap-2">
-                  <img className="rounded-circle ji-img" src="" alt="1" />
-                  <p className="my-auto text-primary">想哭的我戴上貓的面具</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
     </>
   );
