@@ -58,8 +58,8 @@ const LoginPage = () => {
           <button
             type="button"
             className="btn btn-link text-warning"
-            onClick={()=>{
-              setFormtype(2)
+            onClick={() => {
+              setFormtype(2);
             }}
           >
             已有帳號
@@ -128,8 +128,8 @@ const LoginPage = () => {
             <button
               className="btn btn-link text-primary"
               type="button"
-              onClick={()=>{
-                setFormtype(1)
+              onClick={() => {
+                setFormtype(1);
               }}
             >
               註冊帳號
@@ -137,7 +137,9 @@ const LoginPage = () => {
             <button
               className="btn btn-link text-primary"
               type="button"
-              onClick={()=>{setFormtype(3)}}
+              onClick={() => {
+                setFormtype(3);
+              }}
             >
               忘記密碼
             </button>
@@ -198,20 +200,23 @@ const LoginPage = () => {
             >
               確定
             </button>
-         
           </div>
           <div className="d-flex justify-content-between">
             <button
               className="btn btn-link text-primary"
               type="button"
-              onClick={()=>{setFormtype(1)}}
+              onClick={() => {
+                setFormtype(1);
+              }}
             >
               註冊帳號
             </button>
             <button
               className="btn btn-link text-primary"
               type="button"
-              onClick={()=>{setFormtype(2)}}
+              onClick={() => {
+                setFormtype(2);
+              }}
             >
               回到登入
             </button>
