@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-
+import AdminLayout from '@/components/layout/admin-layout';
+Index.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
 export default function Index(props) {
   return (
     <>
       <div className="PT-mydetail">
         <div className="container">
           <div className="row">
-            {/* 左側 */}
-            <div className="col-3 sidebar" />
             {/* 右側 */}
             <div className="col right-block">
               <div className="PT-mydetail-card">

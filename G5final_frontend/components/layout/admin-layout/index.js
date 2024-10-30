@@ -4,12 +4,14 @@ import Link from 'next/link';
 import Navbar from '../default-layout/navbar';
 import Footer from '../default-layout/footer';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
+import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 
 export default function AdminLayout({ children }) {
   return (
     <>
       <Navbar />
-      <main>
+      <main className='container'>
+        <Breadcrumbs />
         <div className="container my-5 d-flex gap-4">
           <aside className="col-3 d-none d-lg-block">
             <div className="mb-sidebar">
