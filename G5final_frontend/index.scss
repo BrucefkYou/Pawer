@@ -1,5 +1,13 @@
+// home
+@import "./styles/home.scss";
+
+
+
 @import "./styles/globals";
 @import "./styles/sidebar";
+
+// Navbar && Footer
+@import "./styles/navAndfooter";
 
 // member
 @import "./styles/member.scss";
@@ -31,3 +39,5 @@
 @import "./styles/p-mydetail";
 @import "./styles/p-reserve";
 @import "./styles/PT";
+
+

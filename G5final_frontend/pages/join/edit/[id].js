@@ -45,7 +45,7 @@ export default function JiEditor(props) {
               width={1176}
               height={532}
               src="/joins/t5.jpg"
-              alt=""
+              alt="1"
             />
           </div>
           <div className="detail-section1">
@@ -87,7 +87,7 @@ export default function JiEditor(props) {
                   <div className="card-body">
                     <div className=" d-flex align-items-center gap-2 ">
                       <div className="ji-sidecard-imgbox rounded-circle">
-                        <img className="" src="" alt="" />
+                        <img className="" src="" alt="1" />
                       </div>
                       <p className="my-auto text-primary">
                         想哭的我戴上貓的面具
@@ -138,7 +138,7 @@ export default function JiEditor(props) {
                 width={1144}
                 height={500}
                 src="/joins/t3.jpg"
-                alt=""
+                alt="1"
               />
             </div>
             <div className="ji-image">
@@ -147,7 +147,7 @@ export default function JiEditor(props) {
                 width={1144}
                 height={500}
                 src="/joins/t4.jpg"
-                alt=""
+                alt="1"
               />
             </div>
             <div className="ji-image">
@@ -156,7 +156,7 @@ export default function JiEditor(props) {
                 width={1144}
                 height={500}
                 src="/joins/t2.jpg"
-                alt=""
+                alt="1"
               />
             </div>
           </div>

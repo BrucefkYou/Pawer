@@ -14,7 +14,7 @@ export default function AdminLayout({ children }) {
           <aside className="col-3 d-none d-lg-block">
             <div className="mb-sidebar">
               <h5 className="title">會員中心</h5>
-              <img src="/pawButton.png" alt="" className="img" />
+              <img src="/pawButton.png" alt="1" className="img" />
               <ul className="nav flex-column gap-3 mt-3">
                 <li className="nav-item active">
                   <a className="nav-link" href="#">

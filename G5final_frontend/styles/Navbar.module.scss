@@ -1,0 +1,179 @@
+/* components/Navbar.module.css */
+
+/* 基本重置 */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+  }
+  
+  .header {
+	width: 100%;
+	background-color: #333; /* 導航欄背景顏色 */
+	color: white;
+  }
+  
+  .navbar {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 10px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  }
+  
+  .navbarLeftbtn {
+	display: flex;
+	align-items: center;
+  }
+  
+  .navbarRwdListbar {
+	display: none; /* 預設隱藏，僅在小螢幕顯示 */
+  }
+  
+  .navbarToggle {
+	background: none;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  }
+  
+  .dropdown {
+	position: relative;
+	margin-right: 20px;
+  }
+  
+  .dropdownToggle {
+	background: #4CAF50; /* 下拉按鈕背景顏色 */
+	border: none;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+  }
+  
+  .dropdownToggle:hover {
+	background-color: #45a049; /* 懸停時的背景顏色 */
+  }
+  
+  .dropdownMenu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background-color: #444; /* 下拉選單背景顏色 */
+	border-radius: 5px;
+	box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+	min-width: 150px;
+	list-style: none;
+	z-index: 1000;
+  }
+  
+  .dropdownItem {
+	color: white;
+	padding: 10px 15px;
+	text-decoration: none;
+	display: block;
+	transition: background-color 0.3s;
+  }
+  
+  .dropdownItem:hover {
+	background-color: #575757; /* 懸停時的背景顏色 */
+  }
+  
+  .navbarLogo {
+	display: flex;
+	align-items: center;
+	margin-left: 20px;
+  }
+  
+  .navbarList {
+	display: flex;
+	align-items: center;
+  }
+  
+  .navLink {
+	margin: 0 10px;
+	color: white;
+	text-decoration: none;
+	padding: 10px 15px;
+	transition: background-color 0.3s;
+  }
+  
+  .navLink:hover {
+	background-color: #575757; /* 懸停時的背景顏色 */
+	border-radius: 5px;
+  }
+  
+  /* 右側按鈕樣式 */
+  .navbarRightbtn {
+	display: flex;
+	align-items: center;
+  }
+  
+  .navbarMember,
+  .navbarCart,
+  .navbarLogout {
+	background: none;
+	border: none;
+	cursor: pointer;
+	margin-left: 15px;
+  }
+  
+  .icon {
+	color: white;
+	font-size: 1.5rem;
+	transition: color 0.3s;
+  }
+  
+  .icon:hover {
+	color: #ddd; /* 懸停時的顏色 */
+  }
+  
+  /* 手機版樣式 */
+  @media (max-width: 768px) {
+	.navbarRwdListbar {
+	  display: block; /* 顯示漢堡選單按鈕 */
+	}
+  
+	.navbarList {
+	  position: absolute;
+	  top: 60px;
+	  left: 0;
+	  width: 100%;
+	  background-color: #333; /* 導航菜單背景顏色 */
+	  flex-direction: column;
+	  align-items: flex-start;
+	  padding: 10px 0;
+	  display: none; /* 預設隱藏 */
+	}
+  
+	.navbarList.showMenu {
+	  display: flex; /* 顯示導航菜單 */
+	}
+  
+	.navLink {
+	  width: 100%;
+	  padding: 10px 20px;
+	  margin: 0;
+	}
+  
+	.dropdown {
+	  width: 100%;
+	}
+  
+	.dropdownToggle {
+	  width: 100%;
+	  justify-content: space-between;
+	}
+  
+	.dropdownMenu {
+	  position: static;
+	  width: 100%;
+	  box-shadow: none;
+	  background-color: #444; /* 下拉選單背景顏色 */
+	}
+  }
+  

@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
+import Pagination from '@/components/pagination/pagination';
 
 export default function Index(props) {
   return (
@@ -36,7 +38,7 @@ export default function Index(props) {
                   <div className="btn d-flex search-text-mp">
                     <img
                       className="search-bg"
-                      src="../product/searchIcon.png"
+                      src="./product/searchIcon.png"
                       alt="搜尋按鈕"
                     />
                     <input
@@ -263,7 +265,7 @@ export default function Index(props) {
                 <div className="col card-layout">
                   <div className="card shadow-for-card card-size">
                     <img
-                      src="../product/HotCard.png"
+                      src="./product/HotCard.png"
                       className="card-img-top"
                       alt="商品卡片圖"
                     />
@@ -313,7 +315,7 @@ export default function Index(props) {
                 <div className="col card-layout">
                   <div className="card shadow-for-card card-size">
                     <img
-                      src="../product/HotCard.png"
+                      src="./product/HotCard.png"
                       className="card-img-top"
                       alt="商品卡片圖"
                     />
@@ -363,7 +365,7 @@ export default function Index(props) {
                 <div className="col card-layout">
                   <div className="card shadow-for-card card-size">
                     <img
-                      src="../product/HotCard.png"
+                      src="./product/HotCard.png"
                       className="card-img-top"
                       alt="商品卡片圖"
                     />
@@ -413,7 +415,7 @@ export default function Index(props) {
                 <div className="col card-layout">
                   <div className="card shadow-for-card card-size">
                     <img
-                      src="../product/HotCard.png"
+                      src="./product/HotCard.png"
                       className="card-img-top"
                       alt="商品卡片圖"
                     />
@@ -463,7 +465,7 @@ export default function Index(props) {
                 <div className="col card-layout">
                   <div className="card shadow-for-card card-size">
                     <img
-                      src="../product/HotCard.png"
+                      src="./product/HotCard.png"
                       className="card-img-top"
                       alt="商品卡片圖"
                     />
@@ -513,7 +515,7 @@ export default function Index(props) {
                 <div className="col card-layout">
                   <div className="card shadow-for-card card-size">
                     <img
-                      src="../product/HotCard.png"
+                      src="./product/HotCard.png"
                       className="card-img-top"
                       alt="商品卡片圖"
                     />
@@ -561,29 +563,7 @@ export default function Index(props) {
                 </div>
               </div>
               {/* 頁籤 */}
-              <div className="row mt-5 mb-5">
-                <div className="col d-flex justify-content-center align-items-center tab-rwd">
-                  <div className="d-flex">
-                    <img
-                      src="../product/pageArrowleft.png"
-                      alt="tab-btn-left"
-                    />
-                    <div>
-                      <div className="tab-true me-2">1</div>
-                    </div>
-                    <div>
-                      <div className="tab-false me-2">2</div>
-                    </div>
-                    <div>
-                      <div className="tab-false">3</div>
-                    </div>
-                    <img
-                      src="../product/pageArrowRight.png"
-                      alt="tab-btn-right"
-                    />
-                  </div>
-                </div>
-              </div>
+              <Pagination />
             </div>
           </div>
         </div>
