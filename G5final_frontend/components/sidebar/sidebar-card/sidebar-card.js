@@ -7,7 +7,7 @@ const SideBarCard = ({ title, img, content }) => {
     <div className={`rounded-1 shadow ${styles['sidebar-card']}`}>
       {img && (
         <div className={styles.img}>
-          <Image src={img} alt={img} fill />
+          <Image src={img} alt={img} className="pawbutton" fill />
         </div>
       )}
       {title && (

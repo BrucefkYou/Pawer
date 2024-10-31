@@ -25,9 +25,9 @@ export default function Products(props) {
       <div>products</div>
       <ul>
         {products.map((product) => (
-          <li key={product.id}>
-            {product.name} <br />
-            {'price: $' + product.price}
+          <li key={product.ID}>
+            {product.Name} <br />
+            {'price: $' + product.OriginPrice}
           </li>
         ))}
       </ul>

@@ -1,5 +1,13 @@
+// home
+@import "./styles/home.scss";
+
+
+
 @import "./styles/globals";
 @import "./styles/sidebar";
+
+// Navbar && Footer
+@import "./styles/navAndfooter";
 
 // member
 @import "./styles/member.scss";
@@ -16,9 +24,11 @@
 
 // join
 @import "./styles/join.scss";
+@import "./styles/join-edit.scss";
 
 // blog
 @import "./styles/_bl-create.scss";
+@import "./styles/bl-edit";
 
 // pet-communicator
 @import "./styles/p-alert";
@@ -30,3 +40,5 @@
 @import "./styles/p-mydetail";
 @import "./styles/p-reserve";
 @import "./styles/PT";
+
+

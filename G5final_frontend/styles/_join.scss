@@ -72,19 +72,6 @@
     }
 }
 
-// 附近活動小卡樣式
-.ji-around-card{
-    max-width: 350px;
-}
-.card-title-mg{
-    line-height: 30px;
-}
-.ji-img{
-    width: 80px;
-    height: 80px;
-    overflow: hidden;
-    background-color: #5f7ca9;
-}
 .ji-info{
 margin-bottom: 2rem;
 }
@@ -101,18 +88,6 @@ margin-bottom: 2rem;
 }
 .ji-ck{
     color: $darkgray;
-}
-
-.required{
-    position: relative;
-    &::after{
-        content: "*";
-        font-size: 1.5rem;
-        color: $danger;
-        position: absolute;
-        top: -0.25rem;
-        padding-left: 0.25rem;
-    }
 }
 
 .ji-pr-btn{

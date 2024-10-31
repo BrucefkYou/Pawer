@@ -1,0 +1,365 @@
+// Header 樣式設定
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background: $primary;
+  z-index: 5000;
+}
+
+.navbar {
+  margin: 0 auto;
+  padding: 0px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-leftbtn {
+  height: 84px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.navbar-logo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 7px 15px 7px 20px;
+}
+.navbar-rwd-listbar {
+  display: none;
+}
+.navbar-hamburger {
+  background: none;
+  border: 0;
+  padding: 0;
+  width: 30px;
+  font-size: 30px;
+  color: $secondary;
+  &:hover {
+    color: $warning;
+  }
+}
+.navbar-rightbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  .navbar-member,
+  .navbar-logout,
+  .navbar-cart {
+    background: none;
+    border: 0;
+    padding: 0;
+    width: 30px;
+    font-size: 30px;
+    color: $secondary;
+    &:hover {
+      color: $warning;
+    }
+  }
+  .navbar-member {
+    svg {
+      margin-bottom: 2px;
+      vertical-align: bottom;
+    }
+  }
+  .navbar-cart {
+    transform: scaleX(-1);
+  }
+}
+
+.navbar-list {
+  font-size: 1rem;
+  display: flex;
+  gap: 36px;
+
+  a {
+    font-size: 16px;
+    text-decoration: none;
+    position: relative;
+
+    &:visited {
+      color: white;
+    }
+
+    &:hover::after {
+      content: '';
+      display: block;
+      width: 50%;
+      height: 5px;
+      background-color: $yellow;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -8px;
+      border-radius: 10px;
+    }
+    &:active::after {
+      content: '';
+      display: block;
+      width: 50%;
+      height: 5px;
+      background-color: $yellow;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -8px;
+      border-radius: 10px;
+    }
+  }
+}
+
+// Footer 樣式設定
+.footer {
+  color: white;
+  width: 100%;
+  background: #253559;
+
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .footer-section-svg {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-col-svg {
+    display: flex;
+    flex-direction: row;
+    gap: 5em;
+    /* 原本5rem改成12rem相似figma間距 */
+    flex-wrap: wrap;
+    margin: auto;
+  }
+
+  .powerSvg {
+    padding: 0px 0px 8px 0px;
+  }
+
+  .footer-wrapper {
+    padding: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 14px;
+  }
+
+  .footer-endcontent {
+    max-width: 50rem;
+    padding: 0px 28px;
+  }
+
+  .footer-top-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* 參考figma修改文字間距 */
+  .footer-left-content-text {
+    line-height: 28px;
+  }
+
+  .footer-top-hr {
+    width: 100%;
+  }
+
+  .footer-icon {
+    display: flex;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  .footer-box {
+    /* 參考figma移除間距 margin-top */
+    line-height: 28px;
+
+    /* 參考figma修改間距 line-height */
+    ul {
+      list-style-type: none;
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      .title {
+        padding-left: 20px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        position: relative;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 10%;
+          /* 調整線的上方距離 */
+          height: 80%;
+          /* 調整線的長度 */
+          border-left: solid 5px #f4b434;
+          border-radius: 20px;
+        }
+      }
+    }
+  }
+  .footer-down {
+    padding-bottom: 30px;
+    text-align: center;
+    font-family: ABeeZee;
+    font-size: 12px;
+    font-weight: 400;
+  }
+}
+@media (max-width: 992px) {
+  .navbar {
+    padding: 0px 36px 0px 36px;
+  }
+  .navbar-list {
+    a {
+      font-size: 0.9em;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .navbar-leftbtn {
+    height: 48px;
+  }
+  .navbar-rwd-listbar {
+    display: block;
+    // &:hover {
+    //   svg {
+    //     path {
+    //       fill: $yellow;
+    //     }
+    //   }
+    /* 自訂下拉選單樣式 */
+    .customDropdown {
+      position: relative;
+      margin-right: 0px;
+    }
+
+    .customDropdownToggle {
+      background: #030e0300; /* 下拉按鈕背景顏色 */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .customDropdownToggle:hover {
+      background-color: var($warning); /* 懸停時的背景顏色 */
+    }
+
+    .customDropdownMenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #ffffff00; /* 下拉選單背景顏色 */
+      border-radius: 5px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      width: 200px;
+      list-style: none;
+      z-index: 1000;
+      opacity: 0;
+      transform: translate(-170px, 16px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .customDropdownMenu.showMenu {
+      display: block;
+      opacity: 1;
+      transform: translate(-20px, 16px);
+    }
+
+    .customDropdownItem {
+      color: rgb(0, 0, 0);
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.3s;
+    }
+
+    // .customDropdownItem:hover {
+    //   background-color: #575757; /* 懸停時的背景顏色 */
+    // }
+    .dropdownUl {
+      width: 100%;
+      background-color: #ffffff;
+      padding: 0px;
+      margin: 0px;
+      border-radius: 0px 0px 30px 30px;
+    }
+    .dropdownli {
+      padding-left: 25px;
+      display: block;
+      width: 100%;
+      height: 53px;
+      background: #ffffff;
+      border-radius: 10px 10px 10px 10px;
+      color: #000;
+      &:hover {
+        background-color: #f4b13e;
+      }
+    }
+  }
+
+  .navbar {
+    padding: 6px 36px 6px 20px;
+  }
+  .navbar-logo {
+    width: 84px;
+    height: 46px;
+
+    img {
+      width: 84px;
+      height: 46px;
+    }
+  }
+  .navbar-list {
+    display: none;
+  }
+  footer > ul,
+  li {
+    display: none;
+  }
+  footer > div > div > div > div > p {
+    display: none;
+  }
+  .footer-box {
+    display: none;
+  }
+  .footer-col {
+    display: none;
+  }
+  footer > div > div.footer-section {
+    display: none;
+  }
+  .footer-wrapper {
+    padding: 10px 0px 10px 0px;
+  }
+  .footer-down {
+    padding-bottom: 10px;
+    /* 詹:修改間距 */
+    & > span {
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+  }
+}

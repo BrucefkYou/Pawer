@@ -8,13 +8,13 @@ export default function Id(props) {
       <main className="productdetail">
         {/* 麵包屑 */}
         <div className="productdetail-crumb-wei d-flex">
-          <a href="./">首頁</a>
+          <a href="../">首頁</a>
           <div>&nbsp;/&nbsp;</div>
-          <a className="active" href="./product">
+          <a className="active" href="../product">
             犬貓通用
           </a>
           <div>&nbsp;/&nbsp;</div>
-          <a className="active" href="./product/[id]">
+          <a className="active" href="../product/[id]">
             鮮三精
           </a>
         </div>
@@ -28,7 +28,7 @@ export default function Id(props) {
                 <div>
                   <img
                     className="detail-left-img "
-                    src="../product/NU4Petimage01/C1.jpg"
+                    src="../product/NU4Petimage/NU4Petimage01/C1.jpg"
                     alt="圖片"
                   />
                 </div>
@@ -40,29 +40,29 @@ export default function Id(props) {
                 <div className="col">
                   <img
                     className="detail-left-img"
-                    src="../product/NU4Petimage01/P2.jpg"
-                    alt=""
+                    src="../product/NU4Petimage/NU4Petimage01/P2.jpg"
+                    alt="1"
                   />
                 </div>
                 <div className="col">
                   <img
                     className="detail-left-img"
-                    src="../product/NU4Petimage01/P3.jpg"
-                    alt=""
+                    src="../product/NU4Petimage/NU4Petimage01/P3.jpg"
+                    alt="1"
                   />
                 </div>
                 <div className="col">
                   <img
                     className="detail-left-img"
-                    src="../product/NU4Petimage01/P3.jpg"
-                    alt=""
+                    src="../product/NU4Petimage/NU4Petimage01/P3.jpg"
+                    alt="1"
                   />
                 </div>
                 <div className="col">
                   <img
                     className="detail-left-img"
-                    src="../product/NU4Petimage01/P5.jpg"
-                    alt=""
+                    src="../product/NU4Petimage/NU4Petimage01/P5.jpg"
+                    alt="1"
                   />
                 </div>
               </div>
@@ -84,11 +84,11 @@ export default function Id(props) {
                     </div>
                     {/* 星級圖示 */}
                     <div className="star-rwd">
-                      <img src="../product/star=1.png" alt="" />
-                      <img src="../product/star=1.png" alt="" />
-                      <img src="../product/star=1.png" alt="" />
-                      <img src="../product/star=1.png" alt="" />
-                      <img src="../product/star=0.png" alt="" />
+                      <img src="../product/star=1.png" alt="1" />
+                      <img src="../product/star=1.png" alt="1" />
+                      <img src="../product/star=1.png" alt="1" />
+                      <img src="../product/star=1.png" alt="1" />
+                      <img src="../product/star=0.png" alt="1" />
                     </div>
                     <div>
                       <p className="star-text sell-how">
@@ -98,7 +98,7 @@ export default function Id(props) {
                   </div>
                   {/* 收藏圖 */}
                   <div className="col d-flex justify-content-end">
-                    <img src="../product/Detailsave.svg" alt="" />
+                    <img src="../product/Detailsave.svg" alt="1" />
                   </div>
                 </div>
                 {/* 文字內容簡介 */}
@@ -161,8 +161,8 @@ export default function Id(props) {
           <div className="d-flex justify-content-center pd-content-me5">
             <img
               className="pd-detail-img"
-              src="../product/NU4Petimage01/NU4Petimage01.png"
-              alt=""
+              src="../product/NU4Petimage/NU4Petimage01/NU4Petimage01.png"
+              alt="1"
             />
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function Id(props) {
                       <img
                         className="commentimg"
                         src="../product/commentIng4.png"
-                        alt=""
+                        alt="1"
                       />
                     </div>
                     <div className="col-md-10 col-12">
@@ -190,11 +190,11 @@ export default function Id(props) {
                         <h5 className="pd-comment-title">世界第一等</h5>
                         {/* 星級  */}
                         <div className="d-flex">
-                          <img src="../product/star=1.png" alt="" />
-                          <img src="../product/star=1.png" alt="" />
-                          <img src="../product/star=1.png" alt="" />
-                          <img src="../product/star=1.png" alt="" />
-                          <img src="../product/star=0.png" alt="" />
+                          <img src="../product/star=1.png" alt="1" />
+                          <img src="../product/star=1.png" alt="1" />
+                          <img src="../product/star=1.png" alt="1" />
+                          <img src="../product/star=1.png" alt="1" />
+                          <img src="../product/star=0.png" alt="1" />
                         </div>
                         {/* 要抓商品名稱 */}
                         <p className="pd-comment-name">
@@ -225,7 +225,7 @@ export default function Id(props) {
                     <img
                       className="commentimg"
                       src="../product/commentIng1.png"
-                      alt=""
+                      alt="1"
                     />
                   </div>
                   <div className="col-md-10 col-12">
@@ -234,11 +234,11 @@ export default function Id(props) {
                       <h5 className="pd-comment-title">北區小辣椒</h5>
                       {/* 星級  */}
                       <div className="d-flex">
-                        <img src="../product/star=1.png" alt="" />
-                        <img src="../product/star=1.png" alt="" />
-                        <img src="../product/star=1.png" alt="" />
-                        <img src="../product/star=1.png" alt="" />
-                        <img src="../product/star=0.png" alt="" />
+                        <img src="../product/star=1.png" alt="1" />
+                        <img src="../product/star=1.png" alt="1" />
+                        <img src="../product/star=1.png" alt="1" />
+                        <img src="../product/star=1.png" alt="1" />
+                        <img src="../product/star=0.png" alt="1" />
                       </div>
                       {/* 要抓商品名稱 */}
                       <p className="pd-comment-name">
