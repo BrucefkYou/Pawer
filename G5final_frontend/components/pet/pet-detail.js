@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
 import Image from 'next/image';
+import PetDetailButton from './pet-detail-button';
 
 export default function PetDetail(props) {
   // 使用路由判斷當前動態路由id
@@ -47,7 +48,7 @@ export default function PetDetail(props) {
   } = fetchOne;
   return (
     <>
-      <div className="row mb-3 d-flex justify-content-center">
+      <div className="row mb-3 d-flex justify-content-center alerttonone">
         {/* 刊登照片 */}
         <div className="col-lg-4 d-flex avatar-wrapper">
           <div className="avatar">
@@ -309,6 +310,7 @@ export default function PetDetail(props) {
           </div>
         </div>
       </div>
+      <PetDetailButton Name={Name} />
     </>
   );
 }
