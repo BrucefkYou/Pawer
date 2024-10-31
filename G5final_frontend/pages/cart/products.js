@@ -7,7 +7,7 @@ export default function Products(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3005/api/data');
+        const response = await fetch('http://localhost:3005/api/data/aa');
         if (!response.ok) {
           throw new Error('網路回應不成功：' + response.status);
         }
