@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '@/components/Join/banner/banner.module.scss';
+import style from '@/components/join/banner/banner.module.scss';
 import { useRouter } from 'next/router';
 
 export default function Banner({ bgImgUrl = '' }) {

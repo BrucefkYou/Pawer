@@ -40,3 +40,4 @@ yarn.lock
 /.temp/
 
 .DS_Store
+join-test

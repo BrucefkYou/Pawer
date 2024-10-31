@@ -13,5 +13,8 @@
       "foldLevel": 1
     }
   },
-  "autoFold.onFileOpen": true
+  "autoFold.onFileOpen": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }
