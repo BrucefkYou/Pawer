@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Router, { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function PetList(props) {
   const [communicator, setCommunicator] = useState([]);
@@ -16,39 +19,53 @@ export default function PetList(props) {
       } catch (err) {
         console.log(err);
       }
-      console.log(communicator);
     };
 
     fetchData();
   }, []);
   return (
     <>
-      {communicator.map((v) => {
+      {communicator.map((v, i) => {
         return (
-          <div
-            className="col-lg-3 col-5 pet-teachercard-yen position-relative"
+          <Link
+            className="col-lg-4 col-5"
+            href={`/communicator/${v.ID}`}
             key={v.ID}
+            passHref
           >
-            <img className="hover-img" src="./pet/images/teacher.png" alt="1" />
-            <div className="contain">
-              <h4>{v.Name}</h4>
-              <p className="text">
-                服務項目： <br />
-                {v.Service}
-              </p>
-              <p className="hover-btn">我要預約</p>
-            </div>
-            <div className="contain-hover">
-              <p className="text-center">Hi, 我是{v.Name}</p>
-              <div className="">
-                <p>服務項目：{v.Service}</p>
-                <p className="none-2">進行方式：{v.Approach}</p>
-                <p className="none-2">預約費用：{v.Fee}</p>
-                <p className="none-1">證書編號：{v.Certificateid}</p>
-                <p className="none-1">通過日期：{v.CertificateDate}</p>
+            <div className=" pet-teachercard-yen position-relative" key={v.ID}>
+              <div className="img-box">
+                <Image
+                  className="imgg"
+                  src={`/pet/images/${v.Img}`}
+                  alt="1"
+                  width={400}
+                  height={300}
+                />
+              </div>
+              <div className="contain">
+                <h4>{v.Name}</h4>
+                <p className="">證書編號：{v.Certificateid}</p>
+                <p className="text">通過日期：{v.CertificateDate}</p>
+                <p className="hover-btn">我要預約</p>
+              </div>
+              <div className="contain-hover">
+                <p className="text-center">Hi, 我是{v.Name}</p>
+                <div className="">
+                  <p>
+                    服務項目：
+                    <br />
+                    {v.Service}
+                  </p>
+                  <p className="">
+                    進行方式：
+                    <br />
+                    {v.Approach}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         );
       })}
     </>

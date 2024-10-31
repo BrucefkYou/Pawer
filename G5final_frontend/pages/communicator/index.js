@@ -3,13 +3,14 @@ import Pagination from '@/components/pagination/pagination';
 import Banner from '@/components/join/banner/banner';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import PetList from '@/components/pet/pet-list';
+import Image from 'next/image';
 
 export default function communicator(props) {
   return (
     <>
       <div className="PT-list">
         {/* banner */}
-        <Banner bgImgUrl="./pet/images/Banner.jpg" />
+        <Banner title="萌寵揪團聚會" bgImgUrl="/pet/images/Banner.jpg" />
         {/* 主要內容 */}
         <div className="container py-2">
           {/* 麵包屑 */}
@@ -95,19 +96,82 @@ export default function communicator(props) {
           <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
               <div className="col-lg-4">
-                <div className="advertise-img">
-                  <img src="./images/pic/1.png" alt="1" />
-                  <img src="./images/pic/2.png" alt="1" />
-                  <img src="./images/pic/3.png" alt="1" />
-                  <img className="img-none" src="./images/pic/4.png" alt="1" />
-                  <img src="./images/pic/5.png" alt="1" />
-                  <img src="./images/pic/6.png" alt="1" />
-                  <img src="./images/pic/7.png" alt="1" />
-                  <img className="img-none" src="./images/pic/8.png" alt="1" />
-                  <img src="./images/pic/9.png" alt="1" />
-                  <img src="./images/pic/10.png" alt="1" />
-                  <img src="./images/pic/11.png" alt="1" />
-                  <img className="img-none" src="./images/pic/12.png" alt="1" />
+                <div className="advertise-Image">
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/1.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/2.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/3.png"
+                    alt="1"
+                  />
+                  <Image
+                    className="Image-none"
+                    width="100"
+                    height="100"
+                    src="/pet/images/4.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/5.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/6.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/7.png"
+                    alt="1"
+                  />
+                  <Image
+                    className="Image-none"
+                    width="100"
+                    height="100"
+                    src="/pet/images/8.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/9.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/10.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/11.png"
+                    alt="1"
+                  />
+                  <Image
+                    className="Image-none"
+                    width="100"
+                    height="100"
+                    src="/pet/images/12.png"
+                    alt="1"
+                  />
                 </div>
               </div>
               <div className="col-lg-8 mt-3">
