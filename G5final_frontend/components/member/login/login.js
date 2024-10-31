@@ -2,18 +2,8 @@ import React, { use, useState } from 'react';
 import styles from './login.module.scss';
 import Image from 'next/image';
 
-const AuthPage = () => {
+const LoginPage = () => {
   const [Formtype, setFormtype] = useState(2);
-
-  const SignUpForm = () => {
-    setFormtype(1);
-  };
-  const LoginForm = () => {
-    setFormtype(2);
-  };
-  const ForgetPasswordForm = () => {
-    setFormtype(3);
-  };
 
   return (
     <>
@@ -68,7 +58,9 @@ const AuthPage = () => {
           <button
             type="button"
             className="btn btn-link text-warning"
-            onClick={LoginForm}
+            onClick={()=>{
+              setFormtype(2)
+            }}
           >
             已有帳號
           </button>
@@ -136,14 +128,16 @@ const AuthPage = () => {
             <button
               className="btn btn-link text-primary"
               type="button"
-              onClick={SignUpForm}
+              onClick={()=>{
+                setFormtype(1)
+              }}
             >
               註冊帳號
             </button>
             <button
               className="btn btn-link text-primary"
               type="button"
-              onClick={ForgetPasswordForm}
+              onClick={()=>{setFormtype(3)}}
             >
               忘記密碼
             </button>
@@ -210,14 +204,14 @@ const AuthPage = () => {
             <button
               className="btn btn-link text-primary"
               type="button"
-              onClick={SignUpForm}
+              onClick={()=>{setFormtype(1)}}
             >
               註冊帳號
             </button>
             <button
               className="btn btn-link text-primary"
               type="button"
-              onClick={LoginForm}
+              onClick={()=>{setFormtype(2)}}
             >
               回到登入
             </button>
@@ -228,4 +222,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default LoginPage;
