@@ -1,5 +1,9 @@
 .PT-list {
-  /* 搜尋框 */
+  
+  .no-underline {
+  text-decoration: none;
+}
+/* 搜尋框 */
   .pet-searchbar-yen {
     display: flex;
 
@@ -53,7 +57,7 @@
     
     @media (max-width:430px) {
       img{
-        height: 200px;
+        height: 150px;
         width: 100%;
       }
     }
@@ -70,6 +74,13 @@
       .hover-btn {
         display: none;
       }
+      @media (min-width:430px) {
+      br{
+        display: none;
+      }
+      
+
+    }
     }
     .contain-hover {
       display: none;

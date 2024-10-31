@@ -20,7 +20,6 @@ export default function PetList(props) {
         console.log(err);
       }
     };
-
     fetchData();
   }, []);
   return (
@@ -28,29 +27,35 @@ export default function PetList(props) {
       {communicator.map((v, i) => {
         return (
           <Link
-            className="col-lg-4 col-5"
+            className="col-lg-4 col-6 no-underline g-1 g-sm-4"
             href={`/communicator/${v.ID}`}
             key={v.ID}
             passHref
           >
-            <div className=" pet-teachercard-yen position-relative" key={v.ID}>
-              <div className="img-box">
-                <Image
-                  className="imgg"
-                  src={`/pet/images/${v.Img}`}
-                  alt="1"
-                  width={400}
-                  height={300}
-                />
-              </div>
+            <div className="pet-teachercard-yen position-relative" key={v.ID}>
+              <Image
+                className="imgg"
+                src={`/pet/images/${v.Img}`}
+                alt="1"
+                width={400}
+                height={300}
+              />
               <div className="contain">
                 <h4>{v.Name}</h4>
-                <p className="">證書編號：{v.Certificateid}</p>
-                <p className="text">通過日期：{v.CertificateDate}</p>
+                <p className="text">
+                  證書編號：
+                  <br />
+                  {v.Certificateid}
+                </p>
+                <p className="text">
+                  通過日期：
+                  <br />
+                  {v.CertificateDate}
+                </p>
                 <p className="hover-btn">我要預約</p>
               </div>
               <div className="contain-hover">
-                <p className="text-center">Hi, 我是{v.Name}</p>
+                <p className="text-center f">Hi, 我是{v.Name}</p>
                 <div className="">
                   <p>
                     服務項目：
