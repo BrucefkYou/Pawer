@@ -76,7 +76,7 @@ export const CartProvider = ({
     // eslint-disable-next-line
 	}, [cartItems])
   /**
-   * 加入新項目，重覆項目 quantity: quantity + 1
+   * 加入新項目，當購物車裡面有重覆項目時 quantity: quantity + 1
    */
   const addItem = (item) => {
     setCartItems(addOne(cartItems, item));
