@@ -10,7 +10,7 @@
 }
 .PT-alert {
   position: fixed;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 4000;
@@ -41,6 +41,8 @@
       position: absolute;
       right: 10px;
       top: 10px;
+      border:none;
+      background: none;
     }
   }
   .contain {
@@ -56,4 +58,12 @@
     border-radius: 5px;
     color: white;
   }
+}
+@media (max-width:992px) {
+  .PT-alert{
+    .alerttonone{
+    display: none;
+  }
+  }
+  
 }
