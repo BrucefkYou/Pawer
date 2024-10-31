@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 
 export default function Id(props) {
   return (
@@ -6,6 +7,8 @@ export default function Id(props) {
       <div className="PT-detail">
         <div className="container">
           <div className="pet-detail-yen">
+            {/* 麵包屑 */}
+            <Breadcrumbs />
             <div className="row mb-3 d-flex justify-content-center">
               {/* 刊登照片 */}
               <div className="col-lg-6 d-flex avatar-wrapper">
