@@ -59,12 +59,13 @@ export default function JiCard({
             {data.Title}
           </h4>
           <div className="text-end">
-            <button
-              onClick={() => router.push(`./join/${data.ID}`)}
+            <Link
+              href={`./join/${data.ID}`}
+              // onClick={() => router.push(`./join/${data.ID}`)}
               className="btn text-warning p-0"
             >
               查看更多
-            </button>
+            </Link>
           </div>
         </div>
       </div>

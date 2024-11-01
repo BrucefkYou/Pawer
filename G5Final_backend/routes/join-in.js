@@ -7,7 +7,7 @@ const router = express.Router()
 /* GET home page. */
 router.get('/', async function (req, res, next) {
   try {
-    const [rows] = await db2.query('SELECT * FROM `Joinin`') // 確認資料表名稱是否正確
+    const [rows] = await db2.query(`SELECT * FROM Joinin`) // 確認資料表名稱是否正確
     res.json(rows)
   } catch (err) {
     console.error('查詢錯誤：', err)
@@ -19,7 +19,7 @@ router.get('/', async function (req, res, next) {
 router.get('/:id', async function (req, res, next) {
   try {
     // 使用 WHERE 子句來篩選指定 id 的資料
-    const [rows] = await db2.query('SELECT * FROM `Joinin` WHERE id = ?', [
+    const [rows] = await db2.query('SELECT * FROM `Joinin` WHERE ID = ?', [
       req.params.id,
     ])
     // 檢查是否有找到資料
