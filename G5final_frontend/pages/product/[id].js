@@ -12,6 +12,7 @@ export default function Id(props) {
         <div className="container">
           <Breadcrumbs />
         </div>
+        {/* 商品細節內容 */}
         <ProductDetail />
         {/* 評論 */}
         <div className="container mt-5 mb-5">
