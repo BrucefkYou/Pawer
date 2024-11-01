@@ -59,6 +59,7 @@ export default function ProductDetail(props) {
               <div>
                 {Img && (
                   <Image
+                    className="detailimg-rwd"
                     src={`/product/sqlimg/${Img}`}
                     alt={Name}
                     width={510}
@@ -77,6 +78,7 @@ export default function ProductDetail(props) {
                     image.ImageName && ( // 確認 ImageName 有圖才渲染
                       <div className="col" key={index}>
                         <Image
+                          className="detailimg-rwd"
                           src={`/product/sqlimg/${image.ImageName}`}
                           alt={Name}
                           width={112}
