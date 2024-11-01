@@ -35,7 +35,7 @@ export default function Products(props) {
   useEffect(() => {
     fetchData();
   }, []);
-  // 當使用xxx.map(() => {});需要加上return
+  //! 當使用xxx.map(() => {});需要加上return
   // 如果是用xxx.map(() => ());則不需要加上return
   // 兩種方法可以用，但是當今天需要使用條件判斷時，需要用return
   // 如:
@@ -64,6 +64,7 @@ export default function Products(props) {
                   price: product.OriginPrice,
                   img: product.Img,
                   quantity: 1,
+                  checked: '',
                 });
               }}
             >
