@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { BsCamera } from 'react-icons/bs';
 import MemberLayout from '@/components/layout/member-layout';
 Member.getLayout = function getLayout(page) {
@@ -5,6 +6,25 @@ Member.getLayout = function getLayout(page) {
 };
 
 export default function Member() {
+  const [member, setMember] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3005/api/member');
+        if (!response.ok) {
+          throw new Error('網路回應不成功：' + response.status);
+        }
+        const data = await response.json();
+        console.log(data);
+        setMember(data);
+        console.log(member);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <>
       <article className="col-md-9">
@@ -63,7 +83,12 @@ export default function Member() {
                 <label htmlFor="account" className="form-label required">
                   姓名
                 </label>
-                <input type="text" className="form-control" id="account" />
+                <input
+                  type="text"
+                  className="form-control"
+                  id="account"
+                  // value={member[0].Name}
+                />
               </div>
             </div>
             <div className="col-md-6 col-sm-12">
