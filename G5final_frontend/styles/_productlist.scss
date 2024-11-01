@@ -163,6 +163,10 @@
   .right {
     width: 900px;
   }
+  // 去除連結底線
+  .no-underline{
+    text-decoration: none;
+  }
   /* 卡片大小 */
   .card-size {
     width: 15.25rem;

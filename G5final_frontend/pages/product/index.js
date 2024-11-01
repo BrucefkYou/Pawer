@@ -291,7 +291,7 @@ export default function Index(props) {
                 <ProductList />
               </div>
               {/* 頁籤 */}
-              <div className="d-flex justify-content-center align-items-center mt-5">
+              <div className="d-flex justify-content-center align-items-center mt-5 mb-5">
                 <Pagination />
               </div>
             </div>
