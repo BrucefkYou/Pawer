@@ -19,12 +19,13 @@ export default function PetList(props) {
       } catch (err) {
         console.log(err);
       }
+      console.log(communicator);
     };
     fetchData();
   }, []);
   return (
     <>
-      {communicator.map((v, i) => {
+      {communicator.map((v) => {
         return (
           <Link
             className="col-lg-4 col-6 no-underline g-1 g-sm-4"

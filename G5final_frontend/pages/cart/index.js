@@ -1,12 +1,66 @@
 import React, { useState, useEffect } from 'react';
+import { useCart } from '@/hooks/use-cart/use-cart-state';
 import List from '@/components/cart/list';
 
 export default function Cart(props) {
-  const [selectedCoupon, setSelectedCoupon] = useState(''); // 初始值設為空字串
+  const { cart } = useCart();
+  const [discountPrice, setDiscountPrice] = useState(10); // 折抵金額，初始值為0
+  const [seletctedDiscount, setSelectedDiscount] = useState(''); // 選擇的優惠券，初始值設為空字串
+  const [discount, setDiscount] = useState(); // 優惠券數據
 
-  const handleCouponChange = (e) => {
-    setSelectedCoupon(e.target.value);
+  const getDiscount = async () => {
+    try {
+      const disCountData = await fetch(
+        'http://localhost:3005/api/discount/getValidDiscount'
+      );
+      if (!disCountData.ok) {
+        throw new Error('網路回應不成功：' + disCountData.status);
+      }
+      const disCount = await disCountData.json();
+      setDiscount(disCount);
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+  // 計算折扣金額
+  // 計算折扣金額
+  const calculateDiscountPrice = () => {
+    if (seletctedDiscount) {
+      if (seletctedDiscount.CalculateType === 1) {
+        // 百分比折扣，僅保存折扣金額
+        setDiscountPrice(
+          // cart.totalPrice * Math.round(Number(seletctedDiscount.Value) / 100)
+          Math.round(
+            cart.totalPrice * (1 - Number(seletctedDiscount.Value) / 100)
+          )
+        );
+      } else if (seletctedDiscount.CalculateType === 2) {
+        // 固定金額折扣
+        setDiscountPrice(Number(seletctedDiscount.Value));
+      }
+    } else {
+      setDiscountPrice(0); // 如果沒有選擇優惠券，折扣金額為 0
+    }
+  };
+
+  // 當選擇優惠券發生變化時計算折扣
+  useEffect(() => {
+    calculateDiscountPrice();
+    console.log(seletctedDiscount);
+  }, [seletctedDiscount, cart.totalPrice]);
+
+  // 處理選擇優惠券
+  const handleCouponChange = (e) => {
+    const selected = discount.find(
+      (item) => item.ID === parseInt(e.target.value)
+    );
+    setSelectedDiscount(selected);
+  };
+
+  useEffect(() => {
+    getDiscount();
+  }, []);
   return (
     <>
       <div className="cart">
@@ -48,17 +102,26 @@ export default function Cart(props) {
                       className="bg-main-color btn-coupon-size border-0 text-white"
                       name="coupon"
                       id="coupon"
-                      value={selectedCoupon}
+                      value={seletctedDiscount?.ID || ''}
                       onChange={handleCouponChange}
                     >
                       <option value="">選擇優惠券</option>
-                      <option value="會員註冊禮">會員註冊禮</option>
-                      <option value="10週年優惠">10週年優惠</option>
-                      <option value="雙11周年慶">雙11周年慶</option>
+                      {discount
+                        ? discount.map((item) => {
+                            if (item.ConditionMinValue <= cart.totalPrice) {
+                              return (
+                                <option key={item.ID} value={item.ID}>
+                                  {item.Name}
+                                </option>
+                              );
+                            }
+                          })
+                        : '沒有符合條件的優惠券'}
                     </select>
                     {/* <button type="button"
 									class="btn btn-sm bg-main-color btn-coupon-size border-0 text-white">選擇優惠券</button> */}
                   </div>
+                  {/* 分頁功能，目前暫時隱藏 */}
                   <div className="col mt-lg-4 justify-content-end cart-page">
                     <button type="button" className="btn btn-sm">
                       <svg
@@ -117,20 +180,24 @@ export default function Cart(props) {
                 <div className="d-flex flex-column w100per">
                   <div className="cart-check d-flex justify-content-between mb-4">
                     <div className="total-price">總金額</div>
-                    <div className="price">NT$800</div>
+                    <div className="price">NT$ {cart.totalPrice}</div>
                   </div>
                   <div className="cart-check d-flex justify-content-between mb-4">
                     <div className="total-price">折抵金額</div>
-                    <div className="price">NT$160</div>
+                    <div className="price">NT$ {discountPrice}</div>
                   </div>
                   <div className="cart-check d-flex justify-content-between mb-4">
                     <div className="total-price">優惠券</div>
-                    <div className="price">會員註冊禮</div>
+                    <div className="price">
+                      {seletctedDiscount?.Name || '沒有選擇優惠券'}
+                    </div>
                   </div>
                   <hr className="mb-4" />
                   <div className="cart-check d-flex justify-content-between mb-4">
-                    <div className="total-price">折抵金額</div>
-                    <div className="price">NT$640</div>
+                    <div className="total-price">結帳金額</div>
+                    <div className="price">
+                      NT$ {Math.max(0, cart.totalPrice - discountPrice)}
+                    </div>
                   </div>
                   <div className="set-middle">
                     <button

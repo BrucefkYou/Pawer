@@ -1,0 +1,27 @@
+.blog-card {
+    width: 367px;
+    height: 540px;
+    overflow: hidden;
+
+    .card-image {
+        overflow: hidden;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 16px 30px 30px 30px;
+        font-size: 14px;
+
+    }
+
+    .card-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    p {
+        border-radius: 2px;
+        line-height: 26px;
+    }
+}

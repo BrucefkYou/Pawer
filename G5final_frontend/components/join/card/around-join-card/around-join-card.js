@@ -37,7 +37,7 @@ export default function AroundJoinCard(props) {
                   width={100}
                   height={100}
                   className="object-fit-cover"
-                  src=""
+                  src="/#"
                   alt="1"
                 />
               </div>
