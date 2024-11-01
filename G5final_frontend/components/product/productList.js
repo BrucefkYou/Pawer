@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function ProductList(props) {
   const [products, setProducts] = useState([]);
@@ -26,7 +27,11 @@ export default function ProductList(props) {
     <>
       {products.map((pd) => {
         return (
-          <div className="col card-layout" key={pd.ID}>
+          <Link
+            className="col card-layout no-underline"
+            key={pd.ID}
+            href={`/product/${pd.ID}`}
+          >
             <div className="card shadow card-size">
               <Image
                 className="card-img-top card-img-topme"
@@ -73,7 +78,7 @@ export default function ProductList(props) {
                 <div className="new-nt">{'NT$' + pd.OriginPrice}</div>
               </div>
             </div>
-          </div>
+          </Link>
         );
       })}
     </>
