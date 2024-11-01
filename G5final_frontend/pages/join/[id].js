@@ -14,7 +14,7 @@ import {
 export default function JiDetail(props) {
   return (
     <>
-      <Banner title="萌寵揪團聚會" bgImgUrl="/join/banner-jism.jpg" />
+      <Banner bgImgUrl="/join/banner-jism.jpg" ImgCover="cover" />
       <div className="container ji-detail-container">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">

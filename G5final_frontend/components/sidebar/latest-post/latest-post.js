@@ -14,7 +14,7 @@ const LatestCard = () => {
         content={
           <div className={styles['latest-content']}>
             <div className={styles['latest-cover-container']}>
-              <Image src="" alt="Latest Cover" fill />
+              <Image src="/#" alt="Latest Cover" fill />
             </div>
             <div className={styles['card-content']}>
               <span>
