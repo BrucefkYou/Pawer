@@ -46,7 +46,7 @@ export default function ProductDetail(props) {
     return <p>Loading...</p>;
   }
   // 解構資料
-  const { Name, Img, OriginPrice, Stock, Info, ProductSummary } = fetchOne;
+  const { Name, Img, SalePrice, Stock, Info, ProductSummary } = fetchOne;
   return (
     <>
       {/* 商品細節 */}
@@ -134,7 +134,7 @@ export default function ProductDetail(props) {
                 <div className="col ">
                   <form action="true">
                     <div>
-                      <p className="detail-nt">NT${OriginPrice}</p>
+                      <p className="detail-nt">NT${SalePrice}</p>
                     </div>
                     <div className="d-flex align-items-star detail-buy">
                       <div>
