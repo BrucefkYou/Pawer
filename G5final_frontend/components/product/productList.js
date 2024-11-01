@@ -15,7 +15,12 @@ export default function ProductList(props) {
           throw new Error('網路回應不成功：' + response.status);
         }
         const data = await response.json();
-        setProducts(data);
+        // 過濾掉image資料表重複的ProductID
+        const repeatID = data.filter(
+          (product, index, repeat) =>
+            index === repeat.findIndex((p) => p.ID === product.ID)
+        );
+        setProducts(repeatID);
       } catch (err) {
         console.log(err);
       }
@@ -29,7 +34,7 @@ export default function ProductList(props) {
         return (
           <Link
             className="col card-layout no-underline"
-            key={pd.ID}
+            key={`${pd.ID}-${pd.Name}`}
             href={`/product/${pd.ID}`}
           >
             <div className="card shadow card-size">
