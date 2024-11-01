@@ -2,7 +2,7 @@ import React from 'react';
 import style from '@/components/join/banner/banner.module.scss';
 import { useRouter } from 'next/router';
 
-export default function Banner({ bgImgUrl = '' }) {
+export default function Banner({ bgImgUrl = '', ImgCover = '' }) {
   const router = useRouter();
   const menuItems = [
     { id: 1, title: '商品', href: '/product' },
@@ -19,7 +19,10 @@ export default function Banner({ bgImgUrl = '' }) {
   return (
     <div
       className={`${style['ji-banner']} text-center`}
-      style={{ backgroundImage: `url(${bgImgUrl})` }}
+      style={{
+        backgroundImage: `url(${bgImgUrl})`,
+        backgroundSize: `${ImgCover}`,
+      }}
     >
       {/* 顯示 pageTitle 或明細頁標題 */}
       <h2 className={`${style['banner-title']}`}>

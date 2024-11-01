@@ -3,15 +3,16 @@ import Image from 'next/image';
 import JoinCard from '@/components/join/card/join-card/join-card';
 import SearchBar from '@/components/sidebar/search/search-bar';
 import LatestCard from '@/components/sidebar/latest-post/latest-post';
-import TagCard from '@/components/sidebar/tags/tags';
+import StatusCard from '@/components/sidebar/status/status';
 import JiCreateCta from '@/components/join/ji-create-cta/ji-create-cta';
+import SelectDate from '@/components/sidebar/select-date/select-date';
 import Pagination from '@/components/pagination/pagination';
 import Banner from '@/components/join/banner/banner';
 
 export default function Join() {
   return (
     <>
-      <Banner title="萌寵揪團聚會" bgImgUrl="/join/banner-jism.jpg" />
+      <Banner bgImgUrl="/join/banner-jism.jpg" ImgCover="cover" />
       <div className="container ji-list-container px-3">
         {/* <p className="breadcrumb">首頁/活動</p> */}
         <nav aria-label="breadcrumb">
@@ -33,11 +34,14 @@ export default function Join() {
             <div className="mb-4">
               <JiCreateCta />
             </div>
-            <div className="mb-4 d-none d-md-block">
-              <LatestCard />
+            <div className="mb-4">
+              <SelectDate />
             </div>
             <div className=" mb-4 d-none d-md-block">
-              <TagCard />
+              <StatusCard />
+            </div>
+            <div className="mb-4 d-none d-md-block">
+              <LatestCard />
             </div>
           </aside>
           <div className="col-md-8 flex-shrink-1">
