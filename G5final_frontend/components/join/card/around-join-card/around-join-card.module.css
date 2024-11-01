@@ -1,0 +1,14 @@
+.ji-around-card {
+  max-width: 350px;
+}
+
+.card-title-mg {
+  line-height: 30px;
+}
+
+.ji-img {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  background-color: #5f7ca9;
+}/*# sourceMappingURL=around-join-card.module.css.map */

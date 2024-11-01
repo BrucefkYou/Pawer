@@ -27,8 +27,10 @@
 @import "./styles/join-edit.scss";
 
 // blog
-@import "./styles/_bl-create.scss";
+@import "./styles/_bl-create";
 @import "./styles/bl-edit";
+@import "./styles/bl-list";
+
 
 // pet-communicator
 @import "./styles/p-alert";

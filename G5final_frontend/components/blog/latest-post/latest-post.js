@@ -1,16 +1,15 @@
-import React from 'react'
-import styles from './latest.module.scss'
-import Image from 'next/image'
-import { BsHeart, BsCalendar2Event } from 'react-icons/bs'
-import SideBarCard from '@/components/sidebar/sidebar-card/sidebar-card'
-// import HeartIcon from '@/components/icons/click-like/heart-icon'
+import React from 'react';
+import styles from './latest.module.scss';
+import Image from 'next/image';
+import { BsHeart, BsCalendar2Event } from 'react-icons/bs';
+import SideBarCard from '@/components/sidebar/sidebar-card/sidebar-card';
 
 export default function LatestCard() {
   return (
     <div className={`${styles['latest-card']}`}>
       <SideBarCard
         title="最新發佈"
-        img="/image/pawButton.png"
+        img="/image/"
         content={
           <div className={styles['latest-content']}>
             <div className={styles['latest-cover-container']}>
@@ -23,15 +22,10 @@ export default function LatestCard() {
               <div className={styles['bottom-section']}>
                 <div className={styles['date-section']}>
                   <BsCalendar2Event />
-                  {/* <Image
-                    src="/image/calendar-days-regular.svg"
-                    alt="Calendar"
-                    width={12}
-                    height={12}
-                  /> */}
+
                   <div className={styles.date}>2024/11/11</div>
                 </div>
-                {/* <HeartIcon /> */}
+
                 <div className={styles['count-section']}>
                   <BsHeart />
                   <div className={styles.count}>123</div>
@@ -42,5 +36,5 @@ export default function LatestCard() {
         }
       />
     </div>
-  )
+  );
 }

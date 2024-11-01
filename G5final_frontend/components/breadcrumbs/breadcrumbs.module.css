@@ -1,0 +1,8 @@
+.pt-breadcrumb a {
+  color: #646464;
+}
+.pt-breadcrumb .active {
+  text-decoration: none;
+  pointer-events: none;
+  color: #22355c;
+}/*# sourceMappingURL=breadcrumbs.module.css.map */
