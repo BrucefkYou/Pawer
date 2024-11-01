@@ -1,75 +1,9 @@
 .PT-list {
-  /* banner */
-  .pet-banner-yen {
-    position: relative;
-
-    img {
-      object-fit: cover;
-      object-position: 50% 75%;
-      width: 100%;
-      height: 300px;
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      /* 黑色，透明度 50% */
-      z-index: 1;
-    }
-
-    .banner-text {
-      position: absolute;
-      top: 50%;
-      /* 垂直居中 */
-      left: 50%;
-      /* 水平居中 */
-      transform: translate(-50%, -50%);
-      /* 調整居中 */
-      color: white;
-      font-size: 40px;
-      z-index: 2;
-      line-height: 100px;
-
-      &::after {
-        content: "";
-        display: block;
-        width: 10px;
-        /* 設定底線的長度 */
-        height: 3px;
-        /* 底線的高度 */
-        background-color: white;
-        /* 底線顏色 */
-        margin: 10px auto 0;
-        /* 垂直與水平居中 */
-      }
-    }
-  }
-
-  /* 麵包屑 */
-  .pet-crumb-yen {
-    a {
-      color: #b1b1b1;
-    }
-
-    a:link {
-      text-decoration: none;
-    }
-
-    a:hover {
-      color: #253559;
-    }
-
-    a.active {
-      color: #253559;
-    }
-  }
-
-  /* 搜尋框 */
+  
+  .no-underline {
+  text-decoration: none;
+}
+/* 搜尋框 */
   .pet-searchbar-yen {
     display: flex;
 
@@ -119,44 +53,35 @@
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
-
-    img {
-      object-fit: cover;
-      width: 100%;
+    
+    
+    @media (max-width:430px) {
+      img{
+        height: 150px;
+        width: 100%;
+      }
     }
 
     .contain {
       padding: 10px;
       text-align: center;
       justify-content: center;
-
       h4,
       p {
         display: flex;
         justify-content: center;
       }
-
-      @media (max-width: 992px) {
-        p {
-          display: none;
-        }
-      }
-
-      br {
-        display: none;
-      }
-
-      @media (max-width: 992px) {
-        br {
-          display: block;
-        }
-      }
-
       .hover-btn {
         display: none;
       }
-    }
+      @media (min-width:430px) {
+      br{
+        display: none;
+      }
+      
 
+    }
+    }
     .contain-hover {
       display: none;
       position: absolute;
@@ -165,29 +90,9 @@
       padding: 20px;
       color: white;
       overflow: hidden;
-
-      @media (min-width: 992px) and (max-width: 1400px) {
-        p {
-          margin-bottom: 0px;
-        }
-      }
-
-      @media (max-width: 768px) {
-        p {
-          margin-bottom: 0px;
-        }
-
-        .none-2 {
-          display: none;
-        }
-      }
-
-      @media (max-width: 1200px) {
-        .none-1 {
-          display: none;
-        }
-      }
     }
+@media (min-width:431px) {
+  
 
     &:hover {
       .contain-hover {
@@ -200,20 +105,18 @@
         opacity: 0.8;
         /* 控制透明度，1 是完全不透明，0 是完全透明 */
       }
-
       .contain {
         background: #f4b13e;
-
         .text {
           display: none;
         }
       }
-
       .hover-btn {
         display: block;
         color: white;
       }
     }
+  }
   }
 
   /* 溝通師廣告 */
