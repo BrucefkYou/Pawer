@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Pagination from '@/components/pagination/pagination';
 import Banner from '@/components/join/banner/banner';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import PetList from '@/components/pet/pet-list';
 import Image from 'next/image';
 import { usePagination } from '@/hooks/usePagination';
 import { PerPageDom } from '@/components/PerPageDom';
