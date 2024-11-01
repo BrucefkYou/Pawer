@@ -46,7 +46,7 @@ export default function JoinCard() {
     <>
       {joinin.map((data) => (
         <JiCard
-          key={data.id}
+          key={data.ID}
           iconfillcolor="#f4b13e"
           data={data}
           handleToggleFav={handleToggleFav}

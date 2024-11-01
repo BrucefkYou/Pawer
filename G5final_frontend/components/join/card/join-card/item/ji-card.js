@@ -13,55 +13,61 @@ export default function JiCard({
 }) {
   const router = useRouter();
   return (
-    <div className={`card shadow ${styles['ji-card']}`}>
-      <Image
-        className={`${styles['card-image']}`}
-        width={367}
-        height={321}
-        src={'/join/t1.jpg'}
-        alt={data.Title}
-      />
-      <div className={`card-body ${styles['card-body']}`}>
-        <div className="d-flex justify-content-between">
-          <div
-            className={`text-secondary d-flex justify-content-start column-gap-2 ${styles.status}`}
-          >
-            <p className="bg-warning px-2 mb-2 rounded-1">{data.City}</p>
-            <p className="bg-primary px-2 mb-2 rounded-1">{data.stylestatus}</p>
-            <p className="text-body-tertiary mb-2">
-              <BsPersonPlusFill className="me-1" />
-              <span className="align-middle">
-                {data.participants} 10/ {data.ParticipantLimit}
-              </span>
-            </p>
+    <>
+      <div className={`card shadow ${styles['ji-card']}`}>
+        <Image
+          className={`${styles['card-image']}`}
+          width={367}
+          height={321}
+          src={'/join/t1.jpg'}
+          alt={data.Title}
+        />
+        <div className={`card-body ${styles['card-body']}`}>
+          <div className="d-flex justify-content-between">
+            <div
+              className={`text-secondary d-flex justify-content-start column-gap-2 ${styles.status}`}
+            >
+              <p className="bg-warning px-2 mb-2 rounded-1">{data.City}</p>
+              <p className="bg-primary px-2 mb-2 rounded-1">
+                {data.stylestatus}
+              </p>
+              <p className="text-body-tertiary mb-2">
+                <BsPersonPlusFill className="me-1" />
+                <span className="align-middle">
+                  {data.participants} 10/ {data.ParticipantLimit}
+                </span>
+              </p>
+            </div>
+            <div
+              type="button"
+              className={`text-body-tertiary  ${styles['colicon']}`}
+            >
+              <ColIcon
+                color={`${iconfillcolor}`}
+                id={data.ID}
+                fav={data.fav}
+                handleToggleFav={handleToggleFav}
+              />
+            </div>
           </div>
-          <div
-            type="button"
-            className={`text-body-tertiary  ${styles['colicon']}`}
+          <p className="card-text mb-4 text-body-tertiary">
+            {data.StartTime}-{data.EndTime}
+          </p>
+          <h4
+            className={`card-title text-primary mb-4 ${styles['card-title']}`}
           >
-            <ColIcon
-              color={`${iconfillcolor}`}
-              id={data.ID}
-              fav={data.fav}
-              handleToggleFav={handleToggleFav}
-            />
+            {data.Title}
+          </h4>
+          <div className="text-end">
+            <button
+              onClick={() => router.push(`./join/${data.ID}`)}
+              className="btn text-warning p-0"
+            >
+              查看更多
+            </button>
           </div>
-        </div>
-        <p className="card-text mb-4 text-body-tertiary">
-          {data.StartTime}-{data.EndTime}
-        </p>
-        <h4 className={`card-title text-primary mb-4 ${styles['card-title']}`}>
-          {data.Title}
-        </h4>
-        <div className="text-end">
-          <button
-            onClick={() => router.push(`./join/${data.ID}`)}
-            className="btn text-warning p-0"
-          >
-            查看更多
-          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }

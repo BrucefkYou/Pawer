@@ -10,8 +10,8 @@ export default function SelectDate(props) {
         img={pawButton}
         content={
           <div className="d-flex justify-content-between">
-            <input className="text-body-tertiary" type="date" />-
-            <input className="text-body-tertiary" type="date" />
+            <input className="flex-fill text-body-tertiary" type="date" />-
+            <input className="flex-fill text-body-tertiary" type="date" />
           </div>
         }
       />
