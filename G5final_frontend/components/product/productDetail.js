@@ -71,16 +71,20 @@ export default function ProductDetail(props) {
           {/* 輪播點選圖 RWD 圖片隱藏 換成箭頭輪播*/}
           <div className="row mt-3 detail-rwd-none">
             <div className="col d-flex detail-left-turn">
-              {productImages.map((image, index) => (
-                <div className="col" key={index}>
-                  <Image
-                    src={`/product/sqlimg/${image.ImageName}`}
-                    alt={Name}
-                    width={112}
-                    height={138}
-                  />
-                </div>
-              ))}
+              {productImages.length > 0 &&
+                productImages.map(
+                  (image, index) =>
+                    image.ImageName && ( // 確認 ImageName 有圖才渲染
+                      <div className="col" key={index}>
+                        <Image
+                          src={`/product/sqlimg/${image.ImageName}`}
+                          alt={Name}
+                          width={112}
+                          height={138}
+                        />
+                      </div>
+                    )
+                )}
             </div>
           </div>
         </div>
