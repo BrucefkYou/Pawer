@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
@@ -10,6 +11,7 @@ export default function ProductDetail(props) {
   const myId = router.query.id;
   // 抓取單筆物件存放容器
   const [fetchOne, setFetchOne] = useState([]);
+  const [fetchData, setFetchData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,6 +22,7 @@ export default function ProductDetail(props) {
           throw new Error('網路回應不成功：' + response.status);
         }
         const data = await response.json();
+        setFetchData(data);
         // 過濾出符合的資料
         const idData = data.find((pd) => pd.ID == myId);
         // 設定進容器
@@ -33,13 +36,17 @@ export default function ProductDetail(props) {
       fetchData();
     }
   }, [myId]);
+  // 篩選image資料表ProductID為相同product資料表ID的資訊
+  const productImages = fetchData.filter(
+    (pd) => pd.ProductID === fetchOne.ProductID
+  );
 
   // 先確保有資料在解構
   if (!fetchOne) {
     return <p>Loading...</p>;
   }
   // 解構資料
-  const { Name, Img, OriginPrice, Stock, Info } = fetchOne;
+  const { Name, Img, OriginPrice, Stock, Info, ProductSummary } = fetchOne;
   return (
     <>
       {/* 商品細節 */}
@@ -50,45 +57,30 @@ export default function ProductDetail(props) {
           <div className="row">
             <div className="col">
               <div>
-                <img
-                  className="detail-left-img "
-                  src="../product/NU4Petimage/NU4Petimage01/C1.jpg"
-                  alt="圖片"
-                />
+                {Img && (
+                  <Image
+                    src={`/product/sqlimg/${Img}`}
+                    alt={Name}
+                    width={510}
+                    height={456}
+                  />
+                )}
               </div>
             </div>
           </div>
           {/* 輪播點選圖 RWD 圖片隱藏 換成箭頭輪播*/}
           <div className="row mt-3 detail-rwd-none">
             <div className="col d-flex detail-left-turn">
-              <div className="col">
-                <img
-                  className="detail-left-img"
-                  src="../product/NU4Petimage/NU4Petimage01/P2.jpg"
-                  alt="1"
-                />
-              </div>
-              <div className="col">
-                <img
-                  className="detail-left-img"
-                  src="../product/NU4Petimage/NU4Petimage01/P3.jpg"
-                  alt="1"
-                />
-              </div>
-              <div className="col">
-                <img
-                  className="detail-left-img"
-                  src="../product/NU4Petimage/NU4Petimage01/P3.jpg"
-                  alt="1"
-                />
-              </div>
-              <div className="col">
-                <img
-                  className="detail-left-img"
-                  src="../product/NU4Petimage/NU4Petimage01/P5.jpg"
-                  alt="1"
-                />
-              </div>
+              {productImages.map((image, index) => (
+                <div className="col" key={index}>
+                  <Image
+                    src={`/product/sqlimg/${image.ImageName}`}
+                    alt={Name}
+                    width={112}
+                    height={138}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -180,11 +172,15 @@ export default function ProductDetail(props) {
       {/* 商品內容 */}
       <div className="container mt-5">
         <div className="d-flex justify-content-center pd-content-me5">
-          <img
-            className="pd-detail-img"
-            src="../product/NU4Petimage/NU4Petimage01/NU4Petimage01.png"
-            alt="1"
-          />
+          {Img && (
+            <Image
+              className="productdetail-img"
+              src={`/product/sqlimg/${ProductSummary}`}
+              alt={Name}
+              width={998}
+              height={175}
+            />
+          )}
         </div>
       </div>
     </>
