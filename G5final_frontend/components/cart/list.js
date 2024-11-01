@@ -30,7 +30,7 @@ export default function List(props) {
                 // layout="responsive"
                 // objectFit="cover"
                 className="product-svg"
-                src={LOGO}
+                src={`@/public/product/sqlimg/${item.Img}`}
               />
               {/* svg */}
             </div>

@@ -62,6 +62,7 @@ export default function Products(props) {
                   id: product.ID,
                   name: product.Name,
                   price: product.OriginPrice,
+                  img: product.Img,
                   quantity: 1,
                 });
               }}
