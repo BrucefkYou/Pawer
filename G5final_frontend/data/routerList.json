@@ -12,7 +12,7 @@
   {
     "id": 3,
     "title": "商品明細",
-    "href": "/product/1"
+    "href": "/product/[id]"
   },
   {
     "id": 4,
@@ -37,7 +37,7 @@
   {
     "id": 8,
     "title": "部落格明細",
-    "href": "/blog/1"
+    "href": "/blog/[id]"
   },
   {
     "id": 9,
@@ -47,7 +47,7 @@
   {
     "id": 10,
     "title": "部落格編輯",
-    "href": "/blog/edit/1"
+    "href": "/blog/edit/[id]"
   },
   {
     "id": 11,
@@ -62,7 +62,7 @@
   {
     "id": 13,
     "title": "活動明細",
-    "href": "/join/1"
+    "href": "/join/[id]"
   },
   {
     "id": 14,
@@ -72,7 +72,7 @@
   {
     "id": 15,
     "title": "活動編輯",
-    "href": "/join/edit/1"
+    "href": "/join/edit/[id]"
   },
   {
     "id": 16,
@@ -87,7 +87,7 @@
   {
     "id": 18,
     "title": "寵物溝通師明細",
-    "href": "/communicator/1"
+    "href": "/communicator/[id]"
   },
   {
     "id": 19,
@@ -107,7 +107,7 @@
   {
     "id": 22,
     "title": "訂單明細",
-    "href": "/member/order/detail/1"
+    "href": "/member/order/detail/[id]"
   },
   {
     "id": 23,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '@/components/member/coupon.module.scss';
+import styles from '@/components/member/coupon/coupon.module.scss';
 import Image from 'next/image';
 
 export default function Coupon(props) {
@@ -11,7 +11,7 @@ export default function Coupon(props) {
           width={385}
           height={165}
           className="coupon"
-          alt="1"
+          alt=""
         />
         <div className={styles['coupon-content']}>
           <div>DISCOUNT COUPON</div>

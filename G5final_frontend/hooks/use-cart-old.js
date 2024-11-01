@@ -1,3 +1,5 @@
+//! 這隻是舊的，他是老師教學用的範例。新的叫做use-cart-state.js
+//TODO 暫時將它保留起來，以後再看他跟老師提供的那隻有什麼區別
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { useRouter } from 'next/router';
 

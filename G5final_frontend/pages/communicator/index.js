@@ -2,25 +2,19 @@ import React, { useState, useEffect } from 'react';
 import Pagination from '@/components/pagination/pagination';
 import Banner from '@/components/join/banner/banner';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import PetList from '@/components/pet/pet-list';
+import Image from 'next/image';
 
-export default function list(props) {
+export default function communicator(props) {
   return (
     <>
       <div className="PT-list">
         {/* banner */}
-        <Banner bgImgUrl="./images/pic/Banner.jpg" />
+        <Banner title="萌寵揪團聚會" bgImgUrl="/pet/images/Banner.jpg" />
         {/* 主要內容 */}
         <div className="container py-2">
           {/* 麵包屑 */}
           <Breadcrumbs />
-          {/* <div className="row py-2">
-            <div className="pet-crumb-yen">
-              <a href="">首頁</a>/
-              <a className="active" href="">
-                寵物溝通師列表
-              </a>
-            </div>
-          </div> */}
           {/* 搜尋框 */}
           <div className="row py-2 justify-content-center">
             <div className="col-8">
@@ -88,332 +82,9 @@ export default function list(props) {
               </svg>
             </button>
           </div>
-          {/* 師資列表(js要刪) */}
           <div className="row d-flex justify-content-center">
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-5 pet-teachercard-yen position-relative">
-              <img
-                className="hover-img"
-                src="./images/pic/teacher.png"
-                alt="1"
-              />
-              <div className="contain">
-                <h4>IVY</h4>
-                <p className="text">
-                  服務項目： <br />
-                  一般溝通、遠距靈氣。
-                </p>
-                <p className="hover-btn">我要預約</p>
-              </div>
-              <div className="contain-hover">
-                <p className="text-center">Hi, 我是IVY</p>
-                <div className="">
-                  <p>服務項目：一般溝通、遠距靈氣</p>
-                  <p className="none-2">進行方式：僅遠距離溝通使用Line通話</p>
-                  <p className="none-2">
-                    預約費用：一般溝通：TWD 1500/hr遠距靈氣：TWD 500/20min
-                  </p>
-                  <p className="none-1">證書編號：動溝證字第002006002</p>
-                  <p className="none-1">通過日期：2020.06</p>
-                </div>
-              </div>
-            </div>
+            {/* 師資列表*/}
+            <PetList />
           </div>
           {/* 分頁 */}
           <div className="d-flex justify-content-center">
@@ -425,19 +96,82 @@ export default function list(props) {
           <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
               <div className="col-lg-4">
-                <div className="advertise-img">
-                  <img src="./images/pic/1.png" alt="1" />
-                  <img src="./images/pic/2.png" alt="1" />
-                  <img src="./images/pic/3.png" alt="1" />
-                  <img className="img-none" src="./images/pic/4.png" alt="1" />
-                  <img src="./images/pic/5.png" alt="1" />
-                  <img src="./images/pic/6.png" alt="1" />
-                  <img src="./images/pic/7.png" alt="1" />
-                  <img className="img-none" src="./images/pic/8.png" alt="1" />
-                  <img src="./images/pic/9.png" alt="1" />
-                  <img src="./images/pic/10.png" alt="1" />
-                  <img src="./images/pic/11.png" alt="1" />
-                  <img className="img-none" src="./images/pic/12.png" alt="1" />
+                <div className="advertise-Image">
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/1.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/2.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/3.png"
+                    alt="1"
+                  />
+                  <Image
+                    className="Image-none"
+                    width="100"
+                    height="100"
+                    src="/pet/images/4.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/5.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/6.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/7.png"
+                    alt="1"
+                  />
+                  <Image
+                    className="Image-none"
+                    width="100"
+                    height="100"
+                    src="/pet/images/8.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/9.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/10.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/11.png"
+                    alt="1"
+                  />
+                  <Image
+                    className="Image-none"
+                    width="100"
+                    height="100"
+                    src="/pet/images/12.png"
+                    alt="1"
+                  />
                 </div>
               </div>
               <div className="col-lg-8 mt-3">
