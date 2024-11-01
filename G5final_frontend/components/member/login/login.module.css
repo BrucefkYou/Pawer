@@ -1,0 +1,55 @@
+.auth-container {
+  width: 80%;
+  box-shadow: 0px 4px 7.5px 7px rgba(40, 55, 90, 0.2);
+  border-radius: 8px;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.signup-form {
+  background-color: #fff;
+  color: #F4B13E;
+}
+.signup-form input {
+  border-color: #F4B13E;
+}
+.signup-form input::-moz-placeholder {
+  color: #F4B13E;
+}
+.signup-form input::placeholder {
+  color: #F4B13E;
+}
+
+.btn-verify {
+  color: #fff;
+  background-color: #F4B13E;
+}
+
+.login-form {
+  color: #22355C;
+}
+.login-form input {
+  border-color: #22355C;
+}
+.login-form input::-moz-placeholder {
+  color: #22355C;
+}
+.login-form input::placeholder {
+  color: #22355C;
+}
+
+.pic {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.btn-custom {
+  padding: 10px;
+}
+
+.btn-google {
+  position: absolute;
+  top: 7px;
+  left: 17px;
+}/*# sourceMappingURL=login.module.css.map */

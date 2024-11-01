@@ -1,0 +1,13 @@
+.blog-date{
+        color: hsla(0, 0%, 0%, 0.6);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 16px;
+
+    .date {
+        margin-bottom: 0;
+        font-size: 12px;
+        line-height: 0px;
+    }
+}
