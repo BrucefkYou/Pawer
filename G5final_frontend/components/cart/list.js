@@ -4,8 +4,18 @@ import Image from 'next/image';
 import LOGO from '@/public/LOGO.svg';
 import { MdCancel } from 'react-icons/md';
 export default function List(props) {
+  const setChecked = (e) => {};
   // 引入購物車相關的狀態與方法
-  const { cart, items, decrement, increment, removeItem } = useCart();
+  const { cart, items, decrement, increment, removeItem, updateItem } =
+    useCart();
+
+  // 更新商品的選擇狀態
+  const handleCheckboxChange = (id) => {
+    const item = items.find((item) => item.id === id);
+    const updatedItem = { ...item, checked: !item.checked };
+    updateItem(updatedItem);
+  };
+
   useEffect(() => {
     console.log(items);
   }, []);
@@ -21,7 +31,11 @@ export default function List(props) {
               key={item.id}
             >
               <div className="col-lg-2 col-4 gap-2 set-middle d-flex justify-content-center align-items-center p-1">
-                <input type="checkbox" checked={item.checked} />
+                <input
+                  type="checkbox"
+                  checked={item.checked || ''}
+                  onChange={() => handleCheckboxChange(item.id)}
+                />
                 {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image
                   alt="產品圖片"

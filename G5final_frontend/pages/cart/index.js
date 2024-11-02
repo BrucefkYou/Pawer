@@ -7,7 +7,11 @@ export default function Cart(props) {
   const [discountPrice, setDiscountPrice] = useState(10); // 折抵金額，初始值為0
   const [seletctedDiscount, setSelectedDiscount] = useState(''); // 選擇的優惠券，初始值設為空字串
   const [discount, setDiscount] = useState(); // 優惠券數據
+  const [checkPrice, setCheckPrice] = useState(0); // 結帳金額
 
+  const setCheckItem = () => {
+    const checkedItems = cart.items.filter((item) => item.checked === true);
+  };
   const getDiscount = async () => {
     try {
       const disCountData = await fetch(
@@ -32,7 +36,7 @@ export default function Cart(props) {
         setDiscountPrice(
           // cart.totalPrice * Math.round(Number(seletctedDiscount.Value) / 100)
           Math.round(
-            cart.totalPrice * (1 - Number(seletctedDiscount.Value) / 100)
+            checkPrice * (1 - Number(seletctedDiscount.Value) / 100)
           )
         );
       } else if (seletctedDiscount.CalculateType === 2) {
@@ -50,6 +54,13 @@ export default function Cart(props) {
     console.log(seletctedDiscount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seletctedDiscount, cart.totalPrice]);
+
+  // 當購物車內容有變化時，計算選中商品的總價
+  useEffect(() => {
+    const checkedItems = cart.items.filter((item) => item.checked === true);
+    setCheckPrice(checkedItems.reduce((total, item) => total + item.quantity * item.price, 0));
+    console.log(checkPrice);
+  }, [cart]);
 
   // 處理選擇優惠券
   const handleCouponChange = (e) => {
@@ -109,7 +120,7 @@ export default function Cart(props) {
                       <option value="">選擇優惠券</option>
                       {discount
                         ? discount.map((item) => {
-                            if (item.ConditionMinValue <= cart.totalPrice) {
+                            if (item.ConditionMinValue <= checkPrice) {
                               return (
                                 <option key={item.ID} value={item.ID}>
                                   {item.Name}
@@ -138,7 +149,7 @@ export default function Cart(props) {
                 <div className="d-flex flex-column w100per">
                   <div className="cart-check d-flex justify-content-between mb-4">
                     <div className="total-price">總金額</div>
-                    <div className="price">NT$ {cart.totalPrice}</div>
+                    <div className="price">NT$ {checkPrice}</div>
                   </div>
                   <div className="cart-check d-flex justify-content-between mb-4">
                     <div className="total-price">折抵金額</div>
@@ -154,7 +165,7 @@ export default function Cart(props) {
                   <div className="cart-check d-flex justify-content-between mb-4">
                     <div className="total-price">結帳金額</div>
                     <div className="price">
-                      NT$ {Math.max(0, cart.totalPrice - discountPrice)}
+                      NT$ {Math.max(0, checkPrice - discountPrice)}
                     </div>
                   </div>
                   <div className="set-middle">
