@@ -1,6 +1,7 @@
 import Pagination from '@/components/pagination/pagination';
 import Link from 'next/link';
 import MemberLayout from '@/components/layout/member-layout';
+import PageTitle from '@/components/member/page-title';
 Order.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
@@ -8,16 +9,9 @@ Order.getLayout = function getLayout(page) {
 export default function Order() {
   return (
     <>
-      {/* sidebar已經寫在MemberLayout裡了，可直接寫右邊的內容(article內) */}
       <article className="col-md-9">
         <div className="mb-content d-flex justify-content-between">
-          <h5 className="title">
-            訂單查詢 <span className="text-warning">Order</span>
-            <div className="underline">
-              <div className="underline-part1"></div>
-              <div className="underline-part2"></div>
-            </div>
-          </h5>
+          <PageTitle title={'訂單查詢'} subTitle={'Order'} />
           <ul
             className="nav nav-tabs member-nav-tabs"
             id="myTab"
