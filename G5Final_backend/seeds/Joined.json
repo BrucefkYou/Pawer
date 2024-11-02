@@ -37,4 +37,5 @@
 { "ApplyID": 37, "JoininID": 8, "MemberID": null, "RegistrationTime": "2024-08-25 20:46:47", "CancelTime": null, "Status": 1 },
 { "ApplyID": 38, "JoininID": 19, "MemberID": null, "RegistrationTime": "2024-08-25 20:46:47", "CancelTime": null, "Status": 1 },
 { "ApplyID": 39, "JoininID": 8, "MemberID": null, "RegistrationTime": "2024-08-25 20:46:47", "CancelTime": null, "Status": 1 },
-{ "ApplyID": 40, "JoininID": 20, "MemberID": null, "RegistrationTime": "2024-08-25 20:46:47", "CancelTime": null, "Status": 1 }]
+{ "ApplyID": 40, "JoininID": 20, "MemberID": null, "RegistrationTime": "2024-08-25 20:46:47", "CancelTime": null, "Status": 1 },
+{ "ApplyID": 41, "JoininID": 1, "MemberID": null, "RegistrationTime": "2024-08-25 20:46:47", "CancelTime": null, "Status": 1 }]

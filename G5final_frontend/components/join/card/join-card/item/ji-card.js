@@ -18,6 +18,7 @@ export default function JiCard({
   const EndTime = data.StartTime
     ? data.StartTime.replace(/-/g, '/').slice(0, 16)
     : '';
+  // console.log(data.ID, data.SignCount);
   return (
     <>
       <div className={`card shadow ${styles['ji-card']}`}>
@@ -40,7 +41,7 @@ export default function JiCard({
               <p className="text-body-tertiary mb-2">
                 <BsPersonPlusFill className="me-1" />
                 <span className="align-middle">
-                  {data.participants} 10/ {data.ParticipantLimit}
+                  {data.SignCount}/ {data.ParticipantLimit}
                 </span>
               </p>
             </div>

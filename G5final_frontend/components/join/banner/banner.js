@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import style from '@/components/join/banner/banner.module.scss';
 
-export default function Banner({ bgImgUrl = '' }) {
+export default function Banner({ bgImgUrl = '', imgCover = 'cover' }) {
   const router = useRouter();
   const menuItems = [
     { id: 1, title: '商品', href: '/product' },
@@ -53,9 +53,9 @@ export default function Banner({ bgImgUrl = '' }) {
           <Image
             src={bgImgUrl}
             alt="Banner Image"
-            layout="fill"
-            objectFit="cover"
+            fill
             quality={100}
+            style={{ objectFit: imgCover }}
           />
           <div className={style['overlay']}></div>
           <h2 className={`${style['banner-title']}`}>

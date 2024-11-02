@@ -63,6 +63,11 @@ export default async function (sequelize) {
         allowNull: false,
         defaultValue: 1,
       },
+      Valid: {
+        type: DataTypes.TINYINT,
+        allowNull: false,
+        defaultValue: 1,
+      },
       CreateDate: {
         type: DataTypes.DATE,
         allowNull: true,

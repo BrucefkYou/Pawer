@@ -10,7 +10,27 @@ import { QueryTypes, Op } from 'sequelize'
 /* GET home page. */
 router.get('/', async function (req, res, next) {
   try {
-    const [rows] = await db2.query(`SELECT * FROM Joinin`) // 確認資料表名稱是否正確
+    const [rows] = await db2.query(`
+      SELECT Joinin.*,
+          IFNULL(Joined.SignCount, 0) AS SignCount,
+          CASE
+              WHEN SignCount + 5 >= Joinin.ParticipantLimit THEN '即將成團'
+              WHEN IFNULL(Joined.SignCount, 0) >= Joinin.ParticipantLimit THEN '已額滿'
+              WHEN CURRENT_TIMESTAMP > Joinin.SignEndTime THEN '截止報名'
+              WHEN CURRENT_TIMESTAMP BETWEEN Joinin.StartTime AND Joinin.EndTime THEN '報名中'
+              ELSE '未開放'
+          END AS newEventStatus
+      FROM OfficialEvent
+      LEFT JOIN Joinin ON Joinin.ID = Joinin.ID
+      LEFT JOIN (
+          SELECT JoininID, COUNT(*) AS SignCount
+          FROM Joined
+          WHERE Status = 1
+          GROUP BY JoininID
+      ) AS Joined ON Joinin.ID = Joined.JoininID
+      WHERE Joinin.Valid = 1
+    `)
+
     res.json(rows)
   } catch (err) {
     console.error('查詢錯誤：', err)
@@ -35,22 +55,5 @@ router.get('/:id', async function (req, res, next) {
     res.status(500).send(err)
   }
 })
-// router.get('/:id', async (req, res, next) => {
-//   // 轉為數字
-//   const ID = getIdParam(req)
-
-//   // 只會回傳單筆資料
-//   const joins = await Joinin.findByPk(ID, {
-//     raw: true, // 只需要資料表中資料
-//   })
-
-//   return res.json({ status: 'success', data: { joins } })
-// })
-
-// 獲得所有資料(測試用，不適合資料太多使用)
-// router.get('/', async (req, res, next) => {
-//   const products = await Product.findAll({ raw: true })
-//   res.json({ status: 'success', data: { products } })
-// })
 
 export default router

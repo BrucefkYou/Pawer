@@ -14,6 +14,7 @@
       "PositionX": 25.0335,
       "PositionY": 121.5439,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-30 08:23:45",
       "UpdateDate": null
     },
@@ -32,6 +33,7 @@
       "PositionX": 25.1865,
       "PositionY": 121.5089,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-30 09:12:32",
       "UpdateDate": null
     },
@@ -50,6 +52,7 @@
       "PositionX": 24.9535,
       "PositionY": 121.2249,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-30 10:45:23",
       "UpdateDate": null
     },
@@ -68,6 +71,7 @@
       "PositionX": 24.1768,
       "PositionY": 120.6907,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 10:10:15",
       "UpdateDate": null
     },
@@ -86,6 +90,7 @@
       "PositionX": 22.6075,
       "PositionY": 120.2646,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 10:18:53",
       "UpdateDate": null
     },
@@ -104,6 +109,7 @@
       "PositionX": 24.9728,
       "PositionY": 121.5394,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 10:27:05",
       "UpdateDate": null
     },
@@ -122,6 +128,7 @@
       "PositionX": 25.0338,
       "PositionY": 121.5645,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 10:35:22",
       "UpdateDate": null
     },
@@ -140,6 +147,7 @@
       "PositionX": 22.9972,
       "PositionY": 120.2026,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 10:43:11",
       "UpdateDate": null
     },
@@ -158,6 +166,7 @@
       "PositionX": 24.0873,
       "PositionY": 120.5535,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 10:51:49",
       "UpdateDate": null
     },
@@ -176,6 +185,7 @@
       "PositionX": 23.0145,
       "PositionY": 120.2027,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 11:02:32",
       "UpdateDate": null
     },
@@ -194,6 +204,7 @@
       "PositionX": 25.1304,
       "PositionY": 121.7419,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 11:15:00",
       "UpdateDate": null
     },
@@ -212,6 +223,7 @@
       "PositionX": 24.1365,
       "PositionY": 120.6834,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 11:30:45",
       "UpdateDate": null
     },
@@ -230,6 +242,7 @@
       "PositionX": 22.6235,
       "PositionY": 120.3150,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 11:45:32",
       "UpdateDate": null
     },
@@ -248,6 +261,7 @@
       "PositionX": 24.9935,
       "PositionY": 121.2965,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 12:00:00",
       "UpdateDate": null
     },
@@ -266,6 +280,7 @@
       "PositionX": 22.9954,
       "PositionY": 120.1605,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 12:15:32",
       "UpdateDate": null
     },
@@ -284,6 +299,7 @@
       "PositionX": 24.9560,
       "PositionY": 121.4152,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 12:30:15",
       "UpdateDate": null
     },
@@ -302,6 +318,7 @@
       "PositionX": 25.0423,
       "PositionY": 121.5140,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 12:45:40",
       "UpdateDate": null
     },
@@ -320,6 +337,7 @@
       "PositionX": 24.9765,
       "PositionY": 121.3648,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 12:55:01",
       "UpdateDate": null
     },
@@ -338,6 +356,7 @@
       "PositionX": 24.1370,
       "PositionY": 120.6845,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 13:10:30",
       "UpdateDate": null
     },
@@ -356,6 +375,7 @@
       "PositionX": 22.6194,
       "PositionY": 120.3007,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 13:25:40",
       "UpdateDate": null
     },
@@ -374,6 +394,7 @@
       "PositionX": 25.0536,
       "PositionY": 121.6355,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 13:40:25",
       "UpdateDate": null
     },
@@ -392,6 +413,7 @@
       "PositionX": 23.4778,
       "PositionY": 120.4465,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 13:55:15",
       "UpdateDate": null
     },
@@ -410,6 +432,7 @@
       "PositionX": 22.6710,
       "PositionY": 120.4853,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 14:05:40",
       "UpdateDate": null
     },
@@ -428,6 +451,7 @@
       "PositionX": 23.9726,
       "PositionY": 121.6071,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 14:15:12",
       "UpdateDate": null
     },
@@ -446,6 +470,7 @@
       "PositionX": 25.0908,
       "PositionY": 121.5250,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 14:25:34",
       "UpdateDate": null
     },
@@ -464,6 +489,7 @@
       "PositionX": 22.9991,
       "PositionY": 120.1646,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 14:35:20",
       "UpdateDate": null
     },
@@ -482,6 +508,7 @@
       "PositionX": 24.9491,
       "PositionY": 121.4174,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 14:50:04",
       "UpdateDate": null
     },
@@ -500,6 +527,7 @@
       "PositionX": 23.4785,
       "PositionY": 120.4388,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 15:10:42",
       "UpdateDate": null
     },
@@ -518,9 +546,11 @@
       "PositionX": 24.7991,
       "PositionY": 120.9706,
       "Status": "1",
+      "Valid": "1",
       "CreateDate": "2024-10-31 15:25:11",
       "UpdateDate": null
-    }, {
+    }, 
+    {
         "ID": 30,
         "MemberID": 10,
         "Title": "狗狗運動訓練營",
@@ -535,6 +565,7 @@
         "PositionX": 25.0685,
         "PositionY": 121.5935,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 15:40:00",
         "UpdateDate": null
       },
@@ -553,6 +584,7 @@
         "PositionX": 23.0058,
         "PositionY": 120.2280,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 15:55:00",
         "UpdateDate": null
       },
@@ -571,6 +603,7 @@
         "PositionX": 24.9491,
         "PositionY": 121.4174,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 16:10:00",
         "UpdateDate": null
       },
@@ -589,6 +622,7 @@
         "PositionX": 25.0332,
         "PositionY": 121.5645,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 16:25:00",
         "UpdateDate": null
       },
@@ -607,6 +641,7 @@
         "PositionX": 24.1341,
         "PositionY": 120.6840,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 16:40:00",
         "UpdateDate": null
       },
@@ -625,6 +660,7 @@
         "PositionX": 22.6194,
         "PositionY": 120.3007,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 16:55:00",
         "UpdateDate": null
       },
@@ -643,6 +679,7 @@
         "PositionX": 24.9932,
         "PositionY": 121.3064,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 17:10:00",
         "UpdateDate": null
       },
@@ -661,6 +698,7 @@
         "PositionX": 24.9972,
         "PositionY": 121.4936,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 17:25:00",
         "UpdateDate": null
       },
@@ -679,6 +717,7 @@
         "PositionX": 25.1315,
         "PositionY": 121.7385,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 17:40:00",
         "UpdateDate": null
       },
@@ -697,6 +736,7 @@
         "PositionX": 24.7991,
         "PositionY": 120.9706,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 17:55:00",
         "UpdateDate": null
       },
@@ -715,6 +755,7 @@
         "PositionX": 23.4785,
         "PositionY": 120.4388,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 18:10:00",
         "UpdateDate": null
       },
@@ -733,6 +774,7 @@
         "PositionX": 24.9726,
         "PositionY": 121.4484,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 18:25:00",
         "UpdateDate": null
       },
@@ -751,6 +793,7 @@
         "PositionX": 24.1341,
         "PositionY": 120.6840,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 18:40:00",
         "UpdateDate": null
       },
@@ -769,6 +812,7 @@
         "PositionX": 22.6757,
         "PositionY": 120.3132,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 18:55:00",
         "UpdateDate": null
       },
@@ -787,6 +831,7 @@
         "PositionX": 25.0882,
         "PositionY": 121.5236,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 19:10:00",
         "UpdateDate": null
       },
@@ -805,6 +850,7 @@
         "PositionX": 24.7991,
         "PositionY": 120.9706,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 19:25:00",
         "UpdateDate": null
       },
@@ -823,6 +869,7 @@
         "PositionX": 25.1315,
         "PositionY": 121.7385,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 19:40:00",
         "UpdateDate": null
       },
@@ -841,6 +888,7 @@
         "PositionX": 24.1341,
         "PositionY": 120.6840,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 19:55:00",
         "UpdateDate": null
       },
@@ -859,6 +907,7 @@
         "PositionX": 24.9491,
         "PositionY": 121.4174,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 20:10:00",
         "UpdateDate": null
       },
@@ -877,6 +926,7 @@
         "PositionX": 22.9958,
         "PositionY": 120.2270,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 20:25:00",
         "UpdateDate": null
       },
@@ -895,6 +945,7 @@
         "PositionX": 23.4785,
         "PositionY": 120.4388,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 20:40:00",
         "UpdateDate": null
       },
@@ -913,6 +964,7 @@
         "PositionX": 24.7991,
         "PositionY": 120.9706,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 20:55:00",
         "UpdateDate": null
       },
@@ -931,6 +983,7 @@
         "PositionX": 22.6757,
         "PositionY": 120.3132,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 21:10:00",
         "UpdateDate": null
       },
@@ -949,6 +1002,7 @@
         "PositionX": 25.0332,
         "PositionY": 121.5645,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 21:25:00",
         "UpdateDate": null
       },
@@ -967,6 +1021,7 @@
         "PositionX": 24.9932,
         "PositionY": 121.3064,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 21:40:00",
         "UpdateDate": null
       },
@@ -985,6 +1040,7 @@
         "PositionX": 22.9958,
         "PositionY": 120.2270,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 21:55:00",
         "UpdateDate": null
       },
@@ -1003,6 +1059,7 @@
         "PositionX": 25.1315,
         "PositionY": 121.7385,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 22:10:00",
         "UpdateDate": null
       },
@@ -1021,6 +1078,7 @@
         "PositionX": 24.1341,
         "PositionY": 120.6840,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 22:25:00",
         "UpdateDate": null
       },
@@ -1039,6 +1097,7 @@
         "PositionX": 24.9726,
         "PositionY": 121.4484,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 22:40:00",
         "UpdateDate": null
       },
@@ -1057,6 +1116,7 @@
         "PositionX": 24.9932,
         "PositionY": 121.3064,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 22:55:00",
         "UpdateDate": null
       },
@@ -1075,6 +1135,7 @@
         "PositionX": 22.6757,
         "PositionY": 120.3132,
         "Status": "1",
+        "Valid": "1",
         "CreateDate": "2024-10-31 23:10:00",
         "UpdateDate": null
       }
