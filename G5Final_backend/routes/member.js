@@ -12,6 +12,33 @@ import { generateHash, compareHash } from '##/db-helpers/password-hash.js'
 // 定義安全的私鑰字串
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
 
+// GET - 得到單筆資料(注意，有動態參數時要寫在GET區段最後面)
+router.get('/', authenticate, async function (req, res) {
+  // id可以用jwt的存取令牌(accessToken)從authenticate中得到(如果有登入的話)
+  const id = req.user.id
+
+  // 檢查是否為授權會員，只有授權會員可以存取自己的資料
+  if (req.user.id !== id) {
+    return res.json({ status: 'error', message: '存取會員資料失敗' })
+  }
+
+  const [rows] = await db.query(
+    'SELECT Avatar as avatar,Account as account,Name as name,NickName as nickname,eMail as email,Phone as phone,Gender as gender,Birth as birth FROM Member WHERE ID= ?',
+    [id]
+  )
+
+  if (rows.length === 0) {
+    return res.json({ status: 'error', message: '沒有找到會員資料' })
+  }
+
+  const member = rows[0]
+
+  // 不回傳密碼
+  // delete member.Password
+
+  return res.json({ status: 'success', data: { member } })
+})
+
 // 登入用
 router.post('/login', async (req, res, next) => {
   console.log(req.body)

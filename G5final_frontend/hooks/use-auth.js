@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { get } from 'lodash';
 
 const AuthContext = createContext(null);
 AuthContext.displayName = 'AuthContext';
@@ -12,7 +13,8 @@ export function AuthProvider({ children }) {
       id: 0,
       name: '',
       email: '',
-      username: '',
+      nickname: '',
+      avatar: '',
     },
   });
 
@@ -23,7 +25,29 @@ export function AuthProvider({ children }) {
     return JSON.parse(payload.toString());
   };
 
-  // 模擬會員登入
+  // 得到會員個人的資料(登入之後才可以用)
+  const getMember = async () => {
+    // 向伺服器作fetch
+    const res = await fetch(`http://localhost:3005/api/member`, {
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'GET',
+    });
+    const resData = await res.json();
+    console.log(resData);
+
+    if (resData.status === 'success') {
+      return resData.data.member;
+    } else {
+      console.warn(resData);
+      return {};
+    }
+  };
+
+  // 會員登入
   const login = async (email, password) => {
     // 向伺服器作fetch
     const res = await fetch('http://localhost:3005/api/member/login', {
@@ -40,21 +64,22 @@ export function AuthProvider({ children }) {
     console.log(resData);
 
     if (resData.status === 'success') {
-      // 可以得到id和email
+      // 可以得到id和Name
       const jwtData = parseJwt(resData.data.accessToken);
       console.log(jwtData);
-
       // 設定到狀態中
       setAuth({
         isAuth: true,
       });
+      // 導向到會員中心
+      router.push('/member');
     } else {
       alert('帳號或密碼錯誤');
     }
   };
 
   return (
-    <AuthContext.Provider value={{ auth, login }}>
+    <AuthContext.Provider value={{ auth, login, getMember }}>
       {children}
     </AuthContext.Provider>
   );
