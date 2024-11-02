@@ -3,6 +3,9 @@ import db2 from '../configs/mysql.js'
 // 檢查空物件, 轉換req.params為數字
 import { getIdParam } from '#db-helpers/db-tool.js'
 const router = express.Router()
+import sequelize from '#configs/db.js'
+const { Joinin } = sequelize.models
+import { QueryTypes, Op } from 'sequelize'
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
@@ -32,5 +35,22 @@ router.get('/:id', async function (req, res, next) {
     res.status(500).send(err)
   }
 })
+// router.get('/:id', async (req, res, next) => {
+//   // 轉為數字
+//   const ID = getIdParam(req)
+
+//   // 只會回傳單筆資料
+//   const joins = await Joinin.findByPk(ID, {
+//     raw: true, // 只需要資料表中資料
+//   })
+
+//   return res.json({ status: 'success', data: { joins } })
+// })
+
+// 獲得所有資料(測試用，不適合資料太多使用)
+// router.get('/', async (req, res, next) => {
+//   const products = await Product.findAll({ raw: true })
+//   res.json({ status: 'success', data: { products } })
+// })
 
 export default router
