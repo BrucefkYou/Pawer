@@ -1,21 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import Pagination from '@/components/pagination/pagination';
 import Banner from '@/components/join/banner/banner';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import Image from 'next/image';
+import { usePagination } from '@/hooks/usePagination';
+import { PerPageDom } from '@/components/PerPageDom';
+import { SortDom } from '@/components/SortDom';
+import { PageNav } from '@/components/PageNav';
 import PetList from '@/components/pet/pet-list';
+import Link from 'next/link';
 
 export default function communicator(props) {
+  const {
+    nowPageItems,
+    nowPage,
+    totalPage,
+    itemsperPage,
+    sort,
+    next,
+    prev,
+    choosePerpage,
+    chooseSort,
+  } = usePagination({ url: 'http://localhost:3005/api/pet', onDataChange: handleDataChange });
+
+  // 當子元件產生變化時重新抓取資料
+  function handleDataChange(data) {
+  }
+
   return (
     <>
       <div className="PT-list">
         {/* banner */}
-        <Banner bgImgUrl="./pet/images/Banner.jpg" />
+        <Banner bgImgUrl="/pet/images/Banner.jpg" ImgCover="cover" />
         {/* 主要內容 */}
         <div className="container py-2">
           {/* 麵包屑 */}
           <Breadcrumbs />
           {/* 搜尋框 */}
-          <div className="row py-2 justify-content-center">
+          <div className="row d-flex py-2 justify-content-center">
             <div className="col-8">
               <form className="pet-searchbar-yen" action="">
                 <button>
@@ -45,49 +66,25 @@ export default function communicator(props) {
             </div>
           </div>
           {/* 排序.每頁筆數 */}
-          <div className="row py-2 justify-content-end">
-            <button className="mx-2 pet-sort-yen">
-              排序
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={12}
-                height={12}
-                viewBox="0 0 12 12"
-                fill="none"
-              >
-                <path
-                  d="M1 2.25317L5.93245 9M6.06755 8.74683L11 2"
-                  stroke="#5B5B5B"
-                  strokeWidth="1.3"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-            <button className="pet-perpage-yen">
-              每頁筆數
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={12}
-                height={12}
-                viewBox="0 0 12 12"
-                fill="none"
-              >
-                <path
-                  d="M1 2.25317L5.93245 9M6.06755 8.74683L11 2"
-                  stroke="#5B5B5B"
-                  strokeWidth="1.3"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
+          <div className='row d-flex justify-content-end'>
+          <div className='col-6 col-md-3'>
+            <PerPageDom itemsperPage={itemsperPage} choosePerpage={choosePerpage} />
+          </div>
+          <div className='col-6 col-md-3'>
+            <SortDom sort={sort} chooseSort={chooseSort} />
+            </div>
           </div>
           <div className="row d-flex justify-content-center">
             {/* 師資列表*/}
-            <PetList />
+            {nowPageItems.map((v) => { 
+              return (
+                <PetList key={v.ID} v={v} />
+              )
+            })}
           </div>
           {/* 分頁 */}
           <div className="d-flex justify-content-center">
-            <Pagination />
+            <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
           </div>
         </div>
         {/* 廣告 */}
@@ -95,19 +92,82 @@ export default function communicator(props) {
           <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
               <div className="col-lg-4">
-                <div className="advertise-img">
-                  <img src="./images/pic/1.png" alt="1" />
-                  <img src="./images/pic/2.png" alt="1" />
-                  <img src="./images/pic/3.png" alt="1" />
-                  <img className="img-none" src="./images/pic/4.png" alt="1" />
-                  <img src="./images/pic/5.png" alt="1" />
-                  <img src="./images/pic/6.png" alt="1" />
-                  <img src="./images/pic/7.png" alt="1" />
-                  <img className="img-none" src="./images/pic/8.png" alt="1" />
-                  <img src="./images/pic/9.png" alt="1" />
-                  <img src="./images/pic/10.png" alt="1" />
-                  <img src="./images/pic/11.png" alt="1" />
-                  <img className="img-none" src="./images/pic/12.png" alt="1" />
+                <div className="advertise-Image">
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/1.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/2.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/3.png"
+                    alt="1"
+                  />
+                  <Image
+                    className="Image-none"
+                    width="100"
+                    height="100"
+                    src="/pet/images/4.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/5.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/6.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/7.png"
+                    alt="1"
+                  />
+                  <Image
+                    className="Image-none"
+                    width="100"
+                    height="100"
+                    src="/pet/images/8.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/9.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/10.png"
+                    alt="1"
+                  />
+                  <Image
+                    width="100"
+                    height="100"
+                    src="/pet/images/11.png"
+                    alt="1"
+                  />
+                  <Image
+                    className="Image-none"
+                    width="100"
+                    height="100"
+                    src="/pet/images/12.png"
+                    alt="1"
+                  />
                 </div>
               </div>
               <div className="col-lg-8 mt-3">

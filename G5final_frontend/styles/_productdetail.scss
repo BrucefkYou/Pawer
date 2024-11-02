@@ -166,6 +166,10 @@
     .pd-content-me5{
       margin-right: 3rem;
     }
+    .productdetail-img{
+      height: 100%;
+      object-fit: cover;
+    }
     /* 商品評論 */
     .pd-comment {
       margin: 0;
@@ -273,6 +277,10 @@
     .detail-rwd-none{
       display: none;
     }
+    .productdetail-img{
+      width: 100%;
+      object-fit: cover;
+    }
     .commentimg {
       margin-top: 1.5rem;
       width: 112px;
@@ -302,6 +310,11 @@
       font-size: 24px;
       font-weight: 700;
       line-height: 40px;
+    }
+    .detailimg-rwd{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .sell-how{
       width: 7rem;
