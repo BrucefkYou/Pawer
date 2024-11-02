@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import List from '@/components/cart/list';
+import Link from 'next/link';
 
 export default function Cart(props) {
   const { cart } = useCart();
@@ -28,16 +29,13 @@ export default function Cart(props) {
   };
 
   // 計算折扣金額
-  // 計算折扣金額
   const calculateDiscountPrice = () => {
     if (seletctedDiscount) {
       if (seletctedDiscount.CalculateType === 1) {
         // 百分比折扣，僅保存折扣金額
         setDiscountPrice(
           // cart.totalPrice * Math.round(Number(seletctedDiscount.Value) / 100)
-          Math.round(
-            checkPrice * (1 - Number(seletctedDiscount.Value) / 100)
-          )
+          Math.round(checkPrice * (1 - Number(seletctedDiscount.Value) / 100))
         );
       } else if (seletctedDiscount.CalculateType === 2) {
         // 固定金額折扣
@@ -55,11 +53,15 @@ export default function Cart(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seletctedDiscount, cart.totalPrice]);
 
-  // 當購物車內容有變化時，計算選中商品的總價
+  // 當購物車內容有變化時，計算勾選商品的總價
   useEffect(() => {
     const checkedItems = cart.items.filter((item) => item.checked === true);
-    setCheckPrice(checkedItems.reduce((total, item) => total + item.quantity * item.price, 0));
-    console.log(checkPrice);
+    setCheckPrice(
+      checkedItems.reduce(
+        (total, item) => total + item.quantity * item.price,
+        0
+      )
+    );
   }, [cart]);
 
   // 處理選擇優惠券
@@ -118,6 +120,7 @@ export default function Cart(props) {
                       onChange={handleCouponChange}
                     >
                       <option value="">選擇優惠券</option>
+                      {/* 篩選只有滿足優惠券最低金額的優惠券會顯示 */}
                       {discount
                         ? discount.map((item) => {
                             if (item.ConditionMinValue <= checkPrice) {
@@ -143,7 +146,9 @@ export default function Cart(props) {
                     type="button"
                     className="btn btn-sm btn-keepShoping btn-border-main"
                   >
-                    繼續購物
+                    <Link href="/product" className="text-decoration-none">
+                      繼續購物
+                    </Link>
                   </button>
                 </div>
                 <div className="d-flex flex-column w100per">
