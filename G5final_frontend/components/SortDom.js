@@ -1,21 +1,30 @@
 import React from 'react';
+import { useState } from 'react';
+import {v4 as uuidv4 } from 'uuid'
+export function SortDom({ chooseSort, needSort }) {
+    // 存儲select的值隨著選項狀態改變
+    const [nowValue, setNowValue] = useState();
 
-export function SortDom({ sort, chooseSort }) {
+    // 處理選項有改變時觸發並存入新值
+    function ifChange(event) {
+        const value = event.target.value;
+        setNowValue(value);
+        // 調用父層傳入的排序函數
+        chooseSort(event); 
+    }
     return (
         <div>
             排序：
             <select
-                value={sort}
-                onChange={chooseSort}
+                value={nowValue}
+                onChange={ifChange}
                 className="form-select text-body-tertiary"
-                aria-label="Default select example"
             >
-                <option value="id-desc">ID由大到小</option>
-                <option value="id-asc">ID由小到大</option>
-                <option value="title-asc">Title A-Z</option>
-                <option value="title-desc">Title Z-A</option>
-                <option value="href-asc">Href A-Z</option>
-                <option value="href-desc">Href Z-A</option>
+                {needSort.map((v) => {
+                    return (
+                        <option key={uuidv4()} value={v.way}>{v.name}</option>
+                    )
+                })}
             </select>
         </div>
     );
