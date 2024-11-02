@@ -10,9 +10,10 @@ export default function InfoList(props) {
     <>
       {/* 這邊在map的時候新增一個條件適用filter過濾checked為true的商品 */}
       {items.length ? (
-        items.map((item) => {
-          return (
-            <>
+        items
+          .filter((item) => item.checked)
+          .map((item) => {
+            return (
               <div className="row row-cols-12 product-block" key={item.id}>
                 {/* 產品圖 */}
                 <div className="col-3 col-lg-1 d-flex justify-content-start g-0">
@@ -20,8 +21,6 @@ export default function InfoList(props) {
                     alt="產品圖片"
                     width={100}
                     height={100}
-                    // layout="responsive"
-                    // objectFit="cover"
                     className="product-svg"
                     src={`/product/sqlimg/${item.img}`}
                   />
@@ -39,9 +38,8 @@ export default function InfoList(props) {
                   {item.quantity * item.price}
                 </div>
               </div>
-            </>
-          );
-        })
+            );
+          })
       ) : (
         <>
           <div className="text-center">購物車是空的</div>
