@@ -25,9 +25,6 @@
   .nav-item {
     border: rgba(0, 0, 0, 0.05) 1px solid;
     font-size: 14px;
-    &.active {
-      background-color: #f4b13e;
-    }
   }
   .nav-link {
     color: #22355C;
@@ -35,6 +32,9 @@
 
   li {
     display: block;
+  }
+  .active {
+    background-color: #f4b13e;
   }
 }
 

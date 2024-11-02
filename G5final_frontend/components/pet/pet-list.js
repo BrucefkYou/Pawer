@@ -3,43 +3,23 @@ import Image from 'next/image';
 import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 
-export default function PetList(props) {
-  const [communicator, setCommunicator] = useState([]);
+export default function PetList({v}) {
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:3005/api/pet');
-        if (!response.ok) {
-          throw new Error('網路回應不成功：' + response.status);
-        }
-        const data = await response.json();
-
-        setCommunicator(data);
-      } catch (err) {
-        console.log(err);
-      }
-      console.log(communicator);
-    };
-    fetchData();
-  }, []);
   return (
     <>
-      {communicator.map((v) => {
-        return (
           <Link
             className="col-lg-4 col-6 no-underline g-1 g-sm-4"
             href={`/communicator/${v.ID}`}
             key={v.ID}
             passHref
           >
-            <div className="pet-teachercard-yen position-relative" key={v.ID}>
+            <div className="pet-teachercard-yen position-relative m-3" key={v.ID}>
               <Image
                 className="imgg"
                 src={`/pet/images/${v.Img}`}
                 alt="1"
                 width={400}
-                height={300}
+                height={400}
               />
               <div className="contain">
                 <h4>{v.Name}</h4>
@@ -72,8 +52,7 @@ export default function PetList(props) {
               </div>
             </div>
           </Link>
-        );
-      })}
+       
     </>
   );
 }
