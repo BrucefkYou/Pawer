@@ -46,7 +46,7 @@ export default function ProductDetail(props) {
     return <p>Loading...</p>;
   }
   // 解構資料
-  const { Name, Img, OriginPrice, Stock, Info, ProductSummary } = fetchOne;
+  const { Name, Img, SalePrice, Stock, Info, ProductSummary } = fetchOne;
   return (
     <>
       {/* 商品細節 */}
@@ -59,6 +59,7 @@ export default function ProductDetail(props) {
               <div>
                 {Img && (
                   <Image
+                    className="detailimg-rwd"
                     src={`/product/sqlimg/${Img}`}
                     alt={Name}
                     width={510}
@@ -77,6 +78,7 @@ export default function ProductDetail(props) {
                     image.ImageName && ( // 確認 ImageName 有圖才渲染
                       <div className="col" key={index}>
                         <Image
+                          className="detailimg-rwd"
                           src={`/product/sqlimg/${image.ImageName}`}
                           alt={Name}
                           width={112}
@@ -132,7 +134,7 @@ export default function ProductDetail(props) {
                 <div className="col ">
                   <form action="true">
                     <div>
-                      <p className="detail-nt">NT${OriginPrice}</p>
+                      <p className="detail-nt">NT${SalePrice}</p>
                     </div>
                     <div className="d-flex align-items-star detail-buy">
                       <div>

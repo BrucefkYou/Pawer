@@ -1,9 +1,36 @@
-import React from 'react';
-import style from '@/components/join/banner/banner.module.scss';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import style from '@/components/join/banner/banner.module.scss';
 
-export default function Banner({ bgImgUrl = '' }) {
+export default function Banner({ bgImgUrl = '', ImgCover = '' }) {
   const router = useRouter();
+  const { id } = router.query;
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (id) {
+          const response = await fetch(
+            `http://localhost:3005/api/join-in/${id}`
+          );
+          if (!response.ok) {
+            throw new Error('網路回應不成功：' + response.status);
+          }
+          const data = await response.json();
+          console.log('獲取的資料：', data);
+          setData(data);
+        }
+      } catch (err) {
+        console.error('錯誤：', err);
+      }
+    };
+
+    if (router.pathname.includes('/join/')) {
+      fetchData();
+    }
+  }, [id, router.pathname]);
+
   const menuItems = [
     { id: 1, title: '商品', href: '/product' },
     { id: 2, title: '萌寵揪團活動', href: '/join' },
@@ -12,16 +39,19 @@ export default function Banner({ bgImgUrl = '' }) {
   ];
 
   const pageTitle = menuItems.find((item) => item.href === router.pathname);
-
-  const isDetailPage = router.pathname.includes('/join/');
-  const detailTitle = isDetailPage ? '活動明細' : '';
+  // eslint-disable-next-line no-undef
+  const isDetailPage = router.pathname.includes('join');
+  // 先判斷有沒有抓取到data的值
+  const detailTitle = isDetailPage && data && data.ID ? data.Title : '';
 
   return (
     <div
       className={`${style['ji-banner']} text-center`}
-      style={{ backgroundImage: `url(${bgImgUrl})` }}
+      style={{
+        backgroundImage: `url(${bgImgUrl})`,
+        backgroundSize: `${ImgCover}`,
+      }}
     >
-      {/* 顯示 pageTitle 或明細頁標題 */}
       <h2 className={`${style['banner-title']}`}>
         {pageTitle ? pageTitle.title : detailTitle}
       </h2>

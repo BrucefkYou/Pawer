@@ -74,7 +74,7 @@
       .hover-btn {
         display: none;
       }
-      @media (min-width:430px) {
+      @media (min-width:431px) {
       br{
         display: none;
       }
@@ -92,8 +92,6 @@
       overflow: hidden;
     }
 @media (min-width:431px) {
-  
-
     &:hover {
       .contain-hover {
         display: block;
@@ -150,28 +148,6 @@
       .img-none {
         display: none;
       }
-    }
-  }
-
-  /* 分頁 */
-  .pet-page-yen {
-    color: #707070;
-    letter-spacing: 2px;
-    .page-btn-1 {
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
-      border: 1px solid #ccc;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      color: #707070;
-    }
-    .page-btn-2 {
-      padding: 0 10px 0 10px;
-      border: 1px solid #bfbfbf;
-      border-radius: 30px;
-      color: #707070;
     }
   }
 }

@@ -1,0 +1,47 @@
+  .tag-section {
+      display: flex;
+      align-items: stretch;
+      width: 100%;
+      gap: 4px;
+        .tag{
+      padding: 4px 12px;
+      color: white;
+      background-color: #22355C;
+      border-radius: 4px;
+      border: 1px solid #EDF0F3;
+  }
+  }
+// .tag-card {
+//   display: flex;
+//   gap: 30px;
+//   flex-direction: column;
+//   background-color: #fff;
+//   box-shadow: 0px 0px 5px 5px rgba(221.02, 221.02, 221.02, 0.15);
+//   padding: 30px 36px;
+//   position: relative;
+
+//   .paw {
+//       position: absolute;
+//       right: 0;
+//       top: 0;
+
+//   }
+//   .title{
+//       padding-bottom: 16px;
+//       border-bottom: 2px dashed #EAEAEA  ;
+//   }
+//   h5 {
+//       color: #22355C;
+//       font-size: 24px;
+//       font-family: Roboto;
+//       font-weight: 700;
+//       line-height: 30px;
+//       word-wrap: break-word;
+//       margin:0
+//   }
+
+
+
+
+
+
