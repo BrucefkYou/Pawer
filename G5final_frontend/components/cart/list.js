@@ -3,22 +3,18 @@ import { useCart } from '@/hooks/use-cart/use-cart-state';
 import Image from 'next/image';
 import LOGO from '@/public/LOGO.svg';
 import { MdCancel } from 'react-icons/md';
+import Link from 'next/link';
 export default function List(props) {
-  const setChecked = (e) => {};
   // 引入購物車相關的狀態與方法
   const { cart, items, decrement, increment, removeItem, updateItem } =
     useCart();
 
-  // 更新商品的選擇狀態
+  // 更新商品的checkbox選擇狀態
   const handleCheckboxChange = (id) => {
     const item = items.find((item) => item.id === id);
     const updatedItem = { ...item, checked: !item.checked };
     updateItem(updatedItem);
   };
-
-  useEffect(() => {
-    console.log(items);
-  }, []);
   // 測試新的分支
   //! 這邊有可能會遇到 Next hydration 問題，如果有遇到再補充上去解決辦法
   return (
@@ -50,7 +46,7 @@ export default function List(props) {
               <div className="mobile-column col-lg-6 col-7 d-flex justify-content-between align-items-center g-0">
                 <div className="product-title">{item.name}</div>
                 <div className="choose-quantity-btn">
-                  <div className="mr-55">{item.price}</div>
+                  <div className="mr-55">NT${Math.round(item.price)}</div>
                   <div
                     className="btn-group"
                     role="group"
@@ -99,7 +95,11 @@ export default function List(props) {
         <>
           <div className="d-flex justify-content-center align-items-center flex-column">
             <div className="mb-3">購物車裡面沒有商品</div>
-            <button className="btn btn-warning">前往商品頁</button>
+            <button className="btn btn-warning">
+              <Link href="/product" className="text-decoration-none">
+                前往商品頁
+              </Link>
+            </button>
           </div>
         </>
       )}
