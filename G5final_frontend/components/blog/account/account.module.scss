@@ -1,0 +1,52 @@
+.blog-account {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    .avatar {
+        border-radius: 50%;
+        background-color: #ccc;
+        object-fit: cover;
+    }
+    
+    .text {
+        margin: 0;
+        color: hsla(0, 0%, 0%, 0.6);
+    }
+    
+}
+
+
+// .blog-date {
+//     margin-left: 1.2em;
+// }
+
+
+
+// .blog-header {
+//     display: flex;
+//     align-items: center;
+
+//     .blog-account {
+//         display: flex;
+//         gap: 5px;
+//         align-items: center;
+//     }
+
+//     .avatar {
+//         width: 50px;
+//         height: 50px;
+//         border-radius: 50%;
+//         background-color: #ccc;
+//         object-fit: cover;
+//     }
+
+//     .text {
+//         margin: 0;
+//         color: hsla(0, 0%, 0%, 0.6);
+//     }
+
+//     .blog-date {
+//         margin-left: 1.2em;
+//     }
+// }
+

@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 export default function ProductList(props) {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true); // loading 狀態
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,21 +16,31 @@ export default function ProductList(props) {
           throw new Error('網路回應不成功：' + response.status);
         }
         const data = await response.json();
-        setProducts(data);
+        // 過濾掉image資料表重複的ProductID
+        const repeatID = data.filter(
+          (product, index, repeat) =>
+            index === repeat.findIndex((p) => p.ID === product.ID)
+        );
+        setProducts(repeatID);
       } catch (err) {
         console.log(err);
+      } finally {
+        setLoading(false); // 加載後設置 loading 為 false
       }
       console.log(products);
     };
     fetchData();
   }, []);
+  if (loading) {
+    return <div>載入中...</div>; // 加載中顯示的內容
+  }
   return (
     <>
       {products.map((pd) => {
         return (
           <Link
             className="col card-layout no-underline"
-            key={pd.ID}
+            key={`${pd.ID}-${pd.Name}`}
             href={`/product/${pd.ID}`}
           >
             <div className="card shadow card-size">
@@ -75,7 +86,7 @@ export default function ProductList(props) {
                     </defs>
                   </svg>
                 </div>
-                <div className="new-nt">{'NT$' + pd.OriginPrice}</div>
+                <div className="new-nt">{'NT$' + pd.SalePrice}</div>
               </div>
             </div>
           </Link>

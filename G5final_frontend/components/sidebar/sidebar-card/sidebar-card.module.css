@@ -7,6 +7,9 @@
   padding: 30px 36px;
   position: relative;
 }
+.sidebar-card:hover .pawbutton {
+  color: #22355C;
+}
 .sidebar-card .img {
   position: absolute;
   right: 0;

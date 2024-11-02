@@ -1,0 +1,91 @@
+.bl-list {
+    display: flex;
+    flex-direction: column;
+
+
+    .list-container {
+        display: flex;
+        flex-direction: column;
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+        padding-bottom: 80px;
+
+        // 麵包屑
+        .breadcrumb {
+            margin-block: 20px 40px;
+        }
+
+
+        .main-section {
+            display: flex;
+            gap: 49px;
+            flex-direction: row-reverse;
+
+            // 文章卡片+分頁區
+            .blog-list {
+                display: flex;
+                flex-direction: column;
+                max-width: 770px;
+                gap: 48px;
+                align-items: center;
+
+                .card-section {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    gap: 48px 0;
+                }
+            }
+
+            // 側邊欄
+            .sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+                width: 100%;
+                max-width: 356px;
+
+                .btn-sec {
+                    display: flex;
+                    gap: 20px;
+
+                    .my-blog {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+
+        .list-container {
+
+            .main-section {
+                flex-direction: column;
+                align-items: center;
+
+                .sidebar {
+                    flex-direction: row;
+                    gap: 0px;
+                    max-width: 100%;
+
+                    .s-card {
+                        width: 100%;
+                    }
+
+                    .m-none {
+                        display: none;
+                    }
+                }
+
+                .card-section {
+                    justify-content: center ;
+                }
+
+            }
+        }
+
+    }
+}

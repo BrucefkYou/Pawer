@@ -7,7 +7,7 @@ export default function CKEditorComponent() {
     <div>
       <CKEditor
         editor={ClassicEditor}
-        data="請輸入活動內容"
+        data="請輸入文章內容"
         onReady={(editor) => {
           console.log('Editor is ready to use!', editor);
         }}

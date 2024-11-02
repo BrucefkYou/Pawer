@@ -1,11 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import Pagination from '@/components/pagination/pagination';
 import Banner from '@/components/join/banner/banner';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import PetList from '@/components/pet/pet-list';
 import Image from 'next/image';
+import { usePagination } from '@/hooks/usePagination';
+import { PerPageDom } from '@/components/PerPageDom';
+import { SortDom } from '@/components/SortDom';
+import { PageNav } from '@/components/PageNav';
+import Link from 'next/link';
 
 export default function communicator(props) {
+  const {
+    nowPageItems,
+    nowPage,
+    totalPage,
+    itemsperPage,
+    sort,
+    next,
+    prev,
+    choosePerpage,
+    chooseSort,
+  } = usePagination({ url: 'http://localhost:3005/api/pet', onDataChange: handleDataChange });
+
+  // 當子元件產生變化時重新抓取資料
+  function handleDataChange(data) {
+  }
+
   return (
     <>
       <div className="PT-list">
@@ -16,7 +35,7 @@ export default function communicator(props) {
           {/* 麵包屑 */}
           <Breadcrumbs />
           {/* 搜尋框 */}
-          <div className="row py-2 justify-content-center">
+          <div className="row d-flex py-2 justify-content-center">
             <div className="col-8">
               <form className="pet-searchbar-yen" action="">
                 <button>
@@ -46,49 +65,69 @@ export default function communicator(props) {
             </div>
           </div>
           {/* 排序.每頁筆數 */}
-          <div className="row py-2 justify-content-end">
-            <button className="mx-2 pet-sort-yen">
-              排序
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={12}
-                height={12}
-                viewBox="0 0 12 12"
-                fill="none"
-              >
-                <path
-                  d="M1 2.25317L5.93245 9M6.06755 8.74683L11 2"
-                  stroke="#5B5B5B"
-                  strokeWidth="1.3"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-            <button className="pet-perpage-yen">
-              每頁筆數
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={12}
-                height={12}
-                viewBox="0 0 12 12"
-                fill="none"
-              >
-                <path
-                  d="M1 2.25317L5.93245 9M6.06755 8.74683L11 2"
-                  stroke="#5B5B5B"
-                  strokeWidth="1.3"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
+          <div className='row'>
+          <div className='col-6'>
+            <PerPageDom itemsperPage={itemsperPage} choosePerpage={choosePerpage} />
+          </div>
+          <div className='col-6'>
+            <SortDom sort={sort} chooseSort={chooseSort} />
+            </div>
           </div>
           <div className="row d-flex justify-content-center">
             {/* 師資列表*/}
-            <PetList />
+            {nowPageItems.map((v) => { 
+              return (
+                <Link
+                className="col-lg-4 col-6 no-underline g-1 g-sm-4"
+                href={`/communicator/${v.ID}`}
+                key={v.ID}
+                passHref
+              >
+                <div className="pet-teachercard-yen position-relative" key={v.ID}>
+                  <Image
+                    className="imgg"
+                    src={`/pet/images/${v.Img}`}
+                    alt="1"
+                    width={400}
+                    height={300}
+                  />
+                  <div className="contain">
+                    <h4>{v.Name}</h4>
+                    <p className="text">
+                      證書編號：
+                      <br />
+                      {v.Certificateid}
+                    </p>
+                    <p className="text">
+                      通過日期：
+                      <br />
+                      {v.CertificateDate}
+                    </p>
+                    <p className="hover-btn">我要預約</p>
+                  </div>
+                  <div className="contain-hover">
+                    <p className="text-center f">Hi, 我是{v.Name}</p>
+                    <div className="">
+                      <p>
+                        服務項目：
+                        <br />
+                        {v.Service}
+                      </p>
+                      <p className="">
+                        進行方式：
+                        <br />
+                        {v.Approach}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Link>)
+              
+            })}
           </div>
           {/* 分頁 */}
           <div className="d-flex justify-content-center">
-            <Pagination />
+            <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
           </div>
         </div>
         {/* 廣告 */}
