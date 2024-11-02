@@ -27,7 +27,7 @@ export default function MbSideBar(props) {
     {
       id: 3,
       title: '我的優惠券',
-      href: '/member/my-coupon',
+      href: '/member/coupon',
       subMenu: [],
     },
     {
