@@ -12,6 +12,12 @@ export default function JiCard({
   handleToggleFav = () => {},
 }) {
   const router = useRouter();
+  const StartTime = data.StartTime
+    ? data.StartTime.replace(/-/g, '/').slice(0, 16)
+    : '';
+  const EndTime = data.StartTime
+    ? data.StartTime.replace(/-/g, '/').slice(0, 16)
+    : '';
   return (
     <>
       <div className={`card shadow ${styles['ji-card']}`}>
@@ -51,7 +57,7 @@ export default function JiCard({
             </div>
           </div>
           <p className="card-text mb-4 text-body-tertiary">
-            {data.StartTime}-{data.EndTime}
+            {StartTime}&nbsp;-&nbsp;{EndTime}
           </p>
           <h4
             className={`card-title text-primary mb-4 ${styles['card-title']}`}

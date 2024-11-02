@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import style from '@/components/join/banner/banner.module.scss';
 
-export default function Banner({ bgImgUrl = '', ImgCover = '' }) {
+export default function Banner({ bgImgUrl = '' }) {
   const router = useRouter();
   const menuItems = [
     { id: 1, title: '商品', href: '/product' },
