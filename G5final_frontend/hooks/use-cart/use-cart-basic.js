@@ -108,6 +108,7 @@ export const subtotalPrice = (items) =>
  */
 export const totalPrice = (items) =>
   items.reduce((total, item) => total + item.quantity * item.price, 0);
+
 /**
  * `totalItems(items)` 整體項目數量。
  */

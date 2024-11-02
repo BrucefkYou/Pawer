@@ -7,7 +7,11 @@ export default function Cart(props) {
   const [discountPrice, setDiscountPrice] = useState(10); // 折抵金額，初始值為0
   const [seletctedDiscount, setSelectedDiscount] = useState(''); // 選擇的優惠券，初始值設為空字串
   const [discount, setDiscount] = useState(); // 優惠券數據
+  const [checkPrice, setCheckPrice] = useState(0); // 結帳金額
 
+  const setCheckItem = () => {
+    const checkedItems = cart.items.filter((item) => item.checked === true);
+  };
   const getDiscount = async () => {
     try {
       const disCountData = await fetch(
@@ -32,7 +36,7 @@ export default function Cart(props) {
         setDiscountPrice(
           // cart.totalPrice * Math.round(Number(seletctedDiscount.Value) / 100)
           Math.round(
-            cart.totalPrice * (1 - Number(seletctedDiscount.Value) / 100)
+            checkPrice * (1 - Number(seletctedDiscount.Value) / 100)
           )
         );
       } else if (seletctedDiscount.CalculateType === 2) {
@@ -48,7 +52,15 @@ export default function Cart(props) {
   useEffect(() => {
     calculateDiscountPrice();
     console.log(seletctedDiscount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seletctedDiscount, cart.totalPrice]);
+
+  // 當購物車內容有變化時，計算選中商品的總價
+  useEffect(() => {
+    const checkedItems = cart.items.filter((item) => item.checked === true);
+    setCheckPrice(checkedItems.reduce((total, item) => total + item.quantity * item.price, 0));
+    console.log(checkPrice);
+  }, [cart]);
 
   // 處理選擇優惠券
   const handleCouponChange = (e) => {
@@ -108,7 +120,7 @@ export default function Cart(props) {
                       <option value="">選擇優惠券</option>
                       {discount
                         ? discount.map((item) => {
-                            if (item.ConditionMinValue <= cart.totalPrice) {
+                            if (item.ConditionMinValue <= checkPrice) {
                               return (
                                 <option key={item.ID} value={item.ID}>
                                   {item.Name}
@@ -122,49 +134,6 @@ export default function Cart(props) {
 									class="btn btn-sm bg-main-color btn-coupon-size border-0 text-white">選擇優惠券</button> */}
                   </div>
                   {/* 分頁功能，目前暫時隱藏 */}
-                  <div className="col mt-lg-4 justify-content-end cart-page">
-                    <button type="button" className="btn btn-sm">
-                      <svg
-                        width={14}
-                        height={15}
-                        viewBox="0 0 14 15"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M10.3377 1.46671C10.5852 1.78117 10.5451 2.24853 10.2481 2.51058L4.59343 7.5L10.2481 12.4894C10.5451 12.7515 10.5852 13.2188 10.3377 13.5333C10.0902 13.8478 9.64885 13.8902 9.35186 13.6282L3.05187 8.06939C2.89228 7.92857 2.8 7.71997 2.8 7.5C2.8 7.28003 2.89228 7.07143 3.05187 6.93062L9.35186 1.37181C9.64885 1.10976 10.0902 1.15224 10.3377 1.46671Z"
-                          fill="#888888"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-page-size bg-second-color"
-                    >
-                      1
-                    </button>
-                    <button type="button" className="btn btn-sm btn-page-size">
-                      2
-                    </button>
-                    <button type="button" className="btn btn-sm">
-                      <svg
-                        width={14}
-                        height={15}
-                        viewBox="0 0 14 15"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M3.66226 13.5333C3.41477 13.2188 3.45489 12.7515 3.75189 12.4894L9.40657 7.5L3.75189 2.51058C3.45489 2.24852 3.41477 1.78117 3.66226 1.46671C3.90976 1.15224 4.35115 1.10975 4.64814 1.37181L10.9481 6.93061C11.1077 7.07143 11.2 7.28003 11.2 7.5C11.2 7.71997 11.1077 7.92857 10.9481 8.06938L4.64814 13.6282C4.35115 13.8902 3.90976 13.8478 3.66226 13.5333Z"
-                          fill="#888888"
-                        />
-                      </svg>
-                    </button>
-                  </div>
                 </div>
               </div>
               {/* 繼續購物 & 總金額 */}
@@ -180,7 +149,7 @@ export default function Cart(props) {
                 <div className="d-flex flex-column w100per">
                   <div className="cart-check d-flex justify-content-between mb-4">
                     <div className="total-price">總金額</div>
-                    <div className="price">NT$ {cart.totalPrice}</div>
+                    <div className="price">NT$ {checkPrice}</div>
                   </div>
                   <div className="cart-check d-flex justify-content-between mb-4">
                     <div className="total-price">折抵金額</div>
@@ -196,7 +165,7 @@ export default function Cart(props) {
                   <div className="cart-check d-flex justify-content-between mb-4">
                     <div className="total-price">結帳金額</div>
                     <div className="price">
-                      NT$ {Math.max(0, cart.totalPrice - discountPrice)}
+                      NT$ {Math.max(0, checkPrice - discountPrice)}
                     </div>
                   </div>
                   <div className="set-middle">
