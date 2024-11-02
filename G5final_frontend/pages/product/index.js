@@ -24,10 +24,10 @@ export default function Index(props) {
     url: 'http://localhost:3005/api/product',
     onDataChange: handleDataChange,
     needSort: [
-      { way: 'desc-ID', name: '新到舊' },
-      { way: 'asc-ID', name: '舊到新' },
-      { way: 'asc-SalePrice', name: '價格低到高' },
-      { way: 'desc-SalePrice', name: '價格高到低' },
+      { way: 'asc-ID', name: '商品 舊 > 新' },
+      { way: 'desc-ID', name: '商品 新 > 舊' },
+      { way: 'asc-SalePrice', name: '價格 低 > 高' },
+      { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
   });
   console.log(nowPageItems);
@@ -281,8 +281,8 @@ export default function Index(props) {
               {/* 商品卡片 導入react 會是一張 跑迴圈出來*/}
               <div className="row mt-5 ms-4">
                 {/* 卡片內容 */}
-                {nowPageItems.map((v) => {
-                  return <ProductList key={v.ID} v={v} />;
+                {nowPageItems.map((pd) => {
+                  return <ProductList key={pd.ID} pd={pd} />;
                 })}
               </div>
               {/* 頁籤 */}
