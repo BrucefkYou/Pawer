@@ -9,9 +9,7 @@ export default function ProductList(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          'http://localhost:3005/api/productList/productList'
-        );
+        const response = await fetch('http://localhost:3005/api/product');
         if (!response.ok) {
           throw new Error('網路回應不成功：' + response.status);
         }
