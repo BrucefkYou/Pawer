@@ -1,43 +1,38 @@
 import React, { useState, useEffect } from 'react';
-export default function MemberNav({ chooseFilter, needFilter, newdata }) {
-  // 存放總比數
-  const [filterCounts, setFilterCounts] = useState({});
-  useEffect(() => {
-    // 依照按鈕數量逐一加入篩選結果的容器
-    const counts = {};
-    // 按鈕數量跑回圈,逐一計算
-    needFilter.forEach((button) => {
-      // 計算篩選後的比數
-      const filterData = newdata.filter(
-        (item) => item[button.filterName] == button.filterRule
-      );
-      // 將篩選數量存入對應按鈕的`id`
-      counts[button.id] = filterData.length;
-    });
-    // 設定進容器
-    setFilterCounts(counts);
-    // 隨著button更新時重新計算
-  }, [needFilter, newdata]);
-  console.log(needFilter);
+export default function MemberNav(props) {
   return (
     <>
       <ul className="nav nav-tabs member-nav-tabs" id="myTab" role="tablist">
-        {needFilter.map((button, index) => {
-          return (
-            <li key={button.id} className="nav-item" role="presentation">
-              <button
-                className={`nav-link ${index === 0 ? 'active' : ''}`}
-                data-bs-toggle="tab"
-                onClick={() => {
-                  chooseFilter(button.filterName, button.filterRule);
-                }}
-              >
-                {button.label}
-                <span className="tab-count">{filterCounts[button.id]}</span>
-              </button>
-            </li>
-          );
-        })}
+        <li className="nav-item" role="presentation">
+          <button
+            className="nav-link active"
+            id="home-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#home-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="home-tab-pane"
+            aria-selected="true"
+          >
+            進行中
+            <span className="tab-count">10</span>
+          </button>
+        </li>
+        <li className="nav-item" role="presentation">
+          <button
+            className="nav-link"
+            id="profile-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#profile-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="profile-tab-pane"
+            aria-selected="false"
+          >
+            歷史
+            <span className="tab-count">10</span>
+          </button>
+        </li>
       </ul>
     </>
   );
