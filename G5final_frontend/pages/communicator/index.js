@@ -7,7 +7,6 @@ import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
 import PetList from '@/components/pet/pet-list';
-import Link from 'next/link';
 
 export default function communicator(props) {
   const {
@@ -15,12 +14,27 @@ export default function communicator(props) {
     nowPage,
     totalPage,
     itemsperPage,
-    sort,
+    sortWay,
+    needSort,
     next,
     prev,
     choosePerpage,
     chooseSort,
-  } = usePagination({ url: 'http://localhost:3005/api/pet', onDataChange: handleDataChange });
+  } = usePagination({
+    url: 'http://localhost:3005/api/pet',
+    onDataChange: handleDataChange,
+    needSort:
+      [
+        { way: 'asc-ID', name: 'ID由小到大' },
+        { way: 'desc-ID', name: 'ID由大到小' },
+        { way: 'asc-Name', name: '名稱中文開頭' },
+        { way: 'desc-Name', name: '名稱英文開頭' },
+        { way: 'asc-Sex', name: '性別女' },
+        { way: 'desc-Sex', name: '性別男' },
+        { way: 'asc-CertificateDate', name: '取證日期-遠' },
+        { way: 'desc-CertificateDate', name: '取證日期-近' }
+      ]
+  });
 
   // 當子元件產生變化時重新抓取資料
   function handleDataChange(data) {
@@ -71,7 +85,7 @@ export default function communicator(props) {
             <PerPageDom itemsperPage={itemsperPage} choosePerpage={choosePerpage} />
           </div>
           <div className='col-6 col-md-3'>
-            <SortDom sort={sort} chooseSort={chooseSort} />
+              <SortDom sortWay={sortWay} chooseSort={chooseSort} needSort={needSort} />
             </div>
           </div>
           <div className="row d-flex justify-content-center">
