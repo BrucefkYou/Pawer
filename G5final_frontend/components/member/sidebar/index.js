@@ -58,8 +58,26 @@ export default function MbSideBar(props) {
     {
       id: 7,
       title: '寵物溝通師',
-      href: '/member/communicator',
-      subMenu: [],
+      href: '',
+      subMenu: [
+        {
+          id: 1,
+          title: '(師資)預約清單',
+          href: '/member/communicator/comReserve',
+        },
+        {
+          id: 2,
+          title: '(師資)溝通師資料',
+          href: '/member/communicator/detail',
+        },
+        { id: 3, title: '(師資)資料編輯', href: '/member/communicator/edit' },
+        {
+          id: 4,
+          title: '(會員)預約清單',
+          href: '/member/communicator/memReserve',
+        },
+        { id: 5, title: '(會員)師資註冊', href: '/member/communicator/create' },
+      ],
     },
   ];
 
