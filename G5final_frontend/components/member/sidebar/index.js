@@ -58,7 +58,7 @@ export default function MbSideBar(props) {
     {
       id: 7,
       title: '寵物溝通師',
-      href: '',
+      href: '/member/communicator',
       subMenu: [
         {
           id: 1,
