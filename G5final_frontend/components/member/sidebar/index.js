@@ -27,7 +27,7 @@ export default function MbSideBar(props) {
     {
       id: 3,
       title: '我的優惠券',
-      href: '/member/my-coupon',
+      href: '/member/coupon',
       subMenu: [],
     },
     {
@@ -58,7 +58,7 @@ export default function MbSideBar(props) {
     {
       id: 7,
       title: '寵物溝通師',
-      href: '/member/communicator',
+      href: '',
       subMenu: [
         {
           id: 1,

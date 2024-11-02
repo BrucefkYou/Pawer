@@ -42,32 +42,7 @@
   padding: 30px 36px;
   background-color: #fff;
   border-radius: 4px;
-  .title {
-    padding-bottom: 16px;
-    margin-bottom: 0px;
-    color: $primary;
-    position: relative;
-  }
-  .underline {
-    display: flex;
-    margin-top: 5px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  }
-
-  .underline-part1 {
-    width: 10px;
-    height: 2px;
-    background-color: $warning;
-  }
-
-  .underline-part2 {
-    width: 50px;
-    height: 2px;
-    background-color: $primary;
-    margin-left: 5px;
-  }
+ 
   .profile {
     width: 150px;
     height: 150px;

@@ -1,45 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import AdminLayout from '@/components/layout/admin-layout';
-Index.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+import MemberLayout from '@/components/layout/member-layout';
+import PageTitle from '@/components/member/page-title/page-title';
+ComReserve.getLayout = function getLayout(page) {
+  return <MemberLayout>{page}</MemberLayout>;
 };
-export default function Index(props) {
+export default function ComReserve(props) {
   return (
     <>
-      <div className="PT-reserve-card">
-        <div className="container p-4">
-          {/* 標題/篩選按鈕 */}
-          {/* !#功能 篩選 */}
-          <div className="row d-flex justify-content-center align-items-center">
-            {/* 標題 */}
-            <div className="col-12 col-sm-3">
-              <h4>
-                預約查詢 <span style={{ color: '#f4b13e' }}>Reserve</span>
-              </h4>
-              <p>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={64}
-                  height={2}
-                  viewBox="0 0 64 2"
-                  fill="none"
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M10 2H0V0H10V2Z"
-                    fill="#F4B13E"
-                  />
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M64 2H14V0H64V2Z"
-                    fill="#22355C"
-                  />
-                </svg>
-              </p>
-            </div>
-            {/* 按鈕 */}
+      <div className="PT-reserve-card p-4">
+        <div className="container">
+          {/* 標題 */}
+          <PageTitle title={'預約清單'} subTitle={'Reserve'} />
+          {/* !#功能 頁籤 */}
+          <ul
+            className="nav nav-tabs member-nav-tabs"
+            id="myTab"
+            role="tablist"
+          >
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link active"
+                id="home-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#home-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="home-tab-pane"
+                aria-selected="true"
+              >
+                進行中
+                <span className="tab-count">10</span>
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link"
+                id="profile-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#profile-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="profile-tab-pane"
+                aria-selected="false"
+              >
+                歷史
+                <span className="tab-count">10</span>
+              </button>
+            </li>
+          </ul>
+          {/* <div className="row d-flex justify-content-center align-items-center">
             <div className="col-12 col-sm-9 navbutton">
               <div className="btn-bg">
                 <button type="button" className="btnn">
@@ -52,7 +61,7 @@ export default function Index(props) {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* 清單標題 */}
           <div className="row none title text-center py-2">
             <div className="col-1">序號</div>

@@ -3,10 +3,17 @@ import { useState, useEffect } from 'react';
 export function usePagination({
   url = '',
   onDataChange,
-  needSort = [{ way: 'asc-ID', name: 'ID由小到大' }],
+  needSort = { way: 'asc-ID', name: 'ID由小到大' },
 }) {
   // 存放fetch所有容器
   const [data, setData] = useState([]);
+  // 如果使用sql的join語法先進行篩遠
+  const newdata = data.filter(
+    (item, index, oldArr) =>
+      // findIndex僅只會保留第一筆相同的資料
+      index === oldArr.findIndex((v) => v.ID === item.ID)
+  );
+
   // 存放當前頁數(初始1)
   const [nowPage, setNowPage] = useState(1);
   // 存放每頁顯示的項目數(初始6)
@@ -20,9 +27,9 @@ export function usePagination({
   // 計算當前頁數的第一筆數
   const nowPageFirstItems = nowPageLastItems - itemsperPage;
   // 計算該資料總頁數
-  const totalPage = Math.ceil(data.length / itemsperPage);
+  const totalPage = Math.ceil(newdata.length / itemsperPage);
   // 排序邏輯,需帶入參數sortWay排序方式,sortName
-  const sortedData = data.sort((a, b) => {
+  const sortedData = newdata.sort((a, b) => {
     // 如果屬性是數字類型，使用數字排序方式
     if (typeof a[sortName] === 'number' && typeof b[sortName] === 'number') {
       return sortWay === 'asc'
@@ -43,7 +50,6 @@ export function usePagination({
   });
   // 重新整理已經處理過排序的新陣列,計算當前頁數應取得的資料
   const nowPageItems = sortedData.slice(nowPageFirstItems, nowPageLastItems);
-  console.log(sortName);
 
   // 抓取資料庫資料
   useEffect(() => {
