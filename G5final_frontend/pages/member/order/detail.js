@@ -1,4 +1,5 @@
 import MemberLayout from '@/components/layout/member-layout';
+import PageTitle from '@/components/member/page-title';
 OrderDetail.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
@@ -8,13 +9,7 @@ export default function OrderDetail() {
     <>
       <article className="col-md-9">
         <div className="mb-content d-flex justify-content-between">
-          <h5 className="title">
-            訂單查詢 <span className="text-warning">Order</span>
-            <div className="underline">
-              <div className="underline-part1"></div>
-              <div className="underline-part2"></div>
-            </div>
-          </h5>
+          <PageTitle title={'訂單查詢'} subTitle={'Order'} />
         </div>
         <div className="mb-card">
           <div className="row">

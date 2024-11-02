@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BsCamera } from 'react-icons/bs';
 import { useAuth } from '@/hooks/use-auth';
 import MemberLayout from '@/components/layout/member-layout';
+import PageTitle from '@/components/member/page-title';
 Member.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
@@ -39,13 +40,7 @@ export default function Member() {
     <>
       <article className="col-md-9">
         <div className="mb-content">
-          <h5 className="title">
-            會員資料 <span className="text-warning">Member</span>
-            <div className="underline">
-              <div className="underline-part1"></div>
-              <div className="underline-part2"></div>
-            </div>
-          </h5>
+          <PageTitle title={'會員資料'} subTitle={'Member'} />
           <div className="row mt-4">
             <div className="col-md-6 col-sm-12 d-flex justify-content-center align-items-center">
               <div className="mb-3">
