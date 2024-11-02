@@ -5,7 +5,13 @@ import { IoIosLogOut } from 'react-icons/io';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from 'public/LOGO.svg';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/router';
 export default function Navbar() {
+  // 登出 並導向首頁
+  const { logout } = useAuth();
+  const router = useRouter();
+
   // 狀態管理下拉選單的顯示與隱藏
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -170,10 +176,14 @@ export default function Navbar() {
                 <BsCart2 className="text-secondary BsCart2" />
               </Link>
             </button>
-            <button className="navbar-logout">
-              <Link href="/logout">
-                <IoIosLogOut className="text-secondary" />
-              </Link>
+            <button
+              className="navbar-logout"
+              onClick={() => {
+                logout();
+                router.push('/');
+              }}
+            >
+              <IoIosLogOut className="text-secondary" />
             </button>
           </div>
         </div>
