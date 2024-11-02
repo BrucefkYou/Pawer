@@ -9,9 +9,10 @@ export default function SelectDate(props) {
         title="活動日期"
         img={pawButton}
         content={
-          <div className="d-flex justify-content-between">
-            <input className="flex-fill text-body-tertiary" type="date" />-
-            <input className="flex-fill text-body-tertiary" type="date" />
+          <div className=" row text-center justify-content-center">
+            <input className=" col-5 text-body-tertiary" type="date" />
+            <span className="col-1 text-center">-</span>
+            <input className="col-5 text-body-tertiary" type="date" />
           </div>
         }
       />

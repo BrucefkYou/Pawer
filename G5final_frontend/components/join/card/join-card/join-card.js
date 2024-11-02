@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import joins from '@/data/Joins.json';
 import JiCard from './item/ji-card';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function JoinCard() {
   // 初始化狀態，將每個加入的項目設置為fav: false
@@ -42,11 +43,18 @@ export default function JoinCard() {
     setJoinin(nextJoin);
   };
 
+  // 排除重複的資料
+  const newJoinin = joinin.filter(
+    (v, i, t) => i === t.findIndex((p) => p.ID === v.ID)
+  );
+  // console.log(joinin);
+  // console.log(newJoinin);
+
   return (
     <>
-      {joinin.map((data) => (
+      {newJoinin.map((data) => (
         <JiCard
-          key={data.ID}
+          key={uuidv4()}
           iconfillcolor="#f4b13e"
           data={data}
           handleToggleFav={handleToggleFav}
