@@ -96,7 +96,9 @@ export default function List(props) {
           <div className="d-flex justify-content-center align-items-center flex-column">
             <div className="mb-3">購物車裡面沒有商品</div>
             <button className="btn btn-warning">
-              <Link href="/product">前往商品頁</Link>
+              <Link href="/product" className="text-decoration-none">
+                前往商品頁
+              </Link>
             </button>
           </div>
         </>

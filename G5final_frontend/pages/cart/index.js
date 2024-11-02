@@ -119,6 +119,7 @@ export default function Cart(props) {
                       value={seletctedDiscount?.ID || ''}
                       onChange={handleCouponChange}
                     >
+                      {/* //! 這邊缺少一個function將以選取的優惠券帶到下一頁  */}
                       <option value="">選擇優惠券</option>
                       {/* 篩選只有滿足優惠券最低金額的優惠券會顯示 */}
                       {discount
@@ -178,7 +179,12 @@ export default function Cart(props) {
                       type="button"
                       className="btn bg-second-color text-white btn-checkd"
                     >
-                      去結帳
+                      <Link
+                        href="/cart/cart-info"
+                        className="text-decoration-none"
+                      >
+                        去結帳
+                      </Link>
                     </button>
                   </div>
                 </div>

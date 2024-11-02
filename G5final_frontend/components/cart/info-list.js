@@ -8,6 +8,7 @@ export default function InfoList(props) {
   const { cart, items, decrement, increment } = useCart();
   return (
     <>
+      {/* 這邊在map的時候新增一個條件適用filter過濾checked為true的商品 */}
       {items.length ? (
         items.map((item) => {
           return (
@@ -43,7 +44,7 @@ export default function InfoList(props) {
         })
       ) : (
         <>
-          <div>購物車是空的</div>
+          <div className="text-center">購物車是空的</div>
         </>
       )}
     </>
