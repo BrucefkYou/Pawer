@@ -1,0 +1,28 @@
+.title {
+  padding-bottom: 16px;
+  margin-bottom: 0px;
+  color: #22355c;
+  position: relative;
+}
+
+.underline {
+  display: flex;
+  margin-top: 5px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.underline-part1 {
+  width: 10px;
+  height: 2px;
+  background-color: #f4b13e;
+}
+
+.underline-part2 {
+  width: 50px;
+  height: 2px;
+  background-color: #22355c;
+  margin-left: 5px;
+}
+
