@@ -33,13 +33,10 @@ router.get('/', authenticate, async function (req, res) {
 
   const member = rows[0]
 
-  // 不回傳密碼
-  // delete member.Password
-
   return res.json({ status: 'success', data: { member } })
 })
 
-// 登入用
+// 登入
 router.post('/login', async (req, res, next) => {
   console.log(req.body)
 
@@ -83,6 +80,13 @@ router.post('/login', async (req, res, next) => {
     status: 'success',
     data: { accessToken },
   })
+})
+
+// 登出
+router.post('/logout', (req, res) => {
+  // 清除cookie
+  res.clearCookie('accessToken', { httpOnly: true })
+  res.json({ status: 'success', data: null })
 })
 
 export default router

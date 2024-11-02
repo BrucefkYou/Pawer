@@ -5,7 +5,21 @@ import { IoIosLogOut } from 'react-icons/io';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from 'public/LOGO.svg';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/router';
 export default function Navbar() {
+  const { auth, logout } = useAuth();
+  const router = useRouter();
+
+  // 判斷是否登入導向不同頁面
+  const islogin = () => {
+    if (auth.isAuth) {
+      router.push('/member');
+    } else {
+      router.push('/member/login');
+    }
+  };
+
   // 狀態管理下拉選單的顯示與隱藏
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -159,10 +173,8 @@ export default function Navbar() {
           </div>
 
           <div className="navbar-rightbtn">
-            <button className="navbar-member">
-              <Link href="/member">
-                <BsPerson className="text-secondary" />
-              </Link>
+            <button className="navbar-member" onClick={islogin}>
+              <BsPerson className="text-secondary" />
             </button>
             <button className="navbar-cart">
               {/* <img src="./images/icon/cart.svg" alt="1"> */}
@@ -170,10 +182,14 @@ export default function Navbar() {
                 <BsCart2 className="text-secondary BsCart2" />
               </Link>
             </button>
-            <button className="navbar-logout">
-              <Link href="/logout">
-                <IoIosLogOut className="text-secondary" />
-              </Link>
+            <button
+              className="navbar-logout"
+              onClick={() => {
+                logout();
+                router.push('/');
+              }}
+            >
+              <IoIosLogOut className="text-secondary" />
             </button>
           </div>
         </div>

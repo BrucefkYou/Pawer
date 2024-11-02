@@ -48,26 +48,6 @@
     color: $primary;
     position: relative;
   }
-  .underline {
-    display: flex;
-    margin-top: 5px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  }
-
-  .underline-part1 {
-    width: 10px;
-    height: 2px;
-    background-color: $warning;
-  }
-
-  .underline-part2 {
-    width: 50px;
-    height: 2px;
-    background-color: $primary;
-    margin-left: 5px;
-  }
   .profile {
     width: 150px;
     height: 150px;

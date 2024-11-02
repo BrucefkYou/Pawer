@@ -1,7 +1,7 @@
 import Pagination from '@/components/pagination/pagination';
 import Link from 'next/link';
 import MemberLayout from '@/components/layout/member-layout';
-import PageTitle from '@/components/member/page-title';
+import PageTitle from '@/components/member/page-title/page-title';
 Order.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };

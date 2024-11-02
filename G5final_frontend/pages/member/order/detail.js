@@ -1,5 +1,5 @@
 import MemberLayout from '@/components/layout/member-layout';
-import PageTitle from '@/components/member/page-title';
+import PageTitle from '@/components/member/page-title/page-title';
 OrderDetail.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };

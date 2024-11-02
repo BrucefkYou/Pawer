@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BsCamera } from 'react-icons/bs';
 import { useAuth } from '@/hooks/use-auth';
 import MemberLayout from '@/components/layout/member-layout';
-import PageTitle from '@/components/member/page-title';
+import PageTitle from '@/components/member/page-title/page-title';
 Member.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
