@@ -6,6 +6,7 @@ import { usePagination } from '@/hooks/usePagination';
 import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
+import PetList from '@/components/pet/pet-list';
 import Link from 'next/link';
 
 export default function communicator(props) {
@@ -29,7 +30,7 @@ export default function communicator(props) {
     <>
       <div className="PT-list">
         {/* banner */}
-        <Banner title="萌寵揪團聚會" bgImgUrl="/pet/images/Banner.jpg" />
+        <Banner bgImgUrl="/pet/images/Banner.jpg" ImgCover="cover" />
         {/* 主要內容 */}
         <div className="container py-2">
           {/* 麵包屑 */}
@@ -65,11 +66,11 @@ export default function communicator(props) {
             </div>
           </div>
           {/* 排序.每頁筆數 */}
-          <div className='row'>
-          <div className='col-6'>
+          <div className='row d-flex justify-content-end'>
+          <div className='col-6 col-md-3'>
             <PerPageDom itemsperPage={itemsperPage} choosePerpage={choosePerpage} />
           </div>
-          <div className='col-6'>
+          <div className='col-6 col-md-3'>
             <SortDom sort={sort} chooseSort={chooseSort} />
             </div>
           </div>
@@ -77,52 +78,8 @@ export default function communicator(props) {
             {/* 師資列表*/}
             {nowPageItems.map((v) => { 
               return (
-                <Link
-                className="col-lg-4 col-6 no-underline g-1 g-sm-4"
-                href={`/communicator/${v.ID}`}
-                key={v.ID}
-                passHref
-              >
-                <div className="pet-teachercard-yen position-relative" key={v.ID}>
-                  <Image
-                    className="imgg"
-                    src={`/pet/images/${v.Img}`}
-                    alt="1"
-                    width={400}
-                    height={300}
-                  />
-                  <div className="contain">
-                    <h4>{v.Name}</h4>
-                    <p className="text">
-                      證書編號：
-                      <br />
-                      {v.Certificateid}
-                    </p>
-                    <p className="text">
-                      通過日期：
-                      <br />
-                      {v.CertificateDate}
-                    </p>
-                    <p className="hover-btn">我要預約</p>
-                  </div>
-                  <div className="contain-hover">
-                    <p className="text-center f">Hi, 我是{v.Name}</p>
-                    <div className="">
-                      <p>
-                        服務項目：
-                        <br />
-                        {v.Service}
-                      </p>
-                      <p className="">
-                        進行方式：
-                        <br />
-                        {v.Approach}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </Link>)
-              
+                <PetList key={v.ID} v={v} />
+              )
             })}
           </div>
           {/* 分頁 */}
