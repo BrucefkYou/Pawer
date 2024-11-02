@@ -1,9 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-import {  v4 as uuidv4 } from 'uuid';;
+import { v4 as uuidv4 } from 'uuid';
 export function SortDom({ chooseSort, needSort }) {
-  // 存儲select的值隨著選項狀態改變
-  const [nowValue, setNowValue] = useState();
   // 存儲select的值隨著選項狀態改變
   const [nowValue, setNowValue] = useState();
 
@@ -16,7 +14,6 @@ export function SortDom({ chooseSort, needSort }) {
   }
   return (
     <div>
-      排序：
       <select
         value={nowValue}
         onChange={ifChange}
