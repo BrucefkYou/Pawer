@@ -18,7 +18,7 @@ router.get('/', async function (req, res, next) {
   }
 })
 
-// 抓單筆資料
+// 抓單筆資料¬
 router.get('/:id', async function (req, res, next) {
   try {
     // 使用 WHERE 子句來篩選指定 id 的資料

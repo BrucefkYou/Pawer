@@ -1,36 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import style from '@/components/join/banner/banner.module.scss';
 
 export default function Banner({ bgImgUrl = '', ImgCover = '' }) {
   const router = useRouter();
-  const { id } = router.query;
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (id) {
-          const response = await fetch(
-            `http://localhost:3005/api/join-in/${id}`
-          );
-          if (!response.ok) {
-            throw new Error('網路回應不成功：' + response.status);
-          }
-          const data = await response.json();
-          console.log('獲取的資料：', data);
-          setData(data);
-        }
-      } catch (err) {
-        console.error('錯誤：', err);
-      }
-    };
-
-    if (router.pathname.includes('/join/')) {
-      fetchData();
-    }
-  }, [id, router.pathname]);
-
   const menuItems = [
     { id: 1, title: '商品', href: '/product' },
     { id: 2, title: '萌寵揪團活動', href: '/join' },
@@ -38,23 +12,59 @@ export default function Banner({ bgImgUrl = '', ImgCover = '' }) {
     { id: 4, title: '寵物溝通師', href: '/communicator' },
   ];
 
-  const pageTitle = menuItems.find((item) => item.href === router.pathname);
-  // eslint-disable-next-line no-undef
-  const isDetailPage = router.pathname.includes('join');
-  // 先判斷有沒有抓取到data的值
-  const detailTitle = isDetailPage && data && data.ID ? data.Title : '';
+  const [data, setData] = useState({ ID: 0, Title: '' });
+  const getTitle = async (id) => {
+    const url = `http://localhost:3005/api/join-in/${id}`;
 
-  return (
-    <div
-      className={`${style['ji-banner']} text-center`}
-      style={{
-        backgroundImage: `url(${bgImgUrl})`,
-        backgroundSize: `${ImgCover}`,
-      }}
-    >
-      <h2 className={`${style['banner-title']}`}>
-        {pageTitle ? pageTitle.title : detailTitle}
-      </h2>
-    </div>
+    try {
+      const res = await fetch(url);
+      const resData = await res.json();
+      // 檢查資料類型是否正確，維持設定到狀態中都一定是所需的物件資料類型
+      if (typeof resData === 'object') {
+        setData(resData);
+      } else {
+        console.log('資料格式錯誤');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  //   用useEffect監聽router.isReady變動，當true時代表query中可以獲得動態屬性值
+  useEffect(() => {
+    if (router.isReady) {
+      // 在這裡可以確保得到router.query
+      getTitle(router.query.id);
+      //   console.log('router.query', router.query);
+    }
+    // eslint-disable-next-line
+  }, [router.isReady]);
+
+  const FTitle = menuItems.map((v, i) => {
+    if (v.href === router.pathname) {
+      return v.title;
+    }
+    return null;
+  });
+
+  const display = (
+    <>
+      <div className={`${style['ji-banner']} text-center`}>
+        <div className={style['image-container']}>
+          <Image
+            src={bgImgUrl}
+            alt="Banner Image"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          />
+          <div className={style['overlay']}></div>
+          <h2 className={`${style['banner-title']}`}>
+            {data.Title ? data.Title : FTitle}
+          </h2>
+        </div>
+      </div>
+    </>
   );
+
+  return <>{display}</>;
 }
