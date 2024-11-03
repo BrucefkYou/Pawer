@@ -22,6 +22,7 @@ export default function communicator(props) {
   } = usePagination({
     //!這裡改自己的路由
     url: 'http://localhost:3005/api/pet',
+    needFilter:[],
     needSort: [
       //!這裡客製化要的選單項目,way: asc-ID(升序-欄位名稱),name:(下拉選單要顯示的名稱)
       { way: 'asc-ID', name: 'ID由小到大' },
