@@ -5,6 +5,7 @@ import SideBarCard from '@/components/sidebar/sidebar-card/sidebar-card';
 import pawButton from '@/assets/pawButton.svg';
 import Banner from '@/components/join/banner/banner';
 import AroundJoinCard from '@/components/join/card/around-join-card/around-join-card';
+import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import {
   BsClock,
   BsGeoAlt,
@@ -49,20 +50,7 @@ export default function JiDetail(props) {
   const address = data.City + data.Township + data.Location;
   const display = (
     <div className="container ji-detail-container">
-      <nav aria-label="breadcrumb">
-        <ol className="breadcrumb">
-          <li className="breadcrumb-item">
-            <a href="#">首頁</a>
-          </li>
-          <li className="breadcrumb-item active" aria-current="page">
-            <a href="#">活動</a>
-          </li>
-          <li className="breadcrumb-item active" aria-current="page">
-            <a href="#">活動明細</a>
-          </li>
-        </ol>
-      </nav>
-
+      <Breadcrumbs />
       <form className="ji-form bg-white" action="" method="POST">
         <div className="ji-image">
           {/* eslint-disable  */}
