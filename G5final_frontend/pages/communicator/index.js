@@ -23,8 +23,6 @@ export default function communicator(props) {
     chooseSort,
   } = usePagination({
     url: 'http://localhost:3005/api/pet',
-    onDataChange: handleDataChange,
-    useJoin: true,
     needSort: [
       { way: 'asc-ID', name: 'ID由小到大' },
       { way: 'desc-ID', name: 'ID由大到小' },
@@ -35,11 +33,8 @@ export default function communicator(props) {
       { way: 'asc-CertificateDate', name: '取證日期-遠' },
       { way: 'desc-CertificateDate', name: '取證日期-近' },
     ],
+    needFilter:[]
   });
-
-  // 當子元件產生變化時重新抓取資料
-  function handleDataChange(data) {}
-
   return (
     <>
       <div className="PT-list">

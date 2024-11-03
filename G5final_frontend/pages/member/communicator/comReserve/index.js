@@ -2,38 +2,42 @@ import React, { useState, useEffect } from 'react';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
 import MemberNav from '@/components/memberNav';
+import { usePagination } from '@/hooks/usePagination';
+import { PageNav } from '@/components/PageNav';
 ComReserve.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
 export default function ComReserve(props) {
+  const {
+    chooseFilter,
+    newdata,
+    nowPageItems,
+    needFilter,
+    nowPage,
+    totalPage,
+    next,
+    prev
+  } = usePagination({
+    url: 'http://localhost:3005/api/pet',
+    needFilter: [
+      { id: 1, label: '男的', filterRule: 'Male', filterName: 'Sex' },
+      { id: 2, label: '女的', filterRule: 'Female', filterName: 'Sex' },
+    ]
+  });
   return (
     <>
       <div className="PT-reserve-card p-4">
         <div className="container">
           <div className="d-flex justify-content-between p-2">
-            <PageTitle title={'預約清單'} subTitle={'Reserve'} />
-
             {/* 標題 */}
-
-            <MemberNav />
+            <PageTitle title={'預約清單'} subTitle={'Reserve'} />
+            {/* 頁籤 */}
+            <MemberNav
+              newdata={newdata}
+              chooseFilter={chooseFilter}
+              needFilter={needFilter}
+            />
           </div>
-
-          {/* !#功能 頁籤 */}
-
-          {/* <div className="row d-flex justify-content-center align-items-center">
-            <div className="col-12 col-sm-9 navbutton">
-              <div className="btn-bg">
-                <button type="button" className="btnn">
-                  進行中
-                  <span className="count">10</span>
-                </button>
-                <button type="button" className="btnn">
-                  歷史
-                  <span className="count">10</span>
-                </button>
-              </div>
-            </div>
-          </div> */}
           {/* 清單標題 */}
           <div className="row none title text-center py-2">
             <div className="col-1">序號</div>
@@ -203,6 +207,7 @@ export default function ComReserve(props) {
               <p className="PT-sp-4">遠距溝通</p>
             </div>
           </div>
+          <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
         </div>
       </div>
     </>
