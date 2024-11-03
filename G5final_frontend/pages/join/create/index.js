@@ -85,7 +85,7 @@ export default function JoinCreatForm(props) {
                 <div id="full"></div>
                 <input type="hidden" id="EventInfo" name="EventInfo" require />
                 <div className="ji-ck">
-                  <CKEditor />
+                  <CKEditor placeholder="請輸入活動內容" />
                 </div>
               </div>
               <div className="mb-3">
