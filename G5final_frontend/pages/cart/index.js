@@ -8,12 +8,6 @@ import { useRouter } from 'next/router';
 export default function Cart(props) {
   const { auth } = useAuth();
   const router = useRouter();
-  // 判斷是否登入導向不同頁面
-  const islogin = () => {
-    if (!auth.isAuth) {
-      router.push('/member/login');
-    }
-  };
   const { cart } = useCart();
   const [discountPrice, setDiscountPrice] = useState(10); // 折抵金額，初始值為0
   const [seletctedDiscount, setSelectedDiscount] = useState(''); // 選擇的優惠券，初始值設為空字串

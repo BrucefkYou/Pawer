@@ -185,14 +185,13 @@ export default function Navbar() {
           </div>
 
           <div className="navbar-rightbtn">
+          {/* 判斷有沒有登入 */}
             {auth.isAuth ? (
-              member.avatar ? (
+              member.avatar ? ( 
                 <button className="navbar-member" onClick={islogin}>
-                  {/* //!這邊的圖片需要修改成從會員資料撈出來的頭像 */}
                   <Image width={24} height={24} objectFit='cover' className='navbar-login-img' src={`/member/member-avatar/${member.avatar}`} />
                 </button>
               ) : (<button className="navbar-member" onClick={islogin}>
-                {/* //!這邊的圖片需要修改成從會員資料撈出來的頭像 */}
                 <Image width={24} height={24} objectFit='cover' src={`/member/member-profile.png`} />
               </button>)
             ) : (<button className="navbar-member" onClick={islogin}>
