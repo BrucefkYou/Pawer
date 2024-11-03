@@ -18,6 +18,7 @@ export default function PetDetail(props) {
           throw new Error('網路回應不成功：' + response.status);
         }
         const data = await response.json();
+        console.log(data);
         // 過濾出符合的資料
         const idData = data.find((v) => v.ID == myId);
         // 設定進容器
@@ -46,6 +47,8 @@ export default function PetDetail(props) {
     Introduction,
     Fee,
   } = fetchOne;
+
+  console.log(fetchOne);
   return (
     <>
       <div className="row mb-3 d-flex justify-content-center alerttonone">

@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import List from '@/components/cart/list';
+import Link from 'next/link';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/router';
 
 export default function Cart(props) {
+  const { auth } = useAuth();
+  const router = useRouter();
   const { cart } = useCart();
   const [discountPrice, setDiscountPrice] = useState(10); // 折抵金額，初始值為0
   const [seletctedDiscount, setSelectedDiscount] = useState(''); // 選擇的優惠券，初始值設為空字串
   const [discount, setDiscount] = useState(); // 優惠券數據
   const [checkPrice, setCheckPrice] = useState(0); // 結帳金額
 
-  const setCheckItem = () => {
-    const checkedItems = cart.items.filter((item) => item.checked === true);
-  };
+  // 取得優惠券資料
   const getDiscount = async () => {
     try {
       const disCountData = await fetch(
@@ -28,16 +31,12 @@ export default function Cart(props) {
   };
 
   // 計算折扣金額
-  // 計算折扣金額
   const calculateDiscountPrice = () => {
     if (seletctedDiscount) {
       if (seletctedDiscount.CalculateType === 1) {
         // 百分比折扣，僅保存折扣金額
         setDiscountPrice(
-          // cart.totalPrice * Math.round(Number(seletctedDiscount.Value) / 100)
-          Math.round(
-            checkPrice * (1 - Number(seletctedDiscount.Value) / 100)
-          )
+          Math.round(checkPrice * (1 - Number(seletctedDiscount.Value) / 100))
         );
       } else if (seletctedDiscount.CalculateType === 2) {
         // 固定金額折扣
@@ -47,21 +46,6 @@ export default function Cart(props) {
       setDiscountPrice(0); // 如果沒有選擇優惠券，折扣金額為 0
     }
   };
-
-  // 當選擇優惠券發生變化時計算折扣
-  useEffect(() => {
-    calculateDiscountPrice();
-    console.log(seletctedDiscount);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seletctedDiscount, cart.totalPrice]);
-
-  // 當購物車內容有變化時，計算選中商品的總價
-  useEffect(() => {
-    const checkedItems = cart.items.filter((item) => item.checked === true);
-    setCheckPrice(checkedItems.reduce((total, item) => total + item.quantity * item.price, 0));
-    console.log(checkPrice);
-  }, [cart]);
-
   // 處理選擇優惠券
   const handleCouponChange = (e) => {
     const selected = discount.find(
@@ -69,120 +53,156 @@ export default function Cart(props) {
     );
     setSelectedDiscount(selected);
   };
+  // 當選擇優惠券發生變化時計算折扣
+  useEffect(() => {
+    calculateDiscountPrice();
+    console.log(seletctedDiscount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seletctedDiscount, cart.totalPrice]);
 
+  // 當購物車內容有變化時，計算勾選商品的總價
+  useEffect(() => {
+    const checkedItems = cart.items.filter((item) => item.checked === true);
+    setCheckPrice(
+      checkedItems.reduce(
+        (total, item) => total + item.quantity * item.price,
+        0
+      )
+    );
+  }, [cart]);
+  // 一進頁面就要讀取優惠券資料
   useEffect(() => {
     getDiscount();
   }, []);
   return (
     <>
-      <div className="cart">
-        <div className="container">
-          {/* 麵包屑 */}
-          <div className="row">
-            <div className="productList-crumb-wei col-sm-9 col-5">
-              <a href="./index">首頁</a>/
-              <a className="active" href="./cart">
-                購物車
-              </a>
-            </div>
-          </div>
-          {/* cart */}
-          <div className="cart-main">
-            {/* title */}
-            <div className="cart-title">
-              <h1>我的購物車</h1>
-              <hr />
-            </div>
-            {/* product */}
-            <div className="cart-product">
-              {/* 購物車商品列表-桌機 */}
-              {/* 桌機 */}
-              <div className="row row-cols-lg-12 product-card d-none d-sm-flex">
-                <div className="col-5 text-center">商品</div>
-                <div className="col text-center mr-40">單價</div>
-                <div className="col ">數量</div>
-                <div className="col text-center">總價</div>
-                <div className="col" />
+      {auth.isAuth ? (
+        <>
+          <div className="cart">
+            <div className="container">
+              {/* 麵包屑 */}
+              <div className="row">
+                <div className="productList-crumb-wei col-sm-9 col-5">
+                  <a href="./index">首頁</a>/
+                  <a className="active" href="./cart">
+                    購物車
+                  </a>
+                </div>
               </div>
-              <hr className="cart-hr d-none d-sm-block" />
-              <List />
-              {/* 優惠券 & 分頁 grid */}
-              <div className="cart-section2">
-                <div className="row row-cols-lg-2">
-                  <div className="col mt-lg-4 choose-discount set-mobile-middle">
-                    <select
-                      className="bg-main-color btn-coupon-size border-0 text-white"
-                      name="coupon"
-                      id="coupon"
-                      value={seletctedDiscount?.ID || ''}
-                      onChange={handleCouponChange}
-                    >
-                      <option value="">選擇優惠券</option>
-                      {discount
-                        ? discount.map((item) => {
-                            if (item.ConditionMinValue <= checkPrice) {
-                              return (
-                                <option key={item.ID} value={item.ID}>
-                                  {item.Name}
-                                </option>
-                              );
-                            }
-                          })
-                        : '沒有符合條件的優惠券'}
-                    </select>
-                    {/* <button type="button"
+              {/* cart */}
+              <div className="cart-main">
+                {/* title */}
+                <div className="cart-title">
+                  <h1>我的購物車</h1>
+                  <hr />
+                </div>
+                {/* product */}
+                <div className="cart-product">
+                  {/* 購物車商品列表-桌機 */}
+                  {/* 桌機 */}
+                  <div className="row row-cols-lg-12 product-card d-none d-sm-flex">
+                    <div className="col-5 text-center">商品</div>
+                    <div className="col text-center mr-40">單價</div>
+                    <div className="col ">數量</div>
+                    <div className="col text-center">總價</div>
+                    <div className="col" />
+                  </div>
+                  <hr className="cart-hr d-none d-sm-block" />
+                  <List />
+                  {/* 優惠券 & 分頁 grid */}
+                  <div className="cart-section2">
+                    <div className="row row-cols-lg-2">
+                      <div className="col mt-lg-4 choose-discount set-mobile-middle">
+                        <select
+                          className="bg-main-color btn-coupon-size border-0 text-white"
+                          name="coupon"
+                          id="coupon"
+                          value={seletctedDiscount?.ID || ''}
+                          onChange={handleCouponChange}
+                        >
+                          {/* //! 這邊缺少一個function將以選取的優惠券帶到下一頁  */}
+                          <option value="">選擇優惠券</option>
+                          {/* 篩選只有滿足優惠券最低金額的優惠券會顯示 */}
+                          {discount
+                            ? discount.map((item) => {
+                              if (item.ConditionMinValue <= checkPrice) {
+                                return (
+                                  <option key={item.ID} value={item.ID}>
+                                    {item.Name}
+                                  </option>
+                                );
+                              }
+                            })
+                            : '沒有符合條件的優惠券'}
+                        </select>
+                        {/* <button type="button"
 									class="btn btn-sm bg-main-color btn-coupon-size border-0 text-white">選擇優惠券</button> */}
-                  </div>
-                  {/* 分頁功能，目前暫時隱藏 */}
-                </div>
-              </div>
-              {/* 繼續購物 & 總金額 */}
-              <div className="cart-section3 d-flex justify-content-lg-between">
-                <div className="keep-shopping">
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-keepShoping btn-border-main"
-                  >
-                    繼續購物
-                  </button>
-                </div>
-                <div className="d-flex flex-column w100per">
-                  <div className="cart-check d-flex justify-content-between mb-4">
-                    <div className="total-price">總金額</div>
-                    <div className="price">NT$ {checkPrice}</div>
-                  </div>
-                  <div className="cart-check d-flex justify-content-between mb-4">
-                    <div className="total-price">折抵金額</div>
-                    <div className="price">NT$ {discountPrice}</div>
-                  </div>
-                  <div className="cart-check d-flex justify-content-between mb-4">
-                    <div className="total-price">優惠券</div>
-                    <div className="price">
-                      {seletctedDiscount?.Name || '沒有選擇優惠券'}
+                      </div>
+                      {/* 分頁功能，目前暫時隱藏 */}
                     </div>
                   </div>
-                  <hr className="mb-4" />
-                  <div className="cart-check d-flex justify-content-between mb-4">
-                    <div className="total-price">結帳金額</div>
-                    <div className="price">
-                      NT$ {Math.max(0, checkPrice - discountPrice)}
+                  {/* 繼續購物 & 總金額 */}
+                  <div className="cart-section3 d-flex justify-content-lg-between">
+                    <div className="keep-shopping">
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-keepShoping btn-border-main"
+                      >
+                        <Link href="/product" className="text-decoration-none">
+                          繼續購物
+                        </Link>
+                      </button>
                     </div>
-                  </div>
-                  <div className="set-middle">
-                    <button
-                      type="button"
-                      className="btn bg-second-color text-white btn-checkd"
-                    >
-                      去結帳
-                    </button>
+                    <div className="d-flex flex-column w100per">
+                      <div className="cart-check d-flex justify-content-between mb-4">
+                        <div className="total-price">總金額</div>
+                        <div className="price">NT$ {checkPrice}</div>
+                      </div>
+                      <div className="cart-check d-flex justify-content-between mb-4">
+                        <div className="total-price">折抵金額</div>
+                        <div className="price">NT$ {discountPrice}</div>
+                      </div>
+                      <div className="cart-check d-flex justify-content-between mb-4">
+                        <div className="total-price">優惠券</div>
+                        <div className="price">
+                          {seletctedDiscount?.Name || '沒有選擇優惠券'}
+                        </div>
+                      </div>
+                      <hr className="mb-4" />
+                      <div className="cart-check d-flex justify-content-between mb-4">
+                        <div className="total-price">結帳金額</div>
+                        <div className="price">
+                          NT$ {Math.max(0, checkPrice - discountPrice)}
+                        </div>
+                      </div>
+                      <div className="set-middle">
+                        <button
+                          type="button"
+                          className="btn bg-second-color text-white btn-checkd"
+                        >
+                          <Link
+                            href="/cart/cart-info"
+                            className="text-decoration-none"
+                          >
+                            去結帳
+                          </Link>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          {/* cart-desktop */}
+        </>) : (
+        <div className='d-flex flex-column justify-content-center align-items-center my-3 gap-4'>
+          <div className='text-center'>請先登入會員</div>
+          <button className='btn btn-warning'><Link className='text-decoration-none' href={"/member/login"}>去登入</Link></button>
         </div>
-      </div>
-      {/* cart-desktop */}
+      )}
     </>
+
+
   );
 }

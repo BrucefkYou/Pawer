@@ -1,5 +1,4 @@
 import MemberLayout from '@/components/layout/member-layout';
-import JoinCard2 from '@/components/join/card/join-card';
 OrderDetail.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
@@ -38,9 +37,7 @@ export default function OrderDetail() {
             </li>
           </ul>
         </div>
-        <div className="mb-card d-flex flex-wrap gap-4">
-          <JoinCard2 />
-        </div>
+        <div className="mb-card d-flex flex-wrap gap-4"></div>
       </article>
     </>
   );

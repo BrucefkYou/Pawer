@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from 'react';
 import Banner from '@/components/join/banner/banner';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
@@ -7,7 +9,6 @@ import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
 import PetList from '@/components/pet/pet-list';
-import Link from 'next/link';
 
 export default function communicator(props) {
   const {
@@ -15,17 +16,27 @@ export default function communicator(props) {
     nowPage,
     totalPage,
     itemsperPage,
-    sort,
+    sortWay,
+    needSort,
     next,
     prev,
     choosePerpage,
     chooseSort,
-  } = usePagination({ url: 'http://localhost:3005/api/pet', onDataChange: handleDataChange });
-
-  // 當子元件產生變化時重新抓取資料
-  function handleDataChange(data) {
-  }
-
+  } = usePagination({
+    url: 'http://localhost:3005/api/pet',
+    needFilter:[],
+    needSort: [
+      { way: 'asc-ID', name: 'ID由小到大' },
+      { way: 'desc-ID', name: 'ID由大到小' },
+      { way: 'asc-Name', name: '名稱中文開頭' },
+      { way: 'desc-Name', name: '名稱英文開頭' },
+      { way: 'asc-Sex', name: '性別女' },
+      { way: 'desc-Sex', name: '性別男' },
+      { way: 'asc-CertificateDate', name: '取證日期-遠' },
+      { way: 'desc-CertificateDate', name: '取證日期-近' },
+    ],
+    needFilter:[]
+  });
   return (
     <>
       <div className="PT-list">
@@ -66,25 +77,35 @@ export default function communicator(props) {
             </div>
           </div>
           {/* 排序.每頁筆數 */}
-          <div className='row d-flex justify-content-end'>
-          <div className='col-6 col-md-3'>
-            <PerPageDom itemsperPage={itemsperPage} choosePerpage={choosePerpage} />
-          </div>
-          <div className='col-6 col-md-3'>
-            <SortDom sort={sort} chooseSort={chooseSort} />
+          <div className="row d-flex justify-content-end">
+            <div className="col-6 col-md-3">
+              <PerPageDom
+                itemsperPage={itemsperPage}
+                choosePerpage={choosePerpage}
+              />
+            </div>
+            <div className="col-6 col-md-3">
+              <SortDom
+                sortWay={sortWay}
+                chooseSort={chooseSort}
+                needSort={needSort}
+              />
             </div>
           </div>
           <div className="row d-flex justify-content-center">
             {/* 師資列表*/}
-            {nowPageItems.map((v) => { 
-              return (
-                <PetList key={v.ID} v={v} />
-              )
+            {nowPageItems.map((v) => {
+              return <PetList key={v.ID} v={v} />;
             })}
           </div>
           {/* 分頁 */}
           <div className="d-flex justify-content-center">
-            <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
+            <PageNav
+              nowPage={nowPage}
+              totalPage={totalPage}
+              next={next}
+              prev={prev}
+            />
           </div>
         </div>
         {/* 廣告 */}

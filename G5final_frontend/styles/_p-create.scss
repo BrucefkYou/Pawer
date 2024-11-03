@@ -1,24 +1,6 @@
 .PT-create {
-  /* 側邊欄佔位 */
-  .sidebar {
-    background: #ccc;
-    height: 200vh;
-  }
-  @media (max-width: 768px) {
-    .sidebar {
-      display: none;
-    }
-    .none {
-      display: none;
-    }
-    .navbutton {
-      text-align: center;
-    }
-  }
-  .right-block {
-    height: 300vh;
-    // 第一張卡
-    .title-card {
+  .title-card {
+    background: white;
       text-align: center;
       box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
       padding: 2rem;
@@ -35,6 +17,7 @@
     }
     // 第二張卡
     .input-card {
+      background: white;
       box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
       padding: 2rem;
       color: #646464;
@@ -62,5 +45,4 @@
         padding: 0.5rem 2rem;
       }
     }
-  }
 }
