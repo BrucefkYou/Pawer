@@ -24,8 +24,7 @@ export default function communicator(props) {
     chooseSort,
   } = usePagination({
     url: 'http://localhost:3005/api/pet',
-    onDataChange: handleDataChange,
-    useJoin: true,
+    needFilter:[],
     needSort: [
       { way: 'asc-ID', name: 'ID由小到大' },
       { way: 'desc-ID', name: 'ID由大到小' },
