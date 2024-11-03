@@ -14,7 +14,6 @@ export function SortDom({ chooseSort, needSort }) {
   }
   return (
     <div>
-      排序：
       <select
         value={nowValue}
         onChange={ifChange}

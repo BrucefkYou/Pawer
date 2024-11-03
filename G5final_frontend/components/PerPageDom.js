@@ -3,7 +3,6 @@ import React from 'react';
 export function PerPageDom({ itemsperPage, choosePerpage }) {
   return (
     <div>
-      每頁筆數：
       <select
         value={itemsperPage}
         className="text-body-tertiary form-select d-none d-md-block"

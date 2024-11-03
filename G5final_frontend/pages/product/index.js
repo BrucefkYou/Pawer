@@ -1,54 +1,52 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
-import Pagination from '@/components/pagination/pagination';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import ProductList from '@/components/product/productList';
+import { usePagination } from '@/hooks/usePagination';
+import { PerPageDom } from '@/components/PerPageDom';
+import { SortDom } from '@/components/SortDom';
+import { PageNav } from '@/components/PageNav';
 
 export default function Index(props) {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          'http://localhost:3005/api/productList/productList'
-        );
-        if (!response.ok) {
-          throw new Error('網路回應不成功：' + response.status);
-        }
-        const data = await response.json();
-        setProducts(data);
-      } catch (err) {
-        console.log(err);
-      }
-      console.log(products);
-    };
-    fetchData();
-  }, []);
+  const {
+    nowPageItems,
+    nowPage,
+    totalPage,
+    itemsperPage,
+    sortWay,
+    needSort,
+    next,
+    prev,
+    choosePerpage,
+    chooseSort,
+  } = usePagination({
+    url: 'http://localhost:3005/api/product',
+    onDataChange: handleDataChange,
+    needSort: [
+      { way: 'asc-ID', name: '商品 舊 > 新' },
+      { way: 'desc-ID', name: '商品 新 > 舊' },
+      { way: 'asc-SalePrice', name: '價格 低 > 高' },
+      { way: 'desc-SalePrice', name: '價格 高 > 低' },
+    ],
+  });
+  console.log(nowPageItems);
+  // 當子元件產生變化時重新抓取資料
+  function handleDataChange(data) {}
   return (
     <>
       <div className="productList">
         <div className="container d-flex justify-content-between">
           {/* 麵包屑 */}
-          {/* <div className="row">
-            <div className="productList-crumb-wei">
-              <a href="./index.js">首頁</a>/
-              <a className="active" href="./product">
-                商品總覽
-              </a>
-            </div>
-          </div> */}
           <Breadcrumbs />
           <div className="row justify-content-center align-items-center">
-            <select
-              name="phsort"
-              id="phsort"
-              className="col selectpd rwd-select form-select me-3"
-            >
-              <option value="DESC">新到舊</option>
-              <option value="ASC">舊到新</option>
-            </select>
+            <div className="col selectpd rwd-select form-select me-3">
+              <SortDom
+                sortWay={sortWay}
+                chooseSort={chooseSort}
+                needSort={needSort}
+              />
+            </div>
           </div>
         </div>
         {/* 商品內容 */}
@@ -266,33 +264,35 @@ export default function Index(props) {
               {/* 顯示數量 每頁幾筆 排序 內容 */}
               <div className="row choose-page">
                 <p className="howmaney col me-3 mt-2">顯示第1-12筆 / 共60筆</p>
-                <select
-                  name="perpage"
-                  id="perpage"
-                  className="col selectpd form-select rwd-none me-3"
-                >
-                  <option value="5">每頁5筆</option>
-                  <option value="10">每頁10筆</option>
-                  <option value="15">每頁15筆</option>
-                  <option value="20">每頁20筆</option>
-                </select>
-                <select
-                  name="sort"
-                  id="sort"
-                  className="col rwd-none form-select selectpd"
-                >
-                  <option value="DESC">新到舊</option>
-                  <option value="ASC">舊到新</option>
-                </select>
+                <div className="col selectpd rwd-none me-3">
+                  <PerPageDom
+                    itemsperPage={itemsperPage}
+                    choosePerpage={choosePerpage}
+                  />
+                </div>
+                <div className="col rwd-none selectpd">
+                  <SortDom
+                    sortWay={sortWay}
+                    chooseSort={chooseSort}
+                    needSort={needSort}
+                  />
+                </div>
               </div>
               {/* 商品卡片 導入react 會是一張 跑迴圈出來*/}
               <div className="row mt-5 ms-4">
                 {/* 卡片內容 */}
-                <ProductList />
+                {nowPageItems.map((pd) => {
+                  return <ProductList key={pd.ID} pd={pd} />;
+                })}
               </div>
               {/* 頁籤 */}
               <div className="d-flex justify-content-center align-items-center mt-5 mb-5">
-                <Pagination />
+                <PageNav
+                  nowPage={nowPage}
+                  totalPage={totalPage}
+                  next={next}
+                  prev={prev}
+                />
               </div>
             </div>
           </div>
