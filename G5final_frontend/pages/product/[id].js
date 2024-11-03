@@ -17,7 +17,9 @@ export default function Id(props) {
         {/* 評論 */}
         <div className="container mt-5 mb-5">
           <div>
-            <p className="pd-comment">商品評論</p>
+            <p className="pd-comment" id="comment">
+              商品評論
+            </p>
           </div>
           <div className="row">
             {/* 留下評論 */}
