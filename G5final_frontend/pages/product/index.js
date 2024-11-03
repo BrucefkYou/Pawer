@@ -263,7 +263,7 @@ export default function Index(props) {
             <div className="row">
               {/* 顯示數量 每頁幾筆 排序 內容 */}
               <div className="row choose-page">
-                <p className="howmaney col me-3 mt-2">顯示第1-12筆 / 共60筆</p>
+                <p className="howmaney col me-3 mt-3">顯示第1-12筆 / 共60筆</p>
                 <div className="col selectpd rwd-none me-3">
                   <PerPageDom
                     itemsperPage={itemsperPage}

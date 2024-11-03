@@ -8,10 +8,10 @@ export function PerPageDom({ itemsperPage, choosePerpage }) {
         className="text-body-tertiary form-select d-none d-md-block"
         onChange={choosePerpage}
       >
-        <option>6</option>
-        <option>12</option>
-        <option>18</option>
-        <option>24</option>
+        <option value={6}>每頁 6 筆</option>
+        <option value={12}>每頁 12 筆</option>
+        <option value={18}>每頁 18 筆</option>
+        <option value={24}>每頁 24 筆</option>
       </select>
     </div>
   );
