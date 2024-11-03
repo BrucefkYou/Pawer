@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import InfoList from '@/components/cart/info-list';
 import { set } from 'lodash';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 
 export default function CartInfo(props) {
@@ -15,7 +14,6 @@ export default function CartInfo(props) {
   const [checkedPrice, setCheckedPrice] = useState(0); // 進到結帳資訊的商品的總價
   const [discountPrice, setDiscountPrice] = useState(0); // 折抵金額，初始值為0
   const [discount, setDiscount] = useState(); // 優惠券數據
-  const router = useRouter();
 
   const getDiscount = () => {
     setDiscount(window.localStorage.getItem('discount'));
