@@ -58,7 +58,7 @@ export default function JiDetail(props) {
           className="ji-img1"
           width={1176}
           height={532}
-          src="/join/t5.jpg"
+          src={`/join/${data.ImageName}`}
           alt={`${data.Title}首圖`}
         />
       </div>

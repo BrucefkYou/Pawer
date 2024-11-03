@@ -2,12 +2,15 @@ import React from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-export default function CKEditorComponent() {
+export default function CKEditorComponent({ placeholder = '' }) {
   return (
     <div>
       <CKEditor
         editor={ClassicEditor}
-        data="請輸入活動內容"
+        data=""
+        config={{
+          placeholder: `${placeholder}`, // 設定 placeholder
+        }}
         onReady={(editor) => {
           console.log('Editor is ready to use!', editor);
         }}

@@ -13,22 +13,7 @@ export default function Banner({ bgImgUrl = '', imgCover = 'cover' }) {
   ];
 
   const [data, setData] = useState({ ID: 0, Title: '' });
-  const getTitle = async (id) => {
-    const url = `http://localhost:3005/api/join-in/${id}`;
 
-    try {
-      const res = await fetch(url);
-      const resData = await res.json();
-      // 檢查資料類型是否正確，維持設定到狀態中都一定是所需的物件資料類型
-      if (typeof resData === 'object') {
-        setData(resData);
-      } else {
-        console.log('資料格式錯誤');
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
   //   用useEffect監聽router.isReady變動，當true時代表query中可以獲得動態屬性值
   useEffect(() => {
     if (router.isReady) {
@@ -46,6 +31,22 @@ export default function Banner({ bgImgUrl = '', imgCover = 'cover' }) {
     return null;
   });
 
+  const getTitle = async (id) => {
+    const url = `http://localhost:3005/api/join-in/${id}`;
+
+    try {
+      const res = await fetch(url);
+      const resData = await res.json();
+      // 檢查資料類型是否正確，維持設定到狀態中都一定是所需的物件資料類型
+      if (typeof resData === 'object') {
+        setData(resData);
+      } else {
+        console.log('資料格式錯誤');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const display = (
     <>
       <div className={`${style['ji-banner']} text-center`}>
