@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 export default function Cart(props) {
   const { auth } = useAuth();
   const router = useRouter();
-  const { cart } = useCart();
+  const { cart, addItem } = useCart();
   const [discountPrice, setDiscountPrice] = useState(10); // 折抵金額，初始值為0
   const [seletctedDiscount, setSelectedDiscount] = useState(''); // 選擇的優惠券，初始值設為空字串
   const [discount, setDiscount] = useState(); // 優惠券數據
@@ -46,6 +46,7 @@ export default function Cart(props) {
       setDiscountPrice(0); // 如果沒有選擇優惠券，折扣金額為 0
     }
   };
+
   // 處理選擇優惠券
   const handleCouponChange = (e) => {
     const selected = discount.find(
@@ -53,10 +54,15 @@ export default function Cart(props) {
     );
     setSelectedDiscount(selected);
   };
+
+  // 將選擇的優惠券帶到下一頁
+  const bringDiscount = () => {
+    window.localStorage.setItem('discount', JSON.stringify(seletctedDiscount));
+  }
+
   // 當選擇優惠券發生變化時計算折扣
   useEffect(() => {
     calculateDiscountPrice();
-    console.log(seletctedDiscount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seletctedDiscount, cart.totalPrice]);
 
@@ -183,6 +189,8 @@ export default function Cart(props) {
                           <Link
                             href="/cart/cart-info"
                             className="text-decoration-none"
+                            // 將選擇的優惠券帶到下一頁
+                            onClick={bringDiscount}
                           >
                             去結帳
                           </Link>
