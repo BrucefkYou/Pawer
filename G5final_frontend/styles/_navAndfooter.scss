@@ -5,6 +5,9 @@
   top: 0;
   background: $primary;
   z-index: 5000;
+  .navbar-login-img{
+    border-radius: 50%;
+  }
 }
 
 .navbar {
