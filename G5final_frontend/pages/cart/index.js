@@ -10,9 +10,6 @@ export default function Cart(props) {
   const [discount, setDiscount] = useState(); // 優惠券數據
   const [checkPrice, setCheckPrice] = useState(0); // 結帳金額
 
-  const setCheckItem = () => {
-    const checkedItems = cart.items.filter((item) => item.checked === true);
-  };
   const getDiscount = async () => {
     try {
       const disCountData = await fetch(
@@ -34,7 +31,6 @@ export default function Cart(props) {
       if (seletctedDiscount.CalculateType === 1) {
         // 百分比折扣，僅保存折扣金額
         setDiscountPrice(
-          // cart.totalPrice * Math.round(Number(seletctedDiscount.Value) / 100)
           Math.round(checkPrice * (1 - Number(seletctedDiscount.Value) / 100))
         );
       } else if (seletctedDiscount.CalculateType === 2) {

@@ -151,23 +151,19 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="navbar-list">
-            <Link type="button" className="text-secondary" href="./product">
+            <Link type="button" className="text-secondary" href="/product">
               貓貓商品
             </Link>
-            <Link type="button" className="text-secondary" href="./product">
+            <Link type="button" className="text-secondary" href="/product">
               狗狗商品
             </Link>
-            <Link type="button" className="text-secondary" href="./blog">
+            <Link type="button" className="text-secondary" href="/blog">
               部落格專區
             </Link>
-            <Link type="button" className="text-secondary" href="./join">
+            <Link type="button" className="text-secondary" href="/join">
               萌寵聚會
             </Link>
-            <Link
-              type="button"
-              className="text-secondary"
-              href="./communicator"
-            >
+            <Link type="button" className="text-secondary" href="/communicator">
               寵物溝通
             </Link>
           </div>

@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import InfoList from '@/components/cart/info-list';
 import { set } from 'lodash';
+import { useCart } from '@/hooks/use-cart/use-cart-state';
 
 export default function CartInfo(props) {
+  const { items } = useCart();
   const [selectedCity, setSelectedCity] = useState(false); // 初始值設為空字串
   const [selectedDelivery, setSelectedDelivery] = useState(''); // 被選中的運送方式
   const [selectedPayment, setSelectedPayment] = useState(''); // 被選中的付款方式
   const [selectedBill, setSelectedBill] = useState(''); // 被選中的發票方式
+
+  const [checkedPrice, setCheckedPrice] = useState(0); // 進到結帳資訊的商品的總價
+  const [discountPrice, setDiscountPrice] = useState(0); // 折抵金額，初始值為0
 
   // 處理運送方式變化
   const handleDeliveryChange = (event) => {
@@ -29,6 +34,13 @@ export default function CartInfo(props) {
   const handleAreaChange = (e) => {
     setSelectedCity(e.target.value);
   };
+  useEffect(() => {
+    setCheckedPrice(
+      items
+        .filter((item) => item.checked)
+        .reduce((total, item) => total + item.quantity * item.price, 0)
+    );
+  }, []);
   return (
     <>
       <div className="cart">
@@ -1669,7 +1681,9 @@ export default function CartInfo(props) {
                 <section className="payment-block">
                   {/* 付款方式-標題 */}
                   <div className="home-delivery">
-                    <span className="delivery-title">付款方式</span>
+                    <span className="delivery-title">
+                      付款方式 <span className="text-danger">*</span>
+                    </span>
                   </div>
                   {/* !待新增效果-點擊後才出現下面的欄位 */}
                   {/* 信用卡 */}
@@ -1762,7 +1776,9 @@ export default function CartInfo(props) {
                 <section className="receipt-block">
                   {/* 發票資訊-標題 */}
                   <div className="home-delivery">
-                    <span className="delivery-title">發票資訊</span>
+                    <span className="delivery-title">
+                      發票資訊 <span className="text-danger">*</span>
+                    </span>
                   </div>
                   {/* !待新增效果-點擊後才出現下面的欄位 */}
                   {/* 捐贈發票 */}
@@ -1827,7 +1843,9 @@ export default function CartInfo(props) {
                       <div className="d-flex flex-column">
                         <div className="price-block d-flex justify-content-between w-100">
                           <div className="price-font set-middle">總金額</div>
-                          <div className="price-font set-middle">NT$1600</div>
+                          <div className="price-font set-middle">
+                            NT${checkedPrice}
+                          </div>
                         </div>
                         <div className="price-block d-flex justify-content-between w-100">
                           <div className="price-font set-middle">優惠券</div>
@@ -1839,7 +1857,9 @@ export default function CartInfo(props) {
                         <hr />
                         <div className="price-block d-flex justify-content-between w-100">
                           <div className="price-font set-middle">結帳金額</div>
-                          <div className="price-font set-middle">NT$1500</div>
+                          <div className="price-font set-middle">
+                            NT${checkedPrice - discountPrice}
+                          </div>
                         </div>
                       </div>
                     </div>
