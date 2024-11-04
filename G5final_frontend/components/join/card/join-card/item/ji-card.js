@@ -14,6 +14,7 @@ export default function JiCard({
   iconfillcolor = `${iconfillcolor}`,
   data = {},
   // handleToggleFav = () => {},
+  // handleToggleFav = () => {},
 }) {
   const router = useRouter();
   const StartTime = data.StartTime
@@ -51,6 +52,10 @@ export default function JiCard({
               type="button"
               className={`text-body-tertiary  ${styles['colicon']}`}
             >
+              <ClickIcon
+                IconFilled={BsBookmarkFill}
+                IconOutline={BsBookmark}
+                count={data.joinFavCount}
               <ClickIcon
                 IconFilled={BsBookmarkFill}
                 IconOutline={BsBookmark}
