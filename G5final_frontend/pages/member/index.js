@@ -18,12 +18,6 @@ export default function Member() {
     gender: '',
     birth: '',
   });
-  // 多欄位共用事件函式
-  const handleFieldChange = (e) => {
-    // ES6特性: 計算得來的物件屬性名稱(computed property name)
-    let nextMember = { ...member, [e.target.name]: e.target.value };
-    setMember(nextMember);
-  };
 
   // 初始化會員資料
   const initMemberData = async () => {
@@ -31,10 +25,16 @@ export default function Member() {
     setMember({ ...member });
     console.log(member);
   };
-  // 本頁一開始render後就會設定到user狀態中
+  // 本頁一開始render後就會設定到會員資料
   useEffect(() => {
     initMemberData();
   }, []);
+  // 多欄位共用事件函式
+  const handleFieldChange = (e) => {
+    // ES6特性: 計算得來的物件屬性名稱(computed property name)
+    let nextMember = { ...member, [e.target.name]: e.target.value };
+    setMember(nextMember);
+  };
 
   return (
     <>
@@ -123,6 +123,7 @@ export default function Member() {
                 name="email"
                 value={member.email}
                 onChange={handleFieldChange}
+                disabled
               />
             </div>
           </div>

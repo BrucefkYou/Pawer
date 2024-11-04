@@ -37,7 +37,7 @@ router.get('/', authenticate, async function (req, res) {
 })
 
 // 登入
-router.post('/login', async (req, res, next) => {
+router.post('/login', async (req, res) => {
   const loginMember = req.body
 
   const [rows] = await db.query(
