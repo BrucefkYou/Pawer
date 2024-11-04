@@ -1,0 +1,23 @@
+.blog-card {
+  width: 367px;
+  height: 540px;
+  overflow: hidden;
+}
+.blog-card .card-image {
+  overflow: hidden;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.blog-card .card-body {
+  padding: 16px 30px 30px 30px;
+  font-size: 14px;
+}
+.blog-card .card-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.blog-card p {
+  border-radius: 2px;
+  line-height: 26px;
+}/*# sourceMappingURL=blog-card.module.css.map */

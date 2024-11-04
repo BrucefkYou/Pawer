@@ -1,0 +1,15 @@
+.blog-account {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.blog-account .avatar {
+  border-radius: 50%;
+  background-color: #ccc;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.blog-account .text {
+  margin: 0;
+  color: hsla(0, 0%, 0%, 0.6);
+}/*# sourceMappingURL=account.module.css.map */
