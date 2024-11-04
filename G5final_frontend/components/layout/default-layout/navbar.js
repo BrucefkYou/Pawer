@@ -5,7 +5,31 @@ import { IoIosLogOut } from 'react-icons/io';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from 'public/LOGO.svg';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/router';
 export default function Navbar() {
+  const { auth, logout, getMember } = useAuth();
+  const [member, setMember] = useState({
+    account: '',
+    name: '',
+    nickname: '',
+    email: '',
+    phone: '',
+    gender: '',
+    birth: '',
+    avatar: '',
+  });
+  const router = useRouter();
+
+  // 判斷是否登入導向不同頁面
+  const islogin = () => {
+    if (auth.isAuth) {
+      router.push('/member');
+    } else {
+      router.push('/member/login');
+    }
+  };
+
   // 狀態管理下拉選單的顯示與隱藏
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -20,12 +44,19 @@ export default function Navbar() {
       setIsDropdownOpen(false);
     }
   };
+  const initMemberData = async () => {
+    const member = await getMember();
+    setMember({ ...member });
+  };
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
+  }, []);
+  useEffect(() => {
+    initMemberData();
   }, []);
   return (
     <>
@@ -59,9 +90,8 @@ export default function Navbar() {
                   </svg>
                 </button>
                 <div
-                  className={`customDropdownMenu ${
-                    isDropdownOpen ? 'showMenu' : ''
-                  }`}
+                  className={`customDropdownMenu ${isDropdownOpen ? 'showMenu' : ''
+                    }`}
                 >
                   <ul className="dropdownUl">
                     <li className="dropdownli">
@@ -137,43 +167,51 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="navbar-list">
-            <Link type="button" className="text-secondary" href="./product">
+            <Link type="button" className="text-secondary" href="/product">
               貓貓商品
             </Link>
-            <Link type="button" className="text-secondary" href="./product">
+            <Link type="button" className="text-secondary" href="/product">
               狗狗商品
             </Link>
-            <Link type="button" className="text-secondary" href="./blog">
+            <Link type="button" className="text-secondary" href="/blog">
               部落格專區
             </Link>
-            <Link type="button" className="text-secondary" href="./join">
+            <Link type="button" className="text-secondary" href="/join">
               萌寵聚會
             </Link>
-            <Link
-              type="button"
-              className="text-secondary"
-              href="./communicator"
-            >
+            <Link type="button" className="text-secondary" href="/communicator">
               寵物溝通
             </Link>
           </div>
 
           <div className="navbar-rightbtn">
-            <button className="navbar-member">
-              <Link href="/member">
-                <BsPerson className="text-secondary" />
-              </Link>
-            </button>
+          {/* 判斷有沒有登入 */}
+            {auth.isAuth ? (
+              member.avatar ? ( 
+                <button className="navbar-member" onClick={islogin}>
+                  <Image width={24} height={24} objectFit='cover' className='navbar-login-img' src={`/member/member-avatar/${member.avatar}`} />
+                </button>
+              ) : (<button className="navbar-member" onClick={islogin}>
+                <Image width={24} height={24} objectFit='cover' src={`/member/member-profile.png`} />
+              </button>)
+            ) : (<button className="navbar-member" onClick={islogin}>
+              <BsPerson className="text-secondary" />
+            </button>)}
+
             <button className="navbar-cart">
               {/* <img src="./images/icon/cart.svg" alt="1"> */}
               <Link href="/cart">
                 <BsCart2 className="text-secondary BsCart2" />
               </Link>
             </button>
-            <button className="navbar-logout">
-              <Link href="/logout">
-                <IoIosLogOut className="text-secondary" />
-              </Link>
+            <button
+              className="navbar-logout"
+              onClick={() => {
+                logout();
+                router.push('/');
+              }}
+            >
+              <IoIosLogOut className="text-secondary" />
             </button>
           </div>
         </div>

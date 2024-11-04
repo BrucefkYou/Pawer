@@ -1,57 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import AdminLayout from '@/components/layout/admin-layout';
-Index.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+import MemberLayout from '@/components/layout/member-layout';
+import PageTitle from '@/components/member/page-title/page-title';
+import MemberNav from '@/components/memberNav';
+import { usePagination } from '@/hooks/usePagination';
+import { PageNav } from '@/components/PageNav';
+ComReserve.getLayout = function getLayout(page) {
+  return <MemberLayout>{page}</MemberLayout>;
 };
-export default function Index(props) {
+export default function ComReserve(props) {
+  const {
+    chooseFilter,
+    newdata,
+    nowPageItems,
+    needFilter,
+    nowPage,
+    totalPage,
+    next,
+    prev
+  } = usePagination({
+    url: 'http://localhost:3005/api/pet',
+    needFilter: [
+      { id: 1, label: '男的', filterRule: 'Male', filterName: 'Sex' },
+      { id: 2, label: '女的', filterRule: 'Female', filterName: 'Sex' },
+    ]
+  });
   return (
     <>
-      <div className="PT-reserve-card">
-        <div className="container p-4">
-          {/* 標題/篩選按鈕 */}
-          {/* !#功能 篩選 */}
-          <div className="row d-flex justify-content-center align-items-center">
+      <div className="PT-reserve-card p-4">
+        <div className="container">
+          <div className="d-flex justify-content-between p-2">
             {/* 標題 */}
-            <div className="col-12 col-sm-3">
-              <h4>
-                預約查詢 <span style={{ color: '#f4b13e' }}>Reserve</span>
-              </h4>
-              <p>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={64}
-                  height={2}
-                  viewBox="0 0 64 2"
-                  fill="none"
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M10 2H0V0H10V2Z"
-                    fill="#F4B13E"
-                  />
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M64 2H14V0H64V2Z"
-                    fill="#22355C"
-                  />
-                </svg>
-              </p>
-            </div>
-            {/* 按鈕 */}
-            <div className="col-12 col-sm-9 navbutton">
-              <div className="btn-bg">
-                <button type="button" className="btnn">
-                  進行中
-                  <span className="count">10</span>
-                </button>
-                <button type="button" className="btnn">
-                  歷史
-                  <span className="count">10</span>
-                </button>
-              </div>
-            </div>
+            <PageTitle title={'預約清單'} subTitle={'Reserve'} />
+            {/* 頁籤 */}
+            <MemberNav
+              newdata={newdata}
+              chooseFilter={chooseFilter}
+              needFilter={needFilter}
+            />
           </div>
           {/* 清單標題 */}
           <div className="row none title text-center py-2">
@@ -117,7 +102,8 @@ export default function Index(props) {
             {/* !＃判斷 若取得資料為結束且於手機版?PT-sp-none-rwd */}
             <div className="col-4 col-md-3 d-flex justify-content-center align-items-center ps-0">
               <div className="imgg d-flex py-2">
-                <img src="./images/pic/teacher.png" alt="1" />
+                <img src="../../pet/images/teacher.png" alt="1" />
+                <img src="../../pet/images/teacher.png" alt="1" />
               </div>
             </div>
             {/* 內容 */}
@@ -188,7 +174,8 @@ export default function Index(props) {
             {/* 頭像 */}
             <div className="col-4 col-md-3 d-flex justify-content-center align-items-center PT-sp-none-rwd">
               <div className="imgg d-flex py-2">
-                <img src="./images/pic/teacher.png" alt="1" />
+                <img src="../../pet/images/teacher.png" alt="1" />
+                <img src="../../pet/images/teacher.png" alt="1" />
               </div>
             </div>
             {/* 內容 */}
@@ -222,6 +209,7 @@ export default function Index(props) {
               <p className="PT-sp-4">遠距溝通</p>
             </div>
           </div>
+          <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
         </div>
       </div>
     </>

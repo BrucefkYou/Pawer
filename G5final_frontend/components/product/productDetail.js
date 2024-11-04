@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-undef */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
@@ -15,9 +17,7 @@ export default function ProductDetail(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          'http://localhost:3005/api/productList/productList'
-        );
+        const response = await fetch('http://localhost:3005/api/product');
         if (!response.ok) {
           throw new Error('網路回應不成功：' + response.status);
         }
@@ -175,8 +175,32 @@ export default function ProductDetail(props) {
           </div>
         </div>
       </div>
+      <div className="container bg-white comment-detail-shadow">
+        <div className="d-flex justify-content-center align-items-center mt-5">
+          <a
+            onClick={() =>
+              document
+                .querySelector('#detail')
+                .scrollIntoView({ behavior: 'smooth' })
+            }
+            className="no-underline me-5"
+          >
+            商品內容
+          </a>
+          <a
+            onClick={() =>
+              document
+                .querySelector('#comment')
+                .scrollIntoView({ behavior: 'smooth' })
+            }
+            className="no-underline"
+          >
+            商品評論
+          </a>
+        </div>
+      </div>
       {/* 商品內容 */}
-      <div className="container mt-5">
+      <div className="container mt-3" id="detail">
         <div className="d-flex justify-content-center pd-content-me5">
           {Img && (
             <Image
