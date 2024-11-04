@@ -1,7 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
-import { BsPersonPlusFill } from 'react-icons/bs';
-import ColIcon from './col-icon';
+import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
+
+import ClickIcon from '@/components/icons/click-icon/click-icon';
 import { useRouter } from 'next/router';
 import styles from '@/components/join/card/join-card/join-card.module.scss';
 import Link from 'next/link';
@@ -47,11 +48,10 @@ export default function JiCard({
               type="button"
               className={`text-body-tertiary  ${styles['colicon']}`}
             >
-              <ColIcon
-                color={`${iconfillcolor}`}
-                id={data.ID}
-                fav={data.fav}
-                handleToggleFav={handleToggleFav}
+              <ClickIcon
+                IconFilled={BsBookmarkFill}
+                IconOutline={BsBookmark}
+                // count={null}
               />
             </div>
           </div>

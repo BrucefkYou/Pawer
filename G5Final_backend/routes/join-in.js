@@ -108,6 +108,38 @@ LEFT JOIN
   }
 })
 
+router.get('/qs', async function (req, res) {
+  try {
+    const { keyword } = req.query
+
+    // 這邊帶要查找的資料
+    let sql = `
+    SELECT 
+      Joinin.*, 
+      (SELECT COUNT(*) FROM MemberFavoriteMapping WHERE MemberFavoriteMapping.JoininID = Joinin.ID) AS favoriteCount,
+      Image.ImageUrl AS joininImg
+    FROM Joinin
+    LEFT JOIN Image ON Joinin.ID = Image.JoininID
+    WHERE Joinin.Status = 1
+  `
+    const conditions = []
+
+    // 搜尋條件
+    if (keyword) {
+      conditions.push(`Joinin.Title LIKE '%${keyword}%'`)
+    }
+
+    if (conditions.length > 0) {
+      sql += ' AND ' + conditions.join(' AND ')
+    }
+
+    const [results] = await db2.query(sql)
+    res.status(200).json({ status: 'success', data: { blogs: results } })
+  } catch (error) {
+    res.status(500).json({ error: '搜尋失敗' })
+  }
+})
+
 //CKEditor 圖片上傳
 // router.put('/:id', upload.none(), async (req, res) => {
 //   // 檢查有沒有在登入狀態
