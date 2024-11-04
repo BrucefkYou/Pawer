@@ -68,7 +68,11 @@ const data = {
     南澳鄉: '272',
     釣魚台列嶼: '290',
   },
-  新竹市: { 全區: '300' },
+  新竹市: {
+    東區: '300',
+    北區: '300',
+    香山區: '300',
+  },
   新竹縣: {
     竹北市: '302',
     湖口鄉: '303',
@@ -193,7 +197,10 @@ const data = {
     竹山鎮: '557',
     鹿谷鄉: '558',
   },
-  嘉義市: { 全區: '600' },
+  嘉義市: {
+    西區: '600',
+    東區: '600',
+  },
   嘉義縣: {
     番路鄉: '602',
     梅山鄉: '603',
@@ -393,7 +400,12 @@ const data = {
     烈嶼鄉: '894',
     烏坵鄉: '896',
   },
-  連江縣: { 南竿鄉: '209', 北竿鄉: '210', 莒光鄉: '211', 東引鄉: '212' },
+  連江縣: {
+    南竿鄉: '209',
+    北竿鄉: '210',
+    莒光鄉: '211',
+    東引鄉: '212',
+  },
   澎湖縣: {
     馬公市: '880',
     西嶼鄉: '881',
@@ -404,10 +416,10 @@ const data = {
   },
 }
 
-export const countries = Object.getOwnPropertyNames(data)
-export const townships = countries.map((v, i, array) =>
-  Object.getOwnPropertyNames(data[array[i]])
+export const countries = Object.keys(data)
+export const townships = countries.map((country) =>
+  Object.keys(data[country])
 )
-export const postcodes = countries.map((v, i, array) =>
-  Object.values(data[array[i]])
+export const postcodes = countries.map((country) =>
+  Object.values(data[country])
 )
