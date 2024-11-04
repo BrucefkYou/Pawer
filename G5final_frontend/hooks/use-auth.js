@@ -108,7 +108,7 @@ export function AuthProvider({ children }) {
       if (resData.status === 'success') {
         // 可以得到id和Name
         const jwtData = parseJwt(resData.data.accessToken);
-        console.log(jwtData);
+        // console.log(jwtData);
         // 設定到狀態中
         setAuth({
           isAuth: true,
@@ -152,6 +152,8 @@ export function AuthProvider({ children }) {
         isAuth: false,
         userData: initUserData,
       });
+      // 清除購物車localstorage
+      localStorage.removeItem('cart');
     } catch (error) {
       console.error('Error fetching member data:', error);
       return {}; // 返回空物件，表示錯誤時不會崩潰
@@ -177,14 +179,13 @@ export function AuthProvider({ children }) {
   // 隱私頁面路由，未登入時會，檢查後跳轉至登入頁面(檢查會員登入狀態)
   const checkState = async () => {
     try {
-      const url = 'http://localhost:3005/api/member';
-      const res = await fetch(url, {
+      const res = await fetch('http://localhost:3005/api/member', {
         credentials: 'include', // 設定cookie或是存取隱私資料時要加這個參數
         method: 'GET',
       });
 
       const resData = await res.json();
-      console.log(resData);
+      // console.log(resData);
 
       if (resData.status === 'success') {
         const member = resData.data.member;

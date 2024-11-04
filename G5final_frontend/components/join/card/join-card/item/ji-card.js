@@ -1,13 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
-import { BsPersonPlusFill } from 'react-icons/bs';
-import ColIcon from './col-icon';
+import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
+
+import ClickIcon from '@/components/icons/click-icon/click-icon';
 import { useRouter } from 'next/router';
 import styles from '@/components/join/card/join-card/join-card.module.scss';
 import Link from 'next/link';
 
 export default function JiCard({
-  iconfillcolor = '',
+  iconfillcolor = `${iconfillcolor}`,
   data = {},
   handleToggleFav = () => {},
 }) {
@@ -26,7 +27,7 @@ export default function JiCard({
           className={`${styles['card-image']}`}
           width={367}
           height={321}
-          src={'/join/t1.jpg'}
+          src={`/join/${data.ImageName}`}
           alt={data.Title}
         />
         <div className={`card-body ${styles['card-body']}`}>
@@ -35,9 +36,7 @@ export default function JiCard({
               className={`text-secondary d-flex justify-content-start column-gap-2 ${styles.status}`}
             >
               <p className="bg-warning px-2 mb-2 rounded-1">{data.City}</p>
-              <p className="bg-primary px-2 mb-2 rounded-1">
-                {data.stylestatus}
-              </p>
+              <p className="bg-primary px-2 mb-2 rounded-1">{data.newStatus}</p>
               <p className="text-body-tertiary mb-2">
                 <BsPersonPlusFill className="me-1" />
                 <span className="align-middle">
@@ -49,11 +48,10 @@ export default function JiCard({
               type="button"
               className={`text-body-tertiary  ${styles['colicon']}`}
             >
-              <ColIcon
-                color={`${iconfillcolor}`}
-                id={data.ID}
-                fav={data.fav}
-                handleToggleFav={handleToggleFav}
+              <ClickIcon
+                IconFilled={BsBookmarkFill}
+                IconOutline={BsBookmark}
+                // count={null}
               />
             </div>
           </div>
