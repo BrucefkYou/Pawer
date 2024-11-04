@@ -7,6 +7,7 @@ import { usePagination } from '@/hooks/usePagination';
 import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
+import SearchSideBar from '@/components/searchsidebar/search-side-bar';
 
 export default function Index(props) {
   const {
@@ -54,7 +55,7 @@ export default function Index(props) {
             <div className="row">
               <div className="col search-text-mp">
                 <div className="ms-2">
-                  <div className="btn d-flex search-text-mp">
+                  {/* <div className="btn d-flex search-text-mp">
                     <img
                       className="search-bg"
                       src="./product/searchIcon.png"
@@ -65,7 +66,8 @@ export default function Index(props) {
                       type="text"
                       placeholder="請輸入關鍵字"
                     />
-                  </div>
+                  </div> */}
+                  <SearchSideBar />
                 </div>
               </div>
             </div>
