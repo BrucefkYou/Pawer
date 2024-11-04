@@ -29,7 +29,7 @@ export default function JoinCard() {
     choosePerpage,
     chooseSort,
   } = usePagination({
-    url: 'http://localhost:3005/api/join-in',
+    url: 'http://localhost:3005/api/join-in/',
     needFilter: [],
     needSort: [
       { way: 'asc-ID', name: ' 最舊 > 最新' },
@@ -39,6 +39,7 @@ export default function JoinCard() {
     ],
   });
   console.log(nowPageItems);
+  // 當子元件產生變化時重新抓取資料
   // -----------------------------------------
 
   // 初始化狀態，將每個加入的項目設置為fav: false
