@@ -3,22 +3,47 @@ import InfoList from '@/components/cart/info-list';
 import { set } from 'lodash';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import Image from 'next/image';
-
 export default function CartInfo(props) {
+
   const { items } = useCart();
   const [selectedCity, setSelectedCity] = useState(false); // 初始值設為空字串
   const [selectedDelivery, setSelectedDelivery] = useState(''); // 被選中的運送方式
   const [selectedPayment, setSelectedPayment] = useState(''); // 被選中的付款方式
   const [selectedBill, setSelectedBill] = useState(''); // 被選中的發票方式
+  const [selectedArea, setSelectedArea] = useState(''); // 初始值設為空字串
 
   const [checkedPrice, setCheckedPrice] = useState(0); // 進到結帳資訊的商品的總價
   const [discountPrice, setDiscountPrice] = useState(0); // 折抵金額，初始值為0
-  const [discount, setDiscount] = useState(); // 優惠券數據
+  const [discount, setDiscount] = useState({
+    ID: 0,
+    Name: '',
+    StartTime: "",
+    EndTime: "",
+    Value: 0,
+    checked: true
+  }); // 優惠券數據
 
   const getDiscount = () => {
-    setDiscount(window.localStorage.getItem('discount'));
-    console.log(discount);
-  }
+    const discountString = window.localStorage.getItem('discount');
+    if (discountString) {
+      try {
+        const discountObject = JSON.parse(discountString);
+        setDiscount(discountObject);
+        console.log(discountObject);
+      } catch (error) {
+        console.error('解析 discount 時出錯:', error);
+        setDiscount({
+          ID: 0,
+          Name: '',
+          StartTime: "",
+          EndTime: "",
+          CalculateType: 0,
+          Value: 0, 
+          checked: false
+        });
+      }
+    }
+  };
 
   // 處理運送方式變化
   const handleDeliveryChange = (event) => {
@@ -34,13 +59,43 @@ export default function CartInfo(props) {
   };
   // 處理城市變化
   const handleCityChange = (e) => {
-    setSelectedCity(e.target.value);
+    setSelectedArea(e.target.value);
   };
-  const [selectedArea, setSelectedArea] = useState(''); // 初始值設為空字串
+  // 處理優惠券勾選框變化
+  const handleDiscountChange = (e) => {
+    const isChecked = e.target.checked;
+  
+    // 更新 discount 狀態
+    setDiscount((prevDiscount) => {
+      const updatedDiscount = { ...prevDiscount, checked: isChecked };
+  
+      // 更新 localStorage
+      window.localStorage.setItem('discount', JSON.stringify(updatedDiscount));
+  
+      return updatedDiscount;
+    });
+  };
 
   const handleAreaChange = (e) => {
     setSelectedCity(e.target.value);
   };
+  // 計算折扣金額
+  const calculateDiscountPrice = () => {
+    if (discount && discount.checked) {
+      if (discount.CalculateType === 1) {
+        // 百分比折扣
+        setDiscountPrice(
+          Math.round(checkedPrice * (1 - Number(discount.Value) / 100))
+        );
+      } else if (discount.CalculateType === 2) {
+        // 固定金額折扣
+        setDiscountPrice(Number(discount.Value));
+      }
+    } else {
+      setDiscountPrice(0); // 不適用折扣
+    }
+  };
+
 
   // 當離開頁面的時候，將 localStorage 裡面的 discount 移除
   useEffect(() => {
@@ -62,6 +117,11 @@ export default function CartInfo(props) {
   useEffect(() => {
     getDiscount();
   }, []);
+
+  // localStorage中的優惠券或是金額有變化時就重新計算折扣金額
+  useEffect(() => {
+    calculateDiscountPrice();
+  }, [discount, checkedPrice]);
   return (
     <>
       <div className="cart">
@@ -104,12 +164,14 @@ export default function CartInfo(props) {
                         type="checkbox"
                         name="discountCheck"
                         id="discountCheck"
+                        checked={discount.checked}
+                        onChange={handleDiscountChange}
                       />
                       優惠券
                     </div>
-                    <div className="checked mr50">已選擇優惠券</div>
+                    <div className="checked mr50">{discount.checked && discount.ID !== 0 ? '已選擇優惠券' : '未選擇優惠券'}</div>
                     <div className="discount-svg">
-                      <Image width={288} height={123} src={"/member/coupon-bg.png"}/>
+                      <Image width={288} height={123} src={"/member/coupon-bg.png"} />
                     </div>
                   </div>
                 </div>
@@ -225,13 +287,13 @@ export default function CartInfo(props) {
                       <div className="row row-cols-2 row-cols-lg-4">
                         <div className="col mt10">
                           <button className="btn btn-convenience w-100">
-                            <Image width={30} height={30} className='mr10' objectFit='cover' src={"/cart/sevenEleven.png"}/>
+                            <Image width={30} height={30} className='mr10' objectFit='cover' src={"/cart/sevenEleven.png"} />
                             <span className="delivery-title">7-11超商</span>
                           </button>
                         </div>
                         <div className="col mt10">
                           <button className="btn btn-convenience w-100">
-                          <Image width={30} height={30} className={"mr10"} objectFit='cover' src={"/cart/faimilyMart.png"}/>
+                            <Image width={30} height={30} className={"mr10"} objectFit='cover' src={"/cart/faimilyMart.png"} />
                             <span className="delivery-title">全家超商</span>
                           </button>
                         </div>
@@ -300,12 +362,12 @@ export default function CartInfo(props) {
                       type="radio"
                       name="payment-way"
                       value="store"
-                      checked={selectedPayment === 'store'}
+                      checked={selectedPayment === 'store' && selectedDelivery === 'convenience'}
                       onChange={handlePaymentChange}
                     />
                     <span className="delivery-title">超商取貨付款</span>
                   </div>
-                  {selectedPayment === 'store' ? (
+                  {selectedPayment === 'store' && selectedDelivery === 'convenience' ? (
                     <>
                       {/* 基本資訊 */}
                       <div className="row row-cols-1 row-cols-lg-3">
@@ -415,8 +477,14 @@ export default function CartInfo(props) {
                         <div className="price-block d-flex justify-content-between w-100">
                           <div className="price-font set-middle">優惠券</div>
                           <div className="price-font set-middle d-flex flex-column">
-                            <div className="discount-icon">會員註冊禮</div>
-                            <div>-NT$100</div>
+                            <div className="discount-icon">
+                              {discount.checked && discount.Name ? (
+                                discount.Name
+                              ) : (
+                                <div>無</div>
+                                )}
+                            </div>
+                            <div>-NT${discountPrice}</div>
                           </div>
                         </div>
                         <hr />
