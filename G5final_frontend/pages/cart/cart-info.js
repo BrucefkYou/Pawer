@@ -3,6 +3,7 @@ import InfoList from '@/components/cart/info-list';
 import { set } from 'lodash';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import Image from 'next/image';
+import TWZipCode from '@/components/tw-zipcode';
 export default function CartInfo(props) {
 
   const { items } = useCart();
@@ -229,7 +230,8 @@ export default function CartInfo(props) {
                         <span className="delivery-title">寄送地址</span>
                       </div>
                       <div className="row row-cols-2">
-                        <div className="col w-50 mt10">
+                        <TWZipCode />
+                        {/* <div className="col w-50 mt10">
                           <select
                             className="form-select input-block"
                             name="chooseCity"
@@ -254,7 +256,7 @@ export default function CartInfo(props) {
                             <option value="area1">大安區</option>
                             <option value="area2">中正區</option>
                           </select>
-                        </div>
+                        </div> */}
                         <div className="col w-100 mt10">
                           <input
                             className="mt10 w-100 h-36p input-block"
