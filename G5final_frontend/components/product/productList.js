@@ -34,10 +34,12 @@ export default function ProductList({ pd }) {
               <div className="card-text">
                 <small className="be-nt">{'NT$' + pd.OriginPrice}</small>
               </div>
+            </div>
+            <div className="d-flex justify-content-between">
+              <div className="new-nt">{'NT$' + pd.SalePrice}</div>
               {/* 收藏icon */}
               <ClickIcon IconFilled={BsBookmarkFill} IconOutline={BsBookmark} />
             </div>
-            <div className="new-nt">{'NT$' + pd.SalePrice}</div>
           </div>
         </div>
       </div>
