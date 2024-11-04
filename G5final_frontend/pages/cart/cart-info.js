@@ -230,33 +230,8 @@ export default function CartInfo(props) {
                         <span className="delivery-title">寄送地址</span>
                       </div>
                       <div className="row row-cols-2">
+                      {/* 選取地區 */}
                         <TWZipCode />
-                        {/* <div className="col w-50 mt10">
-                          <select
-                            className="form-select input-block"
-                            name="chooseCity"
-                            id="chooseCity"
-                            value={selectedCity}
-                            onChange={handleCityChange}
-                          >
-                            <option value="">請選擇縣市</option>
-                            <option value="taipei">台北市</option>
-                            <option value="New">新北市</option>
-                          </select>
-                        </div>
-                        <div className="col w-50 mt10">
-                          <select
-                            className="form-select input-block"
-                            name="area"
-                            id="area"
-                            value={selectedArea}
-                            onChange={handleAreaChange}
-                          >
-                            <option value="">請選擇區域</option>
-                            <option value="area1">大安區</option>
-                            <option value="area2">中正區</option>
-                          </select>
-                        </div> */}
                         <div className="col w-100 mt10">
                           <input
                             className="mt10 w-100 h-36p input-block"
