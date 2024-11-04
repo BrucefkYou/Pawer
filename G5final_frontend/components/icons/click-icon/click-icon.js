@@ -28,7 +28,8 @@ export default function ClickIcon({ IconFilled, IconOutline, count }) {
           IconOutline={IconOutline}
         />
       </div>
-      {currentCount && <span className={styles['count']}>{currentCount}</span>}
+      {currentCount ||
+        (count && <span className={styles['count']}>{currentCount}</span>)}
     </div>
   );
 }

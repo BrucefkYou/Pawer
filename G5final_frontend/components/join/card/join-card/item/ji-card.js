@@ -10,7 +10,7 @@ import Link from 'next/link';
 export default function JiCard({
   iconfillcolor = `${iconfillcolor}`,
   data = {},
-  handleToggleFav = () => {},
+  // handleToggleFav = () => {},
 }) {
   const router = useRouter();
   const StartTime = data.StartTime
