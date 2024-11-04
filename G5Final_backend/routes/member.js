@@ -38,10 +38,7 @@ router.get('/', authenticate, async function (req, res) {
 
 // 登入
 router.post('/login', async (req, res, next) => {
-  console.log(req.body)
-
   const loginMember = req.body
-  console.log(generateHash(loginMember.password))
 
   const [rows] = await db.query(
     'SELECT * FROM Member WHERE eMail = ? and Password = ?',
@@ -83,7 +80,7 @@ router.post('/login', async (req, res, next) => {
 })
 
 // 登出
-router.post('/logout', (req, res) => {
+router.post('/logout', authenticate, (req, res) => {
   // 清除cookie
   res.clearCookie('accessToken', { httpOnly: true })
   res.json({ status: 'success', data: null })
