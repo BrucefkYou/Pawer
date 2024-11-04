@@ -134,6 +134,7 @@ export function usePagination({
     filterData,//需要篩選時會使用到的新資料
     next,//執行下一頁函式
     prev,//執行上一頁函式
+    setFilterData,//資料設定
     choosePerpage,//執行指定頁函式
     chooseSort,//執行排序函式
     chooseFilter,//執行篩選函式
