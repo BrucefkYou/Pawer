@@ -175,7 +175,7 @@ export default function ProductDetail(props) {
           </div>
         </div>
       </div>
-      <div className="container bg-white comment-detail-shadow">
+      <div className="bg-secondary comment-detail-shadow">
         <div className="d-flex justify-content-center align-items-center mt-5">
           <a
             onClick={() =>

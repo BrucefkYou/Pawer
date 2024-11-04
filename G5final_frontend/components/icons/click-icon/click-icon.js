@@ -6,7 +6,7 @@ const IconToggle = ({ iconStatus, IconFilled, IconOutline }) =>
 
 export default function ClickIcon({ IconFilled, IconOutline, count }) {
   const [iconStatus, setIconStatus] = useState(false);
-  const [currentCount, setCurrentCount] = useState(count);
+  const [currentCount, setCurrentCount] = useState(0);
 
   const CountIcon = () => {
     setIconStatus(!iconStatus);
@@ -28,7 +28,8 @@ export default function ClickIcon({ IconFilled, IconOutline, count }) {
           IconOutline={IconOutline}
         />
       </div>
-      {count && <span className={styles['count']}>{currentCount}</span>}
+      {currentCount ||
+        (count && <span className={styles['count']}>{currentCount}</span>)}
     </div>
   );
 }
