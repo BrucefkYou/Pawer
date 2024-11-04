@@ -1,6 +1,8 @@
 // 測試從資料庫拉資料出來
 import React, { useState, useEffect } from 'react';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
+import TWZipCode from '@/components/tw-zipcode'
+import { Twinkle_Star } from 'next/font/google';
 
 export default function Products(props) {
   const [products, setProducts] = useState([]);
@@ -48,6 +50,7 @@ export default function Products(props) {
   // });
   return (
     <>
+    <TWZipCode />
       <div>products</div>
       <ul>
         {products.map((product) => (
