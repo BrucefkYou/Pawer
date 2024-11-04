@@ -4,9 +4,14 @@ import Image from 'next/image';
 import { useAuth } from '@/hooks/use-auth';
 
 export default function LoginForm({ Formtype, setFormtype }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState({ email: '', password: '' });
+  // 共同處理input的onChange事件
+  const handleFieldChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
   const { login } = useAuth();
+  console.log(user);
+
   return (
     <>
       <div
@@ -34,24 +39,22 @@ export default function LoginForm({ Formtype, setFormtype }) {
               type="email"
               className="form-control mb-3"
               placeholder="信箱"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              name="email"
+              value={user.email}
+              onChange={handleFieldChange}
             />
             <input
               type="password"
               className="form-control mb-3"
               placeholder="密碼"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              name="password"
+              value={user.password}
+              onChange={handleFieldChange}
             />
             <button
               className={`btn btn-primary w-100 mt-3  ${styles['btn-custom']}`}
               onClick={() => {
-                login(email, password);
+                login(user.email, user.password);
               }}
             >
               登入
