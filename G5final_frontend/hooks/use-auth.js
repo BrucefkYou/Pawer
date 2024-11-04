@@ -152,6 +152,8 @@ export function AuthProvider({ children }) {
         isAuth: false,
         userData: initUserData,
       });
+      // 清除購物車localstorage
+      localStorage.removeItem('cart');
     } catch (error) {
       console.error('Error fetching member data:', error);
       return {}; // 返回空物件，表示錯誤時不會崩潰
