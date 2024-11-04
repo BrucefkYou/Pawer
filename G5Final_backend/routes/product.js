@@ -15,4 +15,33 @@ router.get('/', async function (req, res, next) {
   }
 })
 
+// 搜尋
+router.get('/qs', async function (req, res) {
+  try {
+    const { keyword } = req.query
+
+    let sql = `
+    SELECT p.*, i.ProductID, i.ImageName 
+    FROM Product p 
+    LEFT JOIN Image i ON p.ID = i.ProductID
+    WHERE 1=1
+    `
+    const conditions = []
+
+    if (keyword) {
+      conditions.push(`Product.Name LIKE '%${keyword}%'`)
+    }
+
+    if (conditions.length > 0) {
+      sql += ' AND ' + conditions.join(' AND ')
+    }
+
+    const [results] = await db2.query(sql)
+    res.status(200).json({ status: 'success', data: { product: results } })
+  } catch (error) {
+    console.error('搜尋失敗：', error)
+    res.status(500).json({ error: '搜尋失敗' })
+  }
+})
+
 export default router

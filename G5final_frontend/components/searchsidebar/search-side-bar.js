@@ -9,7 +9,7 @@ export default function SearchSideBar(props) {
         <input
           type="text"
           className="form-control"
-          placeholder="Recipient's username"
+          placeholder="搜尋..."
           aria-label="Recipient's username"
           aria-describedby="button-addon2"
         />
