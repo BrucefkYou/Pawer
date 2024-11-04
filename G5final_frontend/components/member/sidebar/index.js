@@ -19,10 +19,7 @@ export default function MbSideBar(props) {
       id: 2,
       title: '訂單查詢',
       href: '/member/order',
-      subMenu: [
-        { id: 1, title: '訂單明細', href: '/member/order/detail' },
-        { id: 2, title: '測試', href: '/member/order/detail2' },
-      ],
+      subMenu: [],
     },
     {
       id: 3,
