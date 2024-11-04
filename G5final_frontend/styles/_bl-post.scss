@@ -1,0 +1,392 @@
+// 文章明細頁
+.bl-post {
+    display: flex;
+    flex-direction: column;
+
+    .post-container {
+        display: flex;
+        flex-direction: column;
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+        padding-bottom: 80px;
+
+        // 麵包屑
+        .breadcrumb {
+            margin-block: 20px 40px;
+        }
+
+        .main-section {
+            display: flex;
+            gap: 49px;
+
+            // 文章區
+            .blog-post {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                max-width: 770px;
+                width: 100%;
+                padding-block: 0 30px;
+                border-radius: 10px;
+
+                .blog-cover-container,
+                .blog-content {
+                    max-width: 770px;
+                    width: 100%;
+                    margin: 0 auto;
+                }
+
+                //封面
+                .blog-cover-container {
+                    aspect-ratio: 16 / 9;
+                    background-color: #646464;
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 2em;
+
+                    .blog-cover {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+
+                }
+            }
+
+            //帳號 
+            .blog-header {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+
+
+            
+
+            // 內文 
+            .blog-title {
+                color: #332B25;
+                font-size: 32px;
+                font-weight: 700;
+                margin-block: 10px 30px;
+
+            }
+
+
+            // 按讚儲存
+            .count-section {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                font-size: 16px;
+                border-bottom: 1px solid #BFBFBF;
+                padding-bottom: 20px;
+
+            }
+
+            // 標籤
+            .tag-section {
+                display: flex;
+                align-items: stretch;
+                width: 100%;
+                gap: 4px;
+                padding-block: 30px;
+
+                .tag {
+                    padding: 4px 12px;
+                    color: white;
+                    background-color: $primary;
+                    border-radius: 2px;
+                    border: 1px solid #EDF0F3;
+                    font-size: 14px;
+                }
+            }
+
+            // 上下頁
+            .prev-next {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+
+                .prev,
+                .next {
+                    display: flex;
+                    justify-content: start;
+                    align-items: center;
+                    gap: 15px;
+                    padding-top: 40px;
+                }
+
+                .prev-content,
+                .next-content {
+                    width: 240px;
+                }
+
+
+                .arrow-container {
+                    width: 40px;
+                    height: 50px;
+                    background: $warning;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                }
+
+                .arrow-icon {
+                    color: $primary;
+                    width: 15px;
+                }
+
+                .arrow-right {
+                    left: 12px;
+                }
+
+                .prev-title,
+                .next-title {
+                    color: $primary;
+                    font-size: 12px;
+                    font-weight: 400;
+                    text-decoration: underline;
+                    line-height: 24px;
+                }
+
+                h5 {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    color: $primary;
+                    font-size: 18px;
+                    font-weight: 600;
+                    line-height: 25px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                }
+
+            }
+
+            // 留言
+            .commit-container {
+                width: 100%;
+                height: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+                flex-direction: column;
+                justify-content: start;
+                align-items: center;
+                gap: 36px;
+                display: inline-flex;
+
+                // 留言區
+                
+                .comment-section {
+                    width: 100%;
+                    padding-top: 16px;
+                    padding-bottom: 16px;
+                    justify-content: start;
+                    align-items: start;
+                    gap: 32px;
+                    display: inline-flex;
+
+
+
+                    .avatar {
+                        width: 73px;
+                        height: 73px;
+                        border-radius: 9999px;
+                        background-color: #ccc;
+                        object-fit: cover;
+
+                    }
+
+                    .content {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: start;
+                        align-items: start;
+                        gap: 24px;
+                    }
+
+                    .user-info {
+                        display: flex;
+                        align-self: stretch;
+                        height: 26px;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: start;
+                        gap: 16px;
+                    }
+
+                    .user-name {
+                        align-self: stretch;
+                        color: $primary;
+                        font-size: 16px;
+                        font-weight: 400;
+                        line-height: 25.60px;
+                        word-wrap: break-word;
+                    }
+
+                    .comment-input {
+                        width: 100%;
+                        height: 67px;
+                        padding: 5px;
+                        border: 1px rgba(0, 0, 0, 0.60) solid;
+                        justify-content: start;
+                        align-items: start;
+                        display: inline-flex;
+                        color: black;
+                        font-size: 16px;
+                    }
+
+
+                    .button-group {
+                        align-self: stretch;
+                        justify-content: flex-end;
+                        align-items: flex-end;
+                        gap: 16px;
+                        display: inline-flex;
+                    }
+
+
+                    .comment-count {
+                        align-self: stretch;
+                        color: $primary;
+                        font-size: 16px;
+                        word-wrap: break-word;
+                    }
+                }
+
+                .comments-list {
+                    align-self: stretch;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    flex-direction: column;
+                    justify-content: start;
+                    align-items: center;
+                    gap: 24px;
+                    display: flex;
+
+                    .comment {
+                        align-self: stretch;
+                        padding: 16px 32px;
+                        background: white;
+                        box-shadow: 0px 4px 16px rgba(40, 55, 90, 0.25);
+                        border-radius: 4px;
+                        justify-content: start;
+                        align-items: start;
+                        gap: 32px;
+                        display: inline-flex;
+
+                        .comment-content {
+                            flex: 1 1 0;
+                            flex-direction: column;
+                            justify-content: start;
+                            align-items: start;
+                            gap: 18px;
+                            display: inline-flex;
+
+                            .comment-header {
+                                align-self: stretch;
+                                height: 56px;
+                                flex-direction: column;
+                                justify-content: start;
+                                align-items: start;
+                                gap: 4px;
+                                display: flex;
+                            }
+
+                            .comment-name {
+                                align-self: stretch;
+                                color: $primary;
+                                font-size: 16px;
+                                line-height: 25.60px;
+                                word-wrap: break-word;
+                            }
+
+                            .comment-time {
+                                align-self: stretch;
+                                color: #646464;
+                                font-size: 14px;
+                                word-wrap: break-word;
+                            }
+
+                            .comment-text {
+                                align-self: stretch;
+                                color: #646464;
+                                font-size: 16px;
+                                word-wrap: break-word;
+                            }
+
+                        }
+
+
+
+                        .see-more {
+                            justify-content: center;
+                            align-items: center;
+                            gap: 10px;
+                            display: flex;
+                            color: rgba(0, 0, 0, 0.60);
+                            font-size: 16px;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        // 側邊欄
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            max-width: 356px;
+
+            .btn-sec {
+                display: flex;
+                gap: 20px;
+
+                .my-blog {
+                    width: 100%;
+                }
+            }
+        }
+    }
+    @media (max-width: 768px) {
+
+        .post-container {
+    
+            .main-section {
+                flex-direction: column;
+                align-items: center;
+    
+                .sidebar {
+                    flex-direction: row;
+                    gap: 0px;
+                    max-width: 100%;
+    
+                    .s-card {
+                        width: 100%;
+                    }
+    
+                    .m-none {
+                        display: none;
+                    }
+                }
+    
+                .card-section {
+                    justify-content: center !important;
+                }
+    
+            }
+        }
+    
+    }
+}
+
+
