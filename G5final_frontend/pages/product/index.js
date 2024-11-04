@@ -22,7 +22,7 @@ export default function Index(props) {
     chooseSort,
   } = usePagination({
     url: 'http://localhost:3005/api/product',
-    onDataChange: handleDataChange,
+    needFilter: [],
     needSort: [
       { way: 'asc-ID', name: '商品 舊 > 新' },
       { way: 'desc-ID', name: '商品 新 > 舊' },
@@ -30,9 +30,6 @@ export default function Index(props) {
       { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
   });
-  console.log(nowPageItems);
-  // 當子元件產生變化時重新抓取資料
-  function handleDataChange(data) {}
   return (
     <>
       <div className="productList">
