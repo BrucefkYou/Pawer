@@ -51,7 +51,7 @@ export default function JiCard({
               <ClickIcon
                 IconFilled={BsBookmarkFill}
                 IconOutline={BsBookmark}
-                // count={null}
+                count={data.joinFavCount}
               />
             </div>
           </div>
