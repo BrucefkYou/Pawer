@@ -74,7 +74,7 @@ export default function Navbar() {
                   aria-label="切換下拉選單"
                 >
                   {/* 下拉選單 SVG 圖示 */}
-                  <Image width={21} height={17} alt='hamburger' src={"/hamburger.png"}/>
+                  <Image width={21} height={17} alt='hamburger' src={"/hamburger.png"} />
                 </button>
                 <div
                   className={`customDropdownMenu ${isDropdownOpen ? 'showMenu' : ''
@@ -172,9 +172,9 @@ export default function Navbar() {
           </div>
 
           <div className="navbar-rightbtn">
-          {/* 判斷有沒有登入 */}
+            {/* 判斷有沒有登入 */}
             {auth.isAuth ? (
-              member.avatar ? ( 
+              member.avatar ? (
                 <button className="navbar-member" onClick={islogin}>
                   <Image width={24} height={24} className='navbar-login-img' src={`/member/member-avatar/${member.avatar}`} alt='使用者頭像' />
                 </button>
@@ -191,15 +191,17 @@ export default function Navbar() {
                 <BsCart2 className="text-secondary BsCart2" />
               </Link>
             </button>
-            <button
-              className="navbar-logout"
-              onClick={() => {
-                logout();
-                router.push('/');
-              }}
-            >
-              <IoIosLogOut className="text-secondary" />
-            </button>
+            {auth.isAuth ? (
+              <button
+                className="navbar-logout"
+                onClick={() => {
+                  logout();
+                  router.push('/');
+                }}
+              >
+                <IoIosLogOut className="text-secondary" />
+              </button>
+            ) : null}
           </div>
         </div>
       </header>
