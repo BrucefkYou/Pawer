@@ -231,6 +231,7 @@ export default function CartInfo(props) {
                       </div>
                       <div className="row row-cols-2">
                       {/* 選取地區 */}
+                      {/* d */}
                         <TWZipCode />
                         <div className="col w-100 mt10">
                           <input
