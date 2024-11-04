@@ -14,11 +14,18 @@ const CKEditor = dynamic(
 );
 
 export default function JoinCreatForm(props) {
-  // const [isMounted, setIsMounted] = useState(false);
+  const [count, setCount] = useState(0);
 
-  // useEffect(() => {
-  //   setIsMounted(true);
-  // }, []);
+  const handleIncrement = () => {
+    setCount(count + 1);
+  };
+
+  const handleDecrement = () => {
+    if (count > 0) {
+      setCount(count - 1);
+    }
+  };
+
   return (
     <>
       <div className="container ji-create-container">
@@ -85,7 +92,7 @@ export default function JoinCreatForm(props) {
                 <div id="full"></div>
                 <input type="hidden" id="EventInfo" name="EventInfo" require />
                 <div className="ji-ck">
-                  <CKEditor />
+                  <CKEditor placeholder="請輸入活動內容" />
                 </div>
               </div>
               <div className="mb-3">
@@ -133,6 +140,7 @@ export default function JoinCreatForm(props) {
                         className="btn btn-secondary"
                         type="button"
                         aria-expanded="false"
+                        onClick={handleDecrement}
                       >
                         -
                       </button>
@@ -140,11 +148,14 @@ export default function JoinCreatForm(props) {
                         type="text"
                         className="form-control"
                         aria-label="Text input with 2 dropdown buttons"
+                        value={count}
+                        onChange={(e) => setCount(Number(e.target.value))}
                       />
                       <button
                         className="btn btn-secondary"
                         type="button"
                         aria-expanded="false"
+                        onClick={handleIncrement}
                       >
                         +
                       </button>
@@ -167,109 +178,30 @@ export default function JoinCreatForm(props) {
               </div>
               <div id="join-address" className="mb-3">
                 <MySelect />
-                {/* <label htmlFor="join-address" className="form-label col-3">
-                  活動地點
-                </label>
-                <div className="row g-3">
-                  <div className="col-md-2">
-                    <select
-                      className="form-select"
-                      id="EventRegion"
-                      name="EventRegion"
-                    >
-                      <option selected disabled>
-                        請選擇區域
-                      </option>
-                      <option value="north">北部</option>
-                      <option value="central">中部</option>
-                      <option value="south">南部</option>
-                      <option value="east">東部</option>
-                    </select>
-                  </div>
-                  <div className="col-md-3">
-                    <select
-                      className="form-select"
-                      id="EventCity"
-                      name="EventCity"
-                    >
-                      <option selected disabled>
-                        選擇縣市
-                      </option>
-                      <option value={1}>1</option>
-                      <option value={2}>2</option>
-                      <option value={3}>3</option>
-                    </select>
-                  </div>
-                  <div className="col-md">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="EventLocation"
-                      name="EventLocation"
-                      placeholder="請輸入詳細地址"
-                    />
-                  </div>
-                </div> */}
               </div>
               <div className="mb-3">
                 <label htmlFor="eventTag" className="form-label col-3">
                   活動標籤
                 </label>
                 <div className="form-group">
-                  <select
-                    className="choices form-select multiple-remove"
-                    multiple="multiple"
-                    id="eventTag"
-                    name="eventTag"
-                  >
-                    <option value="cat">貓皇</option>
-                    <option value="dog">狗</option>
-                    <option value="basicHealth">基礎保健</option>
-                    <option value="skin">皮毛保養</option>
-                    <option value="innerHealth">肝臟保養</option>
-                    <option value="eyeHealth">眼睛保護</option>
-                    <option value="pet">寵物</option>
-                  </select>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="TagInput"
+                    placeholder="輸入或選擇標籤"
+                    list="TagOptions"
+                  />
+                  <datalist id="TagOptions">
+                    <option value="貓皇" />
+                    <option value="狗" />
+                    <option value="基礎保健" />
+                    <option value="皮毛保養" />
+                    <option value="肝臟保養" />
+                    <option value="眼睛保護" />
+                    <option value="寵物" />
+                  </datalist>
                 </div>
               </div>
-              {/* 選擇發佈狀態radio */}
-              {/* <div className="mb-3 d-flex align-items-center">
-                <label className="form-label me-3 mb-0" htmlFor="EventStatus">
-                  發布狀態
-                </label>
-                <div>
-                  <div className="form-check form-check-inline">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="EventStatus"
-                      id="eventStatusPublished"
-                      defaultValue="published"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="eventStatusPublished"
-                    >
-                      發布活動
-                    </label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="EventStatus"
-                      id="eventStatusDraft"
-                      defaultValue="draft"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="eventStatusDraft"
-                    >
-                      儲存草稿
-                    </label>
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
           <div className="d-flex justify-content-center my-5">
