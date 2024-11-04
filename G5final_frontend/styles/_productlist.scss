@@ -29,7 +29,15 @@
   }
   /* 文字搜尋 */
   .search-text-mp {
+    height: 100%;
     padding: 0;
+  }
+  //
+  .category-mt {
+    // margin-top: -240px;
+  }
+  .category-li li {
+    margin-bottom: 0.75rem;
   }
   /* 搜尋框背景 */
   .search-bg {
@@ -117,10 +125,8 @@
   }
   /* 清除搜尋 */
   .clean {
-    margin-top: 3rem;
     width: 363px;
     padding: 10px 100px;
-    gap: 10px;
     border-radius: 4px;
     background: var(--primary, #22355c);
     color: var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff);
@@ -164,15 +170,21 @@
     width: 900px;
   }
   // 去除連結底線
-  .no-underline{
+  .no-underline {
     text-decoration: none;
+  }
+  // 變大
+  .card-layout:hover {
+    scale: 1.025;
+    transition: all 0.5s ease;
+    filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.3));
   }
   /* 卡片大小 */
   .card-size {
     width: 15.25rem;
-    height: 26rem;
+    height: 24rem;
   }
-  .card-img-topme{
+  .card-img-topme {
     width: auto;
     height: auto;
     object-fit: cover;
