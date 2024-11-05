@@ -6,16 +6,14 @@ import Image from 'next/image';
 import TWZipCode from '@/components/tw-zipcode';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { countries } from '@/components/tw-zipcode/data-townships';
 
 export default function CartInfo(props) {
   const router = useRouter();
   const { items } = useCart();
-  const [selectedCity, setSelectedCity] = useState(false); // 初始值設為空字串
+  // 設定訂單資訊
   const [selectedDelivery, setSelectedDelivery] = useState(''); // 被選中的運送方式
   const [selectedPayment, setSelectedPayment] = useState(''); // 被選中的付款方式
   const [selectedBill, setSelectedBill] = useState(''); // 被選中的發票方式
-  const [selectedArea, setSelectedArea] = useState(''); // 初始值設為空字串
 
   // 設定表單內容
   const [name, setName] = useState('');
@@ -26,6 +24,7 @@ export default function CartInfo(props) {
   const [country, setCountry] = useState('');
   const [township, setTownship] = useState(0);
 
+  // 處理結帳金額與折扣金額
   const [checkedPrice, setCheckedPrice] = useState(0); // 進到結帳資訊的商品的總價
   const [discountPrice, setDiscountPrice] = useState(0); // 折抵金額，初始值為0
   const [discount, setDiscount] = useState({
@@ -36,9 +35,9 @@ export default function CartInfo(props) {
     Value: 0,
     checked: true,
   }); // 優惠券數據
-  const orderData = {};
+
   // 成立訂單
-  const createOrder = async (orderData) => {
+  const createOrder = async (data) => {
     try {
       const url = 'http://localhost:3005/api/order/createOrder';
       const res = await fetch(url, {
@@ -46,16 +45,18 @@ export default function CartInfo(props) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(orderData),
+        body: JSON.stringify(data),
       });
-      if (!res.ok) {
-        throw new Error('網路回應不成功：' + res.status);
-      }
-      if (res.json().status === 201) {
+      const resData = await res.json();
+      if (res.status === 201) {
         router.push('/success');
-      }
-      if (res.json().status === 500) {
+      } else if (res.status === 500) {
         router.push('/fail');
+      } else {
+        // 處理其他狀態碼
+        console.log('Unexpected response status:', res.status);
+        console.log('Response data:', resData);
+        // 可以在這裡顯示錯誤訊息給用戶
       }
     } catch (error) {
       console.log(error);
@@ -97,10 +98,6 @@ export default function CartInfo(props) {
   const handleBillChange = (event) => {
     setSelectedBill(event.target.value);
   };
-  // 處理城市變化
-  const handleCityChange = (e) => {
-    setSelectedArea(e.target.value);
-  };
   // 處理優惠券勾選框變化
   const handleDiscountChange = (e) => {
     const isChecked = e.target.checked;
@@ -116,9 +113,6 @@ export default function CartInfo(props) {
     });
   };
 
-  const handleAreaChange = (e) => {
-    setSelectedCity(e.target.value);
-  };
   // 計算折扣金額
   const calculateDiscountPrice = () => {
     if (discount && discount.checked) {
@@ -257,7 +251,7 @@ export default function CartInfo(props) {
                           <input
                             className="mt10 w-100 h-36p input-block"
                             type="text"
-                            placeholder="姓名"
+                            placeholder="訂購人姓名"
                             onChange={(e) => setName(e.target.value)}
                           />
                         </div>
@@ -293,6 +287,7 @@ export default function CartInfo(props) {
                             className="mt10 w-100 h-36p input-block"
                             type="text"
                             placeholder="請輸入地址"
+                            onChange={(e) => setAddress(e.target.value)}
                           />
                         </div>
                       </div>
@@ -565,7 +560,23 @@ export default function CartInfo(props) {
                 <button
                   type="button"
                   className="btn check-btn"
-                  onClick={() => createOrder(orderData)}
+                  onClick={() => {
+                    const orderData = {
+                      name: name,
+                      receiver: receiver,
+                      phone: phone,
+                      country: country,
+                      township: township,
+                      address: address,
+                      store: store,
+                      selectedDelivery: selectedDelivery,
+                      selectedPayment: selectedPayment,
+                      selectedBill: selectedBill,
+                      checkedPrice: checkedPrice,
+                      discountPrice: discountPrice,
+                    };
+                    createOrder(orderData);
+                  }}
                 >
                   確認付款
                 </button>

@@ -9,7 +9,22 @@ router.get('/', function (req, res, next) {})
 
 // 成立訂單
 router.post('/createOrder', authenticate, async function (req, res, next) {
-  const { MemberID, TotalPrice } = req.body
+  const MemberID = req.user.id
+  const {
+    name,
+    receiver,
+    phone,
+    country,
+    township,
+    address,
+    store,
+    selectedDelivery,
+    selectedPayment,
+    TotalPrice,
+    selectedBill,
+    checkedPrice,
+    discountPrice,
+  } = req.body
   try {
     const sql =
       'INSERT INTO `order` (MemberID, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
