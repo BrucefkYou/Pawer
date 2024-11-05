@@ -180,6 +180,12 @@ export default function CartInfo(props) {
                         src={'/member/coupon-bg.png'}
                         alt="coupon"
                       />
+                      <Image
+                        width={288}
+                        height={123}
+                        src={'/member/coupon-bg.png'}
+                        alt="coupon"
+                      />
                     </div>
                   </div>
                 </div>
@@ -279,11 +285,27 @@ export default function CartInfo(props) {
                               src={'/cart/sevenEleven.png'}
                               alt="7-11"
                             />
+                            <Image
+                              width={30}
+                              height={30}
+                              className="mr10"
+                              objectFit="cover"
+                              src={'/cart/sevenEleven.png'}
+                              alt="7-11"
+                            />
                             <span className="delivery-title">7-11超商</span>
                           </button>
                         </div>
                         <div className="col mt10">
                           <button className="btn btn-convenience w-100">
+                            <Image
+                              width={30}
+                              height={30}
+                              className={'mr10'}
+                              objectFit="cover"
+                              src={'/cart/faimilyMart.png'}
+                              alt="familyMart"
+                            />
                             <Image
                               width={30}
                               height={30}
