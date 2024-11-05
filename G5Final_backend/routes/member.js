@@ -28,6 +28,8 @@ router.get('/', authenticate, async function (req, res) {
 
   const dbMember = rows[0]
 
+  delete dbMember.Password
+
   return res.json({ status: 'success', memberData: dbMember })
 })
 
