@@ -15,6 +15,7 @@ import {
   incrementOne,
   decrementOne,
   generateCartState,
+  initItems,
 } from './use-cart-basic';
 import useLocalStorage from './use-localstorage';
 
@@ -129,6 +130,10 @@ export const CartProvider = ({
     setCartItems(decrementOne(cartItems, id));
   };
 
+  const initCart = () => {
+    setCartItems(initItems);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -142,6 +147,8 @@ export const CartProvider = ({
         isInCart,
         increment,
         decrement,
+        initCart,
+        setCartItems,
       }}
     >
       {children}
