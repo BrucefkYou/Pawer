@@ -35,13 +35,11 @@ export default function communicator(props) {
       { way: 'desc-CertificateDate', name: '取證日期-近' },
     ],
   });
-
-  // 當子元件產生變化時重新抓取資料
-  function handleDataChange(data) {}
-
   return (
     <>
+      
       <div className="container">
+        <h1 className='text-danger'>以下為頁碼+排序+每頁幾筆範例</h1>
         {/* //!每頁筆數選擇框,依照頁面需求擺放位置 */}
         <PerPageDom itemsperPage={itemsperPage} choosePerpage={choosePerpage} />
         {/* //!排序選擇框,依照頁面需求擺放位置 */}

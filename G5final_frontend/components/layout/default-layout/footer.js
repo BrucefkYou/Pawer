@@ -3,11 +3,14 @@ import { BsTelephone, BsEnvelope, BsMap } from 'react-icons/bs';
 import Image from 'next/image';
 // eslint-disable-next-line import/no-unresolved
 import logo from 'public/LOGO.svg';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
     <>
+      
       <footer className="footer">
+        <Link href={'/sample'}>test</Link>
         <div className="footer-wrapper">
           <div className="footer-section">
             <div className="d-flex footer-col">
