@@ -19,7 +19,10 @@ export default function CartInfo(props) {
     Name: '',
     StartTime: '',
     EndTime: '',
+    StartTime: '',
+    EndTime: '',
     Value: 0,
+    checked: true,
     checked: true,
   }); // 優惠券數據
 
@@ -37,7 +40,11 @@ export default function CartInfo(props) {
           Name: '',
           StartTime: '',
           EndTime: '',
+          StartTime: '',
+          EndTime: '',
           CalculateType: 0,
+          Value: 0,
+          checked: false,
           Value: 0,
           checked: false,
         });
@@ -65,12 +72,15 @@ export default function CartInfo(props) {
   const handleDiscountChange = (e) => {
     const isChecked = e.target.checked;
 
+
     // 更新 discount 狀態
     setDiscount((prevDiscount) => {
       const updatedDiscount = { ...prevDiscount, checked: isChecked };
 
+
       // 更新 localStorage
       window.localStorage.setItem('discount', JSON.stringify(updatedDiscount));
+
 
       return updatedDiscount;
     });
@@ -173,11 +183,17 @@ export default function CartInfo(props) {
                         ? '已選擇優惠券'
                         : '未選擇優惠券'}
                     </div>
+                    <div className="checked mr50">
+                      {discount.checked && discount.ID !== 0
+                        ? '已選擇優惠券'
+                        : '未選擇優惠券'}
+                    </div>
                     <div className="discount-svg">
                       <Image
                         width={288}
                         height={123}
                         src={'/member/coupon-bg.png'}
+                        alt="coupon"
                       />
                     </div>
                   </div>
@@ -237,6 +253,7 @@ export default function CartInfo(props) {
                       </div>
                       <div className="row row-cols-2">
                         {/* 選取地區 */}
+                        {/* 選取地區 */}
                         <TWZipCode />
                         <div className="col w-100 mt10">
                           <input
@@ -276,6 +293,7 @@ export default function CartInfo(props) {
                               className="mr10"
                               objectFit="cover"
                               src={'/cart/sevenEleven.png'}
+                              alt="7-11"
                             />
                             <span className="delivery-title">7-11超商</span>
                           </button>
@@ -288,6 +306,7 @@ export default function CartInfo(props) {
                               className={'mr10'}
                               objectFit="cover"
                               src={'/cart/faimilyMart.png'}
+                              alt="familyMart"
                             />
                             <span className="delivery-title">全家超商</span>
                           </button>
@@ -361,10 +380,16 @@ export default function CartInfo(props) {
                         selectedPayment === 'store' &&
                         selectedDelivery === 'convenience'
                       }
+                      checked={
+                        selectedPayment === 'store' &&
+                        selectedDelivery === 'convenience'
+                      }
                       onChange={handlePaymentChange}
                     />
                     <span className="delivery-title">超商取貨付款</span>
                   </div>
+                  {selectedPayment === 'store' &&
+                  selectedDelivery === 'convenience' ? (
                   {selectedPayment === 'store' &&
                   selectedDelivery === 'convenience' ? (
                     <>
@@ -481,6 +506,7 @@ export default function CartInfo(props) {
                                 discount.Name
                               ) : (
                                 <div>無</div>
+                              )}
                               )}
                             </div>
                             <div>-NT${discountPrice}</div>
