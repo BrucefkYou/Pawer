@@ -33,7 +33,13 @@ export function usePagination({
   // 排序方法(初始asc)  // 排序欄位名稱(初始ID)
   const [sortWay, setSortWay] = useState('asc');
   const [sortName, setSortName] = useState('ID');
-
+  // 初次渲染若有needSort則優先排序客制的陣列第一項
+  useEffect(() => { 
+    const a = needSort[0].way.split('-')[0];
+    const b = needSort[0].way.split('-')[1];
+    setSortWay(a);
+    setSortName(b);
+  }, [])
   // 計算當前頁數的最後一筆數 // 計算當前頁數的第一筆數
   const nowPageLastItems = nowPage * itemsperPage;
   const nowPageFirstItems = nowPageLastItems - itemsperPage;
@@ -102,6 +108,8 @@ export function usePagination({
     setFilterData(filtered);
     setNowPage(1);
   }, [data, filterRuleArry, searchInput]);
+  //
+  
   // 執行當前頁碼+1 // 執行當前頁碼-1
   function next() {
     setNowPage((prevPage) => Math.min(prevPage + 1, totalPage));

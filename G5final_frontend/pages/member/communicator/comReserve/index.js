@@ -18,12 +18,15 @@ export default function ComReserve(props) {
     next,
     prev
   } = usePagination({
-    url: 'http://localhost:3005/api/pet',
+    url: 'http://localhost:3005/api/pet/reserve',
     needFilter: [
-      { id: 1, label: '男的', filterRule: 'Male', filterName: 'Sex' },
-      { id: 2, label: '女的', filterRule: 'Female', filterName: 'Sex' },
+      { id: 1, label: '預約中', filterRule: '1', filterName: 'Status' },
+      { id: 2, label: '歷史', filterRule: '0', filterName: 'Status' },
     ]
+    
+    
   });
+  console.log(nowPageItems);
   return (
     <>
       <div className="PT-reserve-card p-4">
@@ -51,7 +54,8 @@ export default function ComReserve(props) {
           {/* !map */}
           {/* 清單明細(已預約) */}
           {/* !#功能 下拉onclick */}
-          <div className="row none text-center justify-content-center align-items-center my-3 pb-3 border-bottom">
+          {nowPageItems.map((v) => { 
+<div className="row none text-center justify-content-center align-items-center my-3 pb-3 border-bottom">
             <div className="col-1">1</div>
             <div className="col-2">王大陸</div>
             <div className="col-2 d-none d-lg-block">小白</div>
@@ -95,6 +99,7 @@ export default function ComReserve(props) {
               </svg>
             </div>
           </div>
+          
           {/* !＃判斷 已結束反灰PT-sp-3 */}
           {/* 清單下拉卡片(已預約) */}
           <div className="row detail-card d-flex">
@@ -102,7 +107,6 @@ export default function ComReserve(props) {
             {/* !＃判斷 若取得資料為結束且於手機版?PT-sp-none-rwd */}
             <div className="col-4 col-md-3 d-flex justify-content-center align-items-center ps-0">
               <div className="imgg d-flex py-2">
-                <img src="../../pet/images/teacher.png" alt="1" />
                 <img src="../../pet/images/teacher.png" alt="1" />
               </div>
             </div>
@@ -142,6 +146,8 @@ export default function ComReserve(props) {
               <p className="d-none">遠距溝通</p>
             </div>
           </div>
+          })}
+          
           {/* 清單明細(已結束) */}
           <div className="row none text-center justify-content-center align-items-center my-3 pb-3 border-bottom">
             <div className="col-1">1</div>
@@ -174,7 +180,6 @@ export default function ComReserve(props) {
             {/* 頭像 */}
             <div className="col-4 col-md-3 d-flex justify-content-center align-items-center PT-sp-none-rwd">
               <div className="imgg d-flex py-2">
-                <img src="../../pet/images/teacher.png" alt="1" />
                 <img src="../../pet/images/teacher.png" alt="1" />
               </div>
             </div>
