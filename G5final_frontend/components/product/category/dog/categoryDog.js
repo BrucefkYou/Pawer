@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
 import style from '@/components/product/category/dog/categoryDog.module.scss';
+import { BsPlusLg, BsDashLg } from 'react-icons/bs';
 
 const CategoryDog = ({ activeIndex, onActiveChange }) => {
   const [Open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ const CategoryDog = ({ activeIndex, onActiveChange }) => {
       <div className="col d-flex justify-content-between category-font">
         <p>狗狗專區</p>
         <p className={`${style['catClick']}`} onClick={open}>
-          {Open ? '一' : '+'}
+          {Open ? <BsDashLg /> : <BsPlusLg />}
         </p>
       </div>
       <div

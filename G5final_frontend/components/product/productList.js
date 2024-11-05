@@ -10,7 +10,7 @@ export default function ProductList({ pd }) {
   console.log(pd);
   return (
     <>
-      <div className="col card-layout no-underline">
+      <div className="col-4 card-layout no-underline">
         <div className="card shadow card-size">
           <Image
             className="card-img-top card-img-topme"
@@ -38,7 +38,11 @@ export default function ProductList({ pd }) {
             <div className="d-flex justify-content-between">
               <div className="new-nt">{'NT$' + pd.SalePrice}</div>
               {/* 收藏icon */}
-              <ClickIcon IconFilled={BsBookmarkFill} IconOutline={BsBookmark} />
+              <ClickIcon
+                fontsize="32px"
+                IconFilled={BsBookmarkFill}
+                IconOutline={BsBookmark}
+              />
             </div>
           </div>
         </div>

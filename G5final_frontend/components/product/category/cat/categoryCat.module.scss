@@ -1,5 +1,8 @@
 .catClick{
     cursor: pointer;
+    svg{
+      margin-bottom: 8px;
+    }
 }
 .category-detail {
     max-height: 0; 
@@ -9,6 +12,10 @@
   
   .category-detail.open {
     max-height: 380px; 
+  }
+
+  .category-detail.open:last-child{
+    margin-bottom: 1rem;
   }
   
   
