@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 export function usePagination({
   url = '',
-  needSort = [{}],
+  needSort = [],
   needFilter = [{ id: 1, label: '', filterRule: '', filterName: '' }],
   needSearchbar = ['']
 }) {
@@ -35,10 +35,12 @@ export function usePagination({
   const [sortName, setSortName] = useState('ID');
   // 初次渲染若有needSort則優先排序客制的陣列第一項
   useEffect(() => { 
+    if (needSort.length != 0) {
     const a = needSort[0].way.split('-')[0];
     const b = needSort[0].way.split('-')[1];
     setSortWay(a);
-    setSortName(b);
+      setSortName(b);
+    }
   }, [])
   // 計算當前頁數的最後一筆數 // 計算當前頁數的第一筆數
   const nowPageLastItems = nowPage * itemsperPage;
