@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { BsClock, BsGeoAlt } from 'react-icons/bs';
-import style from '@/components/join/card/around-join-card/around-join-card.module.scss';
+import style from '@/components/join/detail/around-join-card/around-join-card.module.scss';
 import Image from 'next/image';
 
 export default function AroundJoinCard(props) {

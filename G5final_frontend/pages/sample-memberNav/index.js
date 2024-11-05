@@ -4,7 +4,7 @@ import MemberNav from '@/components/memberNav';
 import { usePagination } from '@/hooks/usePagination';
 import { PageNav } from '@/components/PageNav';
 export default function Index(props) {
-  const [url, setUrl] = useState('http://localhost:3005/api/pet');
+  const [url, setUrl] = useState('http://localhost:3005/api/join-in');
   const {
     chooseFilter,
     newdata,
@@ -22,9 +22,12 @@ export default function Index(props) {
     //!這裡更改需要的排序狀態
     needSort: [],
     //!這裡更改需要的按鈕數量及篩選欄位與值
-    needFilter: [],
+    needFilter: [
+      { id: 1, label: 'A', filterRule: '報名中', filterName: 'newStatus' },
+      { id: 2, label: 'B', filterRule: '截止報名', filterName: 'newStatus' },
+    ],
   });
-  console.log(filterData);
+
   // 測試url值
   function changeUrl() {
     const url = 'http://localhost:3005/api/product';
@@ -32,6 +35,11 @@ export default function Index(props) {
   }
   // gpt大神做的搜尋
   const [inputValue, setInputValue] = useState('');
+  const [bbb, setbbb] = useState();
+  useEffect(() => {
+    setbbb(filterData);
+  });
+  console.log(bbb);
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
@@ -39,15 +47,17 @@ export default function Index(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const find = filterData.filter((item) => {
+    const find = bbb.filter((item) => {
       return (
         item.Name.replace(/\s+/g, '').toLowerCase() ===
         inputValue.replace(/\s+/g, '').toLowerCase()
       );
     });
     const a = [];
-    setFilterData(a);
-    console.log(inputValue); // 在這裡你可以處理搜尋邏輯
+    // setFilterData(a);
+    console.log(inputValue);
+    setFilterData(find);
+    setFilterData(bbb); // 在這裡你可以處理搜尋邏輯
   };
   return (
     <>
@@ -63,6 +73,8 @@ export default function Index(props) {
           return (
             <>
               <li key={v.ID}>{v.ID}</li>
+              <li>{v.Title}</li>
+              <li>{v.newStatus}</li>
               <li>{v.Name}</li>
             </>
           );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import joins from '@/data/Joins.json';
-import JiCard from './item/ji-card';
+import JoinListCard from './item/join-list-card';
 import Banner from '@/components/join/banner/banner';
 import SearchBar from '@/components/sidebar/search/search-bar';
 import LatestCard from '@/components/sidebar/latest-post/latest-post';
@@ -15,7 +15,7 @@ import { PageNav } from '@/components/PageNav';
 // page
 import { v4 as uuidv4 } from 'uuid';
 
-export default function JoinCard() {
+export default function JoinList() {
   // ----------------------------------------
   const {
     nowPageItems,
@@ -133,7 +133,7 @@ export default function JoinCard() {
                 <div className="d-flex flex-wrap justify-content-lg-end justify-content-md-center gap-4">
                   {nowPageItems.map((data) => {
                     return (
-                      <JiCard
+                      <JoinListCard
                         key={uuidv4()}
                         iconfillcolor="#FFD700"
                         data={data}
