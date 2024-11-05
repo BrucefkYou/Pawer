@@ -6,10 +6,16 @@ import Image from 'next/image';
 import TWZipCode from '@/components/tw-zipcode';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 
 export default function CartInfo(props) {
   const router = useRouter();
   const { items } = useCart();
+  // 選擇便利商店
+  const { store711, openWindow, closeWindow } = useShip711StoreOpener(
+    'http://localhost:3005/api/shipment/711',
+    { autoCloseMins: 3 } // x分鐘沒完成選擇會自動關閉，預設5分鐘。
+  );
   // 設定訂單資訊
   const [selectedDelivery, setSelectedDelivery] = useState(''); // 被選中的運送方式
   const [selectedPayment, setSelectedPayment] = useState(''); // 被選中的付款方式
@@ -20,7 +26,6 @@ export default function CartInfo(props) {
   const [receiver, setReceiver] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
-  const [store, setStore] = useState(''); // 超商選擇
   const [country, setCountry] = useState('');
   const [township, setTownship] = useState(0);
 
@@ -87,16 +92,16 @@ export default function CartInfo(props) {
   };
 
   // 處理運送方式變化
-  const handleDeliveryChange = (event) => {
-    setSelectedDelivery(event.target.value);
+  const handleDeliveryChange = (e) => {
+    setSelectedDelivery(e.target.value);
   };
   // 處理付款方式變化
-  const handlePaymentChange = (event) => {
-    setSelectedPayment(event.target.value);
+  const handlePaymentChange = (e) => {
+    setSelectedPayment(e.target.value);
   };
   // 處理發票方式變化
-  const handleBillChange = (event) => {
-    setSelectedBill(event.target.value);
+  const handleBillChange = (e) => {
+    setSelectedBill(e.target.value);
   };
   // 處理優惠券勾選框變化
   const handleDiscountChange = (e) => {
@@ -156,8 +161,6 @@ export default function CartInfo(props) {
   useEffect(() => {
     calculateDiscountPrice();
   }, [discount, checkedPrice]);
-  console.log(country);
-  console.log(township);
   return (
     <>
       <div className="cart">
@@ -318,7 +321,13 @@ export default function CartInfo(props) {
                       {/* 選擇超商 */}
                       <div className="row row-cols-2 row-cols-lg-4">
                         <div className="col mt10">
-                          <button className="btn btn-convenience w-100">
+                          <button
+                            type="button"
+                            className={`btn btn-convenience w-100 ${
+                              store711.storename ? 'btn-warning' : ''
+                            }`}
+                            onClick={() => openWindow()}
+                          >
                             <Image
                               width={30}
                               height={30}
@@ -327,11 +336,18 @@ export default function CartInfo(props) {
                               src={'/cart/sevenEleven.png'}
                               alt="7-11"
                             />
-                            <span className="delivery-title">7-11超商</span>
+                            <span className="delivery-title">
+                              {store711.storename
+                                ? store711.storename
+                                : '7-11超商'}
+                            </span>
                           </button>
                         </div>
                         <div className="col mt10">
-                          <button className="btn btn-convenience w-100">
+                          <button
+                            type="button"
+                            className="btn btn-convenience w-100"
+                          >
                             <Image
                               width={30}
                               height={30}
@@ -567,17 +583,19 @@ export default function CartInfo(props) {
                   onClick={() => {
                     const orderData = {
                       name: name,
-                      receiver: receiver,
-                      phone: phone,
+                      CouponID: discount.ID,
+                      Receiver: receiver,
+                      ReceiverPhone: phone,
+                      // 這三個會組合成一個地址
                       country: country,
                       township: township,
                       address: address,
-                      store: store,
+                      store: store711.storename,
                       selectedDelivery: selectedDelivery,
                       selectedPayment: selectedPayment,
-                      selectedBill: selectedBill,
+                      ReceiptType: selectedBill,
                       checkedPrice: checkedPrice,
-                      discountPrice: discountPrice,
+                      DiscountPrice: discountPrice,
                     };
                     createOrder(orderData);
                   }}
