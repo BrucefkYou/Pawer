@@ -3,12 +3,13 @@ import { BsCamera } from 'react-icons/bs';
 import { useAuth } from '@/hooks/use-auth';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
+import Image from 'next/image';
 Member.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
 
 export default function Member() {
-  const { getMember } = useAuth();
+  const { auth, setAuth, getMember } = useAuth();
   const [member, setMember] = useState({
     account: '',
     name: '',
@@ -18,23 +19,30 @@ export default function Member() {
     gender: '',
     birth: '',
   });
-  // 多欄位共用事件函式
-  const handleFieldChange = (e) => {
-    // ES6特性: 計算得來的物件屬性名稱(computed property name)
-    let nextMember = { ...member, [e.target.name]: e.target.value };
-    setMember(nextMember);
-  };
 
   // 初始化會員資料
   const initMemberData = async () => {
-    const member = await getMember();
-    setMember({ ...member });
-    console.log(member);
+    const dbmember = await getMember();
+    setMember({
+      account: dbmember.Account,
+      name: dbmember.Name,
+      nickname: dbmember.Nickname,
+      email: dbmember.eMail,
+      phone: dbmember.Phone,
+      gender: dbmember.Gender,
+      birth: dbmember.Birth,
+    });
   };
-  // 本頁一開始render後就會設定到user狀態中
+  // 本頁一開始render後就會設定到會員資料
   useEffect(() => {
     initMemberData();
   }, []);
+
+  // 多欄位共用事件函式
+  const handleFieldChange = (e) => {
+    let nextMember = { ...member, [e.target.name]: e.target.value };
+    setMember(nextMember);
+  };
 
   return (
     <>
@@ -45,7 +53,13 @@ export default function Member() {
             <div className="mb-3">
               <div className="profile">
                 <div className="picture">
-                  <img className="avatar" src="/member/member-profile.png" />
+                  <Image
+                    className="avatar"
+                    src="/member/member-profile.png"
+                    alt=""
+                    width={150}
+                    height={150}
+                  />
                 </div>
                 <button type="file" className="camera-icon">
                   <BsCamera />
@@ -123,6 +137,7 @@ export default function Member() {
                 name="email"
                 value={member.email}
                 onChange={handleFieldChange}
+                disabled
               />
             </div>
           </div>
