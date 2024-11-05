@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 export function usePagination({
   url = '',
-  needSort = [{ way: 'asc-ID', name: 'ID由小到大' }],
-  needFilter = [{ id: 1, label: '進行中', filterRule: '1', filterName: 'ID' }]
+  needSort = [{}],
+  needFilter = [{ id: 1, label: '', filterRule: '', filterName: '' }],
+  needSearchbar = ['']
 }) {
   // 存放fetch所有容器
   const [data, setData] = useState([]);
@@ -22,7 +23,9 @@ export function usePagination({
       filterRule: needFilter[0].filterRule,
     }
     : null);
-
+  // 存放搜尋數據
+  const [searchInput, setSearchInput] = useState('');
+  
   // 存放當前頁數(初始1)/存放每頁顯示的項目數(初始6)
   const [nowPage, setNowPage] = useState(1);
   const [itemsperPage, setItemsperPage] = useState(6);
@@ -77,19 +80,28 @@ export function usePagination({
     };
     fetchData();
   }, [url]);
-  // 若data資料變動隨之改變狀態
+  // 若data資料變動隨之改變狀態,有篩選過後保留原始狀態
+  // 篩選邏輯
   useEffect(() => {
-    // 確保每次篩選都重新渲染
-    if (!filterRuleArry) {
-      setFilterData(newdata);
-    } else {
-      const filtered = newdata.filter(
+    let filtered = newdata;
+    // 會員頁籤分類篩選
+    if (filterRuleArry) {
+      filtered = filtered.filter(
         (item) => item[filterRuleArry.filterName] == filterRuleArry.filterRule
       );
-      setFilterData(filtered);
     }
+    const a = ['Name', 'ID','CertificateDate','number']
+    // 全域模糊搜尋
+    if (searchInput) {
+      filtered = filtered.filter((item) =>
+        needSearchbar.some((key) =>
+          item[key]?.toString().toLowerCase().includes(searchInput.toLowerCase())
+        )
+      );
+    }
+    setFilterData(filtered);
     setNowPage(1);
-  }, [data, filterRuleArry]);
+  }, [data, filterRuleArry, searchInput]);
   // 執行當前頁碼+1 // 執行當前頁碼-1
   function next() {
     setNowPage((prevPage) => Math.min(prevPage + 1, totalPage));
@@ -119,6 +131,10 @@ export function usePagination({
     setfilterRuleArry({ filterName, filterRule });
     setNowPage(1);
   }
+  //搜尋
+  function updateSearch(query) {
+    setSearchInput(query);
+  }
   //將參數傳出由父層控制
   return {
     nowPageLastItems,//當前頁的最後一筆數
@@ -138,5 +154,6 @@ export function usePagination({
     choosePerpage,//執行指定頁函式
     chooseSort,//執行排序函式
     chooseFilter,//執行篩選函式
+    updateSearch//設定搜尋函式
   };
 }
