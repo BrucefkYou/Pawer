@@ -16,7 +16,7 @@
   .title {
     padding-bottom: 16px;
     border-bottom: 2px dashed #eaeaea;
-    color: #22355C;
+    color: #22355c;
     margin-bottom: 0px;
   }
   .nav {
@@ -27,7 +27,7 @@
     font-size: 14px;
   }
   .nav-link {
-    color: #22355C;
+    color: #22355c;
   }
 
   li {
@@ -42,7 +42,7 @@
   padding: 30px 36px;
   background-color: #fff;
   border-radius: 4px;
- 
+
   .profile {
     width: 150px;
     height: 150px;
@@ -143,8 +143,8 @@
   .header {
     display: contents; /* 讓 header 繼承行和列的樣式 */
     .cell {
-        font-weight: bold;
-        background-color: #F5F5F5;
+      font-weight: bold;
+      background-color: #f5f5f5;
     }
   }
 
@@ -159,9 +159,57 @@
     justify-content: center;
     align-items: center;
     .img {
-        width: 100px;
-        height:100px;
-        margin-right: 10px;
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
     }
   }
 }
+
+.react-datepicker-wrapper {
+  display: block;
+  width: 100%;
+  border-radius: var(--bs-border-radius);
+}
+.react-datepicker__input-container .react-datepicker__calendar-icon {
+ right: 0;
+ top: 0 ;
+}
+.react-datepicker__input-container .react-datepicker__calendar-icon{
+  padding: 0.62rem !important;
+}
+.react-datepicker__input-container input {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem !important;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--bs-body-color);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--bs-body-bg);
+  background-clip: padding-box;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+// .react-datepicker-wrapper {
+//   display: block;
+//   width: 100%;
+//   padding: 0.375rem 0.75rem;
+//   font-size: 1rem;
+//   font-weight: 400;
+//   line-height: 1.5;
+//   color: var(--bs-body-color);
+//   -webkit-appearance: none;
+//   -moz-appearance: none;
+//   appearance: none;
+//   background-color: var(--bs-body-bg);
+//   background-clip: padding-box;
+//   border: var(--bs-border-width) solid var(--bs-border-color);
+//   border-radius: var(--bs-border-radius);
+//   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+// }
