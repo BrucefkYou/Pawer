@@ -5,6 +5,8 @@
 import React, { useState, useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
 import Image from 'next/image';
+import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
+import ClickIcon from '@/components/icons/click-icon/click-icon';
 
 export default function ProductDetail(props) {
   // 使用路由判斷當前動態路由id
@@ -120,7 +122,10 @@ export default function ProductDetail(props) {
                 </div>
                 {/* 收藏圖 */}
                 <div className="col d-flex justify-content-end">
-                  <img src="../product/Detailsave.svg" alt="1" />
+                  <ClickIcon
+                    IconFilled={BsBookmarkFill}
+                    IconOutline={BsBookmark}
+                  />
                 </div>
               </div>
               {/* 文字內容簡介 */}
