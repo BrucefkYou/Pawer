@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import axiosInstance from '@/services/axios-instance';
 import { useRouter } from 'next/router';
 // toast訊息套件
 import toast, { Toaster } from 'react-hot-toast';
@@ -12,7 +13,7 @@ AuthContext.displayName = 'AuthContext';
 // 建立導出AuthProvider元件
 export function AuthProvider({ children }) {
   const router = useRouter();
-  const initUserData = {
+  const initMemberData = {
     id: 0,
     name: '',
     email: '',
@@ -23,7 +24,7 @@ export function AuthProvider({ children }) {
   //定義登入狀態與會員資料(可從此取得會員資料id, name, email, nickname, avatar，若需要更多就撈出id自行去撈db)
   const [auth, setAuth] = useState({
     isAuth: false,
-    userData: initUserData,
+    memberData: initMemberData,
   });
 
   // 解析accessToken用的函式
@@ -60,58 +61,36 @@ export function AuthProvider({ children }) {
     });
   };
 
-  // 得到會員個人的資料(登入之後才可以用)
-  const getMember = async () => {
-    try {
-      // 向伺服器作fetch
-      const res = await fetch(`http://localhost:3005/api/member`, {
-        credentials: 'include',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'GET',
-      });
-
-      const resData = await res.json();
-      // console.log(resData);
-
-      if (resData.status === 'success') {
-        return resData.data.member;
-      } else {
-        console.warn(resData);
-        return {};
-      }
-    } catch (error) {
-      console.error('Error fetching member data:', error);
-      return {}; // 返回空物件，表示錯誤時不會崩潰
-    }
-  };
-
   // 會員登入
   const login = async (email, password) => {
     try {
-      // 向伺服器作fetch
-      const res = await fetch('http://localhost:3005/api/member/login', {
-        credentials: 'include', // 設定cookie必要設定，如果有需要授權或認証一定要加
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
+      const res = await axiosInstance.post('/member/login', {
+        email,
+        password,
       });
+      console.log(res);
+      // 回傳資料
+      // res.json({
+      //   status: 'success',
+      //   token: { accessToken },
+      //   memberdata: dbMember,
+      // })
 
-      const resData = await res.json();
-      // console.log(resData);
-
-      if (resData.status === 'success') {
-        // 可以得到id和Name
-        const jwtData = parseJwt(resData.data.accessToken);
+      if (res.data.status === 'success') {
+        // 可以解析jwt token得出id,name (!後續要加上google_uid)
+        const jwtData = parseJwt(res.data.token.accessToken);
         // console.log(jwtData);
-        // 設定到狀態中
+
+        // 將登入成功與取回的會員資料設定到全域狀態auth，其他頁面可以直接取用
         setAuth({
           isAuth: true,
+          memberData: {
+            id: res.data.memberData.ID,
+            name: res.data.memberData.Name,
+            email: res.data.memberData.eMail,
+            nickname: res.data.memberData.Nickname,
+            avatar: res.data.memberData.Avatar,
+          },
         });
         // 導向到會員中心
         router.push('/member');
@@ -129,20 +108,8 @@ export function AuthProvider({ children }) {
   // 會員登出
   const logout = async () => {
     try {
-      // 向伺服器作fetch
-      const res = await fetch('http://localhost:3005/api/member/logout', {
-        credentials: 'include', // 設定cookie必要設定，如果有需要授權或認証一定要加
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: '',
-      });
-
-      const resData = await res.json();
-
-      if (resData.status === 'success') {
+      const res = await axiosInstance.post('/member/logout');
+      if (res.data.status === 'success') {
         toast.success('登出成功');
       } else {
         toast.error('登出失敗');
@@ -150,7 +117,7 @@ export function AuthProvider({ children }) {
       // 設定回原本的未登入的初始值
       setAuth({
         isAuth: false,
-        userData: initUserData,
+        memberData: initMemberData,
       });
       // 清除購物車localstorage
       localStorage.removeItem('cart');
@@ -159,6 +126,24 @@ export function AuthProvider({ children }) {
       return {}; // 返回空物件，表示錯誤時不會崩潰
     }
   };
+
+  // 得到會員個人的資料(登入之後才可以用)
+  const getMember = async () => {
+    try {
+      const res = await axiosInstance.get('/member');
+
+      if (res.data.status === 'success') {
+        return res.data.memberData;
+      } else {
+        console.warn(res.data.message);
+        return {};
+      }
+    } catch (error) {
+      console.error('Error fetching member data:', error);
+      return {}; // 返回空物件，表示錯誤時不會崩潰
+    }
+  };
+
   // 隱私頁面路由，未登入時會，檢查後跳轉至登入頁面
   const loginRoute = '/member/login';
   const protectedRoutes = [
@@ -179,26 +164,26 @@ export function AuthProvider({ children }) {
   // 隱私頁面路由，未登入時會，檢查後跳轉至登入頁面(檢查會員登入狀態)
   const checkState = async () => {
     try {
-      const res = await fetch('http://localhost:3005/api/member', {
-        credentials: 'include', // 設定cookie或是存取隱私資料時要加這個參數
-        method: 'GET',
-      });
+      const res = await axiosInstance.get('/member');
+      console.log('check:', res);
 
-      const resData = await res.json();
-      // console.log(resData);
-
-      if (resData.status === 'success') {
-        const member = resData.data.member;
+      if (res.data.status === 'success') {
         const nextAuth = {
           isAuth: true,
-          userData: member,
+          memberData: {
+            id: res.data.memberData.ID,
+            name: res.data.memberData.Name,
+            email: res.data.memberData.eMail,
+            nickname: res.data.memberData.Nickname,
+            avatar: res.data.memberData.Avatar,
+          },
         };
         setAuth(nextAuth);
       } else {
         // 作隱私路由跳轉
         if (protectedRoutes.includes(router.pathname)) {
-          toast.error('無進入權限，請先登入!');
           router.push(loginRoute);
+          toast.error('無進入權限，請先登入!');
           // 減緩跳轉時間
           // setTimeout(() => {
           //   alert('無進入權限，請先登入!');

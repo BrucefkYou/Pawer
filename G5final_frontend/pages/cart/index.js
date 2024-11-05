@@ -57,10 +57,10 @@ export default function Cart(props) {
 
   // 將選擇的優惠券帶到下一頁
   const bringDiscount = () => {
-    const updatedDiscount = {...selectedDiscount, checked: true};
+    const updatedDiscount = { ...selectedDiscount, checked: true };
     setSelectedDiscount(updatedDiscount);
     window.localStorage.setItem('discount', JSON.stringify(updatedDiscount));
-  }
+  };
 
   // 當選擇優惠券發生變化時計算折扣
   useEffect(() => {
@@ -133,14 +133,14 @@ export default function Cart(props) {
                           {/* 篩選只有滿足優惠券最低金額的優惠券會顯示 */}
                           {discount
                             ? discount.map((item) => {
-                              if (item.ConditionMinValue <= checkPrice) {
-                                return (
-                                  <option key={item.ID} value={item.ID}>
-                                    {item.Name}
-                                  </option>
-                                );
-                              }
-                            })
+                                if (item.ConditionMinValue <= checkPrice) {
+                                  return (
+                                    <option key={item.ID} value={item.ID}>
+                                      {item.Name}
+                                    </option>
+                                  );
+                                }
+                              })
                             : '沒有符合條件的優惠券'}
                         </select>
                         {/* <button type="button"
@@ -152,7 +152,10 @@ export default function Cart(props) {
                   {/* 繼續購物 & 總金額 */}
                   <div className="cart-section3 d-flex justify-content-lg-between">
                     <div className="keep-shopping">
-                      <Link href="/product" className="btn btn-sm btn-keepShoping btn-border-main text-decoration-none set-middle">
+                      <Link
+                        href="/product"
+                        className="btn btn-sm btn-keepShoping btn-border-main text-decoration-none set-middle"
+                      >
                         繼續購物
                       </Link>
                     </div>
@@ -195,14 +198,17 @@ export default function Cart(props) {
             </div>
           </div>
           {/* cart-desktop */}
-        </>) : (
-        <div className='d-flex flex-column justify-content-center align-items-center my-3 gap-4'>
-          <div className='text-center'>請先登入會員</div>
-          <button className='btn btn-warning'><Link className='text-decoration-none' href={"/member/login"}>去登入</Link></button>
+        </>
+      ) : (
+        <div className="d-flex flex-column justify-content-center align-items-center my-3 gap-4">
+          <div className="text-center">請先登入會員</div>
+          <button className="btn btn-warning">
+            <Link className="text-decoration-none" href={'/member/login'}>
+              去登入
+            </Link>
+          </button>
         </div>
       )}
     </>
-
-
   );
 }
