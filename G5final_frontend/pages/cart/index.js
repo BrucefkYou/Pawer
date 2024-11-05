@@ -10,7 +10,7 @@ export default function Cart(props) {
   const router = useRouter();
   const { cart, addItem } = useCart();
   const [discountPrice, setDiscountPrice] = useState(10); // 折抵金額，初始值為0
-  const [seletctedDiscount, setSelectedDiscount] = useState(''); // 選擇的優惠券，初始值設為空字串
+  const [selectedDiscount, setSelectedDiscount] = useState(''); // 選擇的優惠券，初始值設為空字串
   const [discount, setDiscount] = useState(); // 優惠券數據
   const [checkPrice, setCheckPrice] = useState(0); // 結帳金額
 
@@ -32,15 +32,15 @@ export default function Cart(props) {
 
   // 計算折扣金額
   const calculateDiscountPrice = () => {
-    if (seletctedDiscount) {
-      if (seletctedDiscount.CalculateType === 1) {
+    if (selectedDiscount) {
+      if (selectedDiscount.CalculateType === 1) {
         // 百分比折扣，僅保存折扣金額
         setDiscountPrice(
-          Math.round(checkPrice * (1 - Number(seletctedDiscount.Value) / 100))
+          Math.round(checkPrice * (1 - Number(selectedDiscount.Value) / 100))
         );
-      } else if (seletctedDiscount.CalculateType === 2) {
+      } else if (selectedDiscount.CalculateType === 2) {
         // 固定金額折扣
-        setDiscountPrice(Number(seletctedDiscount.Value));
+        setDiscountPrice(Number(selectedDiscount.Value));
       }
     } else {
       setDiscountPrice(0); // 如果沒有選擇優惠券，折扣金額為 0
@@ -57,14 +57,16 @@ export default function Cart(props) {
 
   // 將選擇的優惠券帶到下一頁
   const bringDiscount = () => {
-    window.localStorage.setItem('discount', JSON.stringify(seletctedDiscount));
+    const updatedDiscount = {...selectedDiscount, checked: true};
+    setSelectedDiscount(updatedDiscount);
+    window.localStorage.setItem('discount', JSON.stringify(updatedDiscount));
   }
 
   // 當選擇優惠券發生變化時計算折扣
   useEffect(() => {
     calculateDiscountPrice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seletctedDiscount, cart.totalPrice]);
+  }, [selectedDiscount, cart.totalPrice]);
 
   // 當購物車內容有變化時，計算勾選商品的總價
   useEffect(() => {
@@ -123,7 +125,7 @@ export default function Cart(props) {
                           className="bg-main-color btn-coupon-size border-0 text-white"
                           name="coupon"
                           id="coupon"
-                          value={seletctedDiscount?.ID || ''}
+                          value={selectedDiscount?.ID || ''}
                           onChange={handleCouponChange}
                         >
                           {/* //! 這邊缺少一個function將以選取的優惠券帶到下一頁  */}
@@ -150,14 +152,9 @@ export default function Cart(props) {
                   {/* 繼續購物 & 總金額 */}
                   <div className="cart-section3 d-flex justify-content-lg-between">
                     <div className="keep-shopping">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-keepShoping btn-border-main"
-                      >
-                        <Link href="/product" className="text-decoration-none">
-                          繼續購物
-                        </Link>
-                      </button>
+                      <Link href="/product" className="btn btn-sm btn-keepShoping btn-border-main text-decoration-none set-middle">
+                        繼續購物
+                      </Link>
                     </div>
                     <div className="d-flex flex-column w100per">
                       <div className="cart-check d-flex justify-content-between mb-4">
@@ -171,7 +168,7 @@ export default function Cart(props) {
                       <div className="cart-check d-flex justify-content-between mb-4">
                         <div className="total-price">優惠券</div>
                         <div className="price">
-                          {seletctedDiscount?.Name || '沒有選擇優惠券'}
+                          {selectedDiscount?.Name || '沒有選擇優惠券'}
                         </div>
                       </div>
                       <hr className="mb-4" />
@@ -182,19 +179,14 @@ export default function Cart(props) {
                         </div>
                       </div>
                       <div className="set-middle">
-                        <button
-                          type="button"
-                          className="btn bg-second-color text-white btn-checkd"
+                        <Link
+                          href="/cart/cart-info"
+                          className="btn bg-second-color btn-checkd text-decoration-none set-middle"
+                          // 將選擇的優惠券帶到下一頁
+                          onClick={bringDiscount}
                         >
-                          <Link
-                            href="/cart/cart-info"
-                            className="text-decoration-none"
-                            // 將選擇的優惠券帶到下一頁
-                            onClick={bringDiscount}
-                          >
-                            去結帳
-                          </Link>
-                        </button>
+                          去結帳
+                        </Link>
                       </div>
                     </div>
                   </div>
