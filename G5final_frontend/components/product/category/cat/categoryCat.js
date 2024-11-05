@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import style from '@/components/product/category/cat/categoryCat.module.scss';
 
-const CategoryCat = () => {
+const CategoryCat = ({ activeIndex, onActiveChange }) => {
   const [Open, setOpen] = useState(false);
 
   const open = () => {
@@ -24,16 +24,26 @@ const CategoryCat = () => {
         <div className="row">
           <div className="col category-font">
             <ul className="list-unstyled mb-2 category-li">
-              <li>排毛粉</li>
-              <li>魚油粉</li>
-              <li>鈣保健</li>
-              <li>腸胃保健</li>
-              <li>皮膚保健</li>
-              <li>關節保健</li>
-              <li>口腔保健</li>
-              <li>眼睛保健</li>
-              <li>心臟保健</li>
-              <li>胰臟保健</li>
+              {[
+                '排毛粉',
+                '魚油粉',
+                '鈣保健',
+                '腸胃保健',
+                '皮膚保健',
+                '關節保健',
+                '口腔保健',
+                '眼睛保健',
+                '心臟保健',
+                '胰臟保健',
+              ].map((item, index) => (
+                <li
+                  key={index}
+                  className={activeIndex === index ? 'active' : ''}
+                  onClick={() => onActiveChange(index)}
+                >
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
