@@ -252,6 +252,7 @@ export default function CartInfo(props) {
                             className="mt10 w-100 h-36p input-block"
                             type="text"
                             placeholder="訂購人姓名"
+                            value={name}
                             onChange={(e) => setName(e.target.value)}
                           />
                         </div>
@@ -260,6 +261,7 @@ export default function CartInfo(props) {
                             className="mt10 w-100 h-36p input-block"
                             type="text"
                             placeholder="收貨人"
+                            value={receiver}
                             onChange={(e) => setReceiver(e.target.value)}
                           />
                         </div>
@@ -268,6 +270,7 @@ export default function CartInfo(props) {
                             className="mt10 w-100 h-36p input-block"
                             type="text"
                             placeholder="市話(非必填)"
+                            value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                           />
                         </div>
@@ -287,6 +290,7 @@ export default function CartInfo(props) {
                             className="mt10 w-100 h-36p input-block"
                             type="text"
                             placeholder="請輸入地址"
+                            value={address}
                             onChange={(e) => setAddress(e.target.value)}
                           />
                         </div>
