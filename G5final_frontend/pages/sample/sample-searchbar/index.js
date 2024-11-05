@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid'
 import Search from '@/components/searchBar/searchbar';
-//!------------------------- 以下為會員頁頁籤使用範例------------------------
+//!------------------------- 以下為搜尋頁使用範例------------------------
 import { usePagination } from '@/hooks/usePagination';
 import { PageNav } from '@/components/PageNav';
 export default function Index(props) {
