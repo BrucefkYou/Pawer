@@ -79,10 +79,6 @@ export default function Cart(props) {
       )
     );
   }, [cart]);
-  // 第一次進到頁面就要初始化購物車
-  useEffect(() => {
-    // if (router.isReady) initCart();
-  }, [router.isReady]);
   // 一進頁面就要讀取優惠券資料
   useEffect(() => {
     getDiscount();
