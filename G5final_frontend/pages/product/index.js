@@ -10,6 +10,7 @@ import { PageNav } from '@/components/PageNav';
 import SearchSideBar from '@/components/searchsidebar/search-side-bar';
 import CategoryCat from '@/components/product/category/cat/categoryCat';
 import CategoryDog from '@/components/product/category/dog/categoryDog';
+import useCategory from '@/hooks/useCategory';
 
 export default function Index(props) {
   const {
@@ -33,6 +34,8 @@ export default function Index(props) {
       { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
   });
+
+  const { active, ActiveChange } = useCategory();
   return (
     <>
       <div className="productList">
@@ -65,9 +68,15 @@ export default function Index(props) {
                   {/* 類別細節 */}
                   <div className="row category-detail d-flex flex-column">
                     {/* 貓貓專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
-                    <CategoryCat />
+                    <CategoryCat
+                      activeIndex={active?.c === 'cat' ? active.v : null}
+                      onActiveChange={(v) => ActiveChange('cat', v)}
+                    />
                     {/* 狗狗專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
-                    <CategoryDog />
+                    <CategoryDog
+                      activeIndex={active?.c === 'dog' ? active.v : null}
+                      onActiveChange={(v) => ActiveChange('dog', v)}
+                    />
                     {/* 清除搜尋 */}
                     <div className="btn p-0">
                       <p className="clean">清除搜尋</p>
