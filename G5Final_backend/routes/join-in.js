@@ -24,9 +24,10 @@ router.get('/', async function (req, res, next) {
      FROM Joined 
      WHERE Joined.JoininID = Joinin.ID AND Status = 1) AS SignCount,
     CASE
+        WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) = Joinin.ParticipantLimit THEN '已成團'
         WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) + 5 >= Joinin.ParticipantLimit THEN '即將成團'
         WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) >= Joinin.ParticipantLimit THEN '已額滿'
-        WHEN CURRENT_TIMESTAMP > Joinin.SignEndTime THEN '截止報名'
+        WHEN CURRENT_TIMESTAMP > Joinin.SignEndTime THEN '開團截止'
         WHEN CURRENT_TIMESTAMP BETWEEN Joinin.CreateDate AND Joinin.SignEndTime THEN '報名中'
         ELSE '未開放'
     END AS newStatus
@@ -61,9 +62,10 @@ router.get('/:id', async function (req, res, next) {
      FROM Joined 
      WHERE Joined.JoininID = Joinin.ID AND Status = 1) AS SignCount,
     CASE
+        WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) = Joinin.ParticipantLimit THEN '已成團'
         WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) + 5 >= Joinin.ParticipantLimit THEN '即將成團'
         WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) >= Joinin.ParticipantLimit THEN '已額滿'
-        WHEN CURRENT_TIMESTAMP > Joinin.SignEndTime THEN '截止報名'
+        WHEN CURRENT_TIMESTAMP > Joinin.SignEndTime THEN '開團截止'
         WHEN CURRENT_TIMESTAMP BETWEEN Joinin.CreateDate AND Joinin.SignEndTime THEN '報名中'
         ELSE '未開放'
     END AS newStatus
@@ -85,37 +87,37 @@ LEFT JOIN
   }
 })
 
-router.get('/qs', async function (req, res) {
-  try {
-    const { keyword } = req.query
+// router.get('/qs', async function (req, res) {
+//   try {
+//     const { keyword } = req.query
 
-    // 這邊帶要查找的資料
-    let sql = `
-    SELECT 
-      Joinin.*, 
-      (SELECT COUNT(*) FROM MemberFavoriteMapping WHERE MemberFavoriteMapping.JoininID = Joinin.ID) AS favoriteCount,
-      Image.ImageUrl AS joininImg
-    FROM Joinin
-    LEFT JOIN Image ON Joinin.ID = Image.JoininID
-    WHERE Joinin.Status = 1
-  `
-    const conditions = []
+//     // 這邊帶要查找的資料
+//     let sql = `
+//     SELECT
+//       Joinin.*,
+//       (SELECT COUNT(*) FROM MemberFavoriteMapping WHERE MemberFavoriteMapping.JoininID = Joinin.ID) AS favoriteCount,
+//       Image.ImageUrl AS joininImg
+//     FROM Joinin
+//     LEFT JOIN Image ON Joinin.ID = Image.JoininID
+//     WHERE Joinin.Status = 1
+//   `
+//     const conditions = []
 
-    // 搜尋條件
-    if (keyword) {
-      conditions.push(`Joinin.Title LIKE '%${keyword}%'`)
-    }
+//     // 搜尋條件
+//     if (keyword) {
+//       conditions.push(`Joinin.Title LIKE '%${keyword}%'`)
+//     }
 
-    if (conditions.length > 0) {
-      sql += ' AND ' + conditions.join(' AND ')
-    }
+//     if (conditions.length > 0) {
+//       sql += ' AND ' + conditions.join(' AND ')
+//     }
 
-    const [results] = await db2.query(sql)
-    res.status(200).json({ status: 'success', data: { blogs: results } })
-  } catch (error) {
-    res.status(500).json({ error: '搜尋失敗' })
-  }
-})
+//     const [results] = await db2.query(sql)
+//     res.status(200).json({ status: 'success', data: { blogs: results } })
+//   } catch (error) {
+//     res.status(500).json({ error: '搜尋失敗' })
+//   }
+// })
 
 //CKEditor 圖片上傳
 // router.put('/:id', upload.none(), async (req, res) => {

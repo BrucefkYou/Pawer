@@ -4,7 +4,7 @@ import Image from 'next/image';
 import SideBarCard from '@/components/sidebar/sidebar-card/sidebar-card';
 import pawButton from '@/assets/pawButton.svg';
 import Banner from '@/components/join/banner/banner';
-import AroundJoinCard from '@/components/join/card/around-join-card/around-join-card';
+import AroundJoinCard from '@/components/join/detail/around-join-card/around-join-card';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import {
   BsClock,
