@@ -27,7 +27,7 @@ export default async function (sequelize) {
       },
     },
     {
-      tableName: 'MemberFavoriteMappin', //直接提供資料表名稱
+      tableName: 'MemberFavoriteMapping', //直接提供資料表名稱
       timestamps: false, // 使用時間戳
       paranoid: false, // 軟性刪除
       underscored: false, // 所有自動建立欄位，使用snake_case命名
