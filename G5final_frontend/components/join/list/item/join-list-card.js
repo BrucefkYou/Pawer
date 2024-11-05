@@ -1,16 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
-
-import ClickIcon from '@/components/icons/click-icon/click-icon';
-import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
-
 import ClickIcon from '@/components/icons/click-icon/click-icon';
 import { useRouter } from 'next/router';
-import styles from '@/components/join/card/join-card/join-card.module.scss';
+import styles from '@/components/join/list/join-list.module.scss';
 import Link from 'next/link';
 
-export default function JiCard({
+export default function JoinListCard({
   iconfillcolor = `${iconfillcolor}`,
   data = {},
   // handleToggleFav = () => {},
@@ -54,7 +50,7 @@ export default function JiCard({
               <ClickIcon
                 IconFilled={BsBookmarkFill}
                 IconOutline={BsBookmark}
-                count={data.joinFavCount}
+                // count={data.joinFavCount}
               />
             </div>
           </div>
