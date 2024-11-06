@@ -6,7 +6,7 @@ const router = express.Router()
 router.get('/', async function (req, res, next) {
   try {
     const [rows] = await db2.query(
-      'SELECT p.*, i.ProductID , i.ImageName FROM Product p LEFT JOIN Image i ON p.ID = i.ProductID'
+      'SELECT Product.*, Image.ProductID, Image.ImageName FROM Product LEFT JOIN Image ON Product.ID = Image.ProductID'
     ) // 確認資料表名稱是否正確
     res.json(rows)
   } catch (err) {

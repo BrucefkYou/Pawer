@@ -128,6 +128,9 @@ export const CartProvider = ({
   const decrement = (id) => {
     setCartItems(decrementOne(cartItems, id));
   };
+  const initCart = () => {
+    setCartItems([]);
+  };
 
   return (
     <CartContext.Provider
@@ -142,6 +145,7 @@ export const CartProvider = ({
         isInCart,
         increment,
         decrement,
+        initCart,
       }}
     >
       {children}

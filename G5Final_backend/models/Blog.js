@@ -7,54 +7,41 @@ export default async function (sequelize) {
       ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        allowNull: false,
-      },
-      StartTime: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      EndTime: {
-        type: DataTypes.DATE,
+        autoIncrement: true,
         allowNull: false,
       },
       Status: {
         type: DataTypes.TINYINT,
-        allowNull: false,
-        defaultValue: 1,
+        allowNull: true,
       },
       Title: {
         type: DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: true,
       },
       Content: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       CreateDate: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
       },
-      CreateUserID: {
+      MemberID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       UpdateDate: {
         type: DataTypes.DATE,
-        allowNull: false,
-      },
-      UpdateUserID: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       Valid: {
         type: DataTypes.TINYINT,
-        allowNull: false,
-        defaultValue: 1,
+        allowNull: true,
       },
     },
     {
       tableName: 'Blog', //直接提供資料表名稱
-      timestamps: true, // 使用時間戳
+      timestamps: false, // 使用時間戳
       paranoid: false, // 軟性刪除
       underscored: false, // 所有自動建立欄位，使用snake_case命名
       createdAt: 'created_at', // 建立的時間戳

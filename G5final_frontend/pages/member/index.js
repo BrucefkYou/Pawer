@@ -3,13 +3,22 @@ import { BsCamera } from 'react-icons/bs';
 import { useAuth } from '@/hooks/use-auth';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
+import Image from 'next/image';
+import toast, { Toaster } from 'react-hot-toast';
+// react-datepicker套件
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { zhCN } from 'date-fns/locale';
+registerLocale('zhCN', zhCN);
+// 套用memberlayout
 Member.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
 
 export default function Member() {
-  const { getMember } = useAuth();
-  const [member, setMember] = useState({
+  // 定義會員資料初始物件
+  const initUserProfile = {
+    avatar: '',
     account: '',
     name: '',
     nickname: '',
@@ -17,24 +26,70 @@ export default function Member() {
     phone: '',
     gender: '',
     birth: '',
-  });
-  // 多欄位共用事件函式
-  const handleFieldChange = (e) => {
-    // ES6特性: 計算得來的物件屬性名稱(computed property name)
-    let nextMember = { ...member, [e.target.name]: e.target.value };
-    setMember(nextMember);
   };
 
+  const { auth, getMember } = useAuth();
+  const [userProfile, setUserProfile] = useState(initUserProfile);
+  const [hasProfile, setHasProfile] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+
   // 初始化會員資料
-  const initMemberData = async () => {
-    const member = await getMember();
-    setMember({ ...member });
-    console.log(member);
+  const getUserData = async () => {
+    const res = await getMember();
+
+    if (res.data.status === 'success') {
+      const dbUser = res.data.memberData;
+      console.log('dbUser:', dbUser);
+
+      setUserProfile({
+        avatar: dbUser.Avatar ?? '',
+        account: dbUser.Account ?? '',
+        name: dbUser.Name ?? '',
+        nickname: dbUser.Nickname ?? '',
+        email: dbUser.eMail ?? '',
+        phone: dbUser.Phone ?? '',
+        gender: dbUser.Gender ?? '',
+        birth: dbUser.Birth ?? '',
+      });
+    }
   };
-  // 本頁一開始render後就會設定到user狀態中
+
+  // 本頁一開始render後就會設定到會員資料
   useEffect(() => {
-    initMemberData();
+    getUserData();
   }, []);
+
+  // 處理input輸入的共用函式，設定回userProfile狀態
+  const handleFieldChange = (e) => {
+    setUserProfile({ ...userProfile, [e.target.name]: e.target.value });
+  };
+
+  // react-datepicker套件
+  // 定義要給react-datepicker使用的選擇日期狀態
+  const [startDate, setStartDate] = useState(
+    // 如果有生日資料就用，沒有就用當天
+    userProfile.birth ? new Date(userProfile.birth) : new Date()
+  );
+
+  const handleDateChange = (date) => {
+    // 日期有選擇onchange 就設定日期狀態
+    setStartDate(date);
+    // 確認日期有選擇就設定回userprofile狀態
+    setUserProfile({
+      ...userProfile,
+      birth: date ? date.toISOString().split('T')[0] : '',
+    });
+  };
+  // react-datepicker套件 結束
+
+  useEffect(() => {
+    if (userProfile.birth) {
+      setStartDate(new Date(userProfile.birth));
+    }
+  }, [userProfile.birth]);
+
+  // 未登入時，不會出現頁面內容
+  if (!auth.isAuth) return <></>;
 
   return (
     <>
@@ -45,7 +100,13 @@ export default function Member() {
             <div className="mb-3">
               <div className="profile">
                 <div className="picture">
-                  <img className="avatar" src="/member/member-profile.png" />
+                  <Image
+                    className="avatar"
+                    src="/member/member-profile.png"
+                    alt=""
+                    width={150}
+                    height={150}
+                  />
                 </div>
                 <button type="file" className="camera-icon">
                   <BsCamera />
@@ -63,7 +124,7 @@ export default function Member() {
                   type="text"
                   className="form-control"
                   name="account"
-                  value={member.account}
+                  value={userProfile.account}
                   onChange={handleFieldChange}
                   disabled
                 />
@@ -71,7 +132,7 @@ export default function Member() {
             </div>
             <div className="col">
               <div className="mb-3">
-                <label htmlFor="account" className="form-label">
+                <label htmlFor="password" className="form-label">
                   密碼
                 </label>
                 <div className="w-100">
@@ -83,66 +144,68 @@ export default function Member() {
             </div>
           </div>
         </div>
-        <div className="row mt-4">
-          <div className="col-md-6 col-sm-12">
-            <div className="mb-3">
-              <label htmlFor="account" className="form-label required">
-                姓名
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                name="name"
-                value={member.name}
-                onChange={handleFieldChange}
-              />
-            </div>
-          </div>
-          <div className="col-md-6 col-sm-12">
-            <div className="mb-3">
-              <label htmlFor="account" className="form-label">
-                暱稱
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                name="nickname"
-                value={member.nickname}
-                onChange={handleFieldChange}
-              />
-            </div>
-          </div>
-          <div className="col-md-6 col-sm-12">
-            <div className="mb-3">
-              <label htmlFor="account" className="form-label required">
-                信箱
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                name="email"
-                value={member.email}
-                onChange={handleFieldChange}
-              />
-            </div>
-          </div>
-          <div className="col-md-6 col-sm-12">
-            <div className="mb-3">
-              <label htmlFor="account" className="form-label required">
-                手機
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                name="account"
-                value={member.phone}
-                onChange={handleFieldChange}
-              />
-            </div>
-          </div>{' '}
-          {/* <div className="col-md-6 col-sm-12">
+        <form>
+          <div className="row mt-4">
+            <div className="col-md-6 col-sm-12">
               <div className="mb-3">
-                <label htmlFor="account" className="form-label required">
+                <label htmlFor="name" className="form-label required">
+                  姓名
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="name"
+                  value={userProfile.name}
+                  onChange={handleFieldChange}
+                />
+              </div>
+            </div>
+            <div className="col-md-6 col-sm-12">
+              <div className="mb-3">
+                <label htmlFor="nickname" className="form-label">
+                  暱稱
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="nickname"
+                  value={userProfile.nickname}
+                  onChange={handleFieldChange}
+                />
+              </div>
+            </div>
+            <div className="col-md-6 col-sm-12">
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">
+                  信箱
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="email"
+                  value={userProfile.email}
+                  onChange={handleFieldChange}
+                  disabled
+                />
+              </div>
+            </div>
+            <div className="col-md-6 col-sm-12">
+              <div className="mb-3">
+                <label htmlFor="phone" className="form-label">
+                  手機
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="account"
+                  value={userProfile.phone}
+                  onChange={handleFieldChange}
+                />
+              </div>
+            </div>{' '}
+            <div className="col-md-6 col-sm-12">
+              <div className="mb-3">
+                <label htmlFor="gender" className="form-label">
                   性別
                 </label>
                 <div className="w-100">
@@ -150,9 +213,10 @@ export default function Member() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="inlineRadioOptions"
-                      name="inlineRadio1"
-                      defaultValue="option1  || ''"
+                      name="gender"
+                      value="男"
+                      checked={userProfile.gender === '男'}
+                      onChange={handleFieldChange}
                     />
                     <label className="form-check-label" htmlFor="inlineRadio1">
                       男
@@ -162,9 +226,10 @@ export default function Member() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="inlineRadioOptions"
-                      name="inlineRadio1"
-                      defaultValue="option1  || ''"
+                      name="gender"
+                      value="女"
+                      checked={userProfile.gender === '女'}
+                      onChange={handleFieldChange}
                     />
                     <label className="form-check-label" htmlFor="inlineRadio1">
                       女
@@ -174,9 +239,10 @@ export default function Member() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="inlineRadioOptions"
-                      name="inlineRadio1"
-                      defaultValue="option1  || ''"
+                      name="gender"
+                      value="不願透露"
+                      checked={userProfile.gender === '不願透露'}
+                      onChange={handleFieldChange}
                     />
                     <label className="form-check-label" htmlFor="inlineRadio1">
                       不願透露
@@ -187,19 +253,28 @@ export default function Member() {
             </div>
             <div className="col-md-6 col-sm-12">
               <div className="mb-3">
-                <label htmlFor="account" className="form-label required">
+                <label htmlFor="birth" className="form-label">
                   出生日期
                 </label>
-                <input type="text" className="form-control" name="account" />
+                <DatePicker
+                  locale="zhCN"
+                  dateFormat="yyyy-MM-dd"
+                  showIcon
+                  selected={startDate}
+                  onChange={handleDateChange}
+                />
               </div>
-            </div> */}
-          <div className="col-12 d-flex justify-content-center mt-4">
-            <button type="button" className="btn btn-primary">
-              儲存
-            </button>
+            </div>
+            <div className="col-12 d-flex justify-content-center mt-4">
+              <button type="button" className="btn btn-primary">
+                儲存
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
+      {/* 土司訊息視窗用 */}
+      <Toaster />
     </>
   );
 }

@@ -6,8 +6,9 @@ export default async function (sequelize) {
     {
       ApplyID: {
         type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
         allowNull: false,
-        primaryKey: true, // 如果 ApplyID 是主鍵，這裡需要標記
       },
       JoininID: {
         type: DataTypes.INTEGER,
@@ -15,7 +16,7 @@ export default async function (sequelize) {
       },
       MemberID: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
       },
       RegistrationTime: {
         type: DataTypes.DATE,

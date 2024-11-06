@@ -24,19 +24,73 @@
   }
   /* 側邊欄 */
   .left {
-    width: 400px;
-    height: 1840px;
+    width: 360px;
+    height: 100%;
   }
   /* 文字搜尋 */
   .search-text-mp {
     height: 100%;
     padding: 0;
   }
+  // 搜尋框樣式
+  .search-category{
+    padding: 36px 30px;
+    box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
+  }
   //
   .category-mt {
     // margin-top: -240px;
   }
+  // 類別hover樣式
   .category-li li {
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    position: relative; 
+  }
+  .category-li li:hover {
+    margin-bottom: 0.75rem;
+    color: var(--d-gray, #646464);
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25.6px;
+    cursor: pointer;
+    padding-left: 5px;
+  }
+  .category-li li:hover::after {
+    content: '';
+    display: block; 
+    width: 5%;
+    height: 90%; 
+    background-color: #f4b13e; 
+    border-radius: 10px;
+    position: absolute; 
+    left: -5px;
+    top:0px;
+    transform: none; 
+    margin-bottom: 0.75rem;
+  }
+  .category-li li.active {
+    margin-bottom: 0.75rem;
+    color: var(--d-gray, #646464);
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25.6px;
+    cursor: pointer;
+    padding-left: 5px;
+  }
+  .category-li li.active::after {
+    content: '';
+    display: block; 
+    width: 5%;
+    height: 90%; 
+    background-color: #f4b13e; 
+    border-radius: 10px;
+    position: absolute; 
+    left: -5px;
+    top:0px;
+    transform: none; 
     margin-bottom: 0.75rem;
   }
   /* 搜尋框背景 */
@@ -125,7 +179,7 @@
   }
   /* 清除搜尋 */
   .clean {
-    width: 363px;
+    margin-left: 0.5rem;
     padding: 10px 100px;
     border-radius: 4px;
     background: var(--primary, #22355c);
@@ -165,10 +219,14 @@
     font-weight: 400;
     line-height: 25.6px;
   }
+  .category-mal{
+    margin-top: 3.75rem;
+  }
   /* ---------------------------------商品------------------------------- */
   .right {
     width: 900px;
   }
+  
   // 去除連結底線
   .no-underline {
     text-decoration: none;
@@ -322,6 +380,10 @@
       font-weight: 500;
       line-height: 24px;
     }
+    // col排版
+    .col-4{
+      width: 49.333333%;
+  }
     /* 頁籤 */
     .tab-rwd {
       margin-left: 60px;

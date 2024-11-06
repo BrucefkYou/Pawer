@@ -9,6 +9,7 @@ import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
 import PetList from '@/components/pet/pet-list';
+import SearchBar from '@/components/searchBar/searchbar';
 
 export default function communicator(props) {
   const {
@@ -22,14 +23,13 @@ export default function communicator(props) {
     prev,
     choosePerpage,
     chooseSort,
+    updateSearch,
   } = usePagination({
     url: 'http://localhost:3005/api/pet',
-    needFilter:[],
+    needSearchbar: ['ID', 'Name','CertificateDate'],
     needSort: [
-      { way: 'asc-ID', name: 'ID由小到大' },
-      { way: 'desc-ID', name: 'ID由大到小' },
-      { way: 'asc-Name', name: '名稱中文開頭' },
       { way: 'desc-Name', name: '名稱英文開頭' },
+      { way: 'asc-Name', name: '名稱中文開頭' },
       { way: 'asc-Sex', name: '性別女' },
       { way: 'desc-Sex', name: '性別男' },
       { way: 'asc-CertificateDate', name: '取證日期-遠' },
@@ -49,35 +49,12 @@ export default function communicator(props) {
           {/* 搜尋框 */}
           <div className="row d-flex py-2 justify-content-center">
             <div className="col-8">
-              <form className="pet-searchbar-yen" action="">
-                <button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={40}
-                    height={40}
-                    viewBox="0 0 40 40"
-                    fill="none"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M18.9872 29.3001C25.2828 29.3001 30.2414 24.3935 30.2414 18.5168C30.2414 12.64 25.2828 7.73344 18.9872 7.73344C12.6916 7.73344 7.73307 12.64 7.73307 18.5168C7.73307 24.3935 12.6916 29.3001 18.9872 29.3001ZM18.9872 31.7001C26.5282 31.7001 32.6414 25.7977 32.6414 18.5168C32.6414 11.2358 26.5282 5.33344 18.9872 5.33344C11.4462 5.33344 5.33307 11.2358 5.33307 18.5168C5.33307 25.7977 11.4462 31.7001 18.9872 31.7001Z"
-                      fill="#B1B1B1"
-                    />
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M28.0262 27.0847C28.4948 26.6161 29.2546 26.6161 29.7232 27.0847L36.3149 33.6764C36.7835 34.145 36.7835 34.9048 36.3149 35.3734C35.8463 35.8421 35.0865 35.8421 34.6178 35.3734L28.0262 28.7818C27.5576 28.3132 27.5576 27.5534 28.0262 27.0847Z"
-                      fill="#B1B1B1"
-                    />
-                  </svg>
-                </button>
-                <input type="text" placeholder="請輸入溝通師名稱" />
-              </form>
+              
             </div>
           </div>
           {/* 排序.每頁筆數 */}
           <div className="row d-flex justify-content-end">
+            <div className='col-6'><SearchBar updateSearch={updateSearch} /></div>
             <div className="col-6 col-md-3">
               <PerPageDom
                 itemsperPage={itemsperPage}

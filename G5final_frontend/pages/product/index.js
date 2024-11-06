@@ -1,13 +1,19 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
-import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import ProductList from '@/components/product/productList';
 import { usePagination } from '@/hooks/usePagination';
 import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
-import SearchSideBar from '@/components/searchsidebar/search-side-bar';
+import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import ProductList from '@/components/product/productList';
+import Clean from '@/components/product/clean/clean';
+import Search from '@/components/searchBar/searchbar';
+import CategoryCat from '@/components/product/category/cat/categoryCat';
+import CategoryDog from '@/components/product/category/dog/categoryDog';
+import useCategory from '@/hooks/useCategory';
 
 export default function Index(props) {
   const {
@@ -21,9 +27,17 @@ export default function Index(props) {
     prev,
     choosePerpage,
     chooseSort,
+    updateSearch,
   } = usePagination({
     url: 'http://localhost:3005/api/product',
     needFilter: [],
+    needSearchbar: [
+      'Name',
+      'CategoryName',
+      'SubCategory',
+      'OriginPrice ',
+      'SalePrice',
+    ],
     needSort: [
       { way: 'asc-ID', name: '商品 舊 > 新' },
       { way: 'desc-ID', name: '商品 新 > 舊' },
@@ -31,6 +45,8 @@ export default function Index(props) {
       { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
   });
+
+  const { active, ActiveChange } = useCategory();
   return (
     <>
       <div className="productList">
@@ -50,70 +66,34 @@ export default function Index(props) {
         {/* 商品內容 */}
         <div className="container d-flex justify-content-between">
           {/* 側邊欄 */}
-          <div className="row left">
+          <div className="row left mb-5 bg-white">
             {/* 文字搜尋 */}
-            <div className="col search-text-mp mt-2">
-              <SearchSideBar />
-              <div className="row category-mt">
-                <div className="row d-flex flex-column align-items-start">
+            <div className="col search-text-mp">
+              <div className="search-category">
+                <Clean updateSearch={updateSearch} />
+                <div className="row d-flex flex-column align-items-start category-mal mx-0">
                   <div>
                     <p className="searchpro col">類別</p>
                     {/* <p className="searchpro">-</p> */}
                   </div>
                   {/* 類別細節 */}
-                  <div className="row category-detail d-flex flex-column">
+                  <div className="row category-detail d-flex flex-column mx-0">
                     {/* 貓貓專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
-                    <div className="row category-detail">
-                      <div className="col d-flex justify-content-between category-font">
-                        <p>貓貓專區</p>
-                        <p>+</p>
-                      </div>
-                      <div className="row category-detail ">
-                        <div className="col category-font">
-                          <ul className="list-unstyled mb-2 category-li">
-                            <li>排毛粉</li>
-                            <li>魚油粉</li>
-                            <li>鈣保健</li>
-                            <li>腸胃保健</li>
-                            <li>皮膚保健</li>
-                            <li>關節保健</li>
-                            <li>口腔保健</li>
-                            <li>眼睛保健</li>
-                            <li>心臟保健</li>
-                            <li>胰臟保健</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
+                    <CategoryCat
+                      activeIndex={active?.c === 'cat' ? active.v : null}
+                      onActiveChange={(v) => ActiveChange('cat', v)}
+                    />
                     {/* 狗狗專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
-                    <div className="row category-detail">
-                      <div className="col d-flex justify-content-between category-font">
-                        <p>狗狗專區</p>
-                        <p>+</p>
-                      </div>
-                      <div className="row category-detail ">
-                        <div className="col category-font">
-                          <ul className="list-unstyled mb-2 category-li">
-                            <li>魚油粉</li>
-                            <li>鈣保健</li>
-                            <li>腸胃保健</li>
-                            <li>皮膚保健</li>
-                            <li>關節保健</li>
-                            <li>口腔保健</li>
-                            <li>眼睛保健</li>
-                            <li>心臟保健</li>
-                            <li>胰臟保健</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    {/* 清除搜尋 */}
-                    <div className="btn p-0">
-                      <p className="clean">清除搜尋</p>
-                    </div>
+                    <CategoryDog
+                      activeIndex={active?.c === 'dog' ? active.v : null}
+                      onActiveChange={(v) => ActiveChange('dog', v)}
+                    />
                   </div>
                 </div>
+                {/* 清除搜尋 */}
+                {/* <Clean updateSearch={updateSearch} /> */}
               </div>
+              <div className="row category-mt"></div>
             </div>
           </div>
           {/* 商品 */}
@@ -138,7 +118,7 @@ export default function Index(props) {
                 </div>
               </div>
               {/* 商品卡片 導入react 會是一張 跑迴圈出來*/}
-              <div className="row ms-4">
+              <div className="row ms-4 d-flex justify-content-start">
                 {/* 卡片內容 */}
                 {nowPageItems.map((pd) => {
                   return <ProductList key={pd.ID} pd={pd} />;
