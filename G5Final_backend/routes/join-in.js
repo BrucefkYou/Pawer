@@ -1,11 +1,6 @@
 import express from 'express'
 import db2 from '../configs/mysql.js'
-// 檢查空物件, 轉換req.params為數字
-import { getIdParam } from '#db-helpers/db-tool.js'
 const router = express.Router()
-import sequelize from '#configs/db.js'
-const { Joinin } = sequelize.models
-import { QueryTypes, Op } from 'sequelize'
 import multer from 'multer'
 
 const upload = multer()

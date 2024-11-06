@@ -22,9 +22,9 @@ export default function JiDetail(props) {
 
   const islogin = () => {
     if (auth.isAuth) {
-      router.push('/member');
+      router.push(`/member`);
     } else {
-      router.push('member/login');
+      router.push(`/member/login`);
     }
   };
   const [data, setData] = useState({ ID: 0, Title: '' });

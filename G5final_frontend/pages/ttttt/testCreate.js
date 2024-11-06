@@ -32,7 +32,7 @@ const Publish = () => {
 
   const saveToDb = async () => {
     try {
-      const response = await fetch('/api/article', {
+      const response = await fetch('/api/joinin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,14 +40,15 @@ const Publish = () => {
         body: JSON.stringify({
           title,
           author,
-          article: data,
+          joinin: data,
         }),
       });
 
       const result = await response.json();
       if (response.ok) {
         alert('資料寫入成功');
-        router.push('/article');
+        router.push('/');
+        // 測試先帶入的路徑，之後要改成正確的路徑
       } else {
         alert(`寫入失敗: ${result.message}`);
       }
