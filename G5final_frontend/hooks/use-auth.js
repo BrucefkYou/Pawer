@@ -3,9 +3,6 @@ import axiosInstance from '@/services/axios-instance';
 import { useRouter } from 'next/router';
 // toast訊息套件
 import toast, { Toaster } from 'react-hot-toast';
-// 訊息對話盒，需要先安裝套件
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
 
 const AuthContext = createContext(null);
 AuthContext.displayName = 'AuthContext';
@@ -13,6 +10,8 @@ AuthContext.displayName = 'AuthContext';
 // 建立導出AuthProvider元件
 export function AuthProvider({ children }) {
   const router = useRouter();
+
+  //定義登入狀態與會員資料(可從此取得會員資料id, name, email, nickname, avatar，若需要更多就撈出id自行去撈db)
   const initMemberData = {
     id: 0,
     name: '',
@@ -20,8 +19,6 @@ export function AuthProvider({ children }) {
     nickname: '',
     avatar: '',
   };
-
-  //定義登入狀態與會員資料(可從此取得會員資料id, name, email, nickname, avatar，若需要更多就撈出id自行去撈db)
   const [auth, setAuth] = useState({
     isAuth: false,
     memberData: initMemberData,
@@ -32,33 +29,6 @@ export function AuthProvider({ children }) {
     const base64Payload = token.split('.')[1];
     const payload = Buffer.from(base64Payload, 'base64');
     return JSON.parse(payload.toString());
-  };
-
-  // 使用MySwal取代Swal
-  const MySwal = withReactContent(Swal);
-  // 對話盒函式
-  const notify = (
-    icon = 'success', //圖示
-    title, //標題
-    msg, // 訊息
-    btnTxt = 'OK', // 確認按鈕文字
-    callback = () => {} // 按下確認後要作的事(函式)
-  ) => {
-    MySwal.fire({
-      // position: 'top-end',  // 呈現位置
-      icon: icon,
-      title: title,
-      text: msg,
-      showConfirmButton: true,
-      confirmButtonText: btnTxt,
-      showCancelButton: true,
-      cancelButtonText: '取消',
-      // timer: 1500,   // 自動消失秒數
-    }).then((result) => {
-      if (result.isConfirmed) {
-        callback();
-      }
-    });
   };
 
   // 會員登入
@@ -82,14 +52,15 @@ export function AuthProvider({ children }) {
         // console.log(jwtData);
 
         // 將登入成功與取回的會員資料設定到全域狀態auth，其他頁面可以直接取用
+        // 使用 ?? 可以 接受false與0的值  null undefined都會被排除
         setAuth({
           isAuth: true,
           memberData: {
-            id: res.data.memberData.ID,
-            name: res.data.memberData.Name,
-            email: res.data.memberData.eMail,
-            nickname: res.data.memberData.Nickname,
-            avatar: res.data.memberData.Avatar,
+            id: res.data.memberData.ID ?? '',
+            name: res.data.memberData.Name ?? '',
+            email: res.data.memberData.eMail ?? '',
+            nickname: res.data.memberData.Nickname ?? '',
+            avatar: res.data.memberData.Avatar ?? '',
           },
         });
         // 導向到會員中心
@@ -133,7 +104,8 @@ export function AuthProvider({ children }) {
       const res = await axiosInstance.get('/member');
 
       if (res.data.status === 'success') {
-        return res.data.memberData;
+        // console.log('取得個人資料成功:', res);
+        return res;
       } else {
         console.warn(res.data.message);
         return {};
@@ -165,17 +137,17 @@ export function AuthProvider({ children }) {
   const checkState = async () => {
     try {
       const res = await axiosInstance.get('/member');
-      console.log('check:', res);
+      // console.log('check:', res);
 
       if (res.data.status === 'success') {
         const nextAuth = {
           isAuth: true,
           memberData: {
-            id: res.data.memberData.ID,
-            name: res.data.memberData.Name,
-            email: res.data.memberData.eMail,
-            nickname: res.data.memberData.Nickname,
-            avatar: res.data.memberData.Avatar,
+            id: res.data.memberData.ID ?? '',
+            name: res.data.memberData.Name ?? '',
+            email: res.data.memberData.eMail ?? '',
+            nickname: res.data.memberData.Nickname ?? '',
+            avatar: res.data.memberData.Avatar ?? '',
           },
         };
         setAuth(nextAuth);

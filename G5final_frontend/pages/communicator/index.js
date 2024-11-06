@@ -26,13 +26,10 @@ export default function communicator(props) {
     updateSearch,
   } = usePagination({
     url: 'http://localhost:3005/api/pet',
-    needFilter: [],
-    needSearchbar:['ID','Name'],
+    needSearchbar: ['ID', 'Name','CertificateDate'],
     needSort: [
-      { way: 'asc-ID', name: 'ID由小到大' },
-      { way: 'desc-ID', name: 'ID由大到小' },
-      { way: 'asc-Name', name: '名稱中文開頭' },
       { way: 'desc-Name', name: '名稱英文開頭' },
+      { way: 'asc-Name', name: '名稱中文開頭' },
       { way: 'asc-Sex', name: '性別女' },
       { way: 'desc-Sex', name: '性別男' },
       { way: 'asc-CertificateDate', name: '取證日期-遠' },
