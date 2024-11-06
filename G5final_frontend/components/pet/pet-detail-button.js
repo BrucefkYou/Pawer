@@ -149,7 +149,7 @@ export default function PetDetailButton({ Name }) {
           </div>
         </div>
       )}
-      {window && <div className="bgdark"></div>};
+      {window && <div className="bgdark"></div>}
     </>
   );
 }

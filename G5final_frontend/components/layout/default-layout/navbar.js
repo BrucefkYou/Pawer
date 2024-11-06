@@ -7,18 +7,10 @@ import Link from 'next/link';
 import logo from 'public/LOGO.svg';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
+import { useCart } from '@/hooks/use-cart/use-cart-state';
 export default function Navbar() {
-  const { auth, logout, getMember } = useAuth();
-  const [member, setMember] = useState({
-    account: '',
-    name: '',
-    nickname: '',
-    email: '',
-    phone: '',
-    gender: '',
-    birth: '',
-    avatar: '',
-  });
+  const { initCart } = useCart();
+  const { auth, logout } = useAuth();
   const router = useRouter();
 
   // 判斷是否登入導向不同頁面
@@ -44,10 +36,6 @@ export default function Navbar() {
       setIsDropdownOpen(false);
     }
   };
-  const initMemberData = async () => {
-    const member = await getMember();
-    setMember({ ...member });
-  };
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
@@ -55,9 +43,7 @@ export default function Navbar() {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
-  useEffect(() => {
-    initMemberData();
-  }, []);
+
   return (
     <>
       <header className="header">
@@ -74,11 +60,17 @@ export default function Navbar() {
                   aria-label="切換下拉選單"
                 >
                   {/* 下拉選單 SVG 圖示 */}
-                  <Image width={21} height={17} alt='hamburger' src={"/hamburger.png"} />
+                  <Image
+                    width={21}
+                    height={17}
+                    alt="hamburger"
+                    src={'/hamburger.png'}
+                  />
                 </button>
                 <div
-                  className={`customDropdownMenu ${isDropdownOpen ? 'showMenu' : ''
-                    }`}
+                  className={`customDropdownMenu ${
+                    isDropdownOpen ? 'showMenu' : ''
+                  }`}
                 >
                   <ul className="dropdownUl">
                     <li className="dropdownli">
@@ -174,16 +166,31 @@ export default function Navbar() {
           <div className="navbar-rightbtn">
             {/* 判斷有沒有登入 */}
             {auth.isAuth ? (
-              member.avatar ? (
+              auth.memberData.avatar ? (
                 <button className="navbar-member" onClick={islogin}>
-                  <Image width={24} height={24} className='navbar-login-img' src={`/member/member-avatar/${member.avatar}`} alt='使用者頭像' />
+                  <Image
+                    width={24}
+                    height={24}
+                    className="navbar-login-img"
+                    src={`/member/member-avatar/${auth.memberData.avatar}`}
+                    alt="使用者頭像"
+                  />
                 </button>
-              ) : (<button className="navbar-member" onClick={islogin}>
-                <Image width={24} height={24} src={`/member/member-profile.png`} alt='預設使用者頭像' />
-              </button>)
-            ) : (<button className="navbar-member" onClick={islogin}>
-              <BsPerson className="text-secondary" />
-            </button>)}
+              ) : (
+                <button className="navbar-member" onClick={islogin}>
+                  <Image
+                    width={24}
+                    height={24}
+                    src={`/member/member-profile.png`}
+                    alt="預設使用者頭像"
+                  />
+                </button>
+              )
+            ) : (
+              <button className="navbar-member" onClick={islogin}>
+                <BsPerson className="text-secondary" />
+              </button>
+            )}
 
             <button className="navbar-cart">
               {/* <img src="./images/icon/cart.svg" alt="1"> */}
@@ -195,6 +202,8 @@ export default function Navbar() {
               <button
                 className="navbar-logout"
                 onClick={() => {
+                  initCart();
+                  localStorage.setItem('store711', {});
                   logout();
                   router.push('/');
                 }}

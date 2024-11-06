@@ -10,7 +10,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const { login } = useAuth();
-  console.log(user);
+  // console.log(user);
 
   return (
     <>

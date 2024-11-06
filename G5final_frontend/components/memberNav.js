@@ -18,7 +18,6 @@ export default function MemberNav({ chooseFilter, needFilter, newdata }) {
     setFilterCounts(counts);
     // 隨著button更新時重新計算
   }, [needFilter, newdata]);
-  console.log(needFilter);
   return (
     <>
       <ul className="nav nav-tabs member-nav-tabs" id="myTab" role="tablist">

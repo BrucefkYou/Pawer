@@ -25,7 +25,7 @@ export default function communicator(props) {
     needFilter:[],
     needSort: [
       //!這裡客製化要的選單項目,way: asc-ID(升序-欄位名稱),name:(下拉選單要顯示的名稱)
-      { way: 'asc-ID', name: 'ID由小到大' },
+      { way: 'desc-Name', name: 'ID由小到大' },
       { way: 'desc-ID', name: 'ID由大到小' },
       { way: 'asc-Name', name: '名稱中文開頭' },
       { way: 'desc-Name', name: '名稱英文開頭' },
@@ -35,13 +35,11 @@ export default function communicator(props) {
       { way: 'desc-CertificateDate', name: '取證日期-近' },
     ],
   });
-
-  // 當子元件產生變化時重新抓取資料
-  function handleDataChange(data) {}
-
   return (
     <>
+      
       <div className="container">
+        <h1 className='text-danger'>以下為頁碼+排序+每頁幾筆範例</h1>
         {/* //!每頁筆數選擇框,依照頁面需求擺放位置 */}
         <PerPageDom itemsperPage={itemsperPage} choosePerpage={choosePerpage} />
         {/* //!排序選擇框,依照頁面需求擺放位置 */}

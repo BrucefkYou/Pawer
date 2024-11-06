@@ -7,8 +7,6 @@ import jwt from 'jsonwebtoken'
 // 中介軟體，存取隱私會員資料用
 import authenticate from '#middlewares/authenticate.js'
 
-import { generateHash, compareHash } from '##/db-helpers/password-hash.js'
-
 // 定義安全的私鑰字串
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
 
@@ -22,33 +20,30 @@ router.get('/', authenticate, async function (req, res) {
     return res.json({ status: 'error', message: '存取會員資料失敗' })
   }
 
-  const [rows] = await db.query(
-    'SELECT Avatar as avatar,Account as account,Name as name,NickName as nickname,eMail as email,Phone as phone,Gender as gender,Birth as birth FROM Member WHERE ID= ?',
-    [id]
-  )
+  const [rows] = await db.query('SELECT * FROM Member WHERE ID= ?', [id])
 
   if (rows.length === 0) {
     return res.json({ status: 'error', message: '沒有找到會員資料' })
   }
 
-  const member = rows[0]
+  const dbMember = rows[0]
 
-  return res.json({ status: 'success', data: { member } })
+  delete dbMember.Password
+
+  return res.json({ status: 'success', memberData: dbMember })
 })
 
 // 登入
-router.post('/login', async (req, res, next) => {
+router.post('/login', async (req, res) => {
   const loginMember = req.body
-
+  // console.log(loginMember) { email: '123', password: '456' }
   const [rows] = await db.query(
     'SELECT * FROM Member WHERE eMail = ? and Password = ?',
     [loginMember.email, loginMember.password]
   )
-
   if (rows.length === 0) {
     return res.json({ status: 'error', message: '該會員不存在' })
   }
-
   const dbMember = rows[0]
 
   // 2. 比對密碼hash是否相同(返回true代表密碼正確)
@@ -75,7 +70,8 @@ router.post('/login', async (req, res, next) => {
   // 傳送access token回應(例如react可以儲存在state中使用)
   return res.json({
     status: 'success',
-    data: { accessToken },
+    token: { accessToken },
+    memberData: dbMember,
   })
 })
 
