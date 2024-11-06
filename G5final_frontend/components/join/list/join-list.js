@@ -7,15 +7,20 @@ import LatestCard from '@/components/sidebar/latest-post/latest-post';
 import StatusCard from '@/components/sidebar/status/status';
 import JiCreateCta from '@/components/join/ji-create-cta/ji-create-cta';
 import SelectDate from '@/components/sidebar/select-date/select-date';
+import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+
 // page
 import { usePagination } from '@/hooks/usePagination';
 import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
-// page
+import { useRouter } from 'next/router';
+// 唯一key值使用
 import { v4 as uuidv4 } from 'uuid';
 
 export default function JoinList() {
+  const router = useRouter();
+  const { keyword } = router.query;
   // ----------------------------------------
   const {
     nowPageItems,
@@ -29,12 +34,12 @@ export default function JoinList() {
     choosePerpage,
     chooseSort,
   } = usePagination({
-    url: 'http://localhost:3005/api/join-in',
+    url: `http://localhost:3005/api/join-in?keyword=${keyword || ''}`,
     needFilter: [],
     needSort: [
       { way: 'asc-ID', name: ' 最舊 > 最新' },
       { way: 'desc-ID', name: ' 最新 > 最舊' },
-      // { way: 'asc-SalePrice', name: '價格 低 > 高' },
+      // { way: 'asc-S`http://localhost:3005/api/join-in?keyword=${keyword || ''}`,Price', name: '價格 低 > 高' },
       // { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
   });
@@ -91,6 +96,7 @@ export default function JoinList() {
     <>
       <Banner bgImgUrl="/join/banner-jism.jpg" ImgCover="cover" />
       <div className="container ji-list-container px-3">
+        <Breadcrumbs />
         <div className="d-flex justify-content-center align-items-center mt-5 mb-5">
           <div className={`d-md-flex gap-3`}>
             <aside className="col-md-4 px-md-0 ji-aside">
