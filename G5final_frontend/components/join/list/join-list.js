@@ -37,8 +37,8 @@ export default function JoinList() {
     url: `http://localhost:3005/api/join-in?keyword=${keyword || ''}`,
     needFilter: [],
     needSort: [
-      { way: 'asc-ID', name: ' 最舊 > 最新' },
-      { way: 'desc-ID', name: ' 最新 > 最舊' },
+      // { way: 'asc-ID', name: ' 最舊上架' },
+      { way: 'desc-ID', name: ' 最新上架' },
       // { way: 'asc-S`http://localhost:3005/api/join-in?keyword=${keyword || ''}`,Price', name: '價格 低 > 高' },
       // { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
