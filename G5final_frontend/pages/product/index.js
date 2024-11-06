@@ -9,7 +9,7 @@ import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import ProductList from '@/components/product/productList';
-import SearchSideBar from '@/components/searchsidebar/search-side-bar';
+import Clean from '@/components/product/clean/clean';
 import Search from '@/components/searchBar/searchbar';
 import CategoryCat from '@/components/product/category/cat/categoryCat';
 import CategoryDog from '@/components/product/category/dog/categoryDog';
@@ -70,7 +70,7 @@ export default function Index(props) {
             {/* 文字搜尋 */}
             <div className="col search-text-mp">
               <div className="search-category">
-                <Search updateSearch={updateSearch} />
+                <Clean updateSearch={updateSearch} />
                 <div className="row d-flex flex-column align-items-start category-mal mx-0">
                   <div>
                     <p className="searchpro col">類別</p>
@@ -91,12 +91,7 @@ export default function Index(props) {
                   </div>
                 </div>
                 {/* 清除搜尋 */}
-                <div
-                  className="btn p-0"
-                  onClick={() => window.location.reload()}
-                >
-                  <p className="clean">清除搜尋</p>
-                </div>
+                {/* <Clean updateSearch={updateSearch} /> */}
               </div>
               <div className="row category-mt"></div>
             </div>
