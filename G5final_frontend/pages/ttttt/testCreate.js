@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import ImgPutArea from '@/components/join/img-put-area/img-put-area';
 import Image from 'next/image';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
@@ -6,15 +6,13 @@ import titlebottomLine from '@/assets/titleBottomLine.svg';
 import dynamic from 'next/dynamic';
 import MySelect from '@/components/join/controlled-form/my-select';
 import Tag from '@/components/join/form/tag';
+// import styles from '@/styles/Articles.module.sass';
+import Link from 'next/link';
+import Myeditor from '@/components/join/CKEditorTest';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-// 動態導入 CKEditor 組件
-const CKEditor = dynamic(
-  // eslint-disable-next-line import/no-unresolved
-  () => import('@/components/join/CKEditorComponent'),
-  { ssr: false }
-);
-
-export default function JoinCreatForm(props) {
+const Publish = () => {
   const [count, setCount] = useState(0);
 
   const handleIncrement = () => {
@@ -26,10 +24,47 @@ export default function JoinCreatForm(props) {
       setCount(count - 1);
     }
   };
+  const [editorLoaded, setEditorLoaded] = useState(false);
+  const [data, setData] = useState('');
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const router = useRouter();
+
+  const saveToDb = async () => {
+    try {
+      const response = await fetch('/api/article', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title,
+          author,
+          article: data,
+        }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert('資料寫入成功');
+        router.push('/article');
+      } else {
+        alert(`寫入失敗: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('寫入文章失敗', error);
+      alert('寫入發生錯誤，稍後再試。');
+    }
+  };
+
+  useEffect(() => {
+    setEditorLoaded(true);
+  }, []);
+
   return (
     <>
       <div className="container ji-create-container">
-        <Breadcrumbs/>
+        <Breadcrumbs />
         <form
           id="join-form"
           action="."
@@ -67,6 +102,7 @@ export default function JoinCreatForm(props) {
                     name="EventTitle"
                     placeholder="輸入活動標題"
                     required
+                    onChange={(e) => setTitle(e.target.value)}
                   />
                 </div>
               </div>
@@ -79,9 +115,13 @@ export default function JoinCreatForm(props) {
                 </label>
                 <div id="full"></div>
                 <input type="hidden" id="EventInfo" name="EventInfo" require />
-                <div className="ji-ck">
-                  <CKEditor placeholder="請輸入活動內容" />
-                </div>
+                <Myeditor
+                  name="article"
+                  onChange={(data) => {
+                    setData(data);
+                  }}
+                  editorLoaded={editorLoaded}
+                />
               </div>
               <div className="mb-3">
                 <div className="row">
@@ -167,9 +207,11 @@ export default function JoinCreatForm(props) {
                 <MySelect />
               </div>
               <div className="mb-3">
-             <Tag
-             label='活動標籤'placeholder='輸入活動＃標籤，最多三個'
-             tagLength={3}/>
+                <Tag
+                  label="活動標籤"
+                  placeholder="輸入活動＃標籤，最多三個"
+                  tagLength={3}
+                />
               </div>
               {/* Tag 輸入框區 */}
             </div>
@@ -185,6 +227,13 @@ export default function JoinCreatForm(props) {
           </div>
         </form>
       </div>
+
+      <div className="input-group mt-2">
+        <button className="btn btn-primary ms-auto" onClick={saveToDb}>
+          送出
+        </button>
+      </div>
     </>
   );
-}
+};
+export default Publish;

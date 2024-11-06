@@ -41,7 +41,7 @@ export default function SearchBar() {
               onKeyDown={handleKeyDown}
             />
             <div
-              className={`btn btn-primary ${styles.search}`}
+              className={`btn btn-primary ${styles.search} rounded-2`}
               type="button"
               onClick={handleSearch}
             >
