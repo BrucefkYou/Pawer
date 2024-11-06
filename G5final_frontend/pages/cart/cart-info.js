@@ -30,6 +30,7 @@ export default function CartInfo(props) {
   const [township, setTownship] = useState(0);
 
   const [test, setTest] = useState(0);
+  const [test2, setTest2] = useState(0);
 
   // 處理結帳金額與折扣金額
   const [checkedPrice, setCheckedPrice] = useState(0); // 進到結帳資訊的商品的總價
