@@ -1,9 +1,9 @@
-import React from 'react';
-import Image from 'next/image';
-import Account from '@/components/blog/account/account';
-import BlogDate from '@/components/blog/date/blog-date';
-import ClickIcon from '@/components/icons/click-icon/click-icon';
-import PostCom from './blog-com';
+import React from 'react'
+import Image from 'next/image'
+import Account from '@/components/blog/account/account'
+import BlogDate from '@/components/blog/date/blog-date'
+import ClickIcon from '@/components/icons/click-icon/click-icon'
+import PostCom from './blog-com'
 
 // react-Bs-icon
 import {
@@ -13,9 +13,10 @@ import {
   BsBookmark,
   BsArrowLeft,
   BsArrowRight,
-} from 'react-icons/bs';
+} from 'react-icons/bs'
+import BlogPageBtn from '../pagebtn/pagebtn'
 
-export default function PostDetail({
+export default function BlogDetail({
   blogImg,
   title,
   content,
@@ -23,8 +24,13 @@ export default function PostDetail({
   updateDate,
   likeCount,
   favoriteCount,
+  id,
+  maxId,
+  avatar,
+  name,
 }) {
-  const imagePath = blogImg ? blogImg.replace('../', '/') : '';
+  const imagePath = blogImg ? blogImg.replace('../', '/') : ''
+  const avatarPath = avatar ? avatar.replace('../', '/') : ''
 
   return (
     <div className="blog-post">
@@ -40,7 +46,7 @@ export default function PostDetail({
       </div>
       {/* 帳號 */}
       <div className="blog-header">
-        <Account w={50} h={50} name="wang" />
+        <Account avatar={avatarPath} w={50} h={50} name={name} />
         <BlogDate updateDate={updateDate} />
       </div>
       {/* 內文 */}
@@ -75,33 +81,8 @@ export default function PostDetail({
       </div>
 
       {/* 上下頁 */}
-      <div className="prev-next">
-        <a href="" className="prev">
-          <div className="arrow-container">
-            <BsArrowLeft className="arrow-icon" />
-          </div>
-          <div className="prev-content">
-            <div className="prev-title">
-              <span>上一篇</span>
-            </div>
-            <h5 className="article-title">
-              這是文章標題這是文章標題這是文章標題這是文章標題
-            </h5>
-          </div>
-        </a>
-        <a href="" className="next">
-          <div className="arrow-container">
-            <BsArrowRight className="arrow-icon" />
-          </div>
-          <div className="next-content">
-            <div className="next-title">下一篇</div>
-            <h5 className="article-title">
-              這是文章標題這是文章標題這是文章標題這是文章標題
-            </h5>
-          </div>
-        </a>
-      </div>
+      <BlogPageBtn id={id} maxId={maxId} />
       <PostCom />
     </div>
-  );
+  )
 }

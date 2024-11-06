@@ -3,13 +3,11 @@ import { useRouter } from 'next/router';
 
 // Components
 import LatestCard from '@/components/sidebar/latest-post/latest-post';
-import TagCard from '@/components/sidebar/tags/tags';
 import Banner from '@/components/join/banner/banner';
-import SearchBar from '@/components/sidebar/search/search-bar';
 import POPCard from '@/components/blog/pop-post/pop-post';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import CreateBtn from '@/components/blog/create-btn/create-btn';
-import PostDetail from '@/components/blog/blog-post/blog-post';
+import BlogDetail from '@/components/blog/blog-post/blog-Detail';
 
 export default function BlogPost(props) {
   const [blogData, setBlogData] = useState(null);
@@ -22,12 +20,14 @@ export default function BlogPost(props) {
       try {
         const response = await fetch(`http://localhost:3005/api/blog/${id}`);
         const data = await response.json();
+        setBlogData(data[0]);
+        console.log('成功讀取資料', data);
 
-        if (data.status === 'success') {
-          setBlogData(data.data);
-        } else {
-          console.error('無法獲取資料');
-        }
+        // if (Array.isArray(data) && data.length > 0) {
+        //   setBlogData(data[0])
+        // } else {
+        //   console.error('資料格式不正確')
+        // }
       } catch (error) {
         console.error('無法獲取資料:', error);
       }
@@ -40,11 +40,11 @@ export default function BlogPost(props) {
 
   return (
     <div className="bl-post">
-      <Banner title="文章標題" />
+      <Banner bgImgUrl="/blog/blog-banner.svg" />
       <div className="post-container container">
         <Breadcrumbs className="breadcrumb" />
         <div className="main-section">
-          <PostDetail
+          <BlogDetail
             title={blogData.Title ? blogData.Title : ''}
             blogImg={blogData.blogImg}
             content={blogData.Content}
@@ -54,7 +54,9 @@ export default function BlogPost(props) {
             favoriteCount={blogData.favoriteCount}
             id={blogData.ID}
             maxId={blogData.ID}
-          />{' '}
+            avatar={blogData.MemberAvatar}
+            name={blogData.Nickname}
+          />
           {/* 側邊欄 */}
           <div className="sidebar">
             <div className="btn-sec">
@@ -63,12 +65,12 @@ export default function BlogPost(props) {
               </button>
               <CreateBtn btnName={'建立文章'} />
             </div>
-            <div className="s-card">
+            {/* <div className="s-card">
               <SearchBar />
-            </div>
-            <div className="m-none">
+            </div> */}
+            {/* <div className="m-none">
               <TagCard />
-            </div>
+            </div> */}
             <div className="m-none">
               <LatestCard />
             </div>
