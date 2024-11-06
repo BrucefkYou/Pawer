@@ -16,6 +16,8 @@ import CategoryDog from '@/components/product/category/dog/categoryDog';
 import useCategory from '@/hooks/useCategory';
 
 export default function Index(props) {
+  const [url, setUrl] = useState('http://localhost:3005/api/product');
+  const { active, ActiveChange } = useCategory();
   const {
     nowPageItems,
     nowPage,
@@ -32,7 +34,7 @@ export default function Index(props) {
     chooseSort,
     updateSearch,
   } = usePagination({
-    url: 'http://localhost:3005/api/product',
+    url: url,
     needFilter: [],
     needSearchbar: [
       'Name',
@@ -49,7 +51,6 @@ export default function Index(props) {
     ],
   });
 
-  const { active, ActiveChange } = useCategory();
   return (
     <>
       <div className="productList">
@@ -83,6 +84,7 @@ export default function Index(props) {
                   <div className="row category-detail d-flex flex-column mx-0">
                     {/* 貓貓專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
                     <CategoryCat
+                      setUrl={setUrl}
                       activeIndex={active?.c === 'cat' ? active.v : null}
                       onActiveChange={(v) => ActiveChange('cat', v)}
                     />

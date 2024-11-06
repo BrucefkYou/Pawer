@@ -1,14 +1,39 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from '@/components/product/category/cat/categoryCat.module.scss';
 import { BsPlusLg, BsDashLg } from 'react-icons/bs';
+import ProductList from '@/components/product/productList';
 
-const CategoryCat = ({ activeIndex, onActiveChange }) => {
+const CategoryCat = ({ activeIndex, onActiveChange, setUrl }) => {
   const [Open, setOpen] = useState(false);
+  const [products, setProducts] = useState([]); // 儲存篩選分類結果
+
+  const categories = [
+    '排毛粉',
+    '魚油粉',
+    '鈣保健',
+    '腸胃保健',
+    '皮膚保健',
+    '關節保健',
+    '口腔保健',
+    '眼睛保健',
+    '心臟保健',
+    '胰臟保健',
+  ];
 
   const open = () => {
     setOpen(!Open);
+  };
+
+  const handleClick = (index, category) => {
+    if (index === null) {
+      onActiveChange(0); // 將 activeIndex 重置為 0
+      setUrl('http://localhost:3005/api/product');
+    } else if (index >= 0) {
+      onActiveChange(index); // 通知父組件 activeIndex 已更新
+      setUrl(`http://localhost:3005/api/product/cat?category=${category}`);
+    }
   };
 
   return (
@@ -25,28 +50,23 @@ const CategoryCat = ({ activeIndex, onActiveChange }) => {
         <div className="row">
           <div className="col category-font">
             <ul className="list-unstyled mb-2 category-li">
-              {[
-                '排毛粉',
-                '魚油粉',
-                '鈣保健',
-                '腸胃保健',
-                '皮膚保健',
-                '關節保健',
-                '口腔保健',
-                '眼睛保健',
-                '心臟保健',
-                '胰臟保健',
-              ].map((item, index) => (
+              {categories.map((item, index) => (
                 <li
                   key={index}
                   className={activeIndex === index ? 'active' : ''}
-                  onClick={() => onActiveChange(index)}
+                  onClick={() => handleClick(index, item)}
                 >
                   {item}
                 </li>
               ))}
             </ul>
           </div>
+        </div>
+        {/* 渲染篩選結果 */}
+        <div>
+          {products.map((pd) => {
+            return <ProductList key={pd.ID} pd={pd} />;
+          })}
         </div>
       </div>
     </div>
