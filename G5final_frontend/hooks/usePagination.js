@@ -88,22 +88,23 @@ export function usePagination({
   }, [sortedData, nowPageFirstItems, nowPageLastItems]);
   // 抓取資料庫資料
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('網路回應不成功：' + response.status);
+      const fetchData = async () => {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error('網路回應不成功：' + response.status);
+          }
+          let data = await response.json();
+          //保有渲染前傳遞方法給子層改變初始渲染資料
+          if (processData && typeof processData === 'function') {
+            data = await processData(data);
+          }
+          setData(data);
+        } catch (err) {
+          console.log(err);
         }
-        let data = await response.json();
-        if (processData && typeof processData === 'function') {
-          data = await processData(data);
-        }
-        setData(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
+      };
+    fetchData(); 
   }, [url]);
   // 若data資料變動隨之改變狀態,有篩選過後保留原始狀態
   // 篩選邏輯
@@ -130,7 +131,7 @@ export function usePagination({
     setNowPage(1);
   }, [newdata, filterRuleArr, searchInput]);
   //
-
+  
   // 執行當前頁碼+1 // 執行當前頁碼-1
   function next() {
     setNowPage((prevPage) => Math.min(prevPage + 1, totalPage));
