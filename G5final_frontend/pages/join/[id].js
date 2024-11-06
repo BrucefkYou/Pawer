@@ -5,16 +5,28 @@ import SideBarCard from '@/components/sidebar/sidebar-card/sidebar-card';
 import pawButton from '@/assets/pawButton.svg';
 import Banner from '@/components/join/banner/banner';
 import AroundJoinCard from '@/components/join/detail/around-join-card/around-join-card';
+import ClickIcon from '@/components/icons/click-icon/click-icon';
+import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import {
   BsClock,
   BsGeoAlt,
   BsBookmarkFill,
   BsChevronRight,
+  BsBookmark,
 } from 'react-icons/bs';
 
 export default function JiDetail(props) {
   const router = useRouter();
+  const { auth } = useAuth();
+
+  const islogin = () => {
+    if (auth.isAuth) {
+      router.push('/member');
+    } else {
+      router.push('member/login');
+    }
+  };
   const [data, setData] = useState({ ID: 0, Title: '' });
   const getTitle = async (id) => {
     const url = `http://localhost:3005/api/join-in/${id}`;
@@ -108,10 +120,9 @@ export default function JiDetail(props) {
                   </p>
                 </div>
                 <div className="row py-3 text-secondary-emphasis">
-                  <h5 className="col-8 card-title">快樂小狗的聚會</h5>
-                  <div className="col-4 text-end ps-0 ji-side-colicon">
-                    <BsBookmarkFill className="me-1" />
-                    999
+                  <h5 className="col-9 card-title">快樂小狗的聚會</h5>
+                  <div className="col-3 ps-0 mt-1 ">
+                   <ClickIcon className="" IconFilled={BsBookmarkFill} IconOutline={BsBookmark} count={data.joinFavCount}/>
                   </div>
                 </div>
                 <div className="ji-sidecard-info text-secondary-emphasis">
@@ -120,7 +131,7 @@ export default function JiDetail(props) {
                       目前參加人數
                     </p>
                     <p className="col text-end">
-                      99<span>人</span>
+                      {data.SignCount}<span>人</span>
                     </p>
                   </div>
                   <div className="row">
@@ -128,14 +139,18 @@ export default function JiDetail(props) {
                       剩餘報名人數
                     </p>
                     <p className="col text-end">
-                      1<span>人</span>
+                      {data.ParticipantLimit-data.SignCount}<span>人</span>
                     </p>
                   </div>
                 </div>
-                <a href="#" className="btn btn-primary w-100">
-                  立即報名
-                  <BsChevronRight />
-                </a>
+                <button 
+                  // href="#" 
+                  className="btn btn-primary w-100" 
+                  onClick={islogin} 
+                  disabled={data.ParticipantLimit - data.SignCount <= 0}
+                >
+                  {data.ParticipantLimit - data.SignCount > 0 ? "立即報名" : "報名已額滿"}
+                </button>
               </div>
             </div>
           </div>
@@ -184,7 +199,7 @@ export default function JiDetail(props) {
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />
-        <p className="py-1 text-center">會顯示地址的地方</p>
+        <p className="py-1 text-center">{address}</p>
       </div>
     </form>
     {/* join活動內頁下方的附近活動 */}

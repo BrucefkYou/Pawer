@@ -31,7 +31,7 @@ export default function SearchBar() {
               onChange={(e) => setKeyword(e.target.value)}
             />
             <div
-              className={`btn btn-primary ${styles.search}`}
+              className={`btn btn-primary ${styles.search} rounded-2`}
               type="button"
               onClick={handleSearch}
             >

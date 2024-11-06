@@ -12,7 +12,8 @@ export default function CKEditorComponent({ placeholder = '' }) {
           placeholder: `${placeholder}`, // 設定 placeholder
         }}
         onReady={(editor) => {
-          console.log('Editor is ready to use!', editor);
+          console.log('Editor is ready to use!');
+          // console.log(editor);
         }}
         onChange={(event, editor) => {
           const data = editor.getData();
