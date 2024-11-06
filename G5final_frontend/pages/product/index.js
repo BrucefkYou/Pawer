@@ -23,6 +23,9 @@ export default function Index(props) {
     itemsperPage,
     sortWay,
     needSort,
+    nowPageLastItems,
+    nowPageFirstItems,
+    filterData,
     next,
     prev,
     choosePerpage,
@@ -102,8 +105,12 @@ export default function Index(props) {
             <div className="row">
               {/* 顯示數量 每頁幾筆 排序 內容 */}
               <div className="row choose-page">
-                <p className="howmaney col me-3 mt-3">顯示第1-12筆 / 共60筆</p>
-                <div className="col selectpd rwd-none me-3">
+                <p className="howmaney col mt-3">
+                  顯示第{nowPageFirstItems + 1}-
+                  {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
+                  {filterData.length} 筆
+                </p>
+                <div className="col selectpd rwd-none px-0">
                   <PerPageDom
                     itemsperPage={itemsperPage}
                     choosePerpage={choosePerpage}
