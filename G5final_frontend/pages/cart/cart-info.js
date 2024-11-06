@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 import { useAuth } from '@/hooks/use-auth';
+import Products from './products';
 
 export default function CartInfo(props) {
   const { auth } = useAuth();
@@ -45,11 +46,10 @@ export default function CartInfo(props) {
   }); // 優惠券數據
   // 導向至ECPay付款頁面
   const goECPay = () => {
-    if (window.confirm('確認要導向至ECPay進行付款?')) {
-      // 先連到node伺服器後，導向至ECPay付款頁面
-      window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${order.orderId}`
-    }
-  }
+    window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
+  };
+
+  const [orderID, setOrderID] = useState(0);
   // 成立訂單
   const createOrder = async (data) => {
     try {
@@ -63,6 +63,8 @@ export default function CartInfo(props) {
         body: JSON.stringify(data),
       });
       const resData = await res.json();
+      setOrderID(resData.orderId);
+      console.log(orderID);
       if (res.status === 201) {
         router.push('/cart/success');
       } else if (res.status === 500) {
@@ -104,8 +106,6 @@ export default function CartInfo(props) {
   // 處理運送方式變化
   const handleDeliveryChange = (e) => {
     setSelectedDelivery(e.target.value);
-    if (e.target.value === 'home') {
-    }
   };
   // 處理付款方式變化
   const handlePaymentChange = (e) => {
@@ -177,31 +177,41 @@ export default function CartInfo(props) {
     <>
       <div className="cart">
         <div className="container">
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            const orderData = {
-              MemberID: auth.memberData.id,
-              CouponID: discount.ID,
-              Receiver: receiver,
-              ReceiverPhone: phone,
-              // 這三個會組合成一個地址
-              country: country,
-              township: township,
-              address: address,
-              store: store711.storeaddress,
-              selectedDelivery: selectedDelivery,
-              selectedPayment: selectedPayment,
-              ReceiptType: selectedBill,
-              checkedPrice: checkedPrice,
-              DiscountPrice: discountPrice,
-              ReceiptCarrier: carrierNum,
-            };
-            createOrder(orderData);
-            if(selectedPayment === 'credit-card'){
-              goECPay();
-            }
-          }
-          }>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const orderData = {
+                MemberID: auth.memberData.id,
+                CouponID: discount.ID,
+                Receiver: receiver,
+                ReceiverPhone: phone,
+                // 這三個會組合成一個地址
+                country: country,
+                township: township,
+                address: address,
+                store: store711.storeaddress,
+                selectedDelivery: selectedDelivery,
+                selectedPayment: selectedPayment,
+                ReceiptType: selectedBill,
+                checkedPrice: checkedPrice,
+                DiscountPrice: discountPrice,
+                ReceiptCarrier: carrierNum,
+                Products: items
+                  .filter((item) => item.checked)
+                  .map((item) => {
+                    return {
+                      ProductID: item.id,
+                      Quantity: item.quantity,
+                      Price: item.price,
+                    };
+                  }),
+              };
+              createOrder(orderData);
+              if (selectedPayment === 'credit-card') {
+                goECPay();
+              }
+            }}
+          >
             <div className="row">
               {/* 麵包屑 */}
               <div className="productList-crumb-wei col-sm-9 col-5">
@@ -364,8 +374,9 @@ export default function CartInfo(props) {
                         <div className="col mt10">
                           <button
                             type="button"
-                            className={`btn btn-convenience w-100 ${store711.storename ? 'btn-warning' : ''
-                              }`}
+                            className={`btn btn-convenience w-100 ${
+                              store711.storename ? 'btn-warning' : ''
+                            }`}
                             onClick={() => openWindow()}
                           >
                             <Image
@@ -426,7 +437,7 @@ export default function CartInfo(props) {
                     />
                     <span className="delivery-title">信用卡</span>
                   </div>
-                  
+
                   {/* 超商取貨付款 */}
                   <div className="mt20 d-flex align-items-center">
                     <input
@@ -444,7 +455,7 @@ export default function CartInfo(props) {
                     <span className="delivery-title">超商取貨付款</span>
                   </div>
                   {selectedPayment === 'store' &&
-                    selectedDelivery === 'convenience' ? (
+                  selectedDelivery === 'convenience' ? (
                     <>
                       {/* 基本資訊 */}
                       <div className="row row-cols-1 row-cols-lg-3">
@@ -486,9 +497,7 @@ export default function CartInfo(props) {
                 <section className="receipt-block">
                   {/* 發票資訊-標題 */}
                   <div className="home-delivery">
-                    <span className="delivery-title">
-                      發票資訊
-                    </span>
+                    <span className="delivery-title">發票資訊</span>
                   </div>
                   {/* !待新增效果-點擊後才出現下面的欄位 */}
                   {/* 捐贈發票 */}
@@ -597,11 +606,7 @@ export default function CartInfo(props) {
                 </Link>
               </div>
               <div>
-                <button
-                  type="submit"
-                  id='check-btn'
-                  className="btn check-btn"
-                >
+                <button type="submit" id="check-btn" className="btn check-btn">
                   確認付款
                 </button>
               </div>
