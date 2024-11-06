@@ -1,6 +1,6 @@
 import authenticate from '##/middlewares/authenticate.js'
 import express from 'express'
-import db2 from '##/configs/mysql.js'
+import db from '##/configs/mysql.js'
 const router = express.Router()
 
 /* GET home page. */
@@ -9,13 +9,9 @@ router.get('/', function (req, res, next) {})
 
 // 成立訂單
 router.post('/createOrder', authenticate, async function (req, res, next) {
-  const ID = req.user.id
-  if (req.user.id !== ID) {
-    return res.json({ status: 'error', message: '存取會員資料失敗' })
-  }
+  //   const ID = req.user.id
   const {
     MemberID,
-    name,
     CouponID,
     Receiver,
     ReceiverPhone,
@@ -32,6 +28,9 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     ReceiptCarrier,
   } = req.body
 
+  //   if (MemberID !== ID) {
+  //     return res.json({ status: 'error', message: '存取會員資料失敗' })
+  //   }
   // 組合地址
   const deliveryHome = `${country}${township}${address}`
   const TotalPrice = checkedPrice - DiscountPrice
@@ -55,18 +54,18 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     DeliveryAddress = deliveryHome
   }
   // 檢查發票種類
-  let ReceiptTtpe
+  let Receipt
   if (ReceiptType === 'donate') {
-    ReceiptTtpe = '捐贈發票'
+    Receipt = '捐贈發票'
   } else if (ReceiptType === 'phone') {
-    ReceiptTtpe = '手機載具'
-  } else if (ReceiptType === 'paper') {
-    ReceiptTtpe = '紙本發票'
+    Receipt = '手機載具'
+  } else {
+    Receipt = '紙本發票'
   }
 
   try {
     const sql =
-      'INSERT INTO `order` (MemberID, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+      'INSERT INTO `Order` (MemberID, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     const VALUES = [
       MemberID,
       TotalPrice,
@@ -77,10 +76,10 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
       ReceiverPhone,
       DeliveryAddress,
       '未出貨',
-      ReceiptTtpe,
+      Receipt,
       ReceiptCarrier,
     ]
-    const result = await db2.query(sql, VALUES)
+    const result = await db.query(sql, VALUES)
     res
       .status(201)
       .json({ message: '訂單已成功創建', orderId: result.insertId })

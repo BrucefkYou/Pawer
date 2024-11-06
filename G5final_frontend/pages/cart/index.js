@@ -186,7 +186,14 @@ export default function Cart(props) {
                           href="/cart/cart-info"
                           className="btn bg-second-color btn-checkd text-decoration-none set-middle"
                           // 將選擇的優惠券帶到下一頁
-                          onClick={bringDiscount}
+                          onClick={(e) => {
+                            if(cart.items.filter(item => item.checked === true).length === 0){
+                              alert('請選擇商品');
+                              e.preventDefault();
+                            }else{
+                              bringDiscount();
+                            }
+                            }}
                         >
                           去結帳
                         </Link>
