@@ -7,46 +7,59 @@ import LatestCard from '@/components/sidebar/latest-post/latest-post';
 import TagCard from '@/components/sidebar/tags/tags';
 import SearchBar from '@/components/sidebar/search/search-bar';
 import POPCard from '@/components/blog/pop-post/pop-post';
-import Pagination from '@/components/pagination/pagination';
 import BlogCard from '@/components/blog/blog-card/blog-card';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import CreateBtn from '@/components/blog/create-btn/create-btn';
 
+import { usePagination } from '@/hooks/usePagination';
+import { PerPageDom } from '@/components/PerPageDom';
+import { SortDom } from '@/components/SortDom';
+import { PageNav } from '@/components/PageNav';
+
 export default function BlogList() {
-  const [results, setResults] = useState([]);
   const router = useRouter();
-  const { keyword } = router.query;
+  const [selectedTag, setSelectedTag] = useState('');
+  const { keyword, tag } = router.query;
 
+  const url = `http://localhost:3005/api/blog?keyword=${keyword || ''}&tag=${
+    selectedTag || ''
+  }`;
+
+  const {
+    nowPageItems,
+    nowPage,
+    totalPage,
+    itemsperPage,
+    sortWay,
+    needSort,
+    next,
+    prev,
+    choosePerpage,
+    chooseSort,
+  } = usePagination({
+    url,
+    needFilter: [],
+    needSort: [
+      { way: 'dsc-likeCount', name: '熱門文章' },
+      { way: 'desc-favoriteCount', name: '最多收藏' },
+      { way: 'asc-UpdateDate', name: '最新發佈' },
+    ],
+  });
+
+  // 將router中的tag解構出來 去重新查找匹配的資料 無則為空
   useEffect(() => {
-    const fetchResults = async () => {
-      try {
-        const url = keyword
-          ? `http://localhost:3005/api/blog/qs?keyword=${keyword}`
-          : `http://localhost:3005/api/blog`;
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log('成功讀取資料', data);
+    setSelectedTag(tag || '');
+  }, [tag]);
 
-        if (data.status === 'success') {
-          setResults(data.data.blogs);
-        } else {
-          console.error('搜尋失敗:', data.error);
-        }
-      } catch (error) {
-        console.error('無法獲取資料:', error);
-      }
-    };
-
-    fetchResults();
-  }, [keyword]);
   return (
     <div className="list-container container">
       <Breadcrumbs className="breadcrumb" />
+
       <div className="main-section">
         <div className="sidebar">
           <div className="btn-sec">
             <Link
-              href={`http://localhost:3000/member/blog/index`}
+              href={`http://localhost:3000/member/blog`}
               className="btn btn-primary my-blog m-none"
               type="button"
             >
@@ -55,11 +68,12 @@ export default function BlogList() {
             <CreateBtn btnName={'建立文章'} />
           </div>
           <div className="s-card">
-            <SearchBar setResults={setResults} />
+            <SearchBar />
           </div>
           <div className="m-none">
             <TagCard />
           </div>
+
           <div className="m-none">
             <LatestCard />
           </div>
@@ -68,25 +82,57 @@ export default function BlogList() {
           </div>
         </div>
         <div className="blog-list">
+          <div className="col-12 d-flex justify-content-end gap-3">
+            <div className="col-md-3">
+              <PerPageDom
+                itemsperPage={itemsperPage}
+                choosePerpage={choosePerpage}
+              />
+            </div>
+            <div className="col-12 col-md-3">
+              <SortDom
+                sortWay={sortWay}
+                chooseSort={chooseSort}
+                needSort={needSort}
+              />
+            </div>
+          </div>
+
           <div className="card-section">
-            {results && results.length > 0 ? (
-              results.map((blog) => (
-                <BlogCard
-                  key={blog.ID}
-                  id={blog.ID}
-                  title={blog.Title}
-                  blogImg={blog.blogImg}
-                  updateDate={blog.UpdateDate}
-                  likeCount={blog.likeCount}
-                  favoriteCount={blog.favoriteCount}
-                />
-              ))
+            {nowPageItems && nowPageItems.length > 0 ? (
+              nowPageItems
+                .filter(
+                  (blog) =>
+                    selectedTag === '' ||
+                    (blog.tags && blog.tags.includes(selectedTag))
+                )
+                .map((blog) => {
+                  return (
+                    <BlogCard
+                      key={blog.ID}
+                      id={blog.ID}
+                      title={blog.Title}
+                      blogImg={blog.blogImg}
+                      updateDate={blog.UpdateDate}
+                      likeCount={blog.likeCount}
+                      favoriteCount={blog.favoriteCount}
+                      avatar={blog.MemberAvatar}
+                      name={blog.Nickname}
+                    />
+                  );
+                })
             ) : (
               <p>沒有符合關鍵字的搜尋結果</p>
             )}
           </div>
-
-          <Pagination />
+          <div className="d-flex justify-content-center">
+            <PageNav
+              nowPage={nowPage}
+              totalPage={totalPage}
+              next={next}
+              prev={prev}
+            />
+          </div>
         </div>
       </div>
     </div>
