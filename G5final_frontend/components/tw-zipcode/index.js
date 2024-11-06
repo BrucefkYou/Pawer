@@ -4,6 +4,7 @@ import { countries, townships, postcodes } from './data-townships';
 export default function TWZipCode({
   country = '',
   township = '',
+  nessary = false,
   initPostcode = '',
   onPostcodeChange = (country, township, postcode) => {},
 }) {
@@ -58,6 +59,7 @@ export default function TWZipCode({
           className="form-select input-block"
           name="country"
           value={countryIndex}
+          required={nessary}
           onChange={(e) => {
             // 將字串轉成數字
             setCountryIndex(+e.target.value);
@@ -81,6 +83,7 @@ export default function TWZipCode({
           className="form-select input-block"
           name="township"
           value={townshipIndex}
+          required={nessary}
           onChange={(e) => {
             // 將字串轉成數字
             setTownshipIndex(+e.target.value);
