@@ -219,6 +219,7 @@ export default function Navbar() {
                 className="navbar-logout"
                 onClick={() => {
                   initCart();
+                  localStorage.setItem('store711', {});
                   logout();
                   router.push('/');
                 }}

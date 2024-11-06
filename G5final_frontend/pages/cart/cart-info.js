@@ -4,14 +4,32 @@ import { set } from 'lodash';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import Image from 'next/image';
 import TWZipCode from '@/components/tw-zipcode';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
+
 export default function CartInfo(props) {
+  const router = useRouter();
   const { items } = useCart();
-  const [selectedCity, setSelectedCity] = useState(false); // 初始值設為空字串
+  // 選擇便利商店
+  const { store711, openWindow, closeWindow } = useShip711StoreOpener(
+    'http://localhost:3005/api/shipment/711',
+    { autoCloseMins: 3 } // x分鐘沒完成選擇會自動關閉，預設5分鐘。
+  );
+  // 設定訂單資訊
   const [selectedDelivery, setSelectedDelivery] = useState(''); // 被選中的運送方式
   const [selectedPayment, setSelectedPayment] = useState(''); // 被選中的付款方式
   const [selectedBill, setSelectedBill] = useState(''); // 被選中的發票方式
-  const [selectedArea, setSelectedArea] = useState(''); // 初始值設為空字串
 
+  // 設定表單內容
+  const [name, setName] = useState('');
+  const [receiver, setReceiver] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [country, setCountry] = useState('');
+  const [township, setTownship] = useState(0);
+
+  // 處理結帳金額與折扣金額
   const [checkedPrice, setCheckedPrice] = useState(0); // 進到結帳資訊的商品的總價
   const [discountPrice, setDiscountPrice] = useState(0); // 折抵金額，初始值為0
   const [discount, setDiscount] = useState({
@@ -23,6 +41,34 @@ export default function CartInfo(props) {
     checked: true,
   }); // 優惠券數據
 
+  // 成立訂單
+  const createOrder = async (data) => {
+    try {
+      const url = 'http://localhost:3005/api/order/createOrder';
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      const resData = await res.json();
+      if (res.status === 201) {
+        router.push('/success');
+      } else if (res.status === 500) {
+        router.push('/fail');
+      } else {
+        // 處理其他狀態碼
+        console.log('Unexpected response status:', res.status);
+        console.log('Response data:', resData);
+        // 可以在這裡顯示錯誤訊息給用戶
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 從 localStorage 讀取 discount
   const getDiscount = () => {
     const discountString = window.localStorage.getItem('discount');
     if (discountString) {
@@ -46,20 +92,16 @@ export default function CartInfo(props) {
   };
 
   // 處理運送方式變化
-  const handleDeliveryChange = (event) => {
-    setSelectedDelivery(event.target.value);
+  const handleDeliveryChange = (e) => {
+    setSelectedDelivery(e.target.value);
   };
   // 處理付款方式變化
-  const handlePaymentChange = (event) => {
-    setSelectedPayment(event.target.value);
+  const handlePaymentChange = (e) => {
+    setSelectedPayment(e.target.value);
   };
   // 處理發票方式變化
-  const handleBillChange = (event) => {
-    setSelectedBill(event.target.value);
-  };
-  // 處理城市變化
-  const handleCityChange = (e) => {
-    setSelectedArea(e.target.value);
+  const handleBillChange = (e) => {
+    setSelectedBill(e.target.value);
   };
   // 處理優惠券勾選框變化
   const handleDiscountChange = (e) => {
@@ -76,9 +118,6 @@ export default function CartInfo(props) {
     });
   };
 
-  const handleAreaChange = (e) => {
-    setSelectedCity(e.target.value);
-  };
   // 計算折扣金額
   const calculateDiscountPrice = () => {
     if (discount && discount.checked) {
@@ -104,6 +143,7 @@ export default function CartInfo(props) {
     };
   }, []);
 
+  // 當商品列表有變化時，重新計算總價
   useEffect(() => {
     setCheckedPrice(
       items
@@ -125,7 +165,7 @@ export default function CartInfo(props) {
     <>
       <div className="cart">
         <div className="container">
-          <form action="">
+          <form action="POST">
             <div className="row">
               {/* 麵包屑 */}
               <div className="productList-crumb-wei col-sm-9 col-5">
@@ -180,12 +220,6 @@ export default function CartInfo(props) {
                         src={'/member/coupon-bg.png'}
                         alt="coupon"
                       />
-                      <Image
-                        width={288}
-                        height={123}
-                        src={'/member/coupon-bg.png'}
-                        alt="coupon"
-                      />
                     </div>
                   </div>
                 </div>
@@ -220,7 +254,9 @@ export default function CartInfo(props) {
                           <input
                             className="mt10 w-100 h-36p input-block"
                             type="text"
-                            placeholder="姓名"
+                            placeholder="訂購人姓名"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                           />
                         </div>
                         <div>
@@ -228,6 +264,8 @@ export default function CartInfo(props) {
                             className="mt10 w-100 h-36p input-block"
                             type="text"
                             placeholder="收貨人"
+                            value={receiver}
+                            onChange={(e) => setReceiver(e.target.value)}
                           />
                         </div>
                         <div>
@@ -235,6 +273,8 @@ export default function CartInfo(props) {
                             className="mt10 w-100 h-36p input-block"
                             type="text"
                             placeholder="市話(非必填)"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                           />
                         </div>
                       </div>
@@ -244,12 +284,17 @@ export default function CartInfo(props) {
                       </div>
                       <div className="row row-cols-2">
                         {/* 選取地區 */}
-                        <TWZipCode />
+                        <TWZipCode
+                          country={setCountry}
+                          township={setTownship}
+                        />
                         <div className="col w-100 mt10">
                           <input
                             className="mt10 w-100 h-36p input-block"
                             type="text"
                             placeholder="請輸入地址"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
                           />
                         </div>
                       </div>
@@ -276,7 +321,13 @@ export default function CartInfo(props) {
                       {/* 選擇超商 */}
                       <div className="row row-cols-2 row-cols-lg-4">
                         <div className="col mt10">
-                          <button className="btn btn-convenience w-100">
+                          <button
+                            type="button"
+                            className={`btn btn-convenience w-100 ${
+                              store711.storename ? 'btn-warning' : ''
+                            }`}
+                            onClick={() => openWindow()}
+                          >
                             <Image
                               width={30}
                               height={30}
@@ -285,27 +336,18 @@ export default function CartInfo(props) {
                               src={'/cart/sevenEleven.png'}
                               alt="7-11"
                             />
-                            <Image
-                              width={30}
-                              height={30}
-                              className="mr10"
-                              objectFit="cover"
-                              src={'/cart/sevenEleven.png'}
-                              alt="7-11"
-                            />
-                            <span className="delivery-title">7-11超商</span>
+                            <span className="delivery-title">
+                              {store711.storename
+                                ? store711.storename
+                                : '7-11超商'}
+                            </span>
                           </button>
                         </div>
                         <div className="col mt10">
-                          <button className="btn btn-convenience w-100">
-                            <Image
-                              width={30}
-                              height={30}
-                              className={'mr10'}
-                              objectFit="cover"
-                              src={'/cart/faimilyMart.png'}
-                              alt="familyMart"
-                            />
+                          <button
+                            type="button"
+                            className="btn btn-convenience w-100"
+                          >
                             <Image
                               width={30}
                               height={30}
@@ -351,7 +393,7 @@ export default function CartInfo(props) {
                       <div className="row row-cols-12 row-cols-lg-3">
                         <div className="col-12">
                           <input
-                            className="mt10 w-100 h-36p input-block"
+                            className="mtf10 w-100 h-36p input-block"
                             type="text"
                             placeholder="卡號"
                           />
@@ -530,10 +572,36 @@ export default function CartInfo(props) {
 				justify-content-md-center justify-content-between"
             >
               <div>
-                <button className="btn check-btn">會購物車</button>
+                <Link href="/cart" className="btn check-btn">
+                  回購物車
+                </Link>
               </div>
               <div>
-                <button className="btn check-btn">確認付款</button>
+                <button
+                  type="button"
+                  className="btn check-btn"
+                  onClick={() => {
+                    const orderData = {
+                      name: name,
+                      CouponID: discount.ID,
+                      Receiver: receiver,
+                      ReceiverPhone: phone,
+                      // 這三個會組合成一個地址
+                      country: country,
+                      township: township,
+                      address: address,
+                      store: store711.storename,
+                      selectedDelivery: selectedDelivery,
+                      selectedPayment: selectedPayment,
+                      ReceiptType: selectedBill,
+                      checkedPrice: checkedPrice,
+                      DiscountPrice: discountPrice,
+                    };
+                    createOrder(orderData);
+                  }}
+                >
+                  確認付款
+                </button>
               </div>
             </section>
           </form>

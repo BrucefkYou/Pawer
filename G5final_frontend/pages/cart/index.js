@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 
 export default function Cart(props) {
-  const { auth } = useAuth();
+  const { auth, getMember } = useAuth();
   const router = useRouter();
   const { cart, addItem } = useCart();
   const [discountPrice, setDiscountPrice] = useState(10); // 折抵金額，初始值為0
