@@ -4,12 +4,12 @@ import PageTitle from '@/components/member/page-title/page-title';
 import MemberNav from '@/components/memberNav';
 import { usePagination } from '@/hooks/usePagination';
 import { PageNav } from '@/components/PageNav';
-import { BsDashLg, BsChevronDown } from 'react-icons/bs'; 
+import { BsDashLg, BsChevronDown } from 'react-icons/bs';
+import { useAuth } from '@/hooks/use-auth';
 ComReserve.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
 export default function ComReserve(props) {
-
   // 定義資料處理函數
   const processData = (fetchedData) => {
     return fetchedData.filter((item) => {
@@ -33,16 +33,15 @@ export default function ComReserve(props) {
     ],
     processData
   });
+  console.log(nowPageItems);
+  
   const [iconStates, setIconStates] = useState({});
-
   const handleClick = (index) => {
     setIconStates((prevState) => ({
       ...prevState,
       [index]: !prevState[index] // 切換圖示狀態
     }));
   };
-
-
   const [windowWidth, setWindowWidth] = useState(0);
   useEffect(() => {
     // 定義監聽函數
@@ -56,61 +55,59 @@ export default function ComReserve(props) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
   return (
     <>
-      <div className="PT-reserve-card p-4">
-        <div className="container">
-          <div className="d-flex justify-content-between p-2">
-            {/* 標題 */}
-            <PageTitle title={'預約清單'} subTitle={'Reserve'} />
-            {/* 頁籤 */}
-            <MemberNav
-              newdata={newdata}
-              chooseFilter={chooseFilter}
-              needFilter={needFilter}
-            />
-          </div>
-          {/* 清單標題 */}
-          <div className="row none title text-center py-2">
-            <div className="col-1">序號</div>
-            <div className="col-2">會員暱稱</div>
-            <div className="col-2 d-none d-lg-block">寵物名稱</div>
-            <div className="col d-none d-lg-block">狀態</div>
-            <div className="col">預約日期</div>
-            <div className="col">預約時段</div>
-            <div className="col-1" />
-          </div>
-          {/* !map */}
-          {/* 清單明細(已預約) */}
-          {/* !#功能 下拉onclick */}
-          {nowPageItems.map((v, i) => (
-            <React.Fragment key={v.ID || i}>
+      <div className="PT-reserve-card p-4 shadow">
+        <div className="d-flex justify-content-between">
+          {/* 標題 */}
+          <PageTitle title={'預約清單'} subTitle={'Reserve'} />
+          {/* 頁籤 */}
+          <MemberNav
+            newdata={newdata}
+            chooseFilter={chooseFilter}
+            needFilter={needFilter}
+          />
+        </div>
+        {/* 清單標題 */}
+        <div className="row none title text-center mt-3 py-2">
+          <div className="col-1">序號</div>
+          <div className="col-2">會員暱稱</div>
+          <div className="col-2 d-none d-lg-block">寵物名稱</div>
+          <div className="col d-none d-lg-block">狀態</div>
+          <div className="col">預約日期</div>
+          <div className="col">預約時段</div>
+          <div className="col-1" />
+        </div>
+        {/* !map */}
+        {/* 清單明細(已預約) */}
+        {/* !#功能 下拉onclick */}
+        {nowPageItems.map((v, i) => (
+          <React.Fragment key={v.ID || i}>
             <div className="row none text-center justify-content-center align-items-center my-3 pb-3 border-bottom">
-              <div className="col-1">{i+1}</div>
-              <div className="col-2">{ v.ReserveName}</div>
+              <div className="col-1">{i + 1}</div>
+              <div className="col-2">{v.ReserveName}</div>
               <div className="col-2 d-none d-lg-block">{v.PetName}</div>
-            <div className="col d-none d-lg-block">
-                <span className={`${v.Status == 1 ? 'PT-sp-1' : 'PT-sp-2'}`}>{ v.Status == 1 ? '預約中' : '已結束'}</span>
-            </div>
-            <div className="col">2024/10/20</div>
-            <div className="col">19:00-20:00</div>
-            {/* 下拉按鈕 */}
-                <div className="col-1 PT-myicon">
-                  <div
-                    onClick={() => handleClick(i)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {iconStates[i] ? <BsDashLg /> : <BsChevronDown />}
-                  </div>
+              <div className="col d-none d-lg-block">
+                <span className={`${v.Status == 1 ? 'PT-sp-1' : 'PT-sp-2'}`}>{v.Status == 1 ? '預約中' : '已結束'}</span>
+              </div>
+              <div className="col">2024/10/20</div>
+              <div className="col">19:00-20:00</div>
+              {/* 下拉按鈕 */}
+              <div className="col-1 PT-myicon">
+                <div
+                  onClick={() => handleClick(i)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {iconStates[i] ? <BsDashLg /> : <BsChevronDown />}
                 </div>
-          </div>
-              {/* 下拉卡片(已預約) */}
-              {iconStates[i] == true || windowWidth < 430 ?
-                <div className={`row detail-card d-flex ${v.Status == 0 ? 'PT-sp-3' : ''} ${iconStates[i] ? 'active' : ''
-  }`}>
+              </div>
+            </div>
+            {/* 下拉卡片(已預約) */}
+            {iconStates[i] == true || windowWidth < 430 ?
+              <div className={`row detail-card d-flex ${v.Status == 0 ? 'PT-sp-3' : ''} ${iconStates[i] ? 'active' : ''
+                }`}>
                 {/* 頭像 */}
-                  <div className={`col-4 col-md-3 d-flex justify-content-center align-items-center ps-0 PT-sp-none-rwd`}>
+                <div className={`col-4 col-md-3 d-flex justify-content-center align-items-center ps-0 PT-sp-none-rwd`}>
                   <div className="imgg d-flex py-2">
                     <img src="../../pet/images/teacher.png" alt="1" />
                   </div>
@@ -120,9 +117,9 @@ export default function ComReserve(props) {
                   <div className="col d-flex flex-column justify-content-center align-items-start">
                     <h5 className="text text-1 m-1">{v.ReserveName}</h5>
                     {/* ! */}
-                    <p className="m-1 text-2 PT-sp-none-rwd">{ v.Approach}</p>
+                    <p className="m-1 text-2 PT-sp-none-rwd">{v.Approach}</p>
                     {/* ! */}
-                    <p className="text text-3 m-1 PT-sp-none-rwd">寵物溝通預約｜{v.PetType}｜{ v.PetName}</p>
+                    <p className="text text-3 m-1 PT-sp-none-rwd">寵物溝通預約｜{v.PetType}｜{v.PetName}</p>
                     {/* ! */}
                     <p className="text text-4 m-1">2024/10/20 19:30~20:30</p>
                   </div>
@@ -146,14 +143,13 @@ export default function ComReserve(props) {
                 </div>
                 {/* 手機版狀態 */}
                 <div className="col status d-block d-md-none py-2 px-0 text-end">
-                  <p>{ v.Status == 0 ?'已結束':''}</p>
-                  <p className="PT-sp-4">{ v.Approach}</p>
+                  <p>{v.Status == 0 ? '已結束' : ''}</p>
+                  <p className="PT-sp-4">{v.Approach}</p>
                 </div>
-                  </div> : ''}
-              </React.Fragment> 
-          ))}
-          <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
-        </div>
+              </div> : ''}
+          </React.Fragment>
+        ))}
+        <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
       </div>
     </>
   );

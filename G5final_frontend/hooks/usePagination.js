@@ -38,14 +38,7 @@ export function usePagination({
   // 排序方法(初始asc)  // 排序欄位名稱(初始ID)
   const [sortWay, setSortWay] = useState('asc');
   const [sortName, setSortName] = useState('ID');
-  // 初次渲染若有needSort則優先排序客制的陣列第一項
-  useEffect(() => { 
-    if (needSort.length !== 0 && needSort[0] && needSort[0].way) {
-      const [way, name] = needSort[0].way.split('-');
-      setSortWay(way);
-      setSortName(name);
-    }
-  }, [])
+
   // 計算當前頁數的最後一筆數 // 計算當前頁數的第一筆數
   const nowPageFirstItems = useMemo(() => {
     return (nowPage - 1) * itemsperPage;
@@ -86,22 +79,23 @@ export function usePagination({
   }, [sortedData, nowPageFirstItems, nowPageLastItems]) 
   // 抓取資料庫資料
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('網路回應不成功：' + response.status);
+      const fetchData = async () => {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error('網路回應不成功：' + response.status);
+          }
+          let data = await response.json();
+          //保有渲染前傳遞方法給子層改變初始渲染資料
+          if (processData && typeof processData === 'function') {
+            data = await processData(data);
+          }
+          setData(data);
+        } catch (err) {
+          console.log(err);
         }
-        let data = await response.json();
-        if (processData && typeof processData === 'function') {
-          data = await processData(data);
-        }
-        setData(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
+      };
+    fetchData(); 
   }, [url]);
   // 若data資料變動隨之改變狀態,有篩選過後保留原始狀態
   // 篩選邏輯
@@ -124,7 +118,15 @@ export function usePagination({
     setFilterData(filtered);
     setNowPage(1);
   }, [newdata, filterRuleArr, searchInput]);
-  //
+
+  // 初次渲染若有needSort則優先排序客制的陣列第一項
+  useEffect(() => {
+    if (needSort.length !== 0 && needSort[0] && needSort[0].way) {
+      const [way, name] = needSort[0].way.split('-');
+      setSortWay(way);
+      setSortName(name);
+    }
+  }, [])
   
   // 執行當前頁碼+1 // 執行當前頁碼-1
   function next() {
