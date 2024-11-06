@@ -10,17 +10,7 @@ import { useRouter } from 'next/router';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 export default function Navbar() {
   const { initCart } = useCart();
-  const { auth, logout, getMember } = useAuth();
-  const [member, setMember] = useState({
-    account: '',
-    name: '',
-    nickname: '',
-    email: '',
-    phone: '',
-    gender: '',
-    birth: '',
-    avatar: '',
-  });
+  const { auth, logout } = useAuth();
   const router = useRouter();
 
   // 判斷是否登入導向不同頁面
@@ -46,10 +36,6 @@ export default function Navbar() {
       setIsDropdownOpen(false);
     }
   };
-  const initMemberData = async () => {
-    const member = await getMember();
-    setMember({ ...member });
-  };
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
@@ -57,9 +43,7 @@ export default function Navbar() {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
-  useEffect(() => {
-    initMemberData();
-  }, []);
+
   return (
     <>
       <header className="header">
@@ -182,13 +166,13 @@ export default function Navbar() {
           <div className="navbar-rightbtn">
             {/* 判斷有沒有登入 */}
             {auth.isAuth ? (
-              member.avatar ? (
+              auth.memberData.avatar ? (
                 <button className="navbar-member" onClick={islogin}>
                   <Image
                     width={24}
                     height={24}
                     className="navbar-login-img"
-                    src={`/member/member-avatar/${member.avatar}`}
+                    src={`/member/member-avatar/${auth.memberData.avatar}`}
                     alt="使用者頭像"
                   />
                 </button>
@@ -219,6 +203,7 @@ export default function Navbar() {
                 className="navbar-logout"
                 onClick={() => {
                   initCart();
+                  localStorage.setItem('store711', {});
                   logout();
                   router.push('/');
                 }}
