@@ -7,8 +7,10 @@ import TWZipCode from '@/components/tw-zipcode';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function CartInfo(props) {
+  const { auth } = useAuth();
   const router = useRouter();
   const { items } = useCart();
   // 選擇便利商店
@@ -28,6 +30,7 @@ export default function CartInfo(props) {
   const [address, setAddress] = useState('');
   const [country, setCountry] = useState('');
   const [township, setTownship] = useState(0);
+  const [carrierNum, setCarrierNum] = useState('');
 
   // 處理結帳金額與折扣金額
   const [checkedPrice, setCheckedPrice] = useState(0); // 進到結帳資訊的商品的總價
@@ -507,6 +510,8 @@ export default function CartInfo(props) {
                             className="mt10 w-100 h-36p input-block"
                             type="text"
                             placeholder="手機載具號碼"
+                            value={carrierNum}
+                            onchechange={(e) => setCarrierNum(e.target.value)}
                           />
                         </div>
                       </div>
@@ -582,6 +587,7 @@ export default function CartInfo(props) {
                   className="btn check-btn"
                   onClick={() => {
                     const orderData = {
+                      MemberID: auth.memberData.id,
                       name: name,
                       CouponID: discount.ID,
                       Receiver: receiver,
@@ -590,12 +596,13 @@ export default function CartInfo(props) {
                       country: country,
                       township: township,
                       address: address,
-                      store: store711.storename,
+                      store: store711.storeaddress,
                       selectedDelivery: selectedDelivery,
                       selectedPayment: selectedPayment,
                       ReceiptType: selectedBill,
                       checkedPrice: checkedPrice,
                       DiscountPrice: discountPrice,
+                      ReceiptCarrier: carrierNum,
                     };
                     createOrder(orderData);
                   }}
