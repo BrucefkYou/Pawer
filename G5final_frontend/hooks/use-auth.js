@@ -176,7 +176,7 @@ export function AuthProvider({ children }) {
   }, [router.isReady, router.pathname]);
 
   return (
-    <AuthContext.Provider value={{ auth, login, logout, getMember }}>
+    <AuthContext.Provider value={{ auth, setAuth, login, logout, getMember }}>
       <Toaster />
       {children}
     </AuthContext.Provider>
