@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {})
 
 // 成立訂單
 router.post('/createOrder', authenticate, async function (req, res, next) {
-  //   const ID = req.user.id
+  // const ID = req.user.id
   const {
     MemberID,
     CouponID,
@@ -26,6 +26,7 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     checkedPrice,
     DiscountPrice,
     ReceiptCarrier,
+    Products,
   } = req.body
 
   //   if (MemberID !== ID) {
@@ -63,10 +64,20 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     Receipt = '紙本發票'
   }
 
+  // 獲得現在時間
+  const now = new Date()
+  // 轉換格式為 'YYYY-MM-DD HH:MM:SS'
+  const today = now.toISOString().slice(0, 19).replace('T', ' ')
+
+  // 開始資料庫事務
+  const connection = await db.getConnection()
+  await connection.beginTransaction()
+
   try {
-    const sql =
+    // 執行訂單插入
+    const orderSql =
       'INSERT INTO `Order` (MemberID, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    const VALUES = [
+    const orderValues = [
       MemberID,
       TotalPrice,
       CouponID,
@@ -79,11 +90,39 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
       Receipt,
       ReceiptCarrier,
     ]
-    const result = await db.query(sql, VALUES)
-    res
-      .status(201)
-      .json({ message: '訂單已成功創建', orderId: result.insertId })
+    const [orderResult] = await connection.query(orderSql, orderValues)
+
+    // 執行訂單明細插入
+    // 資料庫驅動的佔位符
+    // 當我們傳遞一個包含多組值的二維數組時，? 會自動展開為多組 (?, ?, ..., ?)。
+    const orderDetailsSql =
+      'INSERT INTO OrderDetails (OrderID, ProductID, ,ProductOriginPrice, ProductAmount) VALUES ?'
+    const orderId = orderResult.insertId
+
+    const orderDetailsValues = Products.map((product) => [
+      orderId,
+      product.ProductID,
+      product.Quantity,
+      product.Price,
+    ])
+
+    await connection.query(orderDetailsSql, [orderDetailsValues])
+
+    // 這邊需要將MemberDiscountMapping表中使用過的優惠券設定為已使用
+    const updateCouponSql =
+      'UPDATE MemberDiscountMapping SET Used_Date = ?, Status = 1 WHERE MemberID = ? AND DiscountID = ?'
+    const updateCouponValues = [today, MemberID, CouponID]
+
+    await connection.query(updateCouponSql, updateCouponValues)
+
+    await connection.commit()
+
+    // 這裡的result.insertId是插入的訂單的ID
+    // 只要該欄位事設定為自動遞增，就可以透過result.insertId取得
+    res.status(201).json({ message: '訂單已成功創建', orderId: orderId })
   } catch (error) {
+    // 如果有錯誤，則回滾。回滾會撤銷所有的操作
+    await connection.rollback()
     console.error('插入訂單時出錯：', error)
     res.status(500).json({ error: '伺服器錯誤，無法創建訂單' })
   }

@@ -18,7 +18,15 @@ export default function Cart(props) {
   const getDiscount = async () => {
     try {
       const disCountData = await fetch(
-        'http://localhost:3005/api/discount/getValidDiscount'
+        'http://localhost:3005/api/discount/getMemberDicount',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(auth.memberData.ID),
+        }
       );
       if (!disCountData.ok) {
         throw new Error('網路回應不成功：' + disCountData.status);
@@ -187,13 +195,16 @@ export default function Cart(props) {
                           className="btn bg-second-color btn-checkd text-decoration-none set-middle"
                           // 將選擇的優惠券帶到下一頁
                           onClick={(e) => {
-                            if(cart.items.filter(item => item.checked === true).length === 0){
+                            if (
+                              cart.items.filter((item) => item.checked === true)
+                                .length === 0
+                            ) {
                               alert('請選擇商品');
                               e.preventDefault();
-                            }else{
+                            } else {
                               bringDiscount();
                             }
-                            }}
+                          }}
                         >
                           去結帳
                         </Link>
