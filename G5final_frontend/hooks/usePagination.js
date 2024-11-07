@@ -1,6 +1,7 @@
 //!以下為排序.分頁.每頁幾筆專用的鉤子yen
 
 import { useState, useEffect, useMemo } from 'react';
+import { useAuth } from './use-auth';
 export function usePagination({
   url = '',
   needSort = [],
@@ -9,6 +10,8 @@ export function usePagination({
   processData = null,
   //在初次狀態處理前先做處理
 }) {
+  // 與auth狀態相依
+  const { auth } = useAuth()
   // 存放fetch所有容器
   const [data, setData] = useState([]);
   // 篩選掉重複物件
@@ -25,9 +28,9 @@ export function usePagination({
   const [filterRuleArr, setFilterRuleArr] = useState(
     needFilter.length > 0
       ? {
-          filterName: needFilter[0].filterName,
-          filterRule: needFilter[0].filterRule,
-        }
+        filterName: needFilter[0].filterName,
+        filterRule: needFilter[0].filterRule,
+      }
       : null
   );
   // 存放搜尋數據
@@ -72,13 +75,13 @@ export function usePagination({
         // 如果是字串類型使用中英文進行排序
         return sortWay === 'asc'
           ? a[sortName].localeCompare(b[sortName], ['zh', 'en'], {
-              numeric: true,
-              sensitivity: 'base',
-            })
+            numeric: true,
+            sensitivity: 'base',
+          })
           : b[sortName].localeCompare(a[sortName], ['zh', 'en'], {
-              numeric: true,
-              sensitivity: 'base',
-            });
+            numeric: true,
+            sensitivity: 'base',
+          });
       }
     });
   }, [filterData, sortWay, sortName]);
@@ -88,24 +91,24 @@ export function usePagination({
   }, [sortedData, nowPageFirstItems, nowPageLastItems]);
   // 抓取資料庫資料
   useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(url);
-          if (!response.ok) {
-            throw new Error('網路回應不成功：' + response.status);
-          }
-          let data = await response.json();
-          //保有渲染前傳遞方法給子層改變初始渲染資料
-          if (processData && typeof processData === 'function') {
-            data = await processData(data);
-          }
-          setData(data);
-        } catch (err) {
-          console.log(err);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('網路回應不成功：' + response.status);
         }
-      };
-    fetchData(); 
-  }, [url]);
+        let data = await response.json();
+        //保有渲染前傳遞方法給子層改變初始渲染資料
+        if (processData && typeof processData === 'function') {
+          data = await processData(data);
+        }
+        setData(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, [url, auth]);
   // 若data資料變動隨之改變狀態,有篩選過後保留原始狀態
   // 篩選邏輯
   useEffect(() => {
@@ -131,7 +134,7 @@ export function usePagination({
     setNowPage(1);
   }, [newdata, filterRuleArr, searchInput]);
   //
-  
+
   // 執行當前頁碼+1 // 執行當前頁碼-1
   function next() {
     setNowPage((prevPage) => Math.min(prevPage + 1, totalPage));

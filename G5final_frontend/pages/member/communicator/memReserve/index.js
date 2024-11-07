@@ -5,14 +5,18 @@ import { usePagination } from '@/hooks/usePagination';
 import MemberNav from '@/components/memberNav';
 import { PageNav } from '@/components/PageNav';
 import { BsDashLg, BsChevronDown } from 'react-icons/bs';
+import Image from 'next/image';
+import { useAuth } from '@/hooks/use-auth'; 
 MemReserve.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
 export default function MemReserve(props) {
+  const { auth } = useAuth()
+  const id = auth.memberData.id
   // 定義資料處理函數
   const processData = (fetchedData) => {
     return fetchedData.filter((item) => {
-      return item.PetCommID == 1
+      return item.ID == id
     });
   };
   const {
@@ -25,7 +29,7 @@ export default function MemReserve(props) {
     next,
     prev,
   } = usePagination({
-    url: 'http://localhost:3005/api/pet/comreserve',
+    url: 'http://localhost:3005/api/pet/memreserve',
     needFilter: [
       { id: 1, label: '預約中', filterRule: '1', filterName: 'Status' },
       { id: 2, label: '歷史', filterRule: '0', filterName: 'Status' },
@@ -72,7 +76,7 @@ export default function MemReserve(props) {
         {/* 清單標題 */}
         <div className="row none title text-center mt-3 py-2">
           <div className="col-1">序號</div>
-          <div className="col-2">會員暱稱</div>
+          <div className="col-2">溝通師</div>
           <div className="col-2 d-none d-lg-block">寵物名稱</div>
           <div className="col d-none d-lg-block">狀態</div>
           <div className="col">預約日期</div>
@@ -86,7 +90,7 @@ export default function MemReserve(props) {
           <React.Fragment key={v.ID || i}>
             <div className="row none text-center justify-content-center align-items-center my-3 pb-3 border-bottom">
               <div className="col-1">{i + 1}</div>
-              <div className="col-2">{v.ReserveName}</div>
+              <div className="col-2">{v.Name}</div>
               <div className="col-2 d-none d-lg-block">{v.PetName}</div>
               <div className="col d-none d-lg-block">
                 <span className={`${v.Status == 1 ? 'PT-sp-1' : 'PT-sp-2'}`}>{v.Status == 1 ? '預約中' : '已結束'}</span>
@@ -110,13 +114,16 @@ export default function MemReserve(props) {
                 {/* 頭像 */}
                 <div className={`col-4 col-md-3 d-flex justify-content-center align-items-center ps-0 PT-sp-none-rwd`}>
                   <div className="imgg d-flex py-2">
-                    <img src="../../pet/images/teacher.png" alt="1" />
+                    <Image src={`/pet/images/${v.Img}`} alt="1" width={100} height={100} style={{
+                      borderRadius: '5px',
+                      objectFit: 'cover'
+                    }} />
                   </div>
                 </div>
                 {/* 內容 */}
                 <div className="col-6 col-md-9 py-2 px-0 d-flex main-1">
                   <div className="col d-flex flex-column justify-content-center align-items-start">
-                    <h5 className="text text-1 m-1">{v.ReserveName}</h5>
+                    <h5 className="text text-1 m-1">{v.Name}</h5>
                     {/* ! */}
                     <p className="m-1 text-2 PT-sp-none-rwd">{v.Approach}</p>
                     {/* ! */}
