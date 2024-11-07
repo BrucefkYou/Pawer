@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize'
 
 export default async function (sequelize) {
   return sequelize.define(
-    'Product ',
+    'Product',
     {
       ID: {
         type: DataTypes.INTEGER(5),
@@ -90,7 +90,7 @@ export default async function (sequelize) {
       },
     },
     {
-      tableName: 'Product ', //直接提供資料表名稱
+      tableName: 'Product', //直接提供資料表名稱
       timestamps: false, // 使用時間戳
       paranoid: false, // 軟性刪除
       underscored: false, // 所有自動建立欄位，使用snake_case命名
