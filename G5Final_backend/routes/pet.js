@@ -55,7 +55,6 @@ router.post('/reserve', upload.none(), async function (req, res, next) {
     Time,
     Remark,
   } = req.body
-  const dateTime = Time.replace('T', ' ') + ':00'
   try {
     const [rows] = await db2.query(
       `INSERT INTO PetCommunicatorReserve 
@@ -69,7 +68,7 @@ router.post('/reserve', upload.none(), async function (req, res, next) {
         PetType,
         PetName,
         Approach,
-        dateTime,
+        Time,
         Remark,
         '1',
       ]

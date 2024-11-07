@@ -34,6 +34,7 @@ export default function ComReserve(props) {
       { id: 1, label: '預約中', filterRule: '1', filterName: 'Status' },
       { id: 2, label: '歷史', filterRule: '0', filterName: 'Status' },
     ],
+    needSort:[{ way: 'desc-ID', name: '' }],
     processData
   });
   const [iconStates, setIconStates] = useState({});
@@ -91,8 +92,8 @@ export default function ComReserve(props) {
               <div className="col d-none d-lg-block">
                 <span className={`${v.Status == 1 ? 'PT-sp-1' : 'PT-sp-2'}`}>{v.Status == 1 ? '預約中' : '已結束'}</span>
               </div>
-              <div className="col">2024/10/20</div>
-              <div className="col">19:00-20:00</div>
+              <div className="col">{v.Time.split(' ')[0]}</div>
+              <div className="col">{v.Time.split(' ')[1]}</div>
               {/* 下拉按鈕 */}
               <div className="col-1 PT-myicon">
                 <div

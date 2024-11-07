@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/use-auth'
+import DatePicker from "react-datepicker";
+import moment from 'moment';
+import { setHours, setMinutes,setSeconds } from 'date-fns';
+
+
+import "react-datepicker/dist/react-datepicker.css";
 export default function PetReservetable({ fetchOne }) {
+    
     const router = useRouter()
     const petCommID = router.query.id
     const { auth } = useAuth()
     const memberID = auth.memberData.id
-    if (memberID) { 
-        console.log(memberID);
-    }
-    
+    const [startDate, setStartDate] = useState(
+        setHours(setMinutes(new Date(), 30), 16),
+    );
+    // 送出表單
     function submitForm(event) {
         event.preventDefault();
         const form = document.querySelector('#reserve');
-        const formData = new FormData(form); // 用表單元素創建 FormData 物件
-        console.log(formData);
-        
+        // 用表單元素創建 FormData 物件
+        const formData = new FormData(form); 
+        // 格式化成適合 SQL 的格式
+        const formattedDateTime = moment(startDate).format('YYYY-MM-DD HH:mm:ss'); 
+        // 將日期時間加入 FormData
+        formData.append('Time', formattedDateTime);
         fetch('http://localhost:3005/api/pet/reserve', {
             method: 'POST',
             body: formData,
@@ -34,9 +44,9 @@ export default function PetReservetable({ fetchOne }) {
                 console.error('提交失敗：', error);
             });
     }
-
   return (
-    <>
+      <>
+          
           <div className="container col-12 col-md-8 justify-content-center align-content-center">
               {/* 標題 */}
               <h4>
@@ -110,7 +120,18 @@ export default function PetReservetable({ fetchOne }) {
                           <label className="form-control-label" htmlFor="time">
                               預約時段<span style={{ color: 'red' }}>*</span>
                           </label>
-                          <input id="time" className="form-control" type="datetime-local" name='Time' required />
+                          <DatePicker
+                              selected={startDate}
+                              onChange={(date) => setStartDate(date)}
+                              showTimeSelect
+                              timeFormat="HH:mm:ss"
+                              injectTimes={[
+                                  setHours(setMinutes(setSeconds(new Date(), 10), 1), 0),
+                                  setHours(setMinutes(new Date(), 5), 12),
+                                  setHours(setMinutes(new Date(), 59), 23),
+                              ]}
+                              dateFormat="MMMM d, yyyy h:mm aa"
+                          />
                       </div>
                       <div className="col-12 col-lg-5">
                           <label className="form-control-label" htmlFor="remark">

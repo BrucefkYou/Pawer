@@ -13,7 +13,6 @@ export default function PetDetailButton({ fetchOne }) {
   const showWindow = () => {
     setWindow(true);
   };
-
   const closeWindow = () => {
     setWindow(false);
   };
