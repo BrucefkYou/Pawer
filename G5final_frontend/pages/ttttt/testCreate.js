@@ -27,10 +27,11 @@ const Publish = () => {
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
   const router = useRouter();
 
-  const saveToDb = async () => {
+  const saveToDo = async () => {
     try {
       const response = await fetch('/api/joinin', {
         method: 'POST',
@@ -39,7 +40,8 @@ const Publish = () => {
         },
         body: JSON.stringify({
           title,
-          author,
+          startTime,
+          endTime,
           joinin: data,
         }),
       });
@@ -48,7 +50,7 @@ const Publish = () => {
       if (response.ok) {
         alert('資料寫入成功');
         router.push('/');
-        // 測試先帶入的路徑，之後要改成正確的路徑
+        // 測試先帶入的路徑-首頁，之後要改成正確的路徑
       } else {
         alert(`寫入失敗: ${result.message}`);
       }
@@ -137,6 +139,7 @@ const Publish = () => {
                       className="form-control flatpickr-no-config flatpickr-input active"
                       placeholder="活動開始時間"
                       required
+                      onChange={(e) => setStartTime(e.target.value)}
                     />
                   </div>
 
@@ -151,6 +154,7 @@ const Publish = () => {
                       className="form-control  flatpickr-no-config flatpickr-input active "
                       placeholder="結束時間"
                       required
+                      onChange={(e) => setEndTime(e.target.value)}
                     />
                   </div>
                 </div>
@@ -220,8 +224,9 @@ const Publish = () => {
           <div className="d-flex justify-content-center my-5">
             <button
               id="send"
-              type="submit"
+              // type="submit"
               className="btn btn-primary rounded-2 ji-pr-btn"
+              onClick={saveToDo}
             >
               預覽
             </button>
@@ -230,7 +235,7 @@ const Publish = () => {
       </div>
 
       <div className="input-group mt-2">
-        <button className="btn btn-primary ms-auto" onClick={saveToDb}>
+        <button className="btn btn-primary ms-auto" onClick={saveToDo}>
           送出
         </button>
       </div>
