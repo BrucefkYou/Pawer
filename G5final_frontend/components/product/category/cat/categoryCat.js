@@ -27,8 +27,9 @@ const CategoryCat = ({ activeIndex, onActiveChange, setUrl }) => {
   };
 
   const handleClick = (index, category) => {
-    if (index === null) {
-      onActiveChange(0); // 將 activeIndex 重置為 0
+    if (activeIndex === index) {
+      // 有索引值的時候再次點擊回到初始狀態 不應該用index === null 應該要注意下面結構我用activeIndex
+      onActiveChange(null);
       setUrl('http://localhost:3005/api/product');
     } else if (index >= 0) {
       onActiveChange(index); // 通知父組件 activeIndex 已更新

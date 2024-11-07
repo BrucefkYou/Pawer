@@ -20,7 +20,37 @@ router.get('/cat', async function (req, res, next) {
   const category = req.query.category
   try {
     const [rows] = await db2.query(
-      "SELECT * FROM product WHERE CategoryName = '貓皇保健' AND SubCategory = ? LIMIT 0, 25",
+      "SELECT * FROM product WHERE CategoryName IN ('貓皇保健', '犬貓通用') AND SubCategory = ? LIMIT 0, 25",
+      [category]
+    ) // 確認資料表名稱是否正確
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
+// 狗狗類別
+router.get('/dog', async function (req, res, next) {
+  const category = req.query.category
+  try {
+    const [rows] = await db2.query(
+      "SELECT * FROM product WHERE CategoryName IN ('犬寶保健', '犬貓通用') AND SubCategory = ? LIMIT 0, 25",
+      [category]
+    ) // 確認資料表名稱是否正確
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
+// 其他類別
+router.get('/other', async function (req, res, next) {
+  const category = req.query.category
+  try {
+    const [rows] = await db2.query(
+      "SELECT * FROM product WHERE CategoryName IN ('沐洗口腔護理', '犬貓通用') AND SubCategory = ? LIMIT 0, 25",
       [category]
     ) // 確認資料表名稱是否正確
     res.json(rows)
