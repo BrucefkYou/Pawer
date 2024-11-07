@@ -14,6 +14,9 @@ import CategoryOther from '@/components/product/category/other/categoryOther';
 import CategoryCat from '@/components/product/category/cat/categoryCat';
 import CategoryDog from '@/components/product/category/dog/categoryDog';
 import useCategory from '@/hooks/useCategory';
+import TagCat from '@/components/product/tag/tagCat/tagCat';
+import TagDog from '@/components/product/tag/tagDog/tagDog';
+import TagOther from '@/components/product/tag/tagOther/tagOther';
 
 export default function Index(props) {
   const [url, setUrl] = useState('http://localhost:3005/api/product');
@@ -75,6 +78,34 @@ export default function Index(props) {
             <div className="col search-text-mp">
               <div className="search-category">
                 <Clean updateSearch={updateSearch} />
+                <div className="row d-flex flex-column align-items-start">
+                  {/* <div className="col d-flex mt-5">
+                    <p className="searchpro col">進階搜尋</p>
+                    <p className="searchpro">+</p>
+                  </div> */}
+                  <div className="col mt-3">
+                    <p className="searchcategory">種類</p>
+                    <p className="line" />
+                    {/* 狗貓標籤預設 false 灰色 點選後true橘色 */}
+                    <div className="d-flex pet-choose">
+                      <TagCat
+                        setUrl={setUrl}
+                        activeIndex={active?.c === 'tagcat' ? active.v : null}
+                        onActiveChange={(v) => ActiveChange('tagcat', v)}
+                      />
+                      <TagDog
+                        setUrl={setUrl}
+                        activeIndex={active?.c === 'tagdog' ? active.v : null}
+                        onActiveChange={(v) => ActiveChange('tagdog', v)}
+                      />
+                      <TagOther
+                        setUrl={setUrl}
+                        activeIndex={active?.c === 'tagother' ? active.v : null}
+                        onActiveChange={(v) => ActiveChange('tagother', v)}
+                      />
+                    </div>
+                  </div>
+                </div>
                 <div className="row d-flex flex-column align-items-start category-mal mx-0">
                   <div>
                     <p className="searchpro col">類別</p>

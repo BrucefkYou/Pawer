@@ -32,12 +32,12 @@ export default async function (sequelize) {
       },
       Level: {
         type: DataTypes.STRING(20),
-        allowNull: false,
+        allowNull: true,
         defaultValue: '1',
       },
       eMail: {
         type: DataTypes.STRING(100),
-        allowNull: true,
+        allowNull: false,
       },
       Phone: {
         type: DataTypes.STRING(20),
@@ -61,7 +61,7 @@ export default async function (sequelize) {
       },
       Valid: {
         type: DataTypes.TINYINT(1),
-        allowNull: false,
+        allowNull: true,
         defaultValue: 1,
       },
       IsBlacklisted: {
