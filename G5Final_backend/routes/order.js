@@ -12,6 +12,7 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   // const ID = req.user.id
   const {
     MemberID,
+    ProductsAmount,
     CouponID,
     Receiver,
     ReceiverPhone,
@@ -42,7 +43,6 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   let PaymentStatus = 0
   if (selectedPayment === 'credit-card') {
     PaymentMethod = '信用卡'
-    PaymentStatus = 1
   } else if (selectedPayment === 'store') {
     PaymentMethod = '超商取貨付款'
   }
@@ -76,9 +76,10 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   try {
     // 執行訂單插入
     const orderSql =
-      'INSERT INTO `Order` (MemberID, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+      'INSERT INTO `Order` (MemberID, ProductsAmount, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     const orderValues = [
       MemberID,
+      ProductsAmount,
       TotalPrice,
       CouponID,
       PaymentMethod,
@@ -108,13 +109,6 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     ])
 
     await connection.query(orderDetailsSql, [orderDetailsValues])
-
-    // 這邊需要將MemberDiscountMapping表中使用過的優惠券設定為已使用
-    const updateCouponSql =
-      'UPDATE MemberDiscountMapping SET Used_Date = ?, Status = 1 WHERE MemberID = ? AND DiscountID = ?'
-    const updateCouponValues = [today, MemberID, CouponID]
-
-    await connection.query(updateCouponSql, updateCouponValues)
 
     await connection.commit()
 

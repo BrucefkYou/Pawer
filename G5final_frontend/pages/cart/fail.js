@@ -7,7 +7,7 @@ export default function Fail(props) {
         <div className="container">
           {/* 付款失敗區塊 */}
           <section className="fail-block">
-            <div className>
+            <div>
               <svg
                 width={80}
                 height={80}
