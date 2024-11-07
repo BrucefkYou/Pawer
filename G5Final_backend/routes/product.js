@@ -15,6 +15,21 @@ router.get('/', async function (req, res, next) {
   }
 })
 
+// tag貓咪
+router.get('/tagcat', async function (req, res, next) {
+  const category = req.query.category
+  try {
+    const [rows] = await db2.query(
+      "SELECT * FROM product WHERE CategoryName IN ('貓皇保健', '犬貓通用')",
+      [category]
+    ) // 確認資料表名稱是否正確
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
 // 貓咪類別
 router.get('/cat', async function (req, res, next) {
   const category = req.query.category
