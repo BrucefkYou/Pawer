@@ -3,56 +3,56 @@
       "FavoriteID": 1,
       "MemberID": 2,
       "BlogID": 1,
-      "ProductID": "NULL",
+      "ProductID": null,
       "JoininID": 3
   },
   {
       "FavoriteID": 2,
       "MemberID": 7,
       "BlogID": 5,
-      "ProductID": "NULL",
+      "ProductID": null,
       "JoininID": 6
   },
   {
       "FavoriteID": 3,
       "MemberID": 5,
       "BlogID": 1,
-      "ProductID": "NULL",
+      "ProductID": null,
       "JoininID": 1
   },
   {
       "FavoriteID": 4,
       "MemberID": 6,
       "BlogID": 1,
-      "ProductID": "NULL",
+      "ProductID": null,
       "JoininID": 9
   },
   {
       "FavoriteID": 5,
       "MemberID": 0,
       "BlogID": 3,
-      "ProductID": "NULL",
-      "JoininID": "NULL"
+      "ProductID": null,
+      "JoininID": null
   },
   {
       "FavoriteID": 6,
       "MemberID": 0,
       "BlogID": 4,
-      "ProductID": "NULL",
-      "JoininID": "NULL"
+      "ProductID": null,
+      "JoininID": null
   },
   {
       "FavoriteID": 7,
       "MemberID": 0,
       "BlogID": 3,
-      "ProductID": "NULL",
-      "JoininID": "NULL"
+      "ProductID": null,
+      "JoininID": null
   },
   {
       "FavoriteID": 8,
       "MemberID": 0,
       "BlogID": 1,
-      "ProductID": "NULL",
-      "JoininID": "NULL"
+      "ProductID": null,
+      "JoininID": null
   }
 ]

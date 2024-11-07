@@ -14,13 +14,13 @@
     {
         "ID": 3,
         "Name": "狗",
-        "CreateDate": "NULL",
+        "CreateDate": null,
         "CreateUserID": 2
     },
     {
         "ID": 4,
         "Name": "保健",
-        "CreateDate": "NULL",
+        "CreateDate": null,
         "CreateUserID": 3
     },
     {

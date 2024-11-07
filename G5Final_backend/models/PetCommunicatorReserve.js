@@ -8,7 +8,7 @@ export default async function (sequelize) {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: true,
+        allowNull: false,
       },
       PetCommID: {
         type: DataTypes.INTEGER,
