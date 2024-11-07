@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import style from '@/components/product/productList.module.scss';
 
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 
@@ -38,11 +39,13 @@ export default function ProductList({ pd }) {
             <div className="d-flex justify-content-between">
               <div className="new-nt">{'NT$' + pd.SalePrice}</div>
               {/* 收藏icon */}
-              <ClickIcon
-                fontsize="32px"
-                IconFilled={BsBookmarkFill}
-                IconOutline={BsBookmark}
-              />
+              <div className={`${style['pdsvg-favorite']}`}>
+                <ClickIcon
+                  fontsize="32px"
+                  IconFilled={BsBookmarkFill}
+                  IconOutline={BsBookmark}
+                />
+              </div>
             </div>
           </div>
         </div>

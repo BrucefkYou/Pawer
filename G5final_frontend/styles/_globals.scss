@@ -21,6 +21,8 @@ $pagination-active-bg: $warning;
 $pagination-active-border-color: $warning;
 $headings-font-family: 'Open Sans', sans-serif;
 $headings-font-weight: 800;
+$pageblock: block;
+$selectnone:none;
 
 // 圓角、Button樣式調整
 $btn-border-radius: 2px;
@@ -47,6 +49,14 @@ body {
     Arial, 'Noto Sans', 'Liberation Sans', sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   background-color: $secondary;
+}
+
+.page-block {
+  display: $pageblock !important;
+}
+
+.select-rwd-none{
+  display: $selectnone;
 }
 
 .btn-primary {
