@@ -1,9 +1,9 @@
 import express from 'express'
 import db2 from '../configs/mysql.js'
-import authenticate from '##/middlewares/authenticate.js'
+import multer from 'multer'
 const router = express.Router()
-
-/* GET home page. */
+const upload = multer()
+// 全部資料抓取
 router.get('/', async function (req, res, next) {
   try {
     const [rows] = await db2.query('SELECT * FROM `PetCommunicator`')
@@ -13,6 +13,7 @@ router.get('/', async function (req, res, next) {
     res.status(500).send(err)
   }
 })
+// 溝通師受預約列表
 router.get('/comreserve', async function (req, res, next) {
   try {
     const [rows] = await db2.query(
@@ -24,17 +25,7 @@ router.get('/comreserve', async function (req, res, next) {
     res.status(500).send(err)
   }
 })
-router.get('/memreserve', async function (req, res, next) {
-  try {
-    const [rows] = await db2.query(
-      'SELECT PetCommunicatorReserve.*, PetCommunicator.Name,PetCommunicator.Img FROM PetCommunicatorReserve LEFT JOIN PetCommunicator ON PetCommunicator.ID = PetCommID;'
-    )
-    res.json(rows)
-  } catch (err) {
-    console.error('查詢錯誤：', err)
-    res.status(500).send(err)
-  }
-})
+// 會員預約列表
 router.get('/memreserve', async function (req, res, next) {
   try {
     const [rows] = await db2.query(`SELECT 
@@ -51,12 +42,37 @@ router.get('/memreserve', async function (req, res, next) {
     res.status(500).send(err)
   }
 })
-router.post('/p', async function (req, res, next) {
-  const { ID } = req.body
+// 預約表單填寫
+router.post('/reserve', upload.none(), async function (req, res, next) {
+  const {
+    petCommID,
+    memberID,
+    ReservName,
+    Phone,
+    PetType,
+    PetName,
+    Approach,
+    Time,
+    Remark,
+  } = req.body
+  const dateTime = Time.replace('T', ' ') + ':00'
   try {
     const [rows] = await db2.query(
-      'SELECT * FROM `PetCommunicator` WHERE ID = ?',
-      [ID]
+      `INSERT INTO PetCommunicatorReserve 
+    (PetCommID, MemberID, ReserveName, Phone, PetType, PetName, Approach, Time, Remark, Status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        petCommID,
+        memberID,
+        ReservName,
+        Phone,
+        PetType,
+        PetName,
+        Approach,
+        dateTime,
+        Remark,
+        '1',
+      ]
     )
     res.json(rows)
   } catch (err) {
