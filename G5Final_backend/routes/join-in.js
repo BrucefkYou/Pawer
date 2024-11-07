@@ -13,7 +13,9 @@ const upload = multer()
 /* GET home page. */
 router.get('/', async function (req, res, next) {
   try {
-    const [rows] = await db2.query(`
+    const { keyword } = req.query
+    const { sd } = req.query
+    let rows = `
       SELECT 
     Joinin.*,
     Image.ImageID,
@@ -36,11 +38,24 @@ FROM
 LEFT JOIN 
     Image ON Image.JoininID = Joinin.ID
 WHERE 
-    Joinin.Valid = 1
-    `)
+    Joinin.Valid = 1`
+    const conditions = []
 
-    res.json(rows)
-    console.log(rows)
+    if (keyword) {
+      conditions.push(`Joinin.Title LIKE '%${keyword}%'`)
+    }
+    if (sd) {
+      conditions.push(`Joinin.StartDate >= '${sd}'`)
+    }
+
+    if (conditions.length > 0) {
+      rows += ' AND ' + conditions.join(' AND ')
+    }
+    rows += ' GROUP BY Joinin.ID'
+    const [results] = await db2.query(rows)
+    res.status(200).json(results)
+    // res.json(rows)
+    // console.log(rows)
   } catch (err) {
     console.error('查詢錯誤：', err)
     res.status(500).send(err)

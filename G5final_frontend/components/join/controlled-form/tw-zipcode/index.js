@@ -40,14 +40,14 @@ export default function TWZipCode({
 
   return (
     <>
-      <div id="JoinAddress" className="mb-3">
-        <label htmlFor="join-address" className="form-label required">
+      <div id="joinAddress" className="mb-3">
+        <label htmlFor="joinAddress" className="form-label required">
           活動地點
         </label>
         <div className="row g-3">
           <div className="col-md-2">
             <select
-              id="JoinCity"
+              id="joinCity"
               className="form-select"
               value={countryIndex}
               onChange={(e) => {
@@ -69,7 +69,7 @@ export default function TWZipCode({
           </div>
           <div className="col-md-3">
             <select
-              id="EventRegion"
+              id="joinRegion"
               className="form-select"
               value={townshipIndex}
               onChange={(e) => {
@@ -90,7 +90,7 @@ export default function TWZipCode({
             <input
               type="text"
               className="form-control"
-              id="JoinLocation"
+              id="joinLocation"
               name="JoinLocation"
               placeholder="請輸入詳細地址"
             />

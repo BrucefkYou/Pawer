@@ -7,8 +7,11 @@ import Router, { useRouter } from 'next/router';
 import Image from 'next/image';
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 import ClickIcon from '@/components/icons/click-icon/click-icon';
+import { useCart } from '@/hooks/use-cart/use-cart-state';
 
 export default function ProductDetail(props) {
+  // 建立購物車物件
+  const { cart, addItem } = useCart();
   // 使用路由判斷當前動態路由id
   const router = useRouter();
   // 抓取當前動態路由參數
@@ -16,6 +19,7 @@ export default function ProductDetail(props) {
   // 抓取單筆物件存放容器
   const [fetchOne, setFetchOne] = useState([]);
   const [fetchData, setFetchData] = useState([]);
+  const [productQuantity, setProductQuantity] = useState(1);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,9 +43,23 @@ export default function ProductDetail(props) {
     }
   }, [myId]);
   // 篩選image資料表ProductID為相同product資料表ID的資訊
-  const productImages = fetchData.filter(
-    (pd) => pd.ProductID === fetchOne.ProductID
-  );
+  const productImages = fetchData.filter((pd) => pd.ProductID === myId);
+  // 處理減少數量的函數
+  const handleDecrease = () => {
+    setProductQuantity((prevQuantity) =>
+      prevQuantity > 1 ? prevQuantity - 1 : 1
+    );
+  };
+
+  // 處理增加數量的函數
+  const handleIncrease = () => {
+    setProductQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  // 導航到購物車
+  const cartLink = () => {
+    router.push('/cart');
+  };
 
   // 先確保有資料在解構
   if (!fetchOne) {
@@ -49,6 +67,7 @@ export default function ProductDetail(props) {
   }
   // 解構資料
   const { Name, Img, SalePrice, Stock, Info, ProductSummary } = fetchOne;
+  // 要加入購物車的資料
   return (
     <>
       {/* 商品細節 */}
@@ -150,15 +169,20 @@ export default function ProductDetail(props) {
                         role="group"
                         aria-label="Basic example"
                       >
-                        <button type="button" className="btn border buy-dash">
+                        <button
+                          type="button"
+                          className="btn border buy-dash"
+                          onClick={handleDecrease}
+                        >
                           -
                         </button>
                         <div className="many border">
-                          <p className="detail-p">2</p>
+                          <p className="detail-p">{productQuantity}</p>
                         </div>
                         <button
                           type="button"
                           className="btn border m-0 buy-add"
+                          onClick={handleIncrease}
                         >
                           +
                         </button>
@@ -170,8 +194,29 @@ export default function ProductDetail(props) {
                       </div>
                     </div>
                     <div className="d-flex mt-5 detail-brt-gap">
-                      <button className="detail-btn1">加入購物車</button>
-                      <button className="detail-btn2">立即結帳</button>
+                      <button
+                        type="button"
+                        className="detail-btn1"
+                        onClick={() => {
+                          addItem({
+                            id: myId,
+                            name: Name,
+                            price: SalePrice,
+                            img: Img,
+                            quantity: productQuantity,
+                            checked: '',
+                          });
+                        }}
+                      >
+                        加入購物車
+                      </button>
+                      <button
+                        type="button"
+                        className="detail-btn2"
+                        onClick={() => cartLink()}
+                      >
+                        立即結帳
+                      </button>
                     </div>
                   </form>
                 </div>

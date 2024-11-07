@@ -18,8 +18,8 @@ const sequelize = new Sequelize(
     timezone: '+08:00',
     define: {
       freezeTableName: true,
-      charset: 'utf8',
-      collate: 'utf8_general_ci',
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_unicode_ci',
     },
   }
 )

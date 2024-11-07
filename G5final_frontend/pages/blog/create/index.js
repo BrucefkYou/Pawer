@@ -3,7 +3,7 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
 // components
-import BreadCrumb from '@/components/blog/bread-crumb/breadcrumb';
+import BreadCrumb from '@/components/breadcrumbs/breadcrumbs';
 
 // icons
 import { BsBookmarkFill } from 'react-icons/bs';

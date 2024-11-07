@@ -24,7 +24,6 @@ export default function BlogCard({
   likeCount,
   favoriteCount,
 }) {
-  // 暫時換一下，之後會改上傳圖片的路徑
   const imagePath = blogImg ? blogImg.replace('../', '/') : '';
   return (
     <div className={`card shadow ${styles['blog-card']}`}>
