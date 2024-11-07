@@ -5,7 +5,7 @@ export function PerPageDom({ itemsperPage, choosePerpage }) {
     <div>
       <select
         value={itemsperPage}
-        className="text-body-tertiary form-select d-none d-md-block"
+        className="text-body-tertiary form-select d-md-block"
         onChange={(e) => choosePerpage(Number(e.target.value))}
       >
         <option value={6}>每頁 6 筆</option>

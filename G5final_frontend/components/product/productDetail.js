@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 import ClickIcon from '@/components/icons/click-icon/click-icon';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
+import style from '@/components/product/productDetail.module.scss';
 
 export default function ProductDetail(props) {
   // 建立購物車物件
@@ -122,29 +123,38 @@ export default function ProductDetail(props) {
               <div className="d-flex mt-4">
                 <div className="col d-flex align-items-center">
                   {/* 星級文字 */}
-                  <div>
-                    <p className="star-text">4&nbsp;&nbsp;</p>
-                  </div>
+                  {/* <div>
+                    <p className="star-text">5&nbsp;&nbsp;</p>
+                  </div> */}
                   {/* 星級圖示 */}
                   <div className="star-rwd">
                     <img src="../product/star=1.png" alt="1" />
                     <img src="../product/star=1.png" alt="1" />
                     <img src="../product/star=1.png" alt="1" />
                     <img src="../product/star=1.png" alt="1" />
-                    <img src="../product/star=0.png" alt="1" />
+                    <img src="../product/star=1.png" alt="1" />
                   </div>
                   <div>
-                    <p className="star-text sell-how">
-                      &nbsp;|&nbsp;10件已售出
-                    </p>
+                    <a
+                      className="sell-how"
+                      onClick={() =>
+                        document
+                          .querySelector('#comment')
+                          .scrollIntoView({ behavior: 'smooth' })
+                      }
+                    >
+                      &nbsp;|&nbsp;我要評論
+                    </a>
                   </div>
                 </div>
                 {/* 收藏圖 */}
                 <div className="col d-flex justify-content-end">
-                  <ClickIcon
-                    IconFilled={BsBookmarkFill}
-                    IconOutline={BsBookmark}
-                  />
+                  <div className={`${style['pdsvg-favorite']}`}>
+                    <ClickIcon
+                      IconFilled={BsBookmarkFill}
+                      IconOutline={BsBookmark}
+                    />
+                  </div>
                 </div>
               </div>
               {/* 文字內容簡介 */}
@@ -187,11 +197,11 @@ export default function ProductDetail(props) {
                           +
                         </button>
                       </div>
-                      <div>
+                      {/* <div>
                         <p className="detail-p detail-rwd-none">
                           還剩{Stock}件
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="d-flex mt-5 detail-brt-gap">
                       <button

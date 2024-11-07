@@ -59,14 +59,24 @@ export default function Index(props) {
       <div className="productList">
         <div className="container d-flex justify-content-between">
           {/* 麵包屑 */}
-          <Breadcrumbs />
-          <div className="row justify-content-center align-items-center">
-            <div className="col selectpd rwd-select form-select me-3">
-              <SortDom
-                sortWay={sortWay}
-                chooseSort={chooseSort}
-                needSort={needSort}
-              />
+          <div>
+            <Breadcrumbs />
+          </div>
+          <div className="row d-none rwd-select">
+            <div className="col d-flex justify-content-center align-items-center selectpd rwd-select ">
+              <div className="rwd-select col d-flex justify-content-center">
+                <div className="d-flex justify-content-between mt-2">
+                  <PerPageDom
+                    itemsperPage={itemsperPage}
+                    choosePerpage={choosePerpage}
+                  />
+                  <SortDom
+                    sortWay={sortWay}
+                    chooseSort={chooseSort}
+                    needSort={needSort}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -79,10 +89,6 @@ export default function Index(props) {
               <div className="search-category">
                 <Clean updateSearch={updateSearch} />
                 <div className="row d-flex flex-column align-items-start">
-                  {/* <div className="col d-flex mt-5">
-                    <p className="searchpro col">進階搜尋</p>
-                    <p className="searchpro">+</p>
-                  </div> */}
                   <div className="col mt-3">
                     <p className="searchcategory">種類</p>
                     <p className="line" />
@@ -173,12 +179,14 @@ export default function Index(props) {
               </div>
               {/* 頁籤 */}
               <div className="d-flex justify-content-center align-items-center mb-5 mt-5">
-                <PageNav
-                  nowPage={nowPage}
-                  totalPage={totalPage}
-                  next={next}
-                  prev={prev}
-                />
+                <div className="rwd-block">
+                  <PageNav
+                    nowPage={nowPage}
+                    totalPage={totalPage}
+                    next={next}
+                    prev={prev}
+                  />
+                </div>
               </div>
             </div>
           </div>
