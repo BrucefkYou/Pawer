@@ -35,6 +35,22 @@ router.get('/memreserve', async function (req, res, next) {
     res.status(500).send(err)
   }
 })
+router.get('/memreserve', async function (req, res, next) {
+  try {
+    const [rows] = await db2.query(`SELECT 
+    PetCommunicatorReserve.*,PetCommunicator.Name,PetCommunicator.Img,Member.Avatar
+    FROM 
+    PetCommunicatorReserve 
+    LEFT JOIN 
+    PetCommunicator ON PetCommunicator.ID = PetCommunicatorReserve.PetCommID
+    LEFT JOIN 
+    Member ON Member.ID = PetCommunicator.MemberID`)
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
 router.post('/p', async function (req, res, next) {
   const { ID } = req.body
   try {

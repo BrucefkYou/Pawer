@@ -16,7 +16,7 @@ export default function MemReserve(props) {
   // 定義資料處理函數
   const processData = (fetchedData) => {
     return fetchedData.filter((item) => {
-      return item.ID == id
+      return item.MemberID == id
     });
   };
   const {
