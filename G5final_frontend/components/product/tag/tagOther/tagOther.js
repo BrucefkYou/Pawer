@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import ProductList from '@/components/product/productList';
 
-export default function TagCat({ activeIndex, onActiveChange, setUrl }) {
+export default function TagOther({ activeIndex, onActiveChange, setUrl }) {
   const [products, setProducts] = useState([]); // 儲存篩選分類結果
 
   const handleClick = (index, category) => {
@@ -13,7 +13,7 @@ export default function TagCat({ activeIndex, onActiveChange, setUrl }) {
       setUrl('http://localhost:3005/api/product');
     } else if (index >= 0) {
       onActiveChange(index); // 通知父組件 activeIndex 已更新
-      setUrl(`http://localhost:3005/api/product/tagcat`);
+      setUrl(`http://localhost:3005/api/product/tagother`);
     }
   };
   return (
@@ -21,7 +21,7 @@ export default function TagCat({ activeIndex, onActiveChange, setUrl }) {
       <div
         className={`pet-choose-status btn ${activeIndex === 0 ? 'active' : ''}`}
       >
-        <div onClick={() => handleClick(0, 'tagcat')}>貓貓</div>
+        <div onClick={() => handleClick(0, 'tagother')}>其他</div>
       </div>
 
       {/* 渲染篩選結果 */}

@@ -16,6 +16,7 @@ import CategoryDog from '@/components/product/category/dog/categoryDog';
 import useCategory from '@/hooks/useCategory';
 import TagCat from '@/components/product/tag/tagCat/tagCat';
 import TagDog from '@/components/product/tag/tagDog/tagDog';
+import TagOther from '@/components/product/tag/tagOther/tagOther';
 
 export default function Index(props) {
   const [url, setUrl] = useState('http://localhost:3005/api/product');
@@ -87,8 +88,21 @@ export default function Index(props) {
                     <p className="line" />
                     {/* 狗貓標籤預設 false 灰色 點選後true橘色 */}
                     <div className="d-flex pet-choose">
-                      <TagCat />
-                      <TagDog />
+                      <TagCat
+                        setUrl={setUrl}
+                        activeIndex={active?.c === 'tagcat' ? active.v : null}
+                        onActiveChange={(v) => ActiveChange('tagcat', v)}
+                      />
+                      <TagDog
+                        setUrl={setUrl}
+                        activeIndex={active?.c === 'tagdog' ? active.v : null}
+                        onActiveChange={(v) => ActiveChange('tagdog', v)}
+                      />
+                      <TagOther
+                        setUrl={setUrl}
+                        activeIndex={active?.c === 'tagother' ? active.v : null}
+                        onActiveChange={(v) => ActiveChange('tagother', v)}
+                      />
                     </div>
                   </div>
                 </div>
