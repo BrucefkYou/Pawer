@@ -5,15 +5,18 @@ import MemberNav from '@/components/memberNav';
 import { usePagination } from '@/hooks/usePagination';
 import { PageNav } from '@/components/PageNav';
 import { BsDashLg, BsChevronDown } from 'react-icons/bs';
+import Image from 'next/image';
 import { useAuth } from '@/hooks/use-auth';
 ComReserve.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
 export default function ComReserve(props) {
-  // 定義資料處理函數
+  const { auth } = useAuth()
+  const id = auth.memberData.id
+  // 篩選應該為登入者的ID
   const processData = (fetchedData) => {
     return fetchedData.filter((item) => {
-      return item.PetCommID == 1
+      return item.PetCommID == id
     });
   };
   const {
@@ -109,7 +112,10 @@ export default function ComReserve(props) {
                 {/* 頭像 */}
                 <div className={`col-4 col-md-3 d-flex justify-content-center align-items-center ps-0 PT-sp-none-rwd`}>
                   <div className="imgg d-flex py-2">
-                    <img src="../../pet/images/teacher.png" alt="1" />
+                    <Image src={`/member/member-avatar/${v.Avatar}`} alt="1" width={100} height={100} style={{
+                      borderRadius: '5px', 
+                      objectFit: 'cover'
+                    }} />
                   </div>
                 </div>
                 {/* 內容 */}
