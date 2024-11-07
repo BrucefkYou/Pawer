@@ -178,5 +178,15 @@
     "id": 36,
     "title": "寵物溝通服務",
     "href": "/member/communicator"
+  },
+  {
+    "id": 37,
+    "title": "貓貓商品",
+    "href": "/product/tagcat"
+  },
+  {
+    "id": 38,
+    "title": "狗狗商品",
+    "href": "/product/tagdog"
   }
 ]

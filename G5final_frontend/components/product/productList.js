@@ -41,7 +41,6 @@ export default function ProductList({ pd }) {
               {/* 收藏icon */}
               <div className={`${style['pdsvg-favorite']}`}>
                 <ClickIcon
-                  fontsize="32px"
                   IconFilled={BsBookmarkFill}
                   IconOutline={BsBookmark}
                 />

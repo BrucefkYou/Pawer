@@ -80,7 +80,7 @@ export default function Navbar() {
                       <Link
                         type="button"
                         className="customDropdownItem"
-                        href="./product"
+                        href="./product/tagcat"
                       >
                         貓貓商品
                       </Link>
@@ -89,7 +89,7 @@ export default function Navbar() {
                       <Link
                         type="button"
                         className="customDropdownItem"
-                        href="./product"
+                        href="./product/tagdog"
                       >
                         狗狗商品
                       </Link>
@@ -149,10 +149,18 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="navbar-list">
-            <Link type="button" className="text-secondary" href="/product">
+            <Link
+              type="button"
+              className="text-secondary"
+              href="/product/tagcat"
+            >
               貓貓商品
             </Link>
-            <Link type="button" className="text-secondary" href="/product">
+            <Link
+              type="button"
+              className="text-secondary"
+              href="/product/tagdog"
+            >
               狗狗商品
             </Link>
             <Link type="button" className="text-secondary" href="/blog">
