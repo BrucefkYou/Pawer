@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 import { useAuth } from '@/hooks/use-auth';
 import Products from './products';
+import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 
 export default function CartInfo(props) {
   const { auth } = useAuth();
@@ -189,7 +190,7 @@ export default function CartInfo(props) {
                 country: country,
                 township: township,
                 address: address,
-                store: store711.storeaddress,
+                storeAddress: store711.storeaddress,
                 selectedDelivery: selectedDelivery,
                 selectedPayment: selectedPayment,
                 ReceiptType: selectedBill,
@@ -201,6 +202,7 @@ export default function CartInfo(props) {
                   .map((item) => {
                     return {
                       ProductID: item.id,
+                      ProductName: item.name,
                       Quantity: item.quantity,
                       Price: item.price,
                     };
@@ -214,7 +216,7 @@ export default function CartInfo(props) {
           >
             <div className="row">
               {/* 麵包屑 */}
-              <div className="productList-crumb-wei col-sm-9 col-5">
+              {/* <div className="productList-crumb-wei col-sm-9 col-5">
                 <a href="./index">首頁</a>/
                 <a className="active" href="./cart">
                   購物車
@@ -223,7 +225,8 @@ export default function CartInfo(props) {
                 <a className="active" href="./cart-info">
                   結帳
                 </a>
-              </div>
+              </div> */}
+              <Breadcrumbs />
             </div>
             <div className="cart-info">
               {/* cart-info */}

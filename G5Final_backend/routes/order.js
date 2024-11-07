@@ -96,14 +96,15 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     // 資料庫驅動的佔位符
     // 當我們傳遞一個包含多組值的二維數組時，? 會自動展開為多組 (?, ?, ..., ?)。
     const orderDetailsSql =
-      'INSERT INTO OrderDetails (OrderID, ProductID, ,ProductOriginPrice, ProductAmount) VALUES ?'
+      'INSERT INTO OrderDetail (OrderID, ProductID, ProductName, ProductOriginPrice, ProductAmount) VALUES ?'
     const orderId = orderResult.insertId
 
     const orderDetailsValues = Products.map((product) => [
       orderId,
       product.ProductID,
-      product.Quantity,
+      product.ProductName,
       product.Price,
+      product.Quantity,
     ])
 
     await connection.query(orderDetailsSql, [orderDetailsValues])
