@@ -7,7 +7,7 @@ import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 import ClickIcon from '@/components/icons/click-icon/click-icon';
 
 export default function ProductList({ pd }) {
-  console.log(pd);
+  // console.log(pd);
   return (
     <>
       <div className="col-4 card-layout no-underline">

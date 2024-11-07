@@ -15,32 +15,69 @@ router.get('/', async function (req, res, next) {
   }
 })
 
-// 搜尋
-router.get('/qs', async function (req, res) {
+// 貓咪類別
+router.get('/cat', async function (req, res, next) {
+  const category = req.query.category
   try {
-    const { keyword } = req.query
+    const [rows] = await db2.query(
+      "SELECT * FROM product WHERE CategoryName IN ('貓皇保健', '犬貓通用') AND SubCategory = ? LIMIT 0, 25",
+      [category]
+    ) // 確認資料表名稱是否正確
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
 
-    let sql = `
-    SELECT p.*, i.ProductID, i.ImageName 
-    FROM Product p 
-    LEFT JOIN Image i ON p.ID = i.ProductID
-    WHERE 1=1
-    `
-    const conditions = []
+// 狗狗類別
+router.get('/dog', async function (req, res, next) {
+  const category = req.query.category
+  try {
+    const [rows] = await db2.query(
+      "SELECT * FROM product WHERE CategoryName IN ('犬寶保健', '犬貓通用') AND SubCategory = ? LIMIT 0, 25",
+      [category]
+    ) // 確認資料表名稱是否正確
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
 
-    if (keyword) {
-      conditions.push(`Product.Name LIKE '%${keyword}%'`)
+// 其他類別
+router.get('/other', async function (req, res, next) {
+  const category = req.query.category
+  try {
+    const [rows] = await db2.query(
+      "SELECT * FROM product WHERE CategoryName IN ('沐洗口腔護理', '犬貓通用') AND SubCategory = ? LIMIT 0, 25",
+      [category]
+    ) // 確認資料表名稱是否正確
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
+// :id 這個要在最底下不然會讀不到他下面的
+//明細
+router.get('/:id', async function (req, res, next) {
+  try {
+    // 使用 WHERE 子句來篩選指定 id 的資料
+    const [rows] = await db2.query(
+      `SELECT Product.*, Image.ProductID, Image.ImageName FROM Product LEFT JOIN Image ON Product.ID = Image.ProductID
+     WHERE ID = ?`,
+      [req.params.id]
+    )
+    // 檢查是否有找到資料
+    if (rows.length === 0) {
+      return res.status(404).json({ message: '找不到指定的資料' })
     }
-
-    if (conditions.length > 0) {
-      sql += ' AND ' + conditions.join(' AND ')
-    }
-
-    const [results] = await db2.query(sql)
-    res.status(200).json({ status: 'success', data: { product: results } })
-  } catch (error) {
-    console.error('搜尋失敗：', error)
-    res.status(500).json({ error: '搜尋失敗' })
+    res.json(rows[0]) // 因為只會有一筆資料，所以直接返回第一個元素
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
   }
 })
 

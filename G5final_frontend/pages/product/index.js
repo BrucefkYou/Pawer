@@ -10,12 +10,14 @@ import { PageNav } from '@/components/PageNav';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import ProductList from '@/components/product/productList';
 import Clean from '@/components/product/clean/clean';
-import Search from '@/components/searchBar/searchbar';
+import CategoryOther from '@/components/product/category/other/categoryOther';
 import CategoryCat from '@/components/product/category/cat/categoryCat';
 import CategoryDog from '@/components/product/category/dog/categoryDog';
 import useCategory from '@/hooks/useCategory';
 
 export default function Index(props) {
+  const [url, setUrl] = useState('http://localhost:3005/api/product');
+  const { active, ActiveChange } = useCategory();
   const {
     nowPageItems,
     nowPage,
@@ -32,7 +34,7 @@ export default function Index(props) {
     chooseSort,
     updateSearch,
   } = usePagination({
-    url: 'http://localhost:3005/api/product',
+    url: url,
     needFilter: [],
     needSearchbar: [
       'Name',
@@ -49,7 +51,6 @@ export default function Index(props) {
     ],
   });
 
-  const { active, ActiveChange } = useCategory();
   return (
     <>
       <div className="productList">
@@ -83,13 +84,21 @@ export default function Index(props) {
                   <div className="row category-detail d-flex flex-column mx-0">
                     {/* 貓貓專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
                     <CategoryCat
+                      setUrl={setUrl}
                       activeIndex={active?.c === 'cat' ? active.v : null}
                       onActiveChange={(v) => ActiveChange('cat', v)}
                     />
                     {/* 狗狗專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
                     <CategoryDog
+                      setUrl={setUrl}
                       activeIndex={active?.c === 'dog' ? active.v : null}
                       onActiveChange={(v) => ActiveChange('dog', v)}
+                    />
+                    {/* 其他專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
+                    <CategoryOther
+                      setUrl={setUrl}
+                      activeIndex={active?.c === 'other' ? active.v : null}
+                      onActiveChange={(v) => ActiveChange('other', v)}
                     />
                   </div>
                 </div>
