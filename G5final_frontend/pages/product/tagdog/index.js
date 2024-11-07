@@ -18,8 +18,9 @@ import useCategory from '@/hooks/useCategory';
 import TagCat from '@/components/product/tag/tagCat/tagCat';
 import TagDog from '@/components/product/tag/tagDog/tagDog';
 import TagOther from '@/components/product/tag/tagOther/tagOther';
-export default function Index(props) {
-  const [url, setUrl] = useState('http://localhost:3005/api/product');
+
+export default function Tagdog(props) {
+  const [url, setUrl] = useState('http://localhost:3005/api/product/tagdog');
   const { active, ActiveChange } = useCategory();
   const {
     nowPageItems,
@@ -65,12 +66,7 @@ export default function Index(props) {
           <div className="row d-none rwd-select">
             <div className="col d-flex justify-content-center align-items-center selectpd rwd-select ">
               <div className="rwd-select col d-flex justify-content-center">
-                <p className="howmaney howmaney-rwd col mt-3">
-                  顯示第{nowPageFirstItems + 1}-
-                  {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
-                  {filterData.length} 筆
-                </p>
-                <div className="d-flex justify-content-between align-items-center p-3">
+                <div className="d-flex justify-content-between align-items-center mt-2">
                   <PerPageDom
                     itemsperPage={itemsperPage}
                     choosePerpage={choosePerpage}
@@ -92,11 +88,7 @@ export default function Index(props) {
             {/* 文字搜尋 */}
             <div className="col search-text-mp">
               <div className="search-category">
-                <Clean
-                  updateSearch={updateSearch}
-                  searchResults={filterData}
-                  setUrl={setUrl}
-                />
+                <Clean updateSearch={updateSearch} searchResults={filterData} />
                 <div className="row d-flex flex-column align-items-start">
                   <div className="col mt-3">
                     <p className="searchcategory">種類</p>

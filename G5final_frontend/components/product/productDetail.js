@@ -136,7 +136,7 @@ export default function ProductDetail(props) {
                   </div>
                   <div>
                     <a
-                      className="sell-how"
+                      className={`sell-how ${style['comment']}`}
                       onClick={() =>
                         document
                           .querySelector('#comment')
