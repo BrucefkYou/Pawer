@@ -81,7 +81,7 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
       MemberID,
       ProductsAmount,
       TotalPrice,
-      CouponID,
+      CouponID || 0,
       PaymentMethod,
       PaymentStatus,
       Receiver,

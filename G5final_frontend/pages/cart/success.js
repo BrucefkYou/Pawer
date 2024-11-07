@@ -1,7 +1,16 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
+import { useCart } from '@/hooks/use-cart/use-cart-state';
 
 export default function Success(props) {
+  const { cart, clearCart } = useCart();
+
+  useEffect(() => {
+    clearCart();
+    localStorage.removeItem('store7-11');
+    localStorage.removeItem('discount');
+  }, []);
+
   return (
     <>
       <div className="cart">
