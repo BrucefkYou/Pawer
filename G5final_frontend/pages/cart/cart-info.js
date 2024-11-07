@@ -65,7 +65,6 @@ export default function CartInfo(props) {
       });
       const resData = await res.json();
       setOrderID(resData.orderId);
-      console.log(orderID);
       if (res.status === 201) {
         router.push('/cart/success');
       } else if (res.status === 500) {
@@ -183,6 +182,7 @@ export default function CartInfo(props) {
               e.preventDefault();
               const orderData = {
                 MemberID: auth.memberData.id,
+                ProductsAmount: items.filter((item) => item.checked).length,
                 CouponID: discount.ID,
                 Receiver: receiver,
                 ReceiverPhone: phone,
@@ -216,16 +216,6 @@ export default function CartInfo(props) {
           >
             <div className="row">
               {/* 麵包屑 */}
-              {/* <div className="productList-crumb-wei col-sm-9 col-5">
-                <a href="./index">首頁</a>/
-                <a className="active" href="./cart">
-                  購物車
-                </a>
-                /
-                <a className="active" href="./cart-info">
-                  結帳
-                </a>
-              </div> */}
               <Breadcrumbs />
             </div>
             <div className="cart-info">

@@ -98,14 +98,6 @@ export default function Cart(props) {
           <div className="cart">
             <div className="container">
               {/* 麵包屑 */}
-              {/* <div className="row">
-                <div className="productList-crumb-wei col-sm-9 col-5">
-                  <a href="./index">首頁</a>/
-                  <a className="active" href="./cart">
-                    購物車
-                  </a>
-                </div>
-              </div> */}
               <Breadcrumbs />
               {/* cart */}
               <div className="cart-main">

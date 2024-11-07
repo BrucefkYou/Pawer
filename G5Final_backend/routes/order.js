@@ -12,6 +12,7 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   // const ID = req.user.id
   const {
     MemberID,
+    ProductsAmount,
     CouponID,
     Receiver,
     ReceiverPhone,
@@ -76,9 +77,10 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   try {
     // 執行訂單插入
     const orderSql =
-      'INSERT INTO `Order` (MemberID, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+      'INSERT INTO `Order` (MemberID, ProductsAmount, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     const orderValues = [
       MemberID,
+      ProductsAmount,
       TotalPrice,
       CouponID,
       PaymentMethod,

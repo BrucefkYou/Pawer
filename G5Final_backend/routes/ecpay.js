@@ -11,6 +11,9 @@ const { Purchase_Order } = sequelize.models
 // 中介軟體，存取隱私會員資料用
 import authenticate from '#middlewares/authenticate.js'
 
+// sql資料庫使用
+import db from '#configs/db.js'
+
 //綠界全方位金流技術文件：
 // https://developers.ecpay.com.tw/?p=2856
 // 信用卡測試卡號：4311-9522-2222-2222 安全碼 222
@@ -38,13 +41,19 @@ router.get('/payment', authenticate, async (req, res, next) => {
     raw: true, // 只需要資料表中資料
   })
 
+  // 利用sql獲得商品的資料
+  const sql = `SELECT * FROM Order WHERE ID = ?`
+  const value = [orderId]
+  const row = await db.query(sql, value)
+  const Amount = row.ProductsAmount
+
   console.log('獲得訂單資料，內容如下：')
   console.log(orderRecord)
 
   //二、輸入參數
   const TotalAmount = orderRecord.amount
   const TradeDesc = '商店線上付款'
-  const ItemName = '訂單編號' + orderRecord.id + '商品一批'
+  const ItemName = '訂單編號' + row.ID + '商品一批'
 
   const ChoosePayment = 'ALL'
 
@@ -94,7 +103,7 @@ router.get('/payment', authenticate, async (req, res, next) => {
     MerchantTradeDate: MerchantTradeDate.toString(),
     PaymentType: 'aio',
     EncryptType: 1,
-    TotalAmount: TotalAmount,
+    TotalAmount: Amount,
     TradeDesc: TradeDesc,
     ItemName: ItemName,
     ChoosePayment: ChoosePayment,
