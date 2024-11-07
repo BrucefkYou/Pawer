@@ -8,39 +8,39 @@ export default async function (sequelize) {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false,
+        allowNull: true,
       },
       PetCommID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       MemberID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       ReserveName: {
         type: DataTypes.STRING(30),
-        allowNull: false,
+        allowNull: true,
       },
       Phone: {
         type: DataTypes.STRING(15),
-        allowNull: false,
+        allowNull: true,
       },
       PetType: {
         type: DataTypes.STRING(20),
-        allowNull: false,
+        allowNull: true,
       },
       PetName: {
         type: DataTypes.STRING(30),
-        allowNull: false,
+        allowNull: true,
       },
       Approach: {
         type: DataTypes.STRING(50),
-        allowNull: false,
+        allowNull: true,
       },
       Time: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
       },
       Remark: {
         type: DataTypes.TEXT,
@@ -48,7 +48,7 @@ export default async function (sequelize) {
       },
       Status: {
         type: DataTypes.TINYINT,
-        allowNull: false,
+        allowNull: true,
       },
     },
     {
