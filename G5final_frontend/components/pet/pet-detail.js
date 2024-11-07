@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import PetDetailButton from './pet-detail-button';
 
@@ -18,7 +18,6 @@ export default function PetDetail(props) {
           throw new Error('網路回應不成功：' + response.status);
         }
         const data = await response.json();
-        console.log(data);
         // 過濾出符合的資料
         const idData = data.find((v) => v.ID == myId);
         // 設定進容器
@@ -38,31 +37,18 @@ export default function PetDetail(props) {
     return <p>Loading...</p>;
   }
   // 解構資料
-  const {
-    Name,
-    Img,
-    Service,
-    CertificateDate,
-    Certificateid,
-    Introduction,
-    Fee,
-  } = fetchOne;
-
-  console.log(fetchOne);
   return (
     <>
       <div className="row mb-3 d-flex justify-content-center alerttonone">
         {/* 刊登照片 */}
         <div className="col-lg-4 d-flex avatar-wrapper">
           <div className="avatar">
-            {Img && (
               <Image
-                src={`/pet/images/${Img}`}
+                src={`/pet/images/${fetchOne.Img}`}
                 alt="1"
                 width={300}
                 height={300}
               />
-            )}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={201}
@@ -300,20 +286,20 @@ export default function PetDetail(props) {
         </div>
         <div className="col-lg-8 d-flex justify-content-center align-items-center flex-column">
           <div className="title">
-            <h4>{Name}</h4>
-            <h5>服務項目：{Service}</h5>
-            <h5>取證日期：{CertificateDate}</h5>
-            <h5>證照編號：{Certificateid}</h5>
-            <h5>計費方式：{Fee}</h5>
+            <h4>{fetchOne.Name}</h4>
+            <h5>服務項目：{fetchOne.Service}</h5>
+            <h5>取證日期：{fetchOne.CertificateDate}</h5>
+            <h5>證照編號：{fetchOne.Certificateid}</h5>
+            <h5>計費方式：{fetchOne.Fee}</h5>
           </div>
           <div className="introduce text-start">介紹</div>
 
           <div className="content">
-            <p>{Introduction}</p>
+            <p>{fetchOne.Introduction}</p>
           </div>
         </div>
       </div>
-      <PetDetailButton Name={Name} />
+      <PetDetailButton fetchOne={fetchOne} />
     </>
   );
 }

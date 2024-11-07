@@ -36,8 +36,6 @@ export default function ComReserve(props) {
     ],
     processData
   });
-  console.log(nowPageItems);
-  
   const [iconStates, setIconStates] = useState({});
   const handleClick = (index) => {
     setIconStates((prevState) => ({
