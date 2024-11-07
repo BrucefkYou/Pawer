@@ -110,7 +110,7 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
 
     // 這邊需要將MemberDiscountMapping表中使用過的優惠券設定為已使用
     const updateCouponSql =
-      'UPDATE MemberDiscountMapping SET Used_Date = ?, Status = 0 WHERE MemberID = ? AND DiscountID = ?'
+      'UPDATE MemberDiscountMapping SET Used_Date = ?, Status = 1 WHERE MemberID = ? AND DiscountID = ?'
     const updateCouponValues = [today, MemberID, CouponID]
 
     await connection.query(updateCouponSql, updateCouponValues)
