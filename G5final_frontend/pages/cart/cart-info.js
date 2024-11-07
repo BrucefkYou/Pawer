@@ -49,7 +49,10 @@ export default function CartInfo(props) {
   const goECPay = () => {
     window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
   };
-
+  // `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
+  // `http://localhost:3005/api/ecpay-test-only?amount=${
+  //   items.filter((item) => item.checked).length
+  // }`;
   const [orderID, setOrderID] = useState(0);
   // 成立訂單
   const createOrder = async (data) => {
@@ -65,16 +68,17 @@ export default function CartInfo(props) {
       });
       const resData = await res.json();
       setOrderID(resData.orderId);
-      if (res.status === 201) {
-        router.push('/cart/success');
-      } else if (res.status === 500) {
-        router.push('/cart/fail');
-      } else {
-        // 處理其他狀態碼
-        console.log('Unexpected response status:', res.status);
-        console.log('Response data:', resData);
-        // 可以在這裡顯示錯誤訊息給用戶
-      }
+
+      // if (res.status === 201) {
+      //   router.push('/cart/success');
+      // } else if (res.status === 500) {
+      //   router.push('/cart/fail');
+      // } else {
+      //   // 處理其他狀態碼
+      //   console.log('Unexpected response status:', res.status);
+      //   console.log('Response data:', resData);
+      //   // 可以在這裡顯示錯誤訊息給用戶
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -173,6 +177,13 @@ export default function CartInfo(props) {
   useEffect(() => {
     calculateDiscountPrice();
   }, [discount, checkedPrice]);
+
+  useEffect(() => {
+    if (selectedPayment === 'credit-card') {
+      goECPay();
+    }
+  }, [orderID]);
+
   return (
     <>
       <div className="cart">
@@ -209,9 +220,6 @@ export default function CartInfo(props) {
                   }),
               };
               createOrder(orderData);
-              if (selectedPayment === 'credit-card') {
-                goECPay();
-              }
             }}
           >
             <div className="row">

@@ -43,7 +43,6 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   let PaymentStatus = 0
   if (selectedPayment === 'credit-card') {
     PaymentMethod = '信用卡'
-    PaymentStatus = 1
   } else if (selectedPayment === 'store') {
     PaymentMethod = '超商取貨付款'
   }
@@ -110,13 +109,6 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     ])
 
     await connection.query(orderDetailsSql, [orderDetailsValues])
-
-    // 這邊需要將MemberDiscountMapping表中使用過的優惠券設定為已使用
-    const updateCouponSql =
-      'UPDATE MemberDiscountMapping SET Used_Date = ?, Status = 1 WHERE MemberID = ? AND DiscountID = ?'
-    const updateCouponValues = [today, MemberID, CouponID]
-
-    await connection.query(updateCouponSql, updateCouponValues)
 
     await connection.commit()
 
