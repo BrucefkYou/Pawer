@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
 import Image from 'next/image';
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
-import ClickIcon from '@/components/icons/click-icon/click-icon';
+import FavoriteIcon from '@/components/product/favorite/FavoriteIcon/FavoriteIcon';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import style from '@/components/product/productDetail.module.scss';
 
@@ -24,7 +24,7 @@ export default function ProductDetail(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3005/api/product');
+        const response = await fetch(`http://localhost:3005/api/product`);
         if (!response.ok) {
           throw new Error('網路回應不成功：' + response.status);
         }
@@ -44,7 +44,7 @@ export default function ProductDetail(props) {
     }
   }, [myId]);
   // 篩選image資料表ProductID為相同product資料表ID的資訊
-  const productImages = fetchData.filter((pd) => pd.ProductID === myId);
+  const productImages = fetchData.filter((pd) => pd.ProductID === pd.id);
   // 處理減少數量的函數
   const handleDecrease = () => {
     setProductQuantity((prevQuantity) =>
@@ -150,9 +150,10 @@ export default function ProductDetail(props) {
                 {/* 收藏圖 */}
                 <div className="col d-flex justify-content-end">
                   <div className={`${style['pdsvg-favorite']}`}>
-                    <ClickIcon
+                    <FavoriteIcon
                       IconFilled={BsBookmarkFill}
                       IconOutline={BsBookmark}
+                      pd={myId}
                     />
                   </div>
                 </div>

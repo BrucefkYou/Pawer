@@ -8,7 +8,7 @@ Index.getLayout = function getLayout(page) {
 export default function Index(props) {
   return (
     <>
-      <div>index</div>
+      <div>您沒有收藏的商品</div>
     </>
   );
 }
