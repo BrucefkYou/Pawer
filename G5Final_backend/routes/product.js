@@ -1,5 +1,6 @@
 import express from 'express'
 import db2 from '../configs/mysql.js'
+
 const router = express.Router()
 
 // 商品資料
@@ -99,6 +100,37 @@ router.get('/other', async function (req, res, next) {
   }
 })
 
+// 加入收藏
+router.put('/favorite', async function (req, res) {
+  const { pid, uid } = req.body
+  console.log(req.body)
+  try {
+    const [rows] = await db2.query(
+      `INSERT INTO favorite (pid, uid) VALUES (?, ?)`,
+      [pid, uid]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('新增收藏時發生錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
+// 取消收藏
+router.delete('/favorite', async function (req, res) {
+  const { pid, uid } = req.body
+  try {
+    const [rows] = await db2.query(
+      `DELETE FROM favorite WHERE pid = ? AND uid = ?`,
+      [pid, uid]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('刪除收藏時發生錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
 // :id 這個要在最底下不然會讀不到他下面的
 //明細
 router.get('/:id', async function (req, res, next) {
@@ -111,7 +143,7 @@ router.get('/:id', async function (req, res, next) {
     )
     // 檢查是否有找到資料
     if (rows.length === 0) {
-      return res.status(404).json({ message: '找不到指定的資料' })
+      return res.status(404).json({ message: '這裡是最後一個路由' })
     }
     res.json(rows[0]) // 因為只會有一筆資料，所以直接返回第一個元素
   } catch (err) {
