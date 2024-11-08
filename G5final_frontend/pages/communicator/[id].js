@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import PetDetail from '@/components/pet/pet-detail';
+import PetDetail from '@/components/pet/communicatorDetail/PetDetail';
 
 export default function Id(props) {
   return (
