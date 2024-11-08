@@ -1,10 +1,9 @@
-import Head from 'next/head';
 import ImgPutArea from '@/components/join/img-put-area/img-put-area';
 import Image from 'next/image';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import titlebottomLine from '@/assets/titleBottomLine.svg';
-import dynamic from 'next/dynamic';
-import MySelect from '@/components/join/controlled-form/my-select';
+import TWZipCode from '@/components/join/controlled-form/tw-zipcode';
+// import MySelect from '@/components/join/controlled-form/my-select';
 import Tag from '@/components/join/form/tag';
 // import styles from '@/styles/Articles.module.sass';
 import Link from 'next/link';
@@ -12,25 +11,54 @@ import Myeditor from '@/components/join/CKEditorTest';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-const Publish = () => {
-  const [count, setCount] = useState(0);
+// react-datepicker套件 與其他相關設定
+// moment 處理時間格式
+import { FaRegCalendar } from 'react-icons/fa';
+import moment from 'moment';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { zhCN } from 'date-fns/locale';
+registerLocale('zhCN', zhCN);
 
+const Publish = () => {
+  // 人數上限 +1 -1 按鈕設定
   const handleIncrement = () => {
     setCount(count + 1);
   };
-
   const handleDecrement = () => {
     if (count > 0) {
       setCount(count - 1);
     }
   };
+  // CKEditor 設定
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [data, setData] = useState('');
+
+  // 用moment套件 更改送入資料庫的日期顯示格式
+  const newTime = (time) => moment(time).format('YYYY-MM-DD HH:mm');
+  //  表單資料
+  const [imageName, setImageName] = useState('');
   const [title, setTitle] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [startTime, setStartTime] = useState(newTime);
+  const [endTime, setEndTime] = useState(newTime);
+  const [count, setCount] = useState(0);
+  const [signEndDate, setSignEndDate] = useState(newTime);
+  const [tags, setTags] = useState([]);
+  const [city, setCity] = useState('');
+  const [township, setTownship] = useState('');
+  const [location, setLocation] = useState('');
   const router = useRouter();
 
+  // 只需要上傳圖片名字，不需要圖片本身，也不用imgUrl
+  const handleImageChange = (imgUrl, imageName) => {
+    // setImg(imageUrl);
+    setImageName(imageName);
+  };
+  const handleTagsChange = (newTags) => {
+    setTags(newTags);
+  };
+
+  // 執行送出表單
   const saveToDo = async () => {
     try {
       const response = await fetch('/api/joinin', {
@@ -39,10 +67,17 @@ const Publish = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          imageName,
           title,
+          info: data,
           startTime,
           endTime,
-          joinin: data,
+          count,
+          signEndDate,
+          city,
+          township,
+          location,
+          tags,
         }),
       });
 
@@ -84,7 +119,7 @@ const Publish = () => {
             </div>
             <div className="card mb-3">
               <div className="card-body">
-                <ImgPutArea />
+                <ImgPutArea onImageChange={handleImageChange} />
               </div>
             </div>
           </div>
@@ -132,14 +167,14 @@ const Publish = () => {
                     <label htmlFor="StartTime" className="form-label col-3">
                       活動開始時間
                     </label>
-                    <input
-                      id="StartTime"
-                      name="StartTime"
-                      type="datetime-local"
-                      className="form-control flatpickr-no-config flatpickr-input active"
-                      placeholder="活動開始時間"
-                      required
-                      onChange={(e) => setStartTime(e.target.value)}
+                    <DatePicker
+                      showIcon
+                      icon={<FaRegCalendar />}
+                      selected={startTime}
+                      onChange={(date) => setStartTime(newTime(date))}
+                      timeInputLabel="Time:"
+                      dateFormat="yyyy/MM/dd HH:mm"
+                      showTimeInput
                     />
                   </div>
 
@@ -147,14 +182,14 @@ const Publish = () => {
                     <label htmlFor="EndTime" className="form-label col-3">
                       活動結束時間
                     </label>
-                    <input
-                      id="EndTime"
-                      name="EndTime"
-                      type="datetime-local"
-                      className="form-control  flatpickr-no-config flatpickr-input active "
-                      placeholder="結束時間"
-                      required
-                      onChange={(e) => setEndTime(e.target.value)}
+                    <DatePicker
+                      showIcon
+                      icon={<FaRegCalendar />}
+                      selected={endTime}
+                      onChange={(date) => setEndTime(newTime(date))}
+                      timeInputLabel="Time:"
+                      dateFormat="yyyy/MM/dd HH:mm"
+                      showTimeInput
                     />
                   </div>
                 </div>
@@ -197,25 +232,36 @@ const Publish = () => {
                     <label htmlFor="SignEndTime" className="form-label col-3">
                       截團時間
                     </label>
-                    <input
-                      id="SignEndTime"
-                      name="SignEndTime"
-                      type="datetime-local"
-                      className="form-control  flatpickr-no-config flatpickr-input active "
-                      placeholder="截團時間"
-                      required
+                    <DatePicker
+                      showIcon
+                      icon={<FaRegCalendar />}
+                      selected={signEndDate}
+                      onChange={(date) => setSignEndDate(newTime(date))}
+                      timeInputLabel="Time:"
+                      dateFormat="yyyy/MM/dd HH:mm"
+                      showTimeInput
                     />
                   </div>
                 </div>
               </div>
               <div id="join-address" className="mb-3">
-                <MySelect />
+                <TWZipCode
+                  city={city}
+                  township={township}
+                  location={location}
+                  setCity={setCity}
+                  setTownship={setTownship}
+                  setLocation={setLocation}
+                />
+                {/* <MySelect data={addressData} setData={setAddressData} /> */}
               </div>
               <div className="mb-3">
                 <Tag
                   label="活動標籤"
                   placeholder="輸入活動＃標籤，最多三個"
                   tagLength={3}
+                  tags={tags}
+                  setTags={handleTagsChange}
                 />
               </div>
               {/* Tag 輸入框區 */}
@@ -226,7 +272,10 @@ const Publish = () => {
               id="send"
               // type="submit"
               className="btn btn-primary rounded-2 ji-pr-btn"
-              onClick={saveToDo}
+              onClick={(e) => {
+                e.preventDefault();
+                saveToDo();
+              }}
             >
               預覽
             </button>
@@ -235,7 +284,13 @@ const Publish = () => {
       </div>
 
       <div className="input-group mt-2">
-        <button className="btn btn-primary ms-auto" onClick={saveToDo}>
+        <button
+          className="btn btn-primary ms-auto"
+          onClick={(e) => {
+            e.preventDefault();
+            saveToDo();
+          }}
+        >
           送出
         </button>
       </div>

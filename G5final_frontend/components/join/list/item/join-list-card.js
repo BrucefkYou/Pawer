@@ -39,7 +39,7 @@ export default function JoinListCard({
               <p className="text-body-tertiary mb-2">
                 <BsPersonPlusFill className="me-1" />
                 <span className="align-middle">
-                  {data.SignCount}/ {data.ParticipantLimit}
+                  {data.SignCount} / {data.ParticipantLimit}
                 </span>
               </p>
             </div>

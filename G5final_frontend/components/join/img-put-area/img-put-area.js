@@ -1,20 +1,29 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useCallback } from 'react';
 import style from './img-put-area.module.scss';
+import { BsCardImage } from "react-icons/bs";
 import { useDropzone } from 'react-dropzone';
 
-export default function ImgPutArea(props) {
+export default function ImgPutArea({ onImageChange }) {
   const [image, setImage] = useState(null);
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    setImage(URL.createObjectURL(file));
-  }, []);
+  const onDrop = useCallback(
+    async (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      // URL.createObjectURL() 會建立一個創建一個臨時的 URL，在不將檔案上傳到伺服器的情況下，能夠在前端顯示圖片的預覽
+      const imageUrl = URL.createObjectURL(file);
+      const imageName = file.name;
+      setImage(imageUrl);
+      onImageChange(imageUrl, imageName); // 修改這行代碼來傳遞圖片 URL 和檔名
+    },
+    [onImageChange]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleDelete = () => {
     setImage(null);
+    onImageChange(null, null); // 修改這行代碼來傳遞 null 值
   };
 
   return (
@@ -32,7 +41,11 @@ export default function ImgPutArea(props) {
             </button>
           </div>
         ) : (
-          <p className="align-middle">點擊或拖放文件到這裡上傳</p>
+          <>
+          <p className={`${style['droptext']} text-body-tertiary`}>點擊此處或拖放圖片上傳
+          </p>
+          <p className={`${style["photo"]} text-body-tertiary`} ><BsCardImage/></p>
+          </>
         )}
       </div>
     </>
