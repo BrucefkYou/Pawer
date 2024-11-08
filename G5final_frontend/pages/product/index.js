@@ -187,7 +187,7 @@ export default function Index(props) {
                 ) : (
                   // 若有結果，顯示 ProductList
                   nowPageItems.map((pd) => {
-                    return <ProductList key={pd.ID} pd={pd} />;
+                    return <ProductList key={pd.ID} pd={pd} setUrl={setUrl} />;
                   })
                 )}
               </div>

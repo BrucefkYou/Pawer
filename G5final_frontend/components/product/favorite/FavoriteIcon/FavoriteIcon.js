@@ -8,14 +8,22 @@ import toast from 'react-hot-toast';
 import Image from 'next/image';
 import logo from 'public/LOGO.svg';
 
-const IconToggle = ({ iconStatus, IconFilled, IconOutline }) =>
+const IconToggle = ({ iconStatus, IconFilled, IconOutline, setUrl }) =>
   iconStatus ? <IconFilled /> : <IconOutline />;
-
-export default function FavoriteIcon({ IconFilled, IconOutline, count, pd }) {
+// 這邊是最後一層第四層 有兩個地方要帶 IconToggle 跟 CountIcon
+export default function FavoriteIcon({
+  IconFilled,
+  IconOutline,
+  count,
+  pd,
+  nowPageItems,
+  setUrl,
+}) {
   const { auth } = useAuth();
   const id = auth.memberData.id;
   const [iconStatus, setIconStatus] = useState(false);
   const [currentCount, setCurrentCount] = useState(count);
+  console.log(nowPageItems);
 
   const CountIcon = () => {
     if (!id) {
@@ -31,6 +39,9 @@ export default function FavoriteIcon({ IconFilled, IconOutline, count, pd }) {
       });
       return;
     }
+
+    // setUrl('http://localhost:3005/api/product/member/favorites');
+    // 有bug 會員頁移除 列表頁就壞掉 看要reload重整還是要繼續研究立即執行
 
     const addFv = async () => {
       console.log({ pid: pd, uid: id });
@@ -105,6 +116,7 @@ export default function FavoriteIcon({ IconFilled, IconOutline, count, pd }) {
           },
         });
       }
+
       return newStatus;
     });
   };
@@ -137,6 +149,7 @@ export default function FavoriteIcon({ IconFilled, IconOutline, count, pd }) {
     <div className={styles['click-icon']}>
       <div type="button" className={styles['icon-btn']} onClick={CountIcon}>
         <IconToggle
+          setUrl={setUrl}
           iconStatus={iconStatus}
           IconFilled={IconFilled}
           IconOutline={IconOutline}
