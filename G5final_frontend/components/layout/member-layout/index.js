@@ -15,9 +15,7 @@ export default function MemberLayout({ children }) {
               {/* <aside className="col-3 d-none d-lg-block"> */}
               <MbSideBar />
             </aside>
-            <article className="col-md-9">
-              {children}
-            </article>
+            <article className="col-md-9">{children}</article>
           </div>
         </div>
       </main>

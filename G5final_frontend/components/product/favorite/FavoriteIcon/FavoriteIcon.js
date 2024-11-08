@@ -40,7 +40,7 @@ export default function FavoriteIcon({ IconFilled, IconOutline, count, pd }) {
           {
             method: 'PUT',
             headers: {
-              'Content-Type': 'application/json', // 設置 Content-Type
+              'Content-Type': 'application/json', // 變字串
             },
             body: JSON.stringify({ pid: pd, uid: id }),
           }
