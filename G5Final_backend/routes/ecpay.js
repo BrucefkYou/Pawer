@@ -1,6 +1,8 @@
 import express from 'express'
 const router = express.Router()
 
+import moment from 'moment'
+
 import * as crypto from 'crypto'
 // 存取`.env`設定檔案使用
 import 'dotenv/config.js'
@@ -62,6 +64,7 @@ router.get('/payment', authenticate, async (req, res, next) => {
   }
   const memberId = orderRecord.MemberID
   const couponId = orderRecord.CouponID
+  const orderNumber = orderRecord.OrderNumber
 
   console.log('獲得訂單資料，內容如下：' + orderRecord)
 
@@ -127,6 +130,7 @@ router.get('/payment', authenticate, async (req, res, next) => {
     CustomField1: orderId,
     CustomField2: memberId,
     CustomField3: couponId,
+    CustomField4: orderNumber,
   }
 
   //四、計算 CheckMacValue
@@ -229,6 +233,7 @@ router.post('/result', async (req, res, next) => {
   const OrderID = req.body.CustomField1
   const MemberID = req.body.CustomField2
   const CouponID = req.body.CustomField3
+  const OrderNumber = req.body.CustomField4
 
   // res.send('綠界回傳的資料如下：' + JSON.stringify(req.body))
   // 寫入資料表 RtnCode === '1' 代表交易成功
@@ -238,14 +243,12 @@ router.post('/result', async (req, res, next) => {
     await connection.beginTransaction()
 
     // 獲得現在時間
-    const now = new Date()
-    // 轉換格式為 'YYYY-MM-DD HH:MM:SS'
-    const today = now.toISOString().slice(0, 19).replace('T', ' ')
+    const now = moment().format('YYYY-MM-DD HH:mm:ss')
 
     // 這邊需要將MemberDiscountMapping表中使用過的優惠券設定為已使用
     const updateCouponSql =
       'UPDATE MemberDiscountMapping SET Used_Date = ?, Status = 1 WHERE MemberID = ? AND DiscountID = ?'
-    const updateCouponValues = [today, MemberID, CouponID]
+    const updateCouponValues = [now, MemberID, CouponID]
 
     await connection.query(updateCouponSql, updateCouponValues)
 

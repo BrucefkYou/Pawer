@@ -1,17 +1,17 @@
 import express from 'express'
 import db2 from '../configs/mysql.js'
 import authenticate from '##/middlewares/authenticate.js'
+import moment from 'moment'
 const router = express.Router()
-const now = new Date()
-// 獲得現在時間，格式為 'YYYY-MM-DD HH:MM:SS'
-const today = now.toISOString().slice(0, 19).replace('T', ' ')
+// 獲得現在時間
+const now = moment().format('YYYY-MM-DD HH:mm:ss')
 
 /* GET home page. */
 // 獲得全部discount資料
 router.get('/getValidDiscount', async function (req, res, next) {
   try {
     const [rows] = await db2.query(`SELECT * FROM Discount WHERE EndTime > ?`, [
-      today,
+      now,
     ])
     res.json(rows)
   } catch (err) {
@@ -31,7 +31,7 @@ router.post('/registerDiscount', authenticate, async function (req, res, next) {
   INSERT INTO MemberDiscountMapping (MemberID, DiscountID, 	Received_Date, Status)
   VALUES (?, ?, ?, 0)
 `
-  const value = [MemberID, DiscountID, today]
+  const value = [MemberID, DiscountID, now]
   try {
     const [rows] = await db2.query(sql, value)
     res.status(200).json(rows)
@@ -52,7 +52,7 @@ router.post('/getMemberDicount', authenticate, async function (req, res, next) {
     AND mdm.Status = 0
     AND d.IsValid = 1
 `
-  const value = [memberID, today]
+  const value = [memberID, now]
   try {
     const [rows] = await db2.query(sql, value)
     res.status(200).json(rows)

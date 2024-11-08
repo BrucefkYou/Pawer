@@ -1,6 +1,7 @@
 import authenticate from '##/middlewares/authenticate.js'
 import express from 'express'
 import db from '##/configs/mysql.js'
+import moment from 'moment'
 const router = express.Router()
 
 /* GET home page. */
@@ -65,9 +66,16 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   }
 
   // 獲得現在時間
-  const now = new Date()
-  // 轉換格式為 'YYYY-MM-DD HH:MM:SS'
-  const today = now.toISOString().slice(0, 19).replace('T', ' ')
+  const now = moment().format('YYYY-MM-DD HH:mm:ss')
+
+  // 生成流水編號
+  // 使用 Date.now() 生成當前的毫秒級時間戳
+  const timestamp = Date.now()
+
+  // 隨機數部分（3位數）
+  const random = Math.floor(Math.random() * 900) + 100 // 生成 100-999 的隨機數
+
+  const OrderNumber = `EC${timestamp}${random}`
 
   // 開始資料庫事務
   const connection = await db.getConnection()
@@ -76,9 +84,11 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   try {
     // 執行訂單插入
     const orderSql =
-      'INSERT INTO `Order` (MemberID, ProductsAmount, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+      'INSERT INTO `Order` (OrderNumber, MemberID, Date, ProductsAmount, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     const orderValues = [
+      OrderNumber,
       MemberID,
+      now,
       ProductsAmount,
       TotalPrice,
       CouponID || 0,
