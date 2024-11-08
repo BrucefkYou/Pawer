@@ -98,7 +98,10 @@ body {
     padding-left: 0.25rem;
   }
 }
-
+//麵包屑高度
+.breadcrumb{
+    margin-block: 40px;
+}
 // 網頁內容適應高度
 main {
   padding-top: 84px;
@@ -107,7 +110,11 @@ main {
 // RWD樣式管理 斷點:992px & 768px
 
 @media (max-width: 768px) {
+  .breadcrumb{
+    margin-block: 0px;
+}
   main {
     padding-top: 60px;
   }
 }
+

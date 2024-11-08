@@ -5,7 +5,7 @@ import { useAuth } from './use-auth';
 export function usePagination({
   url = '',
   needSort = [],
-  needFilter = [{ id: 1, label: '', filterRule: '', filterName: '' }],
+  needFilter = [],
   needSearchbar = [],
   processData = null,
   //在初次狀態處理前先做處理
