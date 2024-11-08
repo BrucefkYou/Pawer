@@ -79,5 +79,32 @@ router.post('/reserve', upload.none(), async function (req, res, next) {
     res.status(500).send(err)
   }
 })
+//師資刊登修改
+router.post(
+  '/communicatorEdit',
+  upload.none(),
+  async function (req, res, next) {
+    // 先處理checkbox陣列成字串
+    let Approach = ''
+    if (Array.isArray(req.body.Approach)) {
+      Approach = req.body.Approach.join(',')
+    } else {
+      Approach = req.body.Approach
+    }
+    //解構
+    const { ID, Name, Service, Email, Fee, Introduction } = req.body
+
+    try {
+      const [rows] = await db2.query(
+        `UPDATE PetCommunicator SET Name = ?, Service = ?, Approach = ?, Fee = ?, Email = ?, Introduction = ? WHERE ID = ?`,
+        [Name, Service, Approach, Fee, Email, Introduction, ID]
+      )
+      res.json(rows)
+    } catch (err) {
+      console.error('查詢錯誤：', err)
+      res.status(500).send(err)
+    }
+  }
+)
 
 export default router
