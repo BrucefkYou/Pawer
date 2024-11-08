@@ -1,6 +1,16 @@
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
+import { useCart } from '@/hooks/use-cart/use-cart-state';
 
 export default function Success(props) {
+  const { cart, clearCart } = useCart();
+
+  useEffect(() => {
+    clearCart();
+    localStorage.removeItem('store7-11');
+    localStorage.removeItem('discount');
+  }, []);
+
   return (
     <>
       <div className="cart">
@@ -8,7 +18,7 @@ export default function Success(props) {
           <div className="container">
             {/* 付款成功區塊 */}
             <section className="success-block">
-              <div className>
+              <div>
                 <svg
                   width={80}
                   height={81}
@@ -42,8 +52,16 @@ export default function Success(props) {
                 </div>
               </div>
               {/* !這邊的按鈕應該要是繼續購物＆查看訂單 */}
-              <div className="check-block">
-                <button className="check-btn">確認付款</button>
+              <div className="check-block row row-cols-lg-2 row-cols-1">
+                <Link
+                  className="check-btn btn btn-secondary mr10"
+                  href="/product"
+                >
+                  繼續購物
+                </Link>
+                <Link className="check-btn btn btn-checkOrder" href="/product">
+                  查看訂單
+                </Link>
               </div>
             </section>
           </div>

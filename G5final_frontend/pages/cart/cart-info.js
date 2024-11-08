@@ -49,7 +49,10 @@ export default function CartInfo(props) {
   const goECPay = () => {
     window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
   };
-
+  // `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
+  // `http://localhost:3005/api/ecpay-test-only?amount=${
+  //   items.filter((item) => item.checked).length
+  // }`;
   const [orderID, setOrderID] = useState(0);
   // 成立訂單
   const createOrder = async (data) => {
@@ -65,17 +68,17 @@ export default function CartInfo(props) {
       });
       const resData = await res.json();
       setOrderID(resData.orderId);
-      console.log(orderID);
-      if (res.status === 201) {
-        router.push('/cart/success');
-      } else if (res.status === 500) {
-        router.push('/cart/fail');
-      } else {
-        // 處理其他狀態碼
-        console.log('Unexpected response status:', res.status);
-        console.log('Response data:', resData);
-        // 可以在這裡顯示錯誤訊息給用戶
-      }
+
+      // if (res.status === 201) {
+      //   router.push('/cart/success');
+      // } else if (res.status === 500) {
+      //   router.push('/cart/fail');
+      // } else {
+      //   // 處理其他狀態碼
+      //   console.log('Unexpected response status:', res.status);
+      //   console.log('Response data:', resData);
+      //   // 可以在這裡顯示錯誤訊息給用戶
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -174,6 +177,13 @@ export default function CartInfo(props) {
   useEffect(() => {
     calculateDiscountPrice();
   }, [discount, checkedPrice]);
+
+  useEffect(() => {
+    if (selectedPayment === 'credit-card') {
+      goECPay();
+    }
+  }, [orderID]);
+
   return (
     <>
       <div className="cart">
@@ -183,6 +193,7 @@ export default function CartInfo(props) {
               e.preventDefault();
               const orderData = {
                 MemberID: auth.memberData.id,
+                ProductsAmount: items.filter((item) => item.checked).length,
                 CouponID: discount.ID,
                 Receiver: receiver,
                 ReceiverPhone: phone,
@@ -209,23 +220,10 @@ export default function CartInfo(props) {
                   }),
               };
               createOrder(orderData);
-              if (selectedPayment === 'credit-card') {
-                goECPay();
-              }
             }}
           >
             <div className="row">
               {/* 麵包屑 */}
-              {/* <div className="productList-crumb-wei col-sm-9 col-5">
-                <a href="./index">首頁</a>/
-                <a className="active" href="./cart">
-                  購物車
-                </a>
-                /
-                <a className="active" href="./cart-info">
-                  結帳
-                </a>
-              </div> */}
               <Breadcrumbs />
             </div>
             <div className="cart-info">

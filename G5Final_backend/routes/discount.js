@@ -64,6 +64,6 @@ router.post('/getMemberDicount', authenticate, async function (req, res, next) {
 
 // 根據id從mapping表裡面撈資料，篩選條件為日期、id、status
 // status設定用過的優惠券為0，未使用的為1
-router.get('/:id', function (req, res, next) {})
+// router.get('/:id', function (req, res, next) {})
 
 export default router

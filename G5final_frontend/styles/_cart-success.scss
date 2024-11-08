@@ -31,9 +31,11 @@
       /* 確認付款按鈕 */
       .check-btn {
         /* 設定外誆 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 189px;
         height: 43px;
-        background-color: var(--second-color);
         color: #ffffff;
         border: none;
         border-radius: 8px;
@@ -41,14 +43,16 @@
         font-size: 16px;
         font-style: normal;
         font-weight: 700;
-        line-height: normal;
         letter-spacing: 3.2px;
         &:hover {
-          background-color: #f3cc7e;
+          background-color: $warning;
         }
         &:checked {
           background-color: #c58c1a;
         }
+      }
+      .btn-checkOrder{
+        background-color: $primary;
       }
     }
   }
@@ -82,6 +86,9 @@
       }
       /* 確認付款按鈕 */
       .check-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         /* 設定外誆 */
         width: 189px;
         height: 43px;
@@ -96,11 +103,14 @@
         line-height: normal;
         letter-spacing: 3.2px;
         &:hover {
-          background-color: #f3cc7e;
+          background-color: $warning;
         }
         &:checked {
           background-color: #c58c1a;
         }
+      }
+      .btn-checkOrder{
+        background-color: $primary;
       }
     }
   }
@@ -135,9 +145,12 @@
       }
       /* 確認付款按鈕 */
       .check-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         /* 設定外誆 */
-        width: 189px;
-        height: 43px;
+        width: 100px;
+        height: 35px;
         background-color: var(--second-color);
         color: #ffffff;
         border: none;
@@ -149,11 +162,14 @@
         line-height: normal;
         letter-spacing: 3.2px;
         &:hover {
-          background-color: #f3cc7e;
+          background-color: $warning;
         }
         &:checked {
           background-color: #c58c1a;
         }
+      }
+      .btn-checkOrder{
+        background-color: $primary;
       }
     }
   }
