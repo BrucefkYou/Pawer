@@ -21,8 +21,6 @@ export default function Detail(props) {
 
   const { nowPageItems } = usePagination({
     url: 'http://localhost:3005/api/pet',
-    needSort: [],
-    needFilter: [],
     processData,
   });
 

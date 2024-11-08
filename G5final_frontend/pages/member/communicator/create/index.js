@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MemberLayout from '@/components/layout/member-layout';
 import { useAuth } from '@/hooks/use-auth';
+import toast, { Toaster } from 'react-hot-toast';
 Create.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
@@ -16,24 +17,37 @@ export default function Create(props) {
     try { 
       fetch("http://localhost:3005/api/pet/communicatorCreate", {
         method: "POST",
-        body: formData
+        body: formData,
+        
       })
+      toast('Hello Darkness!',
+        {
+          icon: '👏',
+          duration:2000,
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
+      
     } catch (err) {console.log(err);
      }
   }
   const [imagePreview, setImagePreview] = useState()
   console.log(imagePreview);
   
-  // const handleImageUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setImagePreview(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+  const changeImg = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <>
       <div className="PT-create">
@@ -66,7 +80,7 @@ export default function Create(props) {
                 {/* 照片 */}
                 <div className="col-12 col-lg-4 d-flex pic-wrapper">
                   <div className="pic">
-                    {/* <label htmlFor="file-upload" style={{ cursor: 'pointer' }}>
+                    <label htmlFor="file-upload" style={{ cursor: 'pointer' }}>
                       {imagePreview ? (
                         <img src={imagePreview} alt="上傳圖片" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (<svg
@@ -90,10 +104,12 @@ export default function Create(props) {
                           fill="#777777"
                         />
                       </svg>)}
-                    </label> */}
+                    </label>
                     <input
                       id="file-upload"
+                      style={{display : 'none'}}
                       type="file"
+                      onChange={changeImg}
                       accept="image/*"
                       name="pic"
                     />

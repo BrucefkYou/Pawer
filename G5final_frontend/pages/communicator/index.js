@@ -25,7 +25,7 @@ export default function communicator(props) {
     chooseSort,
     updateSearch,
   } = usePagination({
-    url: 'http://localhost:3005/api/pet',
+    url: 'http://localhost:3005/api/pet/list',
     needSearchbar: ['ID', 'Name','CertificateDate'],
     needSort: [
       { way: 'desc-Name', name: '名稱英文開頭' },
@@ -35,7 +35,6 @@ export default function communicator(props) {
       { way: 'asc-CertificateDate', name: '取證日期-遠' },
       { way: 'desc-CertificateDate', name: '取證日期-近' },
     ],
-    needFilter:[]
   });
   return (
     <>
