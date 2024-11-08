@@ -3,7 +3,7 @@ import db2 from '../configs/mysql.js'
 
 const router = express.Router()
 
-// 商品資料
+// 商品列表頁
 router.get('/', async function (req, res, next) {
   try {
     const [rows] = await db2.query(
@@ -143,6 +143,40 @@ router.get('/check-favorite', async (req, res) => {
   } catch (err) {
     console.error('檢查錯誤：', err)
     res.status(500).send(err)
+  }
+})
+
+// 會員頁撈收藏的商品
+router.get('/member/favorite', async function (req, res, next) {
+  const { uid } = req.query // 獲取 uid
+
+  if (!uid) {
+    return res.status(400).json({ error: '缺少會員ID' })
+  }
+
+  try {
+    const [rows] = await db2.query(
+      `
+      SELECT 
+          Favorite.*, 
+          Member.ID AS ID, 
+          Product.* 
+      FROM 
+          Favorite 
+      LEFT JOIN 
+          Member ON Favorite.uid = Member.ID 
+      LEFT JOIN 
+          Product ON Favorite.pid = Product.ID
+      WHERE 
+          Favorite.UID = ?
+      `,
+      [uid]
+    )
+
+    res.json(rows) // 返回所有收藏商品及會員資料
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    return res.status(500).json({ error: '伺服器錯誤，請稍後再試' })
   }
 })
 
