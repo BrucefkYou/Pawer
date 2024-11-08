@@ -35,7 +35,7 @@ export default async function (sequelize) {
         allowNull: true,
       },
       CertificateDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: true,
       },
       Service: {

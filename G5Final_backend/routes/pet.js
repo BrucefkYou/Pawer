@@ -1,12 +1,34 @@
 import express from 'express'
 import db2 from '../configs/mysql.js'
+// 中介軟體處理上傳檔案
 import multer from 'multer'
+// 取副檔名工具
+import { extname } from 'path'
 const router = express.Router()
-const upload = multer()
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: 'public/pet', // 儲存資料夾路徑
+    filename: (req, file, cb) =>
+      cb(null, `${Date.now()}${extname(file.originalname)}`), // 唯一檔名
+  }),
+})
+
 // 全部資料抓取
 router.get('/', async function (req, res, next) {
   try {
-    const [rows] = await db2.query('SELECT * FROM `PetCommunicator`')
+    const [rows] = await db2.query(`SELECT * FROM PetCommunicator `)
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+//
+router.get('/list', async function (req, res, next) {
+  try {
+    const [rows] = await db2.query(
+      `SELECT * FROM PetCommunicator WHERE Status = '已刊登'`
+    )
     res.json(rows)
   } catch (err) {
     console.error('查詢錯誤：', err)
@@ -100,6 +122,31 @@ router.post(
         [Name, Service, Approach, Fee, Email, Introduction, ID]
       )
       res.json(rows)
+    } catch (err) {
+      console.error('查詢錯誤：', err)
+      res.status(500).send(err)
+    }
+  }
+)
+//註冊成爲溝通師
+router.post(
+  '/communicatorCreate',
+  upload.single('pic'),
+  async function (req, res, next) {
+    const { MemberID, RealName, Certificateid, CertificateDate } = req.body
+    let Img = ''
+    if (req.file) {
+      Img = req.file.filename
+    }
+    try {
+      // const [rows] = await db2.query(
+      //   `INSERT INTO PetCommunicator
+      // (MemberID, RealName, Certificateid, CertificateDate, Status,Img)
+      // VALUES (?, ?, ?, ?, ?,?)`,
+      //   [MemberID, RealName, Certificateid, CertificateDate, '未刊登', Img]
+      // )
+      // res.json([rows])
+      console.log('資料上傳成功')
     } catch (err) {
       console.error('查詢錯誤：', err)
       res.status(500).send(err)

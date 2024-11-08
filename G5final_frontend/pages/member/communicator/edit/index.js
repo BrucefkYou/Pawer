@@ -43,7 +43,6 @@ export default function Edit(props) {
   <>
       {nowPageItems.map((mydata) => < React.Fragment key={mydata.ID || i} >
         <div className="PT-mydetail-edit">
-
           <form id='edit' onSubmit={submitForm}>
             {/* 第一張卡 */}
             <div className="sec1 p-4">
@@ -54,7 +53,7 @@ export default function Edit(props) {
                 <div className="col-12 col-md-4 d-flex justify-content-center align-items-center">
                   {/* 頭像 */}
                   <div className="avatar d-flex justify-content-center ">
-                    <Image alt='avtar' src={`/pet/images/${mydata.Img}`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />
+                    <Image alt='avtar' src={`http://localhost:3005/pet/${mydata.Img}`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />
                   </div>
                 </div>
                 <div className="col-12 col-md-8">
@@ -64,7 +63,6 @@ export default function Edit(props) {
                     name='ID'
                   />
                   <div className="row my-3">
-                    
                     <div className="col-4">
                       溝通師刊登名稱
                       <span style={{ color: 'red' }}>*</span>
