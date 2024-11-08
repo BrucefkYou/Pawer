@@ -53,7 +53,7 @@ export default function Edit(props) {
                 <div className="col-12 col-md-4 d-flex justify-content-center align-items-center">
                   {/* 頭像 */}
                   <div className="avatar d-flex justify-content-center ">
-                    <Image alt='avtar' src={`/pet/images/${mydata.Img}`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />
+                    <Image alt='avtar' src={`http://localhost:3005/pet/${mydata.Img}`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />
                   </div>
                 </div>
                 <div className="col-12 col-md-8">

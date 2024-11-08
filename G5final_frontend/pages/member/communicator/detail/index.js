@@ -58,7 +58,7 @@ export default function Detail(props) {
             <div className="row content-1">
             <div className="col-12 col-md-4 d-flex justify-content-center align-items-center">
                 <div className="avatar d-flex justify-content-center align-items-center">
-                <Image alt='avatar' src={`/pet/images/${mydata.Img}`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />
+                <Image alt='avatar' src={`http://localhost:3005/pet/${mydata.Img}`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />
                 </div>
               </div>
               <div className="col-12 col-md-8">
