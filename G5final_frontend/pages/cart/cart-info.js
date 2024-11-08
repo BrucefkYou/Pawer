@@ -250,7 +250,7 @@ export default function CartInfo(props) {
                         type="checkbox"
                         name="discountCheck"
                         id="discountCheck"
-                        checked={discount.checked}
+                        checked={discount.checked ? 'checked' : false}
                         onChange={handleDiscountChange}
                       />
                       優惠券
