@@ -43,7 +43,6 @@ export default function Edit(props) {
   <>
       {nowPageItems.map((mydata) => < React.Fragment key={mydata.ID || i} >
         <div className="PT-mydetail-edit">
-
           <form id='edit' onSubmit={submitForm}>
             {/* 第一張卡 */}
             <div className="sec1 p-4">
@@ -64,7 +63,6 @@ export default function Edit(props) {
                     name='ID'
                   />
                   <div className="row my-3">
-                    
                     <div className="col-4">
                       溝通師刊登名稱
                       <span style={{ color: 'red' }}>*</span>

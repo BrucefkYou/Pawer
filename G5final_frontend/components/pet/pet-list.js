@@ -16,7 +16,7 @@ export default function PetList({v}) {
             <div className="pet-teachercard-yen position-relative m-3" key={v.ID}>
               <Image
                 className="imgg"
-                src={`/pet/images/${v.Img}`}
+            src={`http://localhost:3005/pet/${v.Img}`}
                 alt="1"
                 width={400}
                 height={400}

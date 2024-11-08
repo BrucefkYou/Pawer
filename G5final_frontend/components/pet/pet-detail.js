@@ -44,7 +44,7 @@ export default function PetDetail(props) {
         <div className="col-lg-4 d-flex avatar-wrapper">
           <div className="avatar">
               <Image
-                src={`/pet/images/${fetchOne.Img}`}
+              src={`http://localhost:3005/pet/${fetchOne.Img}`}
                 alt="1"
                 width={300}
                 height={300}
