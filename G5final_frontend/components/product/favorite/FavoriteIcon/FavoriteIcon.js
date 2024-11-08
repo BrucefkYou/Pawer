@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
-import styles from './click-icon.module.scss';
+import styles from '@/components/product/favorite/FavoriteIcon/FavoriteIcon.module.scss';
 import { useAuth } from '@/hooks/use-auth';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
@@ -11,7 +11,7 @@ import logo from 'public/LOGO.svg';
 const IconToggle = ({ iconStatus, IconFilled, IconOutline }) =>
   iconStatus ? <IconFilled /> : <IconOutline />;
 
-export default function ClickIcon({ IconFilled, IconOutline, count, pd }) {
+export default function FavoriteIcon({ IconFilled, IconOutline, count, pd }) {
   const { auth } = useAuth();
   const id = auth.memberData.id;
   const [iconStatus, setIconStatus] = useState(false);
@@ -112,6 +112,26 @@ export default function ClickIcon({ IconFilled, IconOutline, count, pd }) {
   useEffect(() => {
     setCurrentCount(count);
   }, [count]);
+
+  useEffect(() => {
+    // 檢查該商品是否已被收藏
+    const checkFavoriteStatus = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3005/api/product/check-favorite?pid=${pd}&uid=${id}`
+        );
+        if (!response.ok) throw new Error('無法確認收藏狀態');
+        const result = await response.json();
+        setIconStatus(result.isFavorite); // 根據回傳值設定收藏狀態
+      } catch (error) {
+        console.error('檢查收藏狀態時發生錯誤', error);
+      }
+    };
+
+    if (id) {
+      checkFavoriteStatus();
+    }
+  }, [id, pd]); // 當 id 或商品 ID 發生變化時重新檢查
 
   return (
     <div className={styles['click-icon']}>

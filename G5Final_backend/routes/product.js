@@ -131,6 +131,21 @@ router.delete('/favorite', async function (req, res) {
   }
 })
 
+// 檢查收藏狀態
+router.get('/check-favorite', async (req, res) => {
+  const { pid, uid } = req.query
+  try {
+    const [rows] = await db2.query(
+      `SELECT * FROM favorite WHERE pid = ? AND uid = ?`,
+      [pid, uid]
+    )
+    res.json({ isFavorite: rows.length > 0 })
+  } catch (err) {
+    console.error('檢查錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
 // :id 這個要在最底下不然會讀不到他下面的
 //明細
 router.get('/:id', async function (req, res, next) {

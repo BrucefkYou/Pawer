@@ -5,7 +5,7 @@ import style from '@/components/product/productList.module.scss';
 
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 
-import ClickIcon from '@/components/product/favorite/click-icon/click-icon';
+import FavoriteIcon from '@/components/product/favorite/FavoriteIcon/FavoriteIcon';
 
 export default function ProductList({ pd }) {
   // console.log(pd);
@@ -40,7 +40,7 @@ export default function ProductList({ pd }) {
               <div className="new-nt">{'NT$' + pd.SalePrice}</div>
               {/* 收藏icon */}
               <div className={`${style['pdsvg-favorite']}`}>
-                <ClickIcon
+                <FavoriteIcon
                   IconFilled={BsBookmarkFill}
                   IconOutline={BsBookmark}
                   pd={pd.ID}
