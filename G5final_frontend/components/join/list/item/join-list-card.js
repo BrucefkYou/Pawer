@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/components/join/list/join-list.module.scss';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function JoinListCard({
   iconfillcolor = `${iconfillcolor}`,
@@ -13,6 +14,9 @@ export default function JoinListCard({
   // handleToggleFav = () => {},
 }) {
   const router = useRouter();
+  const { auth } = useAuth();
+  const id = auth.memberData.id;
+  // console.log(id);
   const StartTime = data.StartTime
     ? data.StartTime.replace(/-/g, '/').slice(0, 16)
     : '';
@@ -78,7 +82,11 @@ export default function JoinListCard({
           </h4>
           <div className="text-end">
             <Link
-              href={`./join/${data.ID}`}
+              href={
+                id === data.MemberID
+                  ? `./join/edit/${data.ID}`
+                  : `./join/${data.ID}`
+              }
               // onClick={() => router.push(`./join/${data.ID}`)}
               className="btn text-warning p-0"
             >
