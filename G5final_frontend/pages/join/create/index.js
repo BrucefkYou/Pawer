@@ -12,18 +12,17 @@ import { useAuth } from '@/hooks/use-auth';
 
 // react-datepicker套件 與其他相關設定
 // moment 處理時間格式
-import { BsCalendar } from "react-icons/bs";
+import { BsCalendar } from 'react-icons/bs';
 import moment from 'moment';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { zhCN } from 'date-fns/locale';
 registerLocale('zhCN', zhCN);
 
-
 const Publish = () => {
-// 要先解構出來，才能使用
-const {auth} = useAuth();
-// console.log(auth.memberData.id);
+  // 要先解構出來，才能使用
+  const { auth } = useAuth();
+  // console.log(auth.memberData.id);
 
   // 人數上限 +1 -1 按鈕設定
   const handleIncrement = () => {
@@ -55,13 +54,11 @@ const {auth} = useAuth();
 
   // 只需要上傳圖片名字，不需要圖片本身，也不用imgUrl
   const handleImageChange = (imgUrl, imageName) => {
-    // setImg(imageUrl);
     setImageName(imageName);
   };
   const handleTagsChange = (newTags) => {
     setTags(newTags);
   };
-
 
   // 執行送出表單
   const saveToDo = async () => {
@@ -73,7 +70,7 @@ const {auth} = useAuth();
         },
         body: JSON.stringify({
           imageName,
-          memberId:auth.memberData.id,
+          memberId: auth.memberData.id,
           title,
           info: data,
           startTime,
@@ -89,8 +86,7 @@ const {auth} = useAuth();
       const result = await response.json();
       if (response.ok) {
         alert('資料寫入成功');
-        router.push('/');
-        // 測試先帶入的路徑-首頁，之後要改成正確的路徑
+        router.push('/join');
       } else {
         alert(`寫入失敗: ${result.message}`);
       }

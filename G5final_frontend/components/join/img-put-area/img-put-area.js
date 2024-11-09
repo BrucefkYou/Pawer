@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useCallback } from 'react';
 import style from './img-put-area.module.scss';
-import { BsCardImage } from "react-icons/bs";
+import { BsCardImage } from 'react-icons/bs';
 import { useDropzone } from 'react-dropzone';
 
 export default function ImgPutArea({ onImageChange }) {
@@ -12,14 +12,31 @@ export default function ImgPutArea({ onImageChange }) {
       const file = acceptedFiles[0];
       // URL.createObjectURL() 會建立一個創建一個臨時的 URL，在不將檔案上傳到伺服器的情況下，能夠在前端顯示圖片的預覽
       const imageUrl = URL.createObjectURL(file);
-      const imageName = file.name;
       setImage(imageUrl);
-      onImageChange(imageUrl, imageName); // 修改這行代碼來傳遞圖片 URL 和檔名
+
+      // 上傳圖片檔案到後端
+      const formData = new FormData();
+      formData.append('joinImage', file);
+
+      try {
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await response.json();
+        if (response.ok) {
+          onImageChange(data.url, file.name); // 修改這行代碼來傳遞圖片 URL 和檔名
+        } else {
+          console.error('上傳失敗:', data.message);
+        }
+      } catch (error) {
+        console.error('上傳過程中發生錯誤:', error);
+      }
     },
     [onImageChange]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   const handleDelete = () => {
     setImage(null);
@@ -42,9 +59,12 @@ export default function ImgPutArea({ onImageChange }) {
           </div>
         ) : (
           <>
-          <p className={`${style['droptext']} text-body-tertiary`}>點擊此處或拖放圖片上傳
-          </p>
-          <p className={`${style["photo"]} text-body-tertiary`} ><BsCardImage/></p>
+            <p className={`${style['droptext']} text-body-tertiary`}>
+              點擊此處或拖放圖片上傳
+            </p>
+            <p className={`${style['photo']} text-body-tertiary`}>
+              <BsCardImage />
+            </p>
           </>
         )}
       </div>
