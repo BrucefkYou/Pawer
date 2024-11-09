@@ -33,6 +33,15 @@ const Publish = () => {
       setCount(count - 1);
     }
   };
+  const handleCountChange = (e) => {
+    const value = e.target.value;
+    if (isNaN(value)) {
+      alert('請輸入數字');
+      setCount(0);
+    } else {
+      setCount(Number(value));
+    }
+  };
   // CKEditor 設定
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [data, setData] = useState('');
@@ -58,6 +67,34 @@ const Publish = () => {
   };
   const handleTagsChange = (newTags) => {
     setTags(newTags);
+  };
+
+  const handleStartTimeChange = (date) => {
+    const currentTime = moment();
+    if (moment(date).isBefore(currentTime)) {
+      alert('不得早於當前時間');
+      setStartTime(newTime(currentTime));
+    } else {
+      setStartTime(newTime(date));
+    }
+  };
+
+  const handleEndTimeChange = (date) => {
+    if (moment(date).isBefore(startTime)) {
+      alert('不得早於開始時間');
+      setEndTime(startTime);
+    } else {
+      setEndTime(newTime(date));
+    }
+  };
+
+  const handleSignEndDateChange = (date) => {
+    if (moment(date).isAfter(endTime)) {
+      alert('不得晚於結束時間');
+      setSignEndDate(startTime);
+    } else {
+      setSignEndDate(newTime(date));
+    }
   };
 
   // 執行送出表單
@@ -171,7 +208,7 @@ const Publish = () => {
                       showIcon
                       icon={<BsCalendar />}
                       selected={startTime}
-                      onChange={(date) => setStartTime(newTime(date))}
+                      onChange={handleStartTimeChange}
                       timeInputLabel="Time:"
                       dateFormat="yyyy/MM/dd HH:mm"
                       showTimeInput
@@ -186,7 +223,7 @@ const Publish = () => {
                       showIcon
                       icon={<BsCalendar />}
                       selected={endTime}
-                      onChange={(date) => setEndTime(newTime(date))}
+                      onChange={handleEndTimeChange}
                       timeInputLabel="Time:"
                       dateFormat="yyyy/MM/dd HH:mm"
                       showTimeInput
@@ -207,7 +244,7 @@ const Publish = () => {
                         aria-expanded="false"
                         onClick={handleDecrement}
                       >
-                        -
+                        －
                       </button>
                       <input
                         id="ParticipantLimit"
@@ -216,7 +253,7 @@ const Publish = () => {
                         className="form-control"
                         aria-label="Text input with 2 dropdown buttons"
                         value={count}
-                        onChange={(e) => setCount(Number(e.target.value))}
+                        onChange={handleCountChange}
                       />
                       <button
                         className="btn btn-secondary"
@@ -224,7 +261,7 @@ const Publish = () => {
                         aria-expanded="false"
                         onClick={handleIncrement}
                       >
-                        +
+                        ＋
                       </button>
                     </div>
                   </div>
@@ -236,7 +273,7 @@ const Publish = () => {
                       showIcon
                       icon={<BsCalendar />}
                       selected={signEndDate}
-                      onChange={(date) => setSignEndDate(newTime(date))}
+                      onChange={handleSignEndDateChange}
                       timeInputLabel="Time:"
                       dateFormat="yyyy/MM/dd HH:mm"
                       showTimeInput

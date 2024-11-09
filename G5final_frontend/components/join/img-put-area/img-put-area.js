@@ -3,6 +3,8 @@ import React, { useState, useCallback } from 'react';
 import style from './img-put-area.module.scss';
 import { BsCardImage } from 'react-icons/bs';
 import { useDropzone } from 'react-dropzone';
+import { extname } from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ImgPutArea({ onImageChange }) {
   const [image, setImage] = useState(null);
@@ -10,22 +12,23 @@ export default function ImgPutArea({ onImageChange }) {
   const onDrop = useCallback(
     async (acceptedFiles) => {
       const file = acceptedFiles[0];
-      // URL.createObjectURL() 會建立一個創建一個臨時的 URL，在不將檔案上傳到伺服器的情況下，能夠在前端顯示圖片的預覽
       const imageUrl = URL.createObjectURL(file);
       setImage(imageUrl);
 
-      // 上傳圖片檔案到後端
       const formData = new FormData();
       formData.append('joinImage', file);
 
       try {
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
+        const response = await fetch(
+          'http://localhost:3005/api/join-in/upload',
+          {
+            method: 'POST',
+            body: formData,
+          }
+        );
         const data = await response.json();
         if (response.ok) {
-          onImageChange(data.url, file.name); // 修改這行代碼來傳遞圖片 URL 和檔名
+          onImageChange(data.url, data.name); // 傳遞檔案名稱
         } else {
           console.error('上傳失敗:', data.message);
         }
@@ -40,7 +43,7 @@ export default function ImgPutArea({ onImageChange }) {
 
   const handleDelete = () => {
     setImage(null);
-    onImageChange(null, null); // 修改這行代碼來傳遞 null 值
+    onImageChange(null, null);
   };
 
   return (

@@ -76,6 +76,18 @@ export default function JiDetail(props) {
     // eslint-disable-next-line
   }, [router.isReady]);
 
+  const [imageUrl, setImageUrl] = useState('');
+  useEffect(() => {
+    const fetchImageUrl = () => {
+      if (data.ImageName) {
+        const url = `http://localhost:3005/join/${data.ImageName}`;
+        setImageUrl(url);
+      }
+    };
+
+    fetchImageUrl();
+  }, [data.ImageName]);
+
   // 處理時間格式，但後來新增的有使用moment()先處理，之後可以換掉
   const StartTime = data.StartTime
     ? data.StartTime.replace(/-/g, '/').slice(0, 16)
@@ -95,7 +107,7 @@ export default function JiDetail(props) {
           className="ji-img1"
           width={1176}
           height={532}
-          src={`/join/${data.ImageName}`}
+          src={imageUrl}
           alt={`${data.Title}首圖`}
         />
       </div>
@@ -202,6 +214,7 @@ export default function JiDetail(props) {
       />
     </div>
   </div>);
+  if (!data) return <p>活動已下架</p>;
   return (
     <>
       <Banner bgImgUrl="/join/banner-jism.jpg" ImgCover="cover" />

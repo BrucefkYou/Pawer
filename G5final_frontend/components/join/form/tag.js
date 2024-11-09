@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 export default function Tag({
@@ -16,6 +17,28 @@ export default function Tag({
     dupTags.splice(i, 1);
     setTags(dupTags);
   };
+  const [options, setOptions] = useState([]);
+  const [selected, setSelect] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3005/api/tags');
+        if (!response.ok) {
+          throw new Error('網路回應不成功：' + response.status);
+        }
+        const tags = await response.json();
+        const options = tags.map((item) => ({
+          id: item.ID,
+          name: item.Name,
+        }));
+        setOptions(options);
+      } catch (err) {
+        console.error('錯誤：', err);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleKeyDown = (e) => {
     const code = e.key;
@@ -82,7 +105,15 @@ export default function Tag({
           placeholder={placeholder}
           onChange={(e) => setTag(e.target.value)}
           onKeyDown={handleKeyDown}
+          list="tag-options"
         />
+        <datalist id="tag-options">
+          {options.map((option, i) => (
+            <option key={i} value={`#${option.name}`}>
+              {option.name}
+            </option>
+          ))}
+        </datalist>
       </div>
     </div>
   );

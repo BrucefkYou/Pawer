@@ -1,16 +1,31 @@
 import { createRouter } from 'next-connect'
 import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
-import path from 'path'
+import path, { extname } from 'path'
 import express from 'express'
 import moment from 'moment'
 import db2 from '../configs/mysql.js'
+import { v4 as uuidv4 } from 'uuid'
+// import { createRouter } from 'next-connect';
 import authenticate from '#middlewares/authenticate.js'
 import multer from 'multer'
-import Joined from '##/models/Joined.js'
 
 const router = express.Router()
-const upload = multer()
+const apiRouter = createRouter()
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // 這裡的路徑是相對於專案根目錄的 public/join
+    cb(null, 'public/join')
+  },
+  filename: function (req, file, cb) {
+    const fileExt = path.extname(file.originalname)
+    const filename = uuidv4() + fileExt
+    cb(null, filename)
+  },
+})
+
+const upload = multer({ storage: storage })
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
@@ -110,8 +125,21 @@ GROUP BY
   }
 })
 
-//CKEditor 圖片上傳
-router.post('/create', async (req, res) => {
+router.post('/upload', upload.single('joinImage'), (req, res) => {
+  try {
+    const file = req.file
+    if (!file) {
+      return res.status(400).json({ message: '未上傳圖片' })
+    }
+    const imageUrl = `/join/${file.filename}`
+    res.status(200).json({ url: imageUrl, name: file.filename })
+  } catch (error) {
+    console.error('圖片上傳錯誤:', error)
+    res.status(500).json({ message: '圖片上傳失敗', error })
+  }
+})
+
+router.post('/create', upload.single('joinImage'), async (req, res) => {
   const {
     imageName,
     memberId,
@@ -186,59 +214,5 @@ router.post('/create', async (req, res) => {
     res.status(500).json({ message: '伺服器錯誤', error })
   }
 })
-// router.post(async (req, res) => {
-//   const {
-//     imageName,
-//     title,
-//     info,
-//     startTime,
-//     endTime,
-//     count,
-//     signEndDate,
-//     city,
-//     township,
-//     location,
-//     tags,
-//   } = req.body
-//   const createTime = moment().format('YYYY-MM-DD HH:mm')
-//   try {
-//     // 將資料寫入 joinin 表
-//     const [result] = await db2.execute(
-//       `INSERT INTO joinin (id, imageName, title, info, startTime, endTime, count, signEndDate, city, township, location, tags, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-//       [
-//         imageName,
-//         title,
-//         info,
-//         startTime,
-//         endTime,
-//         count,
-//         signEndDate,
-//         city,
-//         township,
-//         location,
-//         tags,
-//         createTime,
-//       ]
-//     )
-//     res.status(200).json({ message: '寫入成功' })
-//   } catch (error) {
-//     console.error('處理過程中發生錯誤:', error)
-//     res.status(500).json({ message: '伺服器錯誤', error })
-//   }
-// })
 
-// router.post('/create', upload.none(), async (req, res) => {
-//   // 檢查有沒有在登入狀態
-//   // 檢查登入狀態的使用者和修改的對象是否一致
-//   // 還可以做檢查帳號權限
-//   // upload.none()會將物件存放在req.body內
-//   // const 將物件內容取出
-//   const { password, name, mail, head } = req.body
-//   const { id } = req.params
-//   const user = db.data.user.find((u) => (u.account = id))
-//   Object.assign(user, { password, name, mail, head })
-//   const message = `資料更新成功`
-//   await db2.write()
-//   res.status(200).json({ result: 'success', message })
-// })
 export default router
