@@ -253,7 +253,8 @@ router.post('/result', async (req, res, next) => {
     await connection.query(updateCouponSql, updateCouponValues)
 
     // 將訂單的付款狀態設定為已付款
-    const updateOrderSql = 'UPDATE `Order` SET PaymentStatus = 1 WHERE ID = ?'
+    const updateOrderSql =
+      'UPDATE `Order` SET PaymentStatus = "已付款" WHERE ID = ?'
     const updateOrderValues = [OrderID]
     await connection.query(updateOrderSql, updateOrderValues)
 

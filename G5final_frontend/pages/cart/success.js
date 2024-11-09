@@ -65,7 +65,10 @@ export default function Success(props) {
                 >
                   繼續購物
                 </Link>
-                <Link className="check-btn btn btn-checkOrder" href="/product">
+                <Link
+                  className="check-btn btn btn-checkOrder"
+                  href="/member/order"
+                >
                   查看訂單
                 </Link>
               </div>
