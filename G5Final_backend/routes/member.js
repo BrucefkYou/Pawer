@@ -8,6 +8,10 @@ import jwt from 'jsonwebtoken'
 import authenticate from '#middlewares/authenticate.js'
 // 新增會員，亂數生成會員編號用
 import crypto from 'crypto'
+// 加密密碼字串用
+import { generateHash } from '#db-helpers/password-hash.js'
+// 驗証加密密碼字串用
+import { compareHash } from '#db-helpers/password-hash.js'
 // 日期格式化
 import moment from 'moment'
 
@@ -49,22 +53,22 @@ router.get('/', authenticate, async function (req, res) {
 // 登入
 router.post('/login', async (req, res) => {
   const loginMember = req.body
-  // console.log(loginMember) { email: '123', password: '456' }
-  const [results] = await db.execute(
-    'SELECT * FROM Member WHERE eMail = ? and Password = ?',
-    [loginMember.email, loginMember.password]
-  )
+  // { email: '123', password: '456' }
+
+  const [results] = await db.execute('SELECT * FROM Member WHERE eMail = ?', [
+    loginMember.email,
+  ])
   if (results.length === 0) {
-    return res.json({ status: 'error', message: '該會員不存在' })
+    return res.json({ status: 'error', message: '此信箱尚未註冊' })
   }
   const dbMember = results[0]
 
-  // 2. 比對密碼hash是否相同(返回true代表密碼正確)
-  // const isValid = await compareHash(loginMember.password, dbMember.password)
+  // 比對密碼hash是否相同
+  const isValid = await compareHash(loginMember.password, dbMember.Password)
 
-  // if (!isValid) {
-  //   return res.json({ status: 'error', message: '密碼錯誤' })
-  // }
+  if (!isValid) {
+    return res.json({ status: 'error', message: '密碼錯誤' })
+  }
 
   // 存取令牌(access token)只需要id和email就足夠，其它資料可以再向資料庫查詢
   const returnUser = {
@@ -98,10 +102,13 @@ router.post('/logout', authenticate, (req, res) => {
 // POST - 新增會員資料
 router.post('/', async function (req, res) {
   const { name, email, password } = req.body
+
   // 檢查從前端來的資料哪些為必要
   if (!name || !email || !password) {
     return res.json({ status: 'error', message: '缺少必要資料' })
   }
+  // 密碼加密
+  const hashpassword = await generateHash(password)
 
   try {
     // 檢查email是否已經存在
@@ -118,13 +125,13 @@ router.post('/', async function (req, res) {
     // 新增會員資料
     const [insertResults] = await db.execute(
       'INSERT INTO Member (Name,Account,Password, eMail) VALUES (?,?,?,?)',
-      [name, accountCode, password, email]
+      [name, accountCode, hashpassword, email]
     )
     // console.log(insertResults)
     if (!insertResults) {
       return res.json({ status: 'error', message: '新增失敗' })
     }
-    // 新增註冊優惠券
+    // 註冊成功，自動發給優惠券
     const memberId = insertResults.insertId
     const now = moment().format('YYYY-MM-DD HH:mm:ss')
     const [couponResult] = await db.execute(

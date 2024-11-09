@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
         email,
         password,
       });
-      console.log(res);
+      // console.log(res);
       // 回傳資料
       // res.json({
       //   status: 'success',
