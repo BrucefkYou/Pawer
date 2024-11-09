@@ -36,34 +36,34 @@ export default function Order() {
         return (
           <div className="mb-card" key={order.ID}>
             <div className="row">
-              <div className="col-lg-2 col-3">
+              <div className="col-lg-2 col-4">
                 <span className="title">訂單編號</span>
               </div>
-              <div className="col-lg-10 col-9">
+              <div className="col-lg-10 col-8">
                 <span className="title">{order.OrderNumber}</span>
               </div>
             </div>
             <div className="row">
-              <div className="col-lg-2 col-3">
+              <div className="col-lg-2 col-4">
                 <span>訂單日期</span>
               </div>
-              <div className="col-lg-10 col-9">
+              <div className="col-lg-10 col-8">
                 <span>{order['Date']}</span>
               </div>
             </div>
             <div className="row">
-              <div className="col-lg-2 col-3">
+              <div className="col-lg-2 col-4">
                 <span>訂單金額</span>
               </div>
-              <div className="col-lg-10 col-9">
+              <div className="col-lg-10 col-8">
                 <span>${order.TotalPrice.toLocaleString()}</span>
               </div>
             </div>
             <div className="row">
-              <div className="col-lg-2 col-3">
+              <div className="col-lg-2 col-4">
                 <span>付款狀態</span>
               </div>
-              <div className="col-9 d-flex justify-content-between align-items-start">
+              <div className="col-lg-10 col-8 d-flex justify-content-between align-items-start">
                 <span
                   className={`badge ${
                     order.PaymentStatus === '已付款'
