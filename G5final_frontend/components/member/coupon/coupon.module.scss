@@ -1,38 +1,55 @@
 .coupon-content {
-    color: #22355C;
-    font-size: 12px;
-    font-weight: bold;
-    text-align: right;
-    position: absolute;
-    top: 0;
-    left: 145px;
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
+  color: #22355c;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: right;
+  position: absolute;
+  top: 0;
+  left: 145px;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 .value {
-    color: #f4b13e;
+  color: #f4b13e;
 }
 
 .name {
-    letter-spacing: 3px;
-    white-space: nowrap;
-    overflow: hidden;
+  letter-spacing: 3px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .use-time {
-    font-size: 10px;
-    font-weight: normal;
+  font-size: 10px;
+  font-weight: normal;
 }
 
 .coupon-message {
-    color: #646464;
+  color: #646464;
 }
 
 .badge {
-    line-height: 1.5;
+  line-height: 1.5;
+  &.badge-gray {
+    background-color: #ccc;
+    color: #fff;
+  }
 }
 
-
+.dark::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/member/coupon-dark.png'); /* 遮罩圖路徑 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+//   opacity: 1; /* 調整遮罩透明度，視需求調整 */
+  pointer-events: none; 
+}

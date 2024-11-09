@@ -297,7 +297,7 @@ router.get('/:id/coupons', authenticate, async function (req, res) {
     }
 
     let [coupons] = await db.execute(
-      'SELECT d.*,m.* FROM Discount d JOIN MemberDiscountMapping m ON m.DiscountID = d.ID WHERE m.MemberID = ? ORDER BY d.EndTime ASC',
+      'SELECT d.*,m.* FROM Discount d JOIN MemberDiscountMapping m ON m.DiscountID = d.ID WHERE m.MemberID = ? ORDER BY d.EndTime DESC',
       [memberid]
     )
 

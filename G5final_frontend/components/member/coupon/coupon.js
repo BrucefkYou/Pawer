@@ -9,15 +9,20 @@ export default function Coupon({ coupon }) {
   // 計算出現即將到期的毫秒數
   const notifyMillis = 60 * 24 * 60 * 60 * 1000;
 
+  // 計算現在到到期時間的毫秒差
+  const timeDifferenceMillis = endTime - now;
+
+  // 計算剩餘天數（毫秒轉為天數）
+  const remainingDays = Math.ceil(timeDifferenceMillis / (1000 * 60 * 60 * 24)); // 無條件進位
+
   return (
     <>
       <div>
-        <div className="position-relative">
+        <div className={`position-relative ${now > endTime ? styles['dark'] : ''}`}>
           <Image
             src={`/member/coupon-bg.png`}
             width={385}
             height={165}
-            className="coupon"
             alt=""
           />
           <div className={`col-4 p-1 ${styles['coupon-content']}`}>
@@ -48,11 +53,17 @@ export default function Coupon({ coupon }) {
               <span className="me-2">使用期限</span>
               <span>{coupon.EndTime.slice(0, 10)}</span>
             </div>
-            {endTime - now < notifyMillis && endTime > now && (
+            {timeDifferenceMillis < notifyMillis && endTime > now ? (
               <span className={`${styles['badge']} badge text-bg-danger`}>
-                即將到期
+                即將到期，倒數{remainingDays}日
               </span>
-            )}
+            ) : endTime > now ? (
+              <span className={`${styles['badge']} badge text-bg-warning`}>
+                倒數{remainingDays}日
+              </span>
+            ) :  <span className={`${styles['badge']} ${styles['badge-gray']} badge`}>
+               已過期
+              </span>}
           </div>
           {coupon.PromotionCondition === 2 ? (
             <div>
