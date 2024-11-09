@@ -3,7 +3,7 @@ import Banner from '@/components/join/banner/banner';
 import PetAdvertise from '@/components/pet/communicator/Advertise';
 import PetIndex from '@/components/pet/communicator/PetIndex';
 
-export default function communicator(props) {
+export default function communicatorIndex(props) {
   
   return (
     <>
