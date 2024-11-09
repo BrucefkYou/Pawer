@@ -1,6 +1,7 @@
 import authenticate from '##/middlewares/authenticate.js'
 import express from 'express'
-import db2 from '##/configs/mysql.js'
+import db from '##/configs/mysql.js'
+import moment from 'moment'
 const router = express.Router()
 
 /* GET home page. */
@@ -9,13 +10,10 @@ router.get('/', function (req, res, next) {})
 
 // 成立訂單
 router.post('/createOrder', authenticate, async function (req, res, next) {
-  const ID = req.user.id
-  if (req.user.id !== ID) {
-    return res.json({ status: 'error', message: '存取會員資料失敗' })
-  }
+  // const ID = req.user.id
   const {
     MemberID,
-    name,
+    ProductsAmount,
     CouponID,
     Receiver,
     ReceiverPhone,
@@ -30,8 +28,12 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     checkedPrice,
     DiscountPrice,
     ReceiptCarrier,
+    Products,
   } = req.body
 
+  //   if (MemberID !== ID) {
+  //     return res.json({ status: 'error', message: '存取會員資料失敗' })
+  //   }
   // 組合地址
   const deliveryHome = `${country}${township}${address}`
   const TotalPrice = checkedPrice - DiscountPrice
@@ -42,7 +44,6 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   let PaymentStatus = 0
   if (selectedPayment === 'credit-card') {
     PaymentMethod = '信用卡'
-    PaymentStatus = 1
   } else if (selectedPayment === 'store') {
     PaymentMethod = '超商取貨付款'
   }
@@ -55,36 +56,78 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     DeliveryAddress = deliveryHome
   }
   // 檢查發票種類
-  let ReceiptTtpe
+  let Receipt
   if (ReceiptType === 'donate') {
-    ReceiptTtpe = '捐贈發票'
+    Receipt = '捐贈發票'
   } else if (ReceiptType === 'phone') {
-    ReceiptTtpe = '手機載具'
-  } else if (ReceiptType === 'paper') {
-    ReceiptTtpe = '紙本發票'
+    Receipt = '手機載具'
+  } else {
+    Receipt = '紙本發票'
   }
 
+  // 獲得現在時間
+  const now = moment().format('YYYY-MM-DD HH:mm:ss')
+
+  // 生成流水編號
+  // 使用 Date.now() 生成當前的毫秒級時間戳
+  const timestamp = Date.now()
+
+  // 隨機數部分（3位數）
+  const random = Math.floor(Math.random() * 900) + 100 // 生成 100-999 的隨機數
+
+  const OrderNumber = `EC${timestamp}${random}`
+
+  // 開始資料庫事務
+  const connection = await db.getConnection()
+  await connection.beginTransaction()
+
   try {
-    const sql =
-      'INSERT INTO `order` (MemberID, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    const VALUES = [
+    // 執行訂單插入
+    const orderSql =
+      'INSERT INTO `Order` (OrderNumber, MemberID, Date, ProductsAmount, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    const orderValues = [
+      OrderNumber,
       MemberID,
+      now,
+      ProductsAmount,
       TotalPrice,
-      CouponID,
+      CouponID || 0,
       PaymentMethod,
       PaymentStatus,
       Receiver,
       ReceiverPhone,
       DeliveryAddress,
       '未出貨',
-      ReceiptTtpe,
+      Receipt,
       ReceiptCarrier,
     ]
-    const result = await db2.query(sql, VALUES)
-    res
-      .status(201)
-      .json({ message: '訂單已成功創建', orderId: result.insertId })
+    const [orderResult] = await connection.query(orderSql, orderValues)
+
+    // 執行訂單明細插入
+    // 資料庫驅動的佔位符
+    // 當我們傳遞一個包含多組值的二維數組時，? 會自動展開為多組 (?, ?, ..., ?)。
+    const orderDetailsSql =
+      'INSERT INTO OrderDetail (OrderID, ProductID, ProductName, ProductOriginPrice, ProductAmount) VALUES ?'
+    const orderId = orderResult.insertId
+
+    const orderDetailsValues = Products.map((product) => [
+      orderId,
+      product.ProductID,
+      product.ProductName,
+      product.Price,
+      product.Quantity,
+    ])
+
+    await connection.query(orderDetailsSql, [orderDetailsValues])
+
+    await connection.commit()
+
+    // 這裡的result.insertId是插入的訂單的ID
+    // 只要該欄位事設定為自動遞增，就可以透過result.insertId取得
+    res.status(201).json({ message: '訂單已成功創建', orderId: orderId })
   } catch (error) {
+    // 如果有錯誤，則回滾。回滾會撤銷所有的操作
+    await connection.rollback()
     console.error('插入訂單時出錯：', error)
     res.status(500).json({ error: '伺服器錯誤，無法創建訂單' })
   }

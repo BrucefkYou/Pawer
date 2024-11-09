@@ -7,27 +7,27 @@ export function PageNav({ nowPage, totalPage, next, prev }) {
   return (
     <nav aria-label="Page navigation">
       <ul className="pagination m-0">
-        <li className="page-item" onClick={prev}>
+        <li className="page-item page-block" onClick={prev}>
           <a className="page-link" aria-label="Previous">
             <span aria-hidden="true">‹</span>
           </a>
         </li>
         <li
-          className={`page-item ${nowPage === 1 ? 'd-none' : ''}`}
+          className={`page-item  ${nowPage === 1 ? 'd-none' : ''}`}
           onClick={prev}
         >
           <a className="page-link">{nowPage - 1}</a>
         </li>
-        <li className="page-item active">
+        <li className="page-item active page-block">
           <a className="page-link">{nowPage}</a>
         </li>
         <li
-          className={`page-item ${nowPage >= totalPage ? 'd-none' : ''}`}
+          className={`page-item page-block ${nowPage >= totalPage ? 'd-none' : ''}`}
           onClick={next}
         >
           <a className="page-link">{nowPage + 1}</a>
         </li>
-        <li className="page-item" onClick={next}>
+        <li className="page-item page-block" onClick={next}>
           <a className="page-link" aria-label="Next">
             <span aria-hidden="true">›</span>
           </a>

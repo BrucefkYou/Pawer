@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import style from '@/components/product/productList.module.scss';
 
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 
-import ClickIcon from '@/components/icons/click-icon/click-icon';
+import FavoriteIcon from '@/components/product/favorite/FavoriteIcon/FavoriteIcon';
 
-export default function ProductList({ pd }) {
-  console.log(pd);
+export default function ProductList({ pd, setUrl }) {
+  // console.log(pd);
+  // setUrl 第一層在父層 帶下去商品卡片頁第二層子層 要再帶下去FavoriteIcon第三層子層
   return (
     <>
       <div className="col-4 card-layout no-underline">
@@ -38,11 +40,14 @@ export default function ProductList({ pd }) {
             <div className="d-flex justify-content-between">
               <div className="new-nt">{'NT$' + pd.SalePrice}</div>
               {/* 收藏icon */}
-              <ClickIcon
-                fontsize="32px"
-                IconFilled={BsBookmarkFill}
-                IconOutline={BsBookmark}
-              />
+              <div className={`${style['pdsvg-favorite']}`}>
+                <FavoriteIcon
+                  setUrl={setUrl}
+                  IconFilled={BsBookmarkFill}
+                  IconOutline={BsBookmark}
+                  pd={pd.ID}
+                />
+              </div>
             </div>
           </div>
         </div>

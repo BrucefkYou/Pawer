@@ -21,7 +21,7 @@ router.get('/', function (req, res, next) {
   const TradeDesc = '商店線上付款'
   const ItemName = 'xx商店購買一批'
   const ReturnURL = 'https://www.ecpay.com.tw'
-  const OrderResultURL = 'http://localhost:3000/payment/callback' //前端成功頁面
+  const OrderResultURL = 'http://localhost:3000/cart/success' //前端成功頁面
   const ChoosePayment = 'ALL'
 
   ////////////////////////以下參數不用改////////////////////////

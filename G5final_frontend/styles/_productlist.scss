@@ -33,7 +33,7 @@
     padding: 0;
   }
   // 搜尋框樣式
-  .search-category{
+  .search-category {
     padding: 36px 30px;
     box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
   }
@@ -45,7 +45,7 @@
   .category-li li {
     margin-bottom: 0.75rem;
     cursor: pointer;
-    position: relative; 
+    position: relative;
   }
   .category-li li:hover {
     margin-bottom: 0.75rem;
@@ -59,15 +59,15 @@
   }
   .category-li li:hover::after {
     content: '';
-    display: block; 
+    display: block;
     width: 5%;
-    height: 90%; 
-    background-color: #f4b13e; 
+    height: 90%;
+    background-color: #f4b13e;
     border-radius: 10px;
-    position: absolute; 
+    position: absolute;
     left: -5px;
-    top:0px;
-    transform: none; 
+    top: 0px;
+    transform: none;
     margin-bottom: 0.75rem;
   }
   .category-li li.active {
@@ -82,15 +82,15 @@
   }
   .category-li li.active::after {
     content: '';
-    display: block; 
+    display: block;
     width: 5%;
-    height: 90%; 
-    background-color: #f4b13e; 
+    height: 90%;
+    background-color: #f4b13e;
     border-radius: 10px;
-    position: absolute; 
+    position: absolute;
     left: -5px;
-    top:0px;
-    transform: none; 
+    top: 0px;
+    transform: none;
     margin-bottom: 0.75rem;
   }
   /* 搜尋框背景 */
@@ -157,17 +157,7 @@
     gap: 10px;
     margin-bottom: 10px;
   }
-  .pet-choose-status1 {
-    color: var(--white, var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff));
-    font-family: Inter;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 21px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    background: var(--accent, #f4b13e);
-  }
-  .pet-choose-status2 {
+  .pet-choose-status {
     color: var(--white, var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff));
     font-family: Inter;
     font-size: 14px;
@@ -177,6 +167,27 @@
     border-radius: 8px;
     background: var(--l-gary, rgba(0, 0, 0, 0.6));
   }
+  .pet-choose-status:hover {
+    color: var(--white, var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff));
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: var(--accent, #f4b13e);
+  }
+  .pet-choose-status.active {
+    color: var(--white, var(--Miscellaneous-Floating-Tab---Pill-Fill, #fff));
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: var(--accent, #f4b13e);
+  }
+
   /* 清除搜尋 */
   .clean {
     margin-left: 0.5rem;
@@ -219,14 +230,14 @@
     font-weight: 400;
     line-height: 25.6px;
   }
-  .category-mal{
+  .category-mal {
     margin-top: 3.75rem;
   }
   /* ---------------------------------商品------------------------------- */
   .right {
     width: 900px;
   }
-  
+
   // 去除連結底線
   .no-underline {
     text-decoration: none;
@@ -245,11 +256,10 @@
   .card-img-topme {
     width: 100%;
     height: 242px;
-    object-fit: cover;
   }
   /* 卡片外間距 */
   .card-layout {
-    margin-top: 5rem;
+    margin-top: 4rem;
   }
   /* 卡片文字 */
   .pd-card-text {
@@ -310,6 +320,12 @@
     font-size: 16px;
     font-weight: 500;
   }
+  .no-results{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
 
   /* RWD */
   @media (max-width: 576px) {
@@ -340,8 +356,22 @@
     .rwd-none {
       display: none;
     }
+    .rwd-block {
+      display: block;
+    }
     .howmaney {
       display: none;
+    }
+    .howmaney-rwd {
+      display: block;
+      margin: 0;
+      padding: 0;
+      color: #888;
+      text-align: center;
+      font-family: Inter;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 27px;
     }
     .search-bg {
       display: none;
@@ -350,8 +380,8 @@
       display: none;
     }
     .rwd-select {
-      display: block;
-      width: 166px;
+      display: block !important;
+      width: 100%;
     }
     /* 側邊欄 */
     .left {
@@ -363,7 +393,7 @@
     }
     .card-size {
       width: 8.25rem;
-      height: 20rem;
+      height: 17rem;
       margin-bottom: 1rem;
     }
     .new-nt {
@@ -381,9 +411,9 @@
       line-height: 24px;
     }
     // col排版
-    .col-4{
+    .col-4 {
       width: 49.333333%;
-  }
+    }
     /* 頁籤 */
     .tab-rwd {
       margin-left: 60px;

@@ -32,27 +32,27 @@
       "MemberID": 0,
       "BlogID": 3,
       "ProductID": null,
-      "JoininID": 0
-    },
-    {
+      "JoininID": null
+  },
+  {
       "FavoriteID": 6,
       "MemberID": 0,
       "BlogID": 4,
       "ProductID": null,
-      "JoininID": 0
-    },
-    {
+      "JoininID": null
+  },
+  {
       "FavoriteID": 7,
       "MemberID": 0,
       "BlogID": 3,
       "ProductID": null,
-      "JoininID": 0
-    },
-    {
+      "JoininID": null
+  },
+  {
       "FavoriteID": 8,
       "MemberID": 0,
       "BlogID": 1,
       "ProductID": null,
-      "JoininID": 0
-    }
-  ]
+      "JoininID": null
+  }
+]

@@ -25,7 +25,7 @@ export default function communicator(props) {
     chooseSort,
     updateSearch,
   } = usePagination({
-    url: 'http://localhost:3005/api/pet',
+    url: 'http://localhost:3005/api/pet/list',
     needSearchbar: ['ID', 'Name','CertificateDate'],
     needSort: [
       { way: 'desc-Name', name: '名稱英文開頭' },
@@ -35,7 +35,6 @@ export default function communicator(props) {
       { way: 'asc-CertificateDate', name: '取證日期-遠' },
       { way: 'desc-CertificateDate', name: '取證日期-近' },
     ],
-    needFilter:[]
   });
   return (
     <>
@@ -47,14 +46,12 @@ export default function communicator(props) {
           {/* 麵包屑 */}
           <Breadcrumbs />
           {/* 搜尋框 */}
-          <div className="row d-flex py-2 justify-content-center">
-            <div className="col-8">
-              
-            </div>
-          </div>
+ 
           {/* 排序.每頁筆數 */}
           <div className="row d-flex justify-content-end">
-            <div className='col-6'><SearchBar updateSearch={updateSearch} /></div>
+            <div className='col-12 col-md-6 mb-3'>
+              <SearchBar updateSearch={updateSearch} />
+            </div>
             <div className="col-6 col-md-3">
               <PerPageDom
                 itemsperPage={itemsperPage}

@@ -9,9 +9,10 @@ import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 export default function Navbar() {
-  const { initCart } = useCart();
+  const { items, initCart } = useCart();
   const { auth, logout } = useAuth();
   const router = useRouter();
+  const [cartItemNum, setCartItemNum] = useState(0);
 
   // 判斷是否登入導向不同頁面
   const islogin = () => {
@@ -36,7 +37,9 @@ export default function Navbar() {
       setIsDropdownOpen(false);
     }
   };
-
+  useEffect(() => {
+    setCartItemNum(items.length);
+  }, [items]);
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
@@ -77,7 +80,7 @@ export default function Navbar() {
                       <Link
                         type="button"
                         className="customDropdownItem"
-                        href="./product"
+                        href="./product/tagcat"
                       >
                         貓貓商品
                       </Link>
@@ -86,7 +89,7 @@ export default function Navbar() {
                       <Link
                         type="button"
                         className="customDropdownItem"
-                        href="./product"
+                        href="./product/tagdog"
                       >
                         狗狗商品
                       </Link>
@@ -146,10 +149,18 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="navbar-list">
-            <Link type="button" className="text-secondary" href="/product">
+            <Link
+              type="button"
+              className="text-secondary"
+              href="/product/tagcat"
+            >
               貓貓商品
             </Link>
-            <Link type="button" className="text-secondary" href="/product">
+            <Link
+              type="button"
+              className="text-secondary"
+              href="/product/tagdog"
+            >
               狗狗商品
             </Link>
             <Link type="button" className="text-secondary" href="/blog">
@@ -192,10 +203,11 @@ export default function Navbar() {
               </button>
             )}
 
-            <button className="navbar-cart">
+            <button className="navbar-cart position-relative">
               {/* <img src="./images/icon/cart.svg" alt="1"> */}
               <Link href="/cart">
-                <BsCart2 className="text-secondary BsCart2" />
+                <div className="nav-cart-ItemNumber">{cartItemNum}</div>
+                <BsCart2 className="text-secondary  BsCart2" />
               </Link>
             </button>
             {auth.isAuth ? (
