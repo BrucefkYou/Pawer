@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-undef */
@@ -9,6 +10,9 @@ import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 import FavoriteIcon from '@/components/product/favorite/FavoriteIcon/FavoriteIcon';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import style from '@/components/product/productDetail.module.scss';
+import toast from 'react-hot-toast';
+import logo from 'public/LOGO.svg';
+import Imagechoose from '@/components/product/imagechoose';
 
 export default function ProductDetail(props) {
   // 建立購物車物件
@@ -44,7 +48,8 @@ export default function ProductDetail(props) {
     }
   }, [myId]);
   // 篩選image資料表ProductID為相同product資料表ID的資訊
-  const productImages = fetchData.filter((pd) => pd.ProductID === pd.id);
+  const productImages = fetchData.filter((pd) => pd.ProductID === fetchOne.ID);
+
   // 處理減少數量的函數
   const handleDecrease = () => {
     setProductQuantity((prevQuantity) =>
@@ -67,51 +72,14 @@ export default function ProductDetail(props) {
     return <p>Loading...</p>;
   }
   // 解構資料
-  const { Name, Img, SalePrice, Stock, Info, ProductSummary } = fetchOne;
+  const { Name, Img, SalePrice, Info, ProductSummary } = fetchOne;
   // 要加入購物車的資料
   return (
     <>
       {/* 商品細節 */}
       <div className="container d-flex detail-layout-up">
         {/* 圖片輪播 */}
-        <div className="row detail-left">
-          {/* 主視圖 */}
-          <div className="row">
-            <div className="col">
-              <div>
-                {Img && (
-                  <Image
-                    className="detailimg-rwd"
-                    src={`/product/sqlimg/${Img}`}
-                    alt={Name}
-                    width={510}
-                    height={456}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-          {/* 輪播點選圖 RWD 圖片隱藏 換成箭頭輪播*/}
-          <div className="row mt-3 detail-rwd-none">
-            <div className="col d-flex detail-left-turn">
-              {productImages.length > 0 &&
-                productImages.map(
-                  (image, index) =>
-                    image.ImageName && ( // 確認 ImageName 有圖才渲染
-                      <div className="col" key={index}>
-                        <Image
-                          className="detailimg-rwd"
-                          src={`/product/sqlimg/${image.ImageName}`}
-                          alt={Name}
-                          width={112}
-                          height={138}
-                        />
-                      </div>
-                    )
-                )}
-            </div>
-          </div>
-        </div>
+        <Imagechoose Img={Img} productImages={productImages} Name={Name} />
         {/* 商品簡介 */}
         <div className="row detail-right">
           {/* 簡介內容 */}
@@ -216,6 +184,24 @@ export default function ProductDetail(props) {
                             img: Img,
                             quantity: productQuantity,
                             checked: '',
+                          });
+                          toast('加入購物車成功', {
+                            icon: (
+                              <Image
+                                width={95}
+                                height={53}
+                                src={logo}
+                                alt="logo"
+                                priority
+                              />
+                            ),
+                            duration: 1800,
+                            style: {
+                              borderRadius: '10px',
+                              background: 'rgba(84, 124, 215, 1)',
+                              color: '#fff',
+                              marginTop: '80px',
+                            },
                           });
                         }}
                       >
