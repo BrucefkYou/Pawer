@@ -4,6 +4,7 @@ import Image from 'next/image';
 import PageTitle from '@/components/member/page-title/page-title';
 import { usePagination } from '@/hooks/usePagination';
 import { useAuth } from '@/hooks/use-auth';
+import { BsCamera } from "react-icons/bs";
 export default function ComEdit(props) {
     const router = useRouter()
     const { auth } = useAuth()
@@ -15,7 +16,19 @@ export default function ComEdit(props) {
         url: 'http://localhost:3005/api/pet',
         processData,
     });
-    // 處理表單
+    //前端預覽照片處理
+    const [imagePreview, setImagePreview] = useState()
+    const changeImg = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    // 處理表單寫入資料庫
     async function submitForm(event) {
         event.preventDefault();
         const form = document.querySelector("#edit")
@@ -43,10 +56,24 @@ export default function ComEdit(props) {
                         <PageTitle title={"刊登資料編輯"} subTitle={"Communicator Edit"} />
                         {/* 主資料 */}
                         <div className="row content-1">
-                            <div className="col-12 col-md-4 d-flex justify-content-center align-items-center">
+                            <div className="col-12 col-md-4 d-flex justify-content-center align-items-center ">
                                 {/* 頭像 */}
-                                <div className="avatar d-flex justify-content-center ">
-                                    <Image alt='avtar' src={`http://localhost:3005/pet/${mydata.Img}`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />
+                                <div className="avatar d-flex justify-content-center position-relative">
+                                    <label htmlFor="file-upload" style={{ cursor: 'pointer' }} className=''>
+                                        {imagePreview ? (<Image alt='avtar' src={imagePreview} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />) : (<Image alt='avtar' src={`http://localhost:3005/pet/${mydata.Img}`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />)}
+                                        <div className="camera-icon">
+                                            <BsCamera />
+                                        </div>
+                                    </label>
+                                    <input
+                                        id="file-upload"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={changeImg}
+                                        name="pic"
+                                    />
+                                    
                                 </div>
                             </div>
                             <div className="col-12 col-md-8">
