@@ -4,8 +4,13 @@
     font-weight: bold;
     text-align: right;
     position: absolute;
-    top: 37px;
-    left: 140px;
+    top: 0;
+    left: 145px;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
 }
 .value {
     color: #f4b13e;
@@ -13,6 +18,8 @@
 
 .name {
     letter-spacing: 3px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .use-time {
