@@ -26,9 +26,11 @@ export default function RegisterForm({ Formtype, setFormtype }) {
     const res = await register(user);
 
     if (res.data.status === 'success') {
-      toast.success(res.data.message);
+      toast.success(`${res.data.message}，正在為您登入會員`);
       // 註冊成功後，執行登入
-      login(user.email, user.password);
+      setTimeout(() => {
+        login(user.email, user.password);
+      }, 3000);
     } else {
       toast.error(`${res.data.message}`);
     }
