@@ -10,10 +10,13 @@ import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 import { useAuth } from '@/hooks/use-auth';
 import Products from './products';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import { is } from 'date-fns/locale';
+// import { toast } from 'react-toastify';
 
 export default function CartInfo(props) {
   const { auth } = useAuth();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
   const { items } = useCart();
   // 選擇便利商店
   const { store711, openWindow, closeWindow } = useShip711StoreOpener(
@@ -49,16 +52,33 @@ export default function CartInfo(props) {
   const goECPay = () => {
     window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
   };
+  // const goLinepay = async () => {
+  //   const url = `http://localhost:3005/api/line-pay/reserve`;
+  //   const fetchRes = await fetch(url, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     credentials: 'include',
+  //     body: JSON.stringify({ orderId: orderID }),
+  //   });
+  // };
+
   const goLinepay = async () => {
-    const url = `http://localhost:3005/api/line-pay/reserve`;
-    const fetchRes = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ orderId: orderID }),
-    });
+    window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${orderID}`;
+  };
+
+  const handleLinepayConfirm = async (transactionId) => {
+    const fetchConfirmUrl = `http://localhost:3005/api/line-pay/confirm?transactionId=${transactionId}`;
+    const fetchRes = await fetch(fetchConfirmUrl);
+    const resData = await fetchRes.json();
+    if (resData.status === 'success') {
+      router.push(`/cart/success?orderID=${resData.data.info.packages[0].id}`);
+      // toast.success('付款成功');
+    } else if (resData.status === 'fail') {
+      router.push('/cart/fail');
+      // toast.error('付款失敗');
+    }
   };
 
   // `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
@@ -199,449 +219,521 @@ export default function CartInfo(props) {
     }
   }, [orderID]);
 
+  useEffect(() => {
+    if (router.isReady) {
+      // 這裡確保能得到router.query值
+      console.log(router.query);
+      // http://localhost:3000/order?transactionId=2022112800733496610&orderId=da3b7389-1525-40e0-a139-52ff02a350a8
+      // 這裡要得到交易id，處理伺服器通知line pay已確認付款，為必要流程
+      // TODO: 除非為不需登入的交易，為提高安全性應檢查是否為會員登入狀態
+      const { transactionId, orderId } = router.query;
+
+      // 如果沒有帶transactionId或orderId時，導向至首頁(或其它頁)
+      if (!transactionId || !orderId) {
+        // 關閉載入狀態
+        setIsLoading(false);
+        // 不繼續處理
+        return;
+      }
+
+      // 向server發送確認交易api
+      handleLinepayConfirm(transactionId);
+    }
+
+    // eslint-disable-next-line
+  }, [router.isReady])
+
+
   return (
     <>
-      <div className="cart">
-        <div className="container">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const orderData = {
-                MemberID: auth.memberData.id,
-                ProductsAmount: items.filter((item) => item.checked).length,
-                CouponID: discount.ID,
-                Receiver: receiver,
-                ReceiverPhone: phone,
-                // 這三個會組合成一個地址
-                country: country,
-                township: township,
-                address: address,
-                storeAddress: store711.storeaddress,
-                selectedDelivery: selectedDelivery,
-                selectedPayment: selectedPayment,
-                ReceiptType: selectedBill,
-                checkedPrice: checkedPrice,
-                DiscountPrice: discountPrice,
-                ReceiptCarrier: carrierNum,
-                Products: items
-                  .filter((item) => item.checked)
-                  .map((item) => {
-                    return {
-                      ProductID: item.id,
-                      ProductName: item.name,
-                      Quantity: item.quantity,
-                      Price: item.price,
-                    };
-                  }),
-              };
-              createOrder(orderData);
-            }}
-          >
-            <div className="row">
-              {/* 麵包屑 */}
-              <Breadcrumbs />
-            </div>
-            <div className="cart-info">
-              {/* cart-info */}
-              <section className="info-product">
-                {/* 產品列表 */}
-                {/* 列表標題 */}
-                <div className="productList-title row">
-                  <div className="col text-center">商品</div>
-                  <div className="col text-center">單價</div>
-                  <div className="col text-center">數量</div>
-                  <div className="col text-center">總價</div>
-                </div>
-                <hr className="desktop-hr" />
-                {/* 購物車列表 */}
-                <InfoList />
-                <hr className="desktop-hr" />
-                {/* 優惠券 */}
-                <div className="info-discount">
-                  <div className="d-flex align-items-center">
-                    <div className="discount-check-box mr50 d-flex align-items-center">
-                      <input
-                        className="mr20 checkbox-block"
-                        type="checkbox"
-                        name="discountCheck"
-                        id="discountCheck"
-                        checked={discount.checked ? 'checked' : false}
-                        onChange={handleDiscountChange}
-                      />
-                      優惠券
-                    </div>
-                    <div className="checked mr50">
-                      {discount.checked && discount.ID !== 0
-                        ? '已選擇優惠券'
-                        : '未選擇優惠券'}
-                    </div>
-                    <div className="discount-svg">
-                      <Image
-                        width={288}
-                        height={123}
-                        src={'/member/coupon-bg.png'}
-                        alt="coupon"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <hr className="desktop-hr" />
-                {/* 寄送方式 */}
-                <section className="deliver-block mt-3">
-                  {/* 寄送方式-標題 */}
-                  <div className="home-delivery">
-                    <span className="delivery-title">
-                      寄送方式 <span className="text-danger">*</span>
-                    </span>
-                  </div>
-                  {/* 寄送方式-選項 */}
-                  {/* 寄送方式-宅配 */}
-                  <div className="d-flex align-items-center">
-                    <input
-                      className="mr10 checkbox-block"
-                      type="radio"
-                      name="delivery-way"
-                      value="home"
-                      checked={selectedDelivery === 'home'}
-                      onChange={handleDeliveryChange}
-                      required
-                    />
-                    <span className="delivery-title">宅配</span>
-                  </div>
-                  {/* 基本資訊 */}
-                  {selectedDelivery === 'home' ? (
-                    <>
-                      <div className="row row-cols-1 row-cols-lg-3 input-block-block">
-                        <div>
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="text"
-                            placeholder="收貨人"
-                            value={receiver}
-                            onChange={(e) => setReceiver(e.target.value)}
-                            required={selectedDelivery === 'home'}
-                          />
-                        </div>
-                        <div>
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="手機號碼"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            required={selectedDelivery === 'home'}
-                          />
-                        </div>
-                        <div>
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="市話(非必填)"
-                            value={tel}
-                            onChange={(e) => setTel(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                      {/* 地址 */}
-                      <div className="mt20">
-                        <span className="delivery-title">寄送地址</span>
-                      </div>
-                      <div className="row row-cols-2">
-                        {/* 選取地區 */}
-                        <TWZipCode
-                          country={setCountry}
-                          township={setTownship}
-                          nessary={selectedDelivery === 'home'}
-                        />
-                        <div className="col w-100 mt10">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="text"
-                            placeholder="請輸入地址"
-                            value={address}
-                            required={selectedDelivery === 'home'}
-                            onChange={(e) => setAddress(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    ' '
-                  )}
-
-                  {/* 寄送方式-超商取貨 */}
-                  {/* !待新增效果-點擊後才出現便利商店選項 */}
-                  <div className="mt20 d-flex align-items-center">
-                    <input
-                      className="mr10 checkbox-block"
-                      type="radio"
-                      name="delivery-way"
-                      value="convenience"
-                      checked={selectedDelivery === 'convenience'}
-                      onChange={handleDeliveryChange}
-                      required
-                    />
-                    <span className="delivery-title">超商取貨</span>
-                  </div>
-                  {selectedDelivery === 'convenience' ? (
-                    <>
-                      {/* 選擇超商 */}
-                      <div className="row row-cols-2 row-cols-lg-4">
-                        <div className="col mt10">
-                          <button
-                            type="button"
-                            className={`btn btn-convenience w-100 ${
-                              store711.storename ? 'btn-warning' : ''
-                            }`}
-                            onClick={() => openWindow()}
-                          >
-                            <Image
-                              width={30}
-                              height={30}
-                              className="mr10"
-                              src={'/cart/sevenEleven.png'}
-                              alt="7-11"
-                            />
-                            <span className="delivery-title">
-                              {store711.storename
-                                ? store711.storename
-                                : '7-11超商'}
-                            </span>
-                          </button>
-                        </div>
-                        <div className="col mt10">
-                          <button
-                            type="button"
-                            className="btn btn-convenience w-100"
-                          >
-                            <Image
-                              width={30}
-                              height={30}
-                              className={'mr10'}
-                              src={'/cart/faimilyMart.png'}
-                              alt="familyMart"
-                            />
-                            <span className="delivery-title">全家超商</span>
-                          </button>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    ' '
-                  )}
-                </section>
-                <hr className="desktop-hr" />
-                {/* 付款方式 */}
-                <section className="payment-block">
-                  {/* 付款方式-標題 */}
-                  <div className="home-delivery">
-                    <span className="delivery-title">
-                      付款方式 <span className="text-danger">*</span>
-                    </span>
-                  </div>
-                  {/* !待新增效果-點擊後才出現下面的欄位 */}
-                  {/* 信用卡 */}
-                  <div className="mt20 d-flex align-items-center">
-                    <input
-                      className="mr10 checkbox-block"
-                      type="radio"
-                      name="payment-way"
-                      value="credit-card"
-                      checked={selectedPayment === 'credit-card'}
-                      onChange={handlePaymentChange}
-                      required
-                    />
-                    <span className="delivery-title">信用卡</span>
-                  </div>
-
-                  {/* 超商取貨付款 */}
-                  <div className="mt20 d-flex align-items-center">
-                    <input
-                      className="mr10 checkbox-block"
-                      type="radio"
-                      name="payment-way"
-                      value="store"
-                      checked={
-                        selectedPayment === 'store' &&
-                        selectedDelivery === 'convenience'
-                      }
-                      onChange={handlePaymentChange}
-                      required
-                    />
-                    <span className="delivery-title">超商取貨付款</span>
-                  </div>
-                  {selectedPayment === 'store' &&
-                  selectedDelivery === 'convenience' ? (
-                    <>
-                      {/* 基本資訊 */}
-                      <div className="row row-cols-1 row-cols-lg-3">
-                        <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="text"
-                            placeholder="收貨人姓名"
-                            value={receiver}
-                            onChange={(e) => setReceiver(e.target.value)}
-                            required={selectedPayment === 'store'}
-                          />
-                        </div>
-                        <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="手機號碼"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            required={selectedPayment === 'store'}
-                          />
-                        </div>
-                        <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="市話(非必填)"
-                          />
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    ' '
-                  )}
-                  <div className="mt20 d-flex align-items-center">
-                    <input
-                      className="mr10 checkbox-block"
-                      type="radio"
-                      name="payment-way"
-                      value="LinePay"
-                      checked={selectedPayment === 'LinePay'}
-                      onChange={handlePaymentChange}
-                      required
-                    />
-                    <span className="delivery-title">LinePay</span>
-                  </div>
-                </section>
-                <hr className="desktop-hr" />
-                {/* 發票資訊 */}
-                <section className="receipt-block">
-                  {/* 發票資訊-標題 */}
-                  <div className="home-delivery">
-                    <span className="delivery-title">發票資訊</span>
-                  </div>
-                  {/* !待新增效果-點擊後才出現下面的欄位 */}
-                  {/* 捐贈發票 */}
-                  <div className="mt20 d-flex align-items-center">
-                    <input
-                      className="mr10 checkbox-block"
-                      type="radio"
-                      name="bill-way"
-                      value="donate"
-                      checked={selectedBill === 'donate'}
-                      onChange={handleBillChange}
-                    />
-                    <span className="delivery-title">捐贈發票</span>
-                  </div>
-                  {/* 手機載具 */}
-                  <div className="mt20 d-flex align-items-center">
-                    <input
-                      className="mr10 checkbox-block"
-                      type="radio"
-                      name="bill-way"
-                      value="phone"
-                      checked={selectedBill === 'phone'}
-                      onChange={handleBillChange}
-                    />
-                    <span className="delivery-title">手機載具</span>
-                  </div>
-                  {selectedBill === 'phone' ? (
-                    <>
-                      {/* 載具資訊 */}
-                      <div className="row row-cols-1">
-                        <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="text"
-                            placeholder="手機載具號碼"
-                            value={carrierNum}
-                            onChange={(e) => setCarrierNum(e.target.value)}
-                            required={selectedBill === 'phone'}
-                          />
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    ' '
-                  )}
-
-                  {/* 紙本發票 */}
-                  <div className="mt20 d-flex align-items-center">
-                    <input
-                      className="mr10 checkbox-block"
-                      type="radio"
-                      name="bill-way"
-                      value="paper"
-                      checked={selectedBill === 'paper'}
-                      onChange={handleBillChange}
-                    />
-                    <span className="delivery-title">紙本發票</span>
-                  </div>
-                </section>
-                {/* <hr class="desktop-hr"> */}
-                {/* 訂單金額 */}
-                <section className="bill-block">
-                  <div className="row row-cols-lg-4 justify-content-lg-end">
-                    <div className="col">
-                      <div className="d-flex flex-column">
-                        <div className="price-block d-flex justify-content-between w-100">
-                          <div className="price-font set-middle">總金額</div>
-                          <div className="price-font set-middle">
-                            NT${checkedPrice}
-                          </div>
-                        </div>
-                        <div className="price-block d-flex justify-content-between w-100">
-                          <div className="price-font set-middle">優惠券</div>
-                          <div className="price-font set-middle d-flex flex-column">
-                            <div className="discount-icon">
-                              {discount.checked && discount.Name ? (
-                                discount.Name
-                              ) : (
-                                <div>無</div>
-                              )}
-                            </div>
-                            <div>-NT${discountPrice}</div>
-                          </div>
-                        </div>
-                        <hr />
-                        <div className="price-block d-flex justify-content-between w-100">
-                          <div className="price-font set-middle">結帳金額</div>
-                          <div className="price-font set-middle">
-                            NT${checkedPrice - discountPrice}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </section>
-            </div>
-            {/* 結帳&回購物車按鈕 */}
-            <section
-              className="check-btn-block d-flex justify-content-lg-center 
-				justify-content-md-center justify-content-between"
+      {isLoading ? (
+        <div>isLoading...</div>
+      ) : (
+        <div className="cart">
+          <div className="container">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const orderData = {
+                  MemberID: auth.memberData.id,
+                  ProductsAmount: items.filter((item) => item.checked).length,
+                  CouponID: discount.ID,
+                  Receiver: receiver,
+                  ReceiverPhone: phone,
+                  // 這三個會組合成一個地址
+                  country: country,
+                  township: township,
+                  address: address,
+                  storeAddress: store711.storeaddress,
+                  selectedDelivery: selectedDelivery,
+                  selectedPayment: selectedPayment,
+                  ReceiptType: selectedBill,
+                  checkedPrice: checkedPrice,
+                  DiscountPrice: discountPrice,
+                  ReceiptCarrier: carrierNum,
+                  Products: items
+                    .filter((item) => item.checked)
+                    .map((item) => {
+                      return {
+                        ProductID: item.id,
+                        ProductName: item.name,
+                        Quantity: item.quantity,
+                        Price: item.price,
+                      };
+                    }),
+                };
+                createOrder(orderData);
+              }}
             >
-              <div>
-                <Link href="/cart" className="btn check-btn">
-                  回購物車
-                </Link>
+              <div className="row">
+                {/* 麵包屑 */}
+                <Breadcrumbs />
               </div>
-              <div>
-                <button type="submit" id="check-btn" className="btn check-btn">
-                  確認付款
-                </button>
+              <div className="cart-info">
+                {/* cart-info */}
+                <section className="info-product">
+                  {/* 產品列表 */}
+                  {/* 列表標題 */}
+                  <div className="productList-title row">
+                    <div className="col text-center">商品</div>
+                    <div className="col text-center">單價</div>
+                    <div className="col text-center">數量</div>
+                    <div className="col text-center">總價</div>
+                  </div>
+                  <hr className="desktop-hr" />
+                  {/* 購物車列表 */}
+                  <InfoList />
+                  <hr className="desktop-hr" />
+                  {/* 優惠券 */}
+                  <div className="info-discount">
+                    <div className="d-flex align-items-center">
+                      <div className="discount-check-box mr50 d-flex align-items-center">
+                        <input
+                          className="mr20 checkbox-block"
+                          type="checkbox"
+                          name="discountCheck"
+                          id="discountCheck"
+                          checked={discount.checked ? 'checked' : false}
+                          onChange={handleDiscountChange}
+                        />
+                        優惠券
+                      </div>
+                      <div className="checked mr50">
+                        {discount.checked && discount.ID !== 0
+                          ? '已選擇優惠券'
+                          : '未選擇優惠券'}
+                      </div>
+                      <div className="discount-svg">
+                        <Image
+                          width={288}
+                          height={123}
+                          src={'/member/coupon-bg.png'}
+                          alt="coupon"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <hr className="desktop-hr" />
+                  {/* 寄送方式 */}
+                  <section className="deliver-block mt-3">
+                    {/* 寄送方式-標題 */}
+                    <div className="home-delivery">
+                      <span className="delivery-title">
+                        寄送方式 <span className="text-danger">*</span>
+                      </span>
+                    </div>
+                    {/* 寄送方式-選項 */}
+                    {/* 寄送方式-宅配 */}
+                    <div className="d-flex align-items-center">
+                      <input
+                        className="mr10 checkbox-block"
+                        type="radio"
+                        name="delivery-way"
+                        value="home"
+                        checked={selectedDelivery === 'home'}
+                        onChange={handleDeliveryChange}
+                        required
+                      />
+                      <span className="delivery-title">宅配</span>
+                    </div>
+                    {/* 基本資訊 */}
+                    {selectedDelivery === 'home' ? (
+                      <>
+                        <div className="row row-cols-1 row-cols-lg-3 input-block-block">
+                          <div>
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="text"
+                              placeholder="收貨人"
+                              value={receiver}
+                              onChange={(e) => setReceiver(e.target.value)}
+                              required={selectedDelivery === 'home'}
+                            />
+                          </div>
+                          <div>
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="tel"
+                              placeholder="手機號碼"
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
+                              required={selectedDelivery === 'home'}
+                            />
+                          </div>
+                          <div>
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="tel"
+                              placeholder="市話(非必填)"
+                              value={tel}
+                              onChange={(e) => setTel(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                        {/* 地址 */}
+                        <div className="mt20">
+                          <span className="delivery-title">寄送地址</span>
+                        </div>
+                        <div className="row row-cols-2">
+                          {/* 選取地區 */}
+                          <TWZipCode
+                            country={setCountry}
+                            township={setTownship}
+                            nessary={selectedDelivery === 'home'}
+                          />
+                          <div className="col w-100 mt10">
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="text"
+                              placeholder="請輸入地址"
+                              value={address}
+                              required={selectedDelivery === 'home'}
+                              onChange={(e) => setAddress(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      ' '
+                    )}
+
+                    {/* 寄送方式-超商取貨 */}
+                    {/* !待新增效果-點擊後才出現便利商店選項 */}
+                    <div className="mt20 d-flex align-items-center">
+                      <input
+                        className="mr10 checkbox-block"
+                        type="radio"
+                        name="delivery-way"
+                        value="convenience"
+                        checked={selectedDelivery === 'convenience'}
+                        onChange={handleDeliveryChange}
+                        required
+                      />
+                      <span className="delivery-title">超商取貨</span>
+                    </div>
+                    {selectedDelivery === 'convenience' ? (
+                      <>
+                        {/* 選擇超商 */}
+                        <div className="row row-cols-2 row-cols-lg-4">
+                          <div className="col mt10">
+                            <button
+                              type="button"
+                              className={`btn btn-convenience w-100 ${
+                                store711.storename ? 'btn-warning' : ''
+                              }`}
+                              onClick={() => openWindow()}
+                            >
+                              <Image
+                                width={30}
+                                height={30}
+                                className="mr10"
+                                src={'/cart/sevenEleven.png'}
+                                alt="7-11"
+                              />
+                              <span className="delivery-title">
+                                {store711.storename
+                                  ? store711.storename
+                                  : '7-11超商'}
+                              </span>
+                            </button>
+                          </div>
+                          <div className="col mt10">
+                            <button
+                              type="button"
+                              className="btn btn-convenience w-100"
+                            >
+                              <Image
+                                width={30}
+                                height={30}
+                                className={'mr10'}
+                                src={'/cart/faimilyMart.png'}
+                                alt="familyMart"
+                              />
+                              <span className="delivery-title">全家超商</span>
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      ' '
+                    )}
+                  </section>
+                  <hr className="desktop-hr" />
+                  {/* 付款方式 */}
+                  <section className="payment-block">
+                    {/* 付款方式-標題 */}
+                    <div className="home-delivery">
+                      <span className="delivery-title">
+                        付款方式 <span className="text-danger">*</span>
+                      </span>
+                    </div>
+                    {/* !待新增效果-點擊後才出現下面的欄位 */}
+                    {/* 信用卡 */}
+                    <div className="mt20 d-flex align-items-center">
+                      <input
+                        className="mr10 checkbox-block"
+                        type="radio"
+                        name="payment-way"
+                        value="credit-card"
+                        checked={selectedPayment === 'credit-card'}
+                        onChange={handlePaymentChange}
+                        required
+                      />
+                      <span className="delivery-title">信用卡</span>
+                    </div>
+
+                    {/* 超商取貨付款 */}
+                    <div className="mt20 d-flex align-items-center">
+                      <input
+                        className="mr10 checkbox-block"
+                        type="radio"
+                        name="payment-way"
+                        value="store"
+                        checked={
+                          selectedPayment === 'store' &&
+                          selectedDelivery === 'convenience'
+                        }
+                        onChange={handlePaymentChange}
+                        required
+                      />
+                      <span className="delivery-title">超商取貨付款</span>
+                    </div>
+                    {selectedPayment === 'store' &&
+                    selectedDelivery === 'convenience' ? (
+                      <>
+                        {/* 基本資訊 */}
+                        <div className="row row-cols-1 row-cols-lg-3">
+                          <div className="col">
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="text"
+                              placeholder="收貨人姓名"
+                              value={receiver}
+                              onChange={(e) => setReceiver(e.target.value)}
+                              required={selectedPayment === 'store'}
+                            />
+                          </div>
+                          <div className="col">
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="tel"
+                              placeholder="手機號碼"
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
+                              required={selectedPayment === 'store'}
+                            />
+                          </div>
+                          <div className="col">
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="tel"
+                              placeholder="市話(非必填)"
+                            />
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      ' '
+                    )}
+                    <div className="mt20 d-flex align-items-center">
+                      <input
+                        className="mr10 checkbox-block"
+                        type="radio"
+                        name="payment-way"
+                        value="LinePay"
+                        checked={selectedPayment === 'LinePay'}
+                        onChange={handlePaymentChange}
+                        required
+                      />
+                      <span className="delivery-title">LinePay</span>
+                    </div>
+                    {selectedPayment === 'LinePay' &&
+                    selectedDelivery !== 'home' ? (
+                      <>
+                        {/* 基本資訊 */}
+                        <div className="row row-cols-1 row-cols-lg-3">
+                          <div className="col">
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="text"
+                              placeholder="收貨人姓名"
+                              value={receiver}
+                              onChange={(e) => setReceiver(e.target.value)}
+                              required={selectedPayment === 'store'}
+                            />
+                          </div>
+                          <div className="col">
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="tel"
+                              placeholder="手機號碼"
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
+                              required={selectedPayment === 'store'}
+                            />
+                          </div>
+                          <div className="col">
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="tel"
+                              placeholder="市話(非必填)"
+                            />
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      ' '
+                    )}
+                  </section>
+                  <hr className="desktop-hr" />
+                  {/* 發票資訊 */}
+                  <section className="receipt-block">
+                    {/* 發票資訊-標題 */}
+                    <div className="home-delivery">
+                      <span className="delivery-title">發票資訊</span>
+                    </div>
+                    {/* !待新增效果-點擊後才出現下面的欄位 */}
+                    {/* 捐贈發票 */}
+                    <div className="mt20 d-flex align-items-center">
+                      <input
+                        className="mr10 checkbox-block"
+                        type="radio"
+                        name="bill-way"
+                        value="donate"
+                        checked={selectedBill === 'donate'}
+                        onChange={handleBillChange}
+                      />
+                      <span className="delivery-title">捐贈發票</span>
+                    </div>
+                    {/* 手機載具 */}
+                    <div className="mt20 d-flex align-items-center">
+                      <input
+                        className="mr10 checkbox-block"
+                        type="radio"
+                        name="bill-way"
+                        value="phone"
+                        checked={selectedBill === 'phone'}
+                        onChange={handleBillChange}
+                      />
+                      <span className="delivery-title">手機載具</span>
+                    </div>
+                    {selectedBill === 'phone' ? (
+                      <>
+                        {/* 載具資訊 */}
+                        <div className="row row-cols-1">
+                          <div className="col">
+                            <input
+                              className="mt10 w-100 h-36p input-block"
+                              type="text"
+                              placeholder="手機載具號碼"
+                              value={carrierNum}
+                              onChange={(e) => setCarrierNum(e.target.value)}
+                              required={selectedBill === 'phone'}
+                            />
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      ' '
+                    )}
+
+                    {/* 紙本發票 */}
+                    <div className="mt20 d-flex align-items-center">
+                      <input
+                        className="mr10 checkbox-block"
+                        type="radio"
+                        name="bill-way"
+                        value="paper"
+                        checked={selectedBill === 'paper'}
+                        onChange={handleBillChange}
+                      />
+                      <span className="delivery-title">紙本發票</span>
+                    </div>
+                  </section>
+                  {/* <hr class="desktop-hr"> */}
+                  {/* 訂單金額 */}
+                  <section className="bill-block">
+                    <div className="row row-cols-lg-4 justify-content-lg-end">
+                      <div className="col">
+                        <div className="d-flex flex-column">
+                          <div className="price-block d-flex justify-content-between w-100">
+                            <div className="price-font set-middle">總金額</div>
+                            <div className="price-font set-middle">
+                              NT${checkedPrice}
+                            </div>
+                          </div>
+                          <div className="price-block d-flex justify-content-between w-100">
+                            <div className="price-font set-middle">優惠券</div>
+                            <div className="price-font set-middle d-flex flex-column">
+                              <div className="discount-icon">
+                                {discount.checked && discount.Name ? (
+                                  discount.Name
+                                ) : (
+                                  <div>無</div>
+                                )}
+                              </div>
+                              <div>-NT${discountPrice}</div>
+                            </div>
+                          </div>
+                          <hr />
+                          <div className="price-block d-flex justify-content-between w-100">
+                            <div className="price-font set-middle">
+                              結帳金額
+                            </div>
+                            <div className="price-font set-middle">
+                              NT${checkedPrice - discountPrice}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </section>
               </div>
-            </section>
-          </form>
+              {/* 結帳&回購物車按鈕 */}
+              <section
+                className="check-btn-block d-flex justify-content-lg-center 
+				justify-content-md-center justify-content-between"
+              >
+                <div>
+                  <Link href="/cart" className="btn check-btn">
+                    回購物車
+                  </Link>
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    id="check-btn"
+                    className="btn check-btn"
+                  >
+                    確認付款
+                  </button>
+                </div>
+              </section>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
