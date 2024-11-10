@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { updateProfile } from '@/services/member';
 import { BsCamera } from 'react-icons/bs';
 import { useAuth } from '@/hooks/use-auth';
 import MemberLayout from '@/components/layout/member-layout';
@@ -28,28 +29,26 @@ export default function Member() {
     birth: '',
   };
 
-  const { auth, getMember } = useAuth();
+  const { auth, setAuth, getMember } = useAuth();
   const [userProfile, setUserProfile] = useState(initUserProfile);
-  const [hasProfile, setHasProfile] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
 
   // 初始化會員資料
   const getUserData = async () => {
     const res = await getMember();
 
     if (res.data.status === 'success') {
-      const dbUser = res.data.memberData;
-      console.log('dbUser:', dbUser);
+      const dbMember = res.data.memberData;
+      // console.log('dbMember:', dbMember);
 
       setUserProfile({
-        avatar: dbUser.Avatar ?? '',
-        account: dbUser.Account ?? '',
-        name: dbUser.Name ?? '',
-        nickname: dbUser.Nickname ?? '',
-        email: dbUser.eMail ?? '',
-        phone: dbUser.Phone ?? '',
-        gender: dbUser.Gender ?? '',
-        birth: dbUser.Birth ?? '',
+        avatar: dbMember.Avatar ?? '',
+        account: dbMember.Account ?? '',
+        name: dbMember.Name ?? '',
+        nickname: dbMember.Nickname ?? '',
+        email: dbMember.eMail ?? '',
+        phone: dbMember.Phone ?? '',
+        gender: dbMember.Gender ?? '',
+        birth: dbMember.Birth ?? '',
       });
     }
   };
@@ -68,7 +67,7 @@ export default function Member() {
   // 定義要給react-datepicker使用的選擇日期狀態
   const [startDate, setStartDate] = useState(
     // 如果有生日資料就用，沒有就用當天
-    userProfile.birth ? new Date(userProfile.birth) : new Date()
+    userProfile.birth ? new Date(userProfile.birth) : null
   );
 
   const handleDateChange = (date) => {
@@ -80,16 +79,42 @@ export default function Member() {
       birth: date ? date.toISOString().split('T')[0] : '',
     });
   };
-  // react-datepicker套件 結束
 
   useEffect(() => {
     if (userProfile.birth) {
       setStartDate(new Date(userProfile.birth));
     }
   }, [userProfile.birth]);
+  // react-datepicker套件 結束
+
+  // 送出表單用
+  const handleSubmit = async (e) => {
+    // 阻擋表單預設送出行為
+    e.preventDefault();
+
+    // 這裡可以作表單驗証
+
+    // 更新會員資料用，排除avatar
+    const { avatar, ...user } = userProfile;
+    const res = await updateProfile(auth.memberData.id, user);
+    // console.log(res.data)
+
+    if (res.data.status === 'success') {
+      setAuth({
+        memberData: {
+          ...auth.memberData,
+          name: userProfile.name ?? '',
+          nickname: userProfile.nickname ?? '',
+        },
+      });
+      toast.success('會員資料修改成功');
+    } else {
+      toast.error('會員資料修改失敗');
+    }
+  };
 
   // 未登入時，不會出現頁面內容
-  if (!auth.isAuth) return <></>;
+  // if (!auth.isAuth) return <></>;
 
   return (
     <>
@@ -118,7 +143,7 @@ export default function Member() {
             <div className="col">
               <div className="mb-3">
                 <label htmlFor="account" className="form-label">
-                  帳號
+                  編號
                 </label>
                 <input
                   type="text"
@@ -144,7 +169,7 @@ export default function Member() {
             </div>
           </div>
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="row mt-4">
             <div className="col-md-6 col-sm-12">
               <div className="mb-3">
@@ -266,7 +291,7 @@ export default function Member() {
               </div>
             </div>
             <div className="col-12 d-flex justify-content-center mt-4">
-              <button type="button" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary">
                 儲存
               </button>
             </div>

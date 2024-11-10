@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-undef */
@@ -6,9 +7,16 @@ import React, { useState, useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
 import Image from 'next/image';
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
-import ClickIcon from '@/components/icons/click-icon/click-icon';
+import FavoriteIcon from '@/components/product/favorite/FavoriteIcon/FavoriteIcon';
+import { useCart } from '@/hooks/use-cart/use-cart-state';
+import style from '@/components/product/productDetail.module.scss';
+import toast from 'react-hot-toast';
+import logo from 'public/LOGO.svg';
+import Imagechoose from '@/components/product/imagechoose';
 
 export default function ProductDetail(props) {
+  // 建立購物車物件
+  const { cart, addItem } = useCart();
   // 使用路由判斷當前動態路由id
   const router = useRouter();
   // 抓取當前動態路由參數
@@ -16,10 +24,11 @@ export default function ProductDetail(props) {
   // 抓取單筆物件存放容器
   const [fetchOne, setFetchOne] = useState([]);
   const [fetchData, setFetchData] = useState([]);
+  const [productQuantity, setProductQuantity] = useState(1);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3005/api/product');
+        const response = await fetch(`http://localhost:3005/api/product`);
         if (!response.ok) {
           throw new Error('網路回應不成功：' + response.status);
         }
@@ -39,59 +48,38 @@ export default function ProductDetail(props) {
     }
   }, [myId]);
   // 篩選image資料表ProductID為相同product資料表ID的資訊
-  const productImages = fetchData.filter(
-    (pd) => pd.ProductID === fetchOne.ProductID
-  );
+  const productImages = fetchData.filter((pd) => pd.ProductID === fetchOne.ID);
+
+  // 處理減少數量的函數
+  const handleDecrease = () => {
+    setProductQuantity((prevQuantity) =>
+      prevQuantity > 1 ? prevQuantity - 1 : 1
+    );
+  };
+
+  // 處理增加數量的函數
+  const handleIncrease = () => {
+    setProductQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  // 導航到購物車
+  const cartLink = () => {
+    router.push('/cart');
+  };
 
   // 先確保有資料在解構
   if (!fetchOne) {
     return <p>Loading...</p>;
   }
   // 解構資料
-  const { Name, Img, SalePrice, Stock, Info, ProductSummary } = fetchOne;
+  const { Name, Img, SalePrice, Info, ProductSummary } = fetchOne;
+  // 要加入購物車的資料
   return (
     <>
       {/* 商品細節 */}
       <div className="container d-flex detail-layout-up">
         {/* 圖片輪播 */}
-        <div className="row detail-left">
-          {/* 主視圖 */}
-          <div className="row">
-            <div className="col">
-              <div>
-                {Img && (
-                  <Image
-                    className="detailimg-rwd"
-                    src={`/product/sqlimg/${Img}`}
-                    alt={Name}
-                    width={510}
-                    height={456}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-          {/* 輪播點選圖 RWD 圖片隱藏 換成箭頭輪播*/}
-          <div className="row mt-3 detail-rwd-none">
-            <div className="col d-flex detail-left-turn">
-              {productImages.length > 0 &&
-                productImages.map(
-                  (image, index) =>
-                    image.ImageName && ( // 確認 ImageName 有圖才渲染
-                      <div className="col" key={index}>
-                        <Image
-                          className="detailimg-rwd"
-                          src={`/product/sqlimg/${image.ImageName}`}
-                          alt={Name}
-                          width={112}
-                          height={138}
-                        />
-                      </div>
-                    )
-                )}
-            </div>
-          </div>
-        </div>
+        <Imagechoose Img={Img} productImages={productImages} Name={Name} />
         {/* 商品簡介 */}
         <div className="row detail-right">
           {/* 簡介內容 */}
@@ -103,29 +91,39 @@ export default function ProductDetail(props) {
               <div className="d-flex mt-4">
                 <div className="col d-flex align-items-center">
                   {/* 星級文字 */}
-                  <div>
-                    <p className="star-text">4&nbsp;&nbsp;</p>
-                  </div>
+                  {/* <div>
+                    <p className="star-text">5&nbsp;&nbsp;</p>
+                  </div> */}
                   {/* 星級圖示 */}
                   <div className="star-rwd">
                     <img src="../product/star=1.png" alt="1" />
                     <img src="../product/star=1.png" alt="1" />
                     <img src="../product/star=1.png" alt="1" />
                     <img src="../product/star=1.png" alt="1" />
-                    <img src="../product/star=0.png" alt="1" />
+                    <img src="../product/star=1.png" alt="1" />
                   </div>
                   <div>
-                    <p className="star-text sell-how">
-                      &nbsp;|&nbsp;10件已售出
-                    </p>
+                    <a
+                      className={`sell-how ${style['comment']}`}
+                      onClick={() =>
+                        document
+                          .querySelector('#comment')
+                          .scrollIntoView({ behavior: 'smooth' })
+                      }
+                    >
+                      &nbsp;|&nbsp;我要評論
+                    </a>
                   </div>
                 </div>
                 {/* 收藏圖 */}
                 <div className="col d-flex justify-content-end">
-                  <ClickIcon
-                    IconFilled={BsBookmarkFill}
-                    IconOutline={BsBookmark}
-                  />
+                  <div className={`${style['pdsvg-favorite']}`}>
+                    <FavoriteIcon
+                      IconFilled={BsBookmarkFill}
+                      IconOutline={BsBookmark}
+                      pd={myId}
+                    />
+                  </div>
                 </div>
               </div>
               {/* 文字內容簡介 */}
@@ -150,28 +148,72 @@ export default function ProductDetail(props) {
                         role="group"
                         aria-label="Basic example"
                       >
-                        <button type="button" className="btn border buy-dash">
+                        <button
+                          type="button"
+                          className="btn border buy-dash"
+                          onClick={handleDecrease}
+                        >
                           -
                         </button>
                         <div className="many border">
-                          <p className="detail-p">2</p>
+                          <p className="detail-p">{productQuantity}</p>
                         </div>
                         <button
                           type="button"
                           className="btn border m-0 buy-add"
+                          onClick={handleIncrease}
                         >
                           +
                         </button>
                       </div>
-                      <div>
+                      {/* <div>
                         <p className="detail-p detail-rwd-none">
                           還剩{Stock}件
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="d-flex mt-5 detail-brt-gap">
-                      <button className="detail-btn1">加入購物車</button>
-                      <button className="detail-btn2">立即結帳</button>
+                      <button
+                        type="button"
+                        className="detail-btn1"
+                        onClick={() => {
+                          addItem({
+                            id: myId,
+                            name: Name,
+                            price: SalePrice,
+                            img: Img,
+                            quantity: productQuantity,
+                            checked: '',
+                          });
+                          toast('加入購物車成功', {
+                            icon: (
+                              <Image
+                                width={95}
+                                height={53}
+                                src={logo}
+                                alt="logo"
+                                priority
+                              />
+                            ),
+                            duration: 1800,
+                            style: {
+                              borderRadius: '10px',
+                              background: 'rgba(84, 124, 215, 1)',
+                              color: '#fff',
+                              marginTop: '80px',
+                            },
+                          });
+                        }}
+                      >
+                        加入購物車
+                      </button>
+                      <button
+                        type="button"
+                        className="detail-btn2"
+                        onClick={() => cartLink()}
+                      >
+                        立即結帳
+                      </button>
                     </div>
                   </form>
                 </div>

@@ -4,6 +4,7 @@ import List from '@/components/cart/list';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
+import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 
 export default function Cart(props) {
   const { auth, getMember } = useAuth();
@@ -18,7 +19,15 @@ export default function Cart(props) {
   const getDiscount = async () => {
     try {
       const disCountData = await fetch(
-        'http://localhost:3005/api/discount/getValidDiscount'
+        'http://localhost:3005/api/discount/getMemberDicount',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(auth.memberData.ID),
+        }
       );
       if (!disCountData.ok) {
         throw new Error('網路回應不成功：' + disCountData.status);
@@ -57,9 +66,13 @@ export default function Cart(props) {
 
   // 將選擇的優惠券帶到下一頁
   const bringDiscount = () => {
-    const updatedDiscount = { ...selectedDiscount, checked: true };
-    setSelectedDiscount(updatedDiscount);
-    window.localStorage.setItem('discount', JSON.stringify(updatedDiscount));
+    if (selectedDiscount) {
+      const updatedDiscount = { ...selectedDiscount, checked: true };
+      setSelectedDiscount(updatedDiscount);
+      window.localStorage.setItem('discount', JSON.stringify(updatedDiscount));
+    } else {
+      localStorage.setItem('discount', { checked: false });
+    }
   };
 
   // 當選擇優惠券發生變化時計算折扣
@@ -89,14 +102,7 @@ export default function Cart(props) {
           <div className="cart">
             <div className="container">
               {/* 麵包屑 */}
-              <div className="row">
-                <div className="productList-crumb-wei col-sm-9 col-5">
-                  <a href="./index">首頁</a>/
-                  <a className="active" href="./cart">
-                    購物車
-                  </a>
-                </div>
-              </div>
+              <Breadcrumbs />
               {/* cart */}
               <div className="cart-main">
                 {/* title */}
@@ -128,7 +134,6 @@ export default function Cart(props) {
                           value={selectedDiscount?.ID || ''}
                           onChange={handleCouponChange}
                         >
-                          {/* //! 這邊缺少一個function將以選取的優惠券帶到下一頁  */}
                           <option value="">選擇優惠券</option>
                           {/* 篩選只有滿足優惠券最低金額的優惠券會顯示 */}
                           {discount
@@ -186,7 +191,17 @@ export default function Cart(props) {
                           href="/cart/cart-info"
                           className="btn bg-second-color btn-checkd text-decoration-none set-middle"
                           // 將選擇的優惠券帶到下一頁
-                          onClick={bringDiscount}
+                          onClick={(e) => {
+                            if (
+                              cart.items.filter((item) => item.checked === true)
+                                .length === 0
+                            ) {
+                              alert('請選擇商品');
+                              e.preventDefault();
+                            } else {
+                              bringDiscount();
+                            }
+                          }}
                         >
                           去結帳
                         </Link>

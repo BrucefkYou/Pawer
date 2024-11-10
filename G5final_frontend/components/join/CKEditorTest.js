@@ -1,6 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 class MyUploadAdapter {
   constructor(loader) {
@@ -12,22 +10,26 @@ class MyUploadAdapter {
       (file) =>
         new Promise((resolve, reject) => {
           const formData = new FormData();
-          formData.append('articleImage', file);
+          formData.append('joinImage', file);
           fetch('/api/upload2', {
             method: 'POST',
             body: formData,
           })
             .then((response) => {
-              console.log(response);
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
               return response.json();
             })
             .then((result) => {
-              console.log(`upload result : ${result.url}`);
               resolve({
-                default: result.url,
+                default: result.url, // 這裡返回的 URL 會被 CKEditor 用於顯示圖片
               });
             })
-            .catch(reject);
+            .catch((error) => {
+              console.error('上傳失敗:', error);
+              reject(error);
+            });
         })
     );
   }

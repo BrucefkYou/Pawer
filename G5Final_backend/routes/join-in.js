@@ -1,20 +1,36 @@
+import { createRouter } from 'next-connect'
+import { Low } from 'lowdb'
+import { JSONFile } from 'lowdb/node'
+import path, { extname } from 'path'
 import express from 'express'
+import moment from 'moment'
 import db2 from '../configs/mysql.js'
-// 檢查空物件, 轉換req.params為數字
-import { getIdParam } from '#db-helpers/db-tool.js'
-const router = express.Router()
-import sequelize from '#configs/db.js'
-const { Joinin } = sequelize.models
-import { QueryTypes, Op } from 'sequelize'
+import { v4 as uuidv4 } from 'uuid'
+// import { createRouter } from 'next-connect';
+import authenticate from '#middlewares/authenticate.js'
 import multer from 'multer'
 
-const upload = multer()
+const router = express.Router()
+const apiRouter = createRouter()
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // 這裡的路徑是相對於專案根目錄的 public/join
+    cb(null, 'public/join')
+  },
+  filename: function (req, file, cb) {
+    const fileExt = path.extname(file.originalname)
+    const filename = uuidv4() + fileExt
+    cb(null, filename)
+  },
+})
+
+const upload = multer({ storage: storage })
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
   try {
-    const { keyword } = req.query
-    const { sd } = req.query
+    const { keyword, sd } = req.query
     let rows = `
       SELECT 
     Joinin.*,
@@ -83,15 +99,22 @@ router.get('/:id', async function (req, res, next) {
         WHEN CURRENT_TIMESTAMP > Joinin.SignEndTime THEN '開團截止'
         WHEN CURRENT_TIMESTAMP BETWEEN Joinin.CreateDate AND Joinin.SignEndTime THEN '報名中'
         ELSE '未開放'
-    END AS newStatus
+    END AS newStatus,
+    GROUP_CONCAT(Tag.Name) AS Tags
 FROM 
     Joinin
 LEFT JOIN 
     Image ON Image.JoininID = Joinin.ID
-     WHERE ID = ?`,
+LEFT JOIN 
+    TagMappings ON TagMappings.JoininID = Joinin.ID
+LEFT JOIN 
+    Tag ON Tag.ID = TagMappings.TagID
+WHERE 
+    Joinin.ID = ?
+GROUP BY 
+    Joinin.ID`,
       [req.params.id]
     )
-    // 檢查是否有找到資料
     if (rows.length === 0) {
       return res.status(404).json({ message: '找不到指定的資料' })
     }
@@ -102,81 +125,94 @@ LEFT JOIN
   }
 })
 
-// router.get('/qs', async function (req, res) {
-//   try {
-//     const { keyword } = req.query
+router.post('/upload', upload.single('joinImage'), (req, res) => {
+  try {
+    const file = req.file
+    if (!file) {
+      return res.status(400).json({ message: '未上傳圖片' })
+    }
+    const imageUrl = `/join/${file.filename}`
+    res.status(200).json({ url: imageUrl, name: file.filename })
+  } catch (error) {
+    console.error('圖片上傳錯誤:', error)
+    res.status(500).json({ message: '圖片上傳失敗', error })
+  }
+})
 
-//     // 這邊帶要查找的資料
-//     let sql = `
-//     SELECT
-//       Joinin.*,
-//       (SELECT COUNT(*) FROM MemberFavoriteMapping WHERE MemberFavoriteMapping.JoininID = Joinin.ID) AS favoriteCount,
-//       Image.ImageUrl AS joininImg
-//     FROM Joinin
-//     LEFT JOIN Image ON Joinin.ID = Image.JoininID
-//     WHERE Joinin.Status = 1
-//   `
-//     const conditions = []
+router.post('/create', upload.single('joinImage'), async (req, res) => {
+  const {
+    imageName,
+    memberId,
+    title,
+    info,
+    startTime,
+    endTime,
+    count,
+    signEndDate,
+    city,
+    township,
+    location,
+    tags,
+  } = req.body
+  const createTime = moment().format('YYYY-MM-DD HH:mm')
+  const updateTime = moment().format('YYYY-MM-DD HH:mm')
+  try {
+    // 將資料寫入 joinin 表
+    const [result] = await db2.execute(
+      `INSERT INTO Joinin (MemberID,Title, Info, StartTime, EndTime,SignEndTime, ParticipantLimit, City, Township, Location, CreateDate,UpdateDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        memberId,
+        title,
+        info,
+        startTime,
+        endTime,
+        signEndDate,
+        count,
+        city,
+        township,
+        location,
+        createTime,
+        updateTime,
+      ]
+    )
 
-//     // 搜尋條件
-//     if (keyword) {
-//       conditions.push(`Joinin.Title LIKE '%${keyword}%'`)
-//     }
+    const joininId = result.insertId
+    const imgurl = `/join/+${imageName}`
+    const imageUploadDate = moment().format('YYYY-MM-DD HH:mm')
+    //抓取附檔名 slice(1)是為了去掉.
+    const imgType = path.extname(imageName).slice(1)
+    // const imgType = imageName.split('.').pop()
+    await db2.execute(
+      `INSERT INTO Image (JoininId, ImageName,ImageUrl,ImageUploadDate,ImageType) VALUES (?, ?, ?, ?, ?)`,
+      [joininId, imageName, imgurl, imageUploadDate, imgType]
+    )
 
-//     if (conditions.length > 0) {
-//       sql += ' AND ' + conditions.join(' AND ')
-//     }
+    // 將 tags 傳進 tag 表，tags是一個陣列，用for 迴圈將拆解的 tag 一個一個寫入
+    const createDate = moment().format('YYYY-MM-DD HH:mm')
+    for (const tag of tags) {
+      await db2.execute(
+        `INSERT INTO Tag (Name,CreateDate,CreateUserID) VALUES (?,?,?)`,
+        [tag, createDate, memberId]
+      )
+    }
 
-//     const [results] = await db2.query(sql)
-//     res.status(200).json({ status: 'success', data: { blogs: results } })
-//   } catch (error) {
-//     res.status(500).json({ error: '搜尋失敗' })
-//   }
-// })
+    // 將 tags 傳進 tagmappings 表中
+    for (const tag of tags) {
+      const [tagId] = await db2.execute(`SELECT ID FROM Tag WHERE Name = ?`, [
+        tag,
+      ])
+      //  tagId[0].ID 是因為 tagId 是一個陣列，取第一個元素的 ID
+      await db2.execute(
+        `INSERT INTO Tagmappings (JoininId, TagId) VALUES (?, ?)`,
+        [joininId, tagId[0].ID]
+      )
+    }
 
-//CKEditor 圖片上傳
-// router.put('/:id', upload.none(), async (req, res) => {
-//   // 檢查有沒有在登入狀態
-//   // 檢查登入狀態的使用者和修改的對象是否一致
-//   // 還可以做檢查帳號權限
-//   // upload.none()會將物件存放在req.body內
-//   // const 將物件內容取出
-//   const { password, name, mail, head } = req.body
-//   const { id } = req.params
-//   const user = db.data.user.find((u) => (u.account = id))
-//   Object.assign(user, { password, name, mail, head })
-//   const message = `資料更新成功`
-//   await db2.write()
-//   res.status(200).json({ result: 'success', message })
-// })
-
-// router.put('/:id', async function (req, res, next) {
-//   try {
-//     // 使用 WHERE 子句來篩選指定 id 的資料
-//     const [rows] = await db2.query(
-//       `SELECT
-//     Joinin.*,
-//     Image.ImageID,
-//     Image.ImageName,
-//     Image.ImageUrl,
-//     (SELECT COUNT(*) FROM MemberFavoriteMapping WHERE MemberFavoriteMapping.JoininID = Joinin.ID) AS joinFavCount,
-//     (SELECT COUNT(*)
-//     FROM Joined
-//     WHERE Joined.JoininID = Joinin.ID AND Status = 1) AS SignCount,
-//     LEFT JOIN
-//     Image ON Image.JoininID = Joinin.ID
-//      WHERE ID = ?`,
-//       [req.params.id]
-//     )
-//     // 檢查是否有找到資料
-//     if (rows.length === 0) {
-//       return res.status(404).json({ message: '找不到指定的資料' })
-//     }
-//     res.json(rows[0]) // 因為只會有一筆資料，所以直接返回第一個元素
-//   } catch (err) {
-//     console.error('查詢錯誤：', err)
-//     res.status(500).send(err)
-//   }
-// })
+    res.status(200).json({ message: '寫入成功' })
+  } catch (error) {
+    console.error('處理過程中發生錯誤:', error)
+    res.status(500).json({ message: '伺服器錯誤', error })
+  }
+})
 
 export default router
