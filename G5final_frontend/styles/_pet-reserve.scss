@@ -1,0 +1,93 @@
+.PT-reserve-card {
+  background: white;
+  border-radius: 5px;
+  /* 下拉明細卡 */
+  .detail-card.active {
+    max-height: 300px; /* 設置一個大於預期展開高度的值，視需求調整 */
+    box-shadow: 0px 0px 7.3px 2px rgba(161, 161, 161, 0.17);
+  }
+  .title {
+    background: $primary;
+    color: white;
+  }
+  .detail-card {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1s ease-out;
+    @media (max-width: 768px) {
+      .main-1 {
+        flex-direction: column;
+      }
+    }
+    // 文字區
+    .text {
+      color: #8a8a8a;
+    }
+    .text-1 {
+      font-size: 24px;
+    }
+    .text-2 {
+      font-size: 14px;
+      background-color: #547cd7;
+      color: white;
+      padding: 3px 18px;
+      border-radius: 8px;
+    }
+    .text-3 {
+      font-size: 16px;
+    }
+    .text-4 {
+      font-size: 14px;
+    }
+    // 明細卡片按鈕
+    .btnn-group {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 10px;
+      .btnn {
+        border-radius: 5px;
+        padding: 5px 10px;
+        border: none;
+        color: white;
+      }
+      @media (max-width: 768px) {
+        .btnn {
+          padding: 5px 8px;
+        }
+      }
+      .btnn-1 {
+        background-color: #bfbfbf;
+      }
+      .btnn-2 {
+        background-color: #f4b13e;
+      }
+      .btnn-3 {
+        background-color: #22355c;
+      }
+    }
+    .btnn-group-position {
+      justify-content: flex-end;
+    }
+    @media (max-width: 768px) {
+      .btnn-group {
+        flex-direction: row;
+        justify-content: flex-start;
+        font-size: 14px;
+      }
+      .btnn-group-position {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .status {
+        display: block;
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    .detail-card {
+      box-shadow: none;
+    }
+  }
+}
