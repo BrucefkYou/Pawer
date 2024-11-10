@@ -66,7 +66,12 @@ export default function Tagcat(props) {
           <div className="row d-none rwd-select">
             <div className="col d-flex justify-content-center align-items-center selectpd rwd-select ">
               <div className="rwd-select col d-flex justify-content-center">
-                <div className="d-flex justify-content-between align-items-center mt-2">
+                <p className="howmaney howmaney-rwd col mt-3">
+                  顯示第{nowPageFirstItems + 1}-
+                  {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
+                  {filterData.length} 筆
+                </p>
+                <div className="d-flex justify-content-between align-items-center p-3">
                   <PerPageDom
                     itemsperPage={itemsperPage}
                     choosePerpage={choosePerpage}

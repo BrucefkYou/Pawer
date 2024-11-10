@@ -80,25 +80,25 @@ export default function Navbar() {
                       <Link
                         type="button"
                         className="customDropdownItem"
-                        href="./product/tagcat"
+                        href="/product/tagcat"
                       >
-                        貓貓商品
+                        貓貓保健
                       </Link>
                     </li>
                     <li className="dropdownli">
                       <Link
                         type="button"
                         className="customDropdownItem"
-                        href="./product/tagdog"
+                        href="/product/tagdog"
                       >
-                        狗狗商品
+                        狗狗保健
                       </Link>
                     </li>
                     <li className="dropdownli">
                       <Link
                         type="button"
                         className="customDropdownItem"
-                        href="./blog"
+                        href="/blog"
                       >
                         部落格專
                       </Link>
@@ -107,7 +107,7 @@ export default function Navbar() {
                       <Link
                         type="button"
                         className="customDropdownItem"
-                        href="./join"
+                        href="/join"
                       >
                         萌寵聚會
                       </Link>
@@ -116,7 +116,7 @@ export default function Navbar() {
                       <Link
                         type="button"
                         className="customDropdownItem"
-                        href="./communicator"
+                        href="/communicator"
                       >
                         寵物溝通
                       </Link>
@@ -154,14 +154,14 @@ export default function Navbar() {
               className="text-secondary"
               href="/product/tagcat"
             >
-              貓貓商品
+              貓貓保健
             </Link>
             <Link
               type="button"
               className="text-secondary"
               href="/product/tagdog"
             >
-              狗狗商品
+              狗狗保健
             </Link>
             <Link type="button" className="text-secondary" href="/blog">
               部落格專區
