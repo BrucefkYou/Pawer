@@ -137,11 +137,11 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
       const order = {
         orderId: uuid,
         currency: 'TWD',
-        amount: ProductsAmount,
+        amount: TotalPrice,
         packages: [
           {
             id: OrderNumber, // 可以使用 OrderNumber 作为 package ID
-            amount: ProductsAmount,
+            amount: TotalPrice,
             products: Products.map((product) => ({
               name: product.ProductName,
               quantity: product.Quantity,

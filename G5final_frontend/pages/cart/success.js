@@ -12,7 +12,11 @@ export default function Success(props) {
     clearCart();
     localStorage.removeItem('store7-11');
     localStorage.removeItem('discount');
-    setOrderNumber(router.query.CustomField4);
+    if (router.query.CustomField4) {
+      setOrderNumber(router.query.CustomField4);
+    } else {
+      setOrderNumber(router.query.orderID);
+    }
   }, [router.isReady]);
 
   return (

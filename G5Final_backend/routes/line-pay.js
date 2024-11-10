@@ -83,13 +83,11 @@ router.post('/LinePayOrder', authenticate, async (req, res) => {
 
 // 重新導向到line-pay，進行交易(純導向不回應前端)
 // 資料格式參考 https://enylin.github.io/line-pay-merchant/api-reference/request.html#example
-router.post('/reserve', async (req, res) => {
-  console.log(12112)
-  if (!req.body.orderId) {
-    console.log(121)
+router.get('/reserve', authenticate, async (req, res) => {
+  if (!req.query.orderId || req.query.orderId === 0) {
     return res.json({ status: 'error', message: 'order id不存在' })
   }
-  const orderId = req.body.orderId
+  const orderId = req.query.orderId
 
   // 設定重新導向與失敗導向的網址
   const redirectUrls = {
@@ -114,7 +112,7 @@ router.post('/reserve', async (req, res) => {
 
   //const order = cache.get(orderId)
   console.log(`獲得訂單資料，內容如下：`)
-  console.log('2222:' + orderData)
+  console.log(orderData)
   try {
     // 向line pay傳送的訂單資料
     const linePayResponse = await linePayClient.request.send({
@@ -138,7 +136,7 @@ router.post('/reserve', async (req, res) => {
       'UPDATE LinepayInfo SET reservation = ?, transaction_id = ? WHERE OrderID = ?'
     const linepayinfoValues = [
       JSON.stringify(reservation),
-      reservation.transactionId,
+      reservation.transaction_id,
       orderId,
     ]
     await db.query(linepayinfoSql, linepayinfoValues)
@@ -182,6 +180,7 @@ router.get('/confirm', async (req, res) => {
 
   const transaction = JSON.parse(dbOrder.reservation)
 
+  console.log('transaction:')
   console.log(transaction)
 
   // 交易金額
@@ -189,6 +188,7 @@ router.get('/confirm', async (req, res) => {
 
   try {
     // 最後確認交易
+    console.log('確認交易')
     const linePayResponse = await linePayClient.confirm.send({
       transactionId: transactionId,
       body: {
@@ -196,8 +196,9 @@ router.get('/confirm', async (req, res) => {
         amount: amount,
       },
     })
-
+    console.log('確認完成')
     // linePayResponse.body回傳的資料
+    console.log('linePayResponse')
     console.log(linePayResponse)
 
     //transaction.confirmBody = linePayResponse.body
@@ -217,6 +218,8 @@ router.get('/confirm', async (req, res) => {
       JSON.stringify(linePayResponse.body),
       dbOrder.OrderID,
     ]
+    console.log('linepayinfoValues')
+    console.log(linepayinfoValues)
     const result = await db.query(linepayinfoSql, linepayinfoValues)
     // const result = await Purchase_Order.update(
     //   {
@@ -232,6 +235,12 @@ router.get('/confirm', async (req, res) => {
     // )
 
     console.log(result)
+
+    if (status == 'paid') {
+      const updataOrderSql = 'UPDATE `Order` SET PaymentStatus = ? WHERE ID = ?'
+      const updataOrderValues = ['已付款', dbOrder.OrderID]
+      await db.query(updataOrderSql, updataOrderValues)
+    }
 
     return res.json({ status: 'success', data: linePayResponse.body })
   } catch (error) {
