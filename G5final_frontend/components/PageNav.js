@@ -25,7 +25,7 @@ export function PageNav({ nowPage, totalPage, next, prev }) {
           className={`page-item page-block ${nowPage >= totalPage ? 'd-none' : ''}`}
           onClick={next}
         >
-          <a className="page-link">{nowPage + 1}</a>
+          <a className={`page-item page-link ${nowPage == totalPage ? 'd-none' : ''}`} >{nowPage + 1}</a>
         </li>
         <li className="page-item page-block" onClick={next}>
           <a className="page-link" aria-label="Next">

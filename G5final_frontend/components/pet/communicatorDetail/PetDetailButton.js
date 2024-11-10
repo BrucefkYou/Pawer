@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { BsXLg } from "react-icons/bs";
-import PetReservetable from './pet-reservetable';
+import PetReservetable from './PetReservetable';
 
 export default function PetDetailButton({ fetchOne }) {
   const router = useRouter();

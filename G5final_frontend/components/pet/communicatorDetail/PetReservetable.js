@@ -8,7 +8,6 @@ import { setHours, setMinutes,setSeconds } from 'date-fns';
 
 import "react-datepicker/dist/react-datepicker.css";
 export default function PetReservetable({ fetchOne }) {
-    
     const router = useRouter()
     const petCommID = router.query.id
     const { auth } = useAuth()
