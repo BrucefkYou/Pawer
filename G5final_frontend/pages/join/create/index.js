@@ -7,6 +7,7 @@ import Tag from '@/components/join/form/tag';
 import Myeditor from '@/components/join/CKEditorTest';
 import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/router';
+import Swal from 'sweetalert2';
 
 import { useAuth } from '@/hooks/use-auth';
 
@@ -29,19 +30,21 @@ const Publish = () => {
     setCount(count + 1);
   };
   const handleDecrement = () => {
-    if (count > 0) {
+    if (count > 1) {
       setCount(count - 1);
     }
   };
   const handleCountChange = (e) => {
     const value = e.target.value;
     if (isNaN(value)) {
-      alert('請輸入數字');
-      setCount(0);
+      Swal.fire('請輸入數字');
+      // alert('請輸入數字');
+      setCount(1);
     } else {
       setCount(Number(value));
     }
   };
+
   // CKEditor 設定
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [data, setData] = useState('');
@@ -72,7 +75,7 @@ const Publish = () => {
   const handleStartTimeChange = (date) => {
     const currentTime = moment();
     if (moment(date).isBefore(currentTime)) {
-      alert('不得早於當前時間');
+      Swal.fire('開始時間不得早於當前時間');
       setStartTime(newTime(currentTime));
     } else {
       setStartTime(newTime(date));
@@ -81,7 +84,7 @@ const Publish = () => {
 
   const handleEndTimeChange = (date) => {
     if (moment(date).isBefore(startTime)) {
-      alert('不得早於開始時間');
+      Swal.fire('不得早於開始時間');
       setEndTime(startTime);
     } else {
       setEndTime(newTime(date));
@@ -90,7 +93,7 @@ const Publish = () => {
 
   const handleSignEndDateChange = (date) => {
     if (moment(date).isAfter(endTime)) {
-      alert('不得晚於結束時間');
+      Swal.fire('不得晚於結束時間');
       setSignEndDate(startTime);
     } else {
       setSignEndDate(newTime(date));
@@ -132,6 +135,7 @@ const Publish = () => {
       alert('寫入發生錯誤，稍後再試。');
     }
   };
+
   useEffect(() => {
     setEditorLoaded(true);
   }, []);
@@ -147,19 +151,18 @@ const Publish = () => {
           encType="multipart/form-data"
         >
           <input type="hidden" name="id" defaultValue="?" />
-          <div className="page-heading">
-            <div className="page-title">
-              <div className="ji-create-title">
-                <h3 className="h3 text-primary">創建你的活動</h3>
-                <Image src={titlebottomLine} />
-              </div>
-            </div>
-            <div className="card mb-3">
-              <div className="card-body">
-                <ImgPutArea onImageChange={handleImageChange} />
-              </div>
+
+          <div className="ji-create-title">
+            <h3 className="h3 text-primary">創建你的活動</h3>
+            <Image src={titlebottomLine} />
+          </div>
+
+          <div className="card mb-3">
+            <div className="card-body">
+              <ImgPutArea onImageChange={handleImageChange} />
             </div>
           </div>
+
           <div className="card">
             <div className="card-body">
               <div className="mb-3">
@@ -189,7 +192,7 @@ const Publish = () => {
                   活動內容
                 </label>
                 <div id="full"></div>
-                <input type="hidden" id="EventInfo" name="EventInfo" require />
+                <input type="hidden" id="EventInfo" name="EventInfo" required />
                 <Myeditor
                   name="article"
                   onChange={(data) => {

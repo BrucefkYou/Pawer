@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Swal from 'sweetalert2';
+import style from './tag.module.scss';
 
 export default function Tag({
   label = '',
@@ -55,7 +57,7 @@ export default function Tag({
     }
     // 如果 tags 陣列的長度已經達到自己設定的最大值，就不要再加入新的 tag，並且跳出警告視窗
     if (tags.length >= tagLength) {
-      alert(`最多只能輸入${tagLength}個標籤`);
+      Swal.fire(`最多只能輸入${tagLength}個標籤`);
       return;
     }
 
@@ -85,11 +87,14 @@ export default function Tag({
       <div className="tag-container d-flex">
         {tags.map((tag, i) => {
           return (
-            <div key={i} className="tag btn btn-warning rounded-2 mx-1">
+            <div
+              key={i}
+              className={`${style['tag']} btn btn-warning rounded-2 mx-1`}
+            >
               <span className="name text-white ">{tag}</span>
               <span
                 className="ps-1
-               icon"
+               "
                 onClick={() => deleteTag(i)}
               >
                 &times;
