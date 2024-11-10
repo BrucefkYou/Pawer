@@ -1,13 +1,15 @@
-// home
-@import "./styles/home.scss";
-
-
-
+//global
 @import "./styles/globals";
+
+// Navbar && Footer && Sidebar
+@import "./styles/navAndfooter";
 @import "./styles/sidebar";
 
-// Navbar && Footer
-@import "./styles/navAndfooter";
+// Loader
+@import "./styles/loader";
+
+// home
+@import "./styles/home.scss";
 
 // member
 @import "./styles/member.scss";
@@ -15,6 +17,7 @@
 // product
 @import "./styles/productlist.scss";
 @import "./styles/productdetail.scss";
+
 // cart
 @import "./styles/cart.scss";
 @import "./styles/cart-info.scss";
@@ -33,16 +36,12 @@
 @import "./styles/bl-post";
 @import "./styles/bl-preview";
 
-
-// pet-communicator
-@import "./styles/p-alert";
-@import "./styles/p-create";
-@import "./styles/p-detail";
-@import "./styles/p-list";
-@import "./styles/p-message";
-@import "./styles/p-mydetail-edit";
-@import "./styles/p-mydetail";
-@import "./styles/p-reserve";
-@import "./styles/PT";
+// pet
+@import "./styles/pet-alert";
+@import "./styles/pet-detail";
+@import "./styles/pet-list";
+@import "./styles/pet-mydetail";
+@import "./styles/pet-reserve";
+@import "./styles/pet";
 
 

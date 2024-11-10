@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { BsDashLg, BsChevronDown } from 'react-icons/bs';
 import Image from 'next/image';
+import MemListButton from './MemListButton';
 export default function MemReserveList({ nowPageItems }) {
     const [iconStates, setIconStates] = useState({});
     const handleClick = (index) => {
@@ -65,22 +66,10 @@ export default function MemReserveList({ nowPageItems }) {
                                     <h5 className="text text-1 m-1">{v.Name}</h5>
                                     <p className="m-1 text-2 PT-sp-none-rwd">{v.Approach}</p>
                                     <p className="text text-3 m-1 PT-sp-none-rwd">寵物溝通預約｜{v.PetType}｜{v.PetName}</p>
-                                    <p className="text text-4 m-1">2024/10/20 19:30~20:30</p>
+                                    <p className="text text-4 m-1">{v.Time.split(' ')[0]} {v.Time.split(' ')[1]}</p>
                                 </div>
                                 {/* 按鈕 */}
-                                <div className="col d-flex btnn-group-position align-items-center">
-                                    <div className="btnn-group me-3">
-                                        <button className={`btnn btnn-1 m-0 ${v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'}`}>
-                                            取消預約
-                                        </button>
-                                        <button className={`btnn btnn-2 m-0 ${v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'}`}>
-                                            聯繫毛孩爸媽
-                                        </button>
-                                        <button className={`btnn btnn-3 m-0 ${v.Status == 1 ? 'PT-sp-none' : 'PT-sp-block'} PT-sp-none-rwd`}>
-                                            聯繫毛孩爸媽
-                                        </button>
-                                    </div>
-                                </div>
+                                <MemListButton v={ v} />
                             </div>
                             {/* 手機版狀態 */}
                             <div className="col status d-block d-md-none py-2 px-0 text-end">

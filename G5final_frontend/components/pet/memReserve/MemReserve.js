@@ -5,6 +5,7 @@ import PageTitle from '@/components/member/page-title/page-title';
 import MemberNav from '@/components/memberNav';
 import { PageNav } from '@/components/PageNav';
 import MemReserveList from './MemReserveList';
+import Link from 'next/link';
 export default function MemReserve(props) {
     const { auth } = useAuth()
     const id = auth.memberData.id
@@ -45,19 +46,23 @@ export default function MemReserve(props) {
                     needFilter={needFilter}
                 />
             </div>
-            {/* 清單標題 */}
-            <div className="row none title text-center mt-3 py-2">
-                <div className="col-1">序號</div>
-                <div className="col-2">溝通師</div>
-                <div className="col-2 d-none d-lg-block">寵物名稱</div>
-                <div className="col d-none d-lg-block">狀態</div>
-                <div className="col">預約日期</div>
-                <div className="col">預約時段</div>
-                <div className="col-1" />
-            </div>
             {/* 清單明細 */}
-            <MemReserveList nowPageItems={nowPageItems} />
-            <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
+            {nowPageItems.length < 1 ?
+                (<Link href={'/communicator'} className='btn btn-danger mt-3'>＜ 目前無紀錄 ＞</Link>) :
+                <>
+                    <div className="row none title text-center mt-3 py-2">
+                        <div className="col-1">序號</div>
+                        <div className="col-2">溝通師</div>
+                        <div className="col-2 d-none d-lg-block">寵物名稱</div>
+                        <div className="col d-none d-lg-block">狀態</div>
+                        <div className="col">預約日期</div>
+                        <div className="col">預約時段</div>
+                        <div className="col-1" />
+                    </div>
+                    <MemReserveList nowPageItems={nowPageItems} />
+                    <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
+                </>
+            }
         </>
     )
 }
