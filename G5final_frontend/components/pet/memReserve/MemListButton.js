@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Router, { useRouter } from 'next/router';
-export default function ComListButton({ v }) {
+
+export default function MemListButton({ v }) {
     const router = useRouter()
-    
-    async function cancelReserve (event){
+    async function cancelReserve(event) {
         try {
             await fetch('http://localhost:3005/api/pet/cancelReserve', {
                 method: "DELETE",
                 headers: {
-                    "Content-Type":"Application/json"
+                    "Content-Type": "Application/json"
                 },
-                body: JSON.stringify({ ID:v.ID })
+                body: JSON.stringify({ ID: v.ID })
             })
-            router.push('/member/communicator/comReserve/message')
+            router.push('/member/communicator/memReserve/message')
         }
         catch (err) {
             console.log(err);

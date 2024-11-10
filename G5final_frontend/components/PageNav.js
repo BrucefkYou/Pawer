@@ -3,12 +3,14 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 
+
 export function PageNav({ nowPage, totalPage, next, prev }) {
+  console.log(totalPage);
   return (
     <nav aria-label="Page navigation">
       <ul className="pagination m-0">
-        <li className="page-item page-block" onClick={prev}>
-          <a className="page-link" aria-label="Previous">
+        <li className={`page-item page-block ${nowPage === 1 ? 'd-none' : ''}`} onClick={prev}>
+          <a className={`page-item page-link ${nowPage === 1 ? 'd-none' : ''}`} aria-label="Previous">
             <span aria-hidden="true">‹</span>
           </a>
         </li>
@@ -25,10 +27,10 @@ export function PageNav({ nowPage, totalPage, next, prev }) {
           className={`page-item page-block ${nowPage >= totalPage ? 'd-none' : ''}`}
           onClick={next}
         >
-          <a className={`page-item page-link ${nowPage == totalPage ? 'd-none' : ''}`} >{nowPage + 1}</a>
+          <a className={`page-item page-link ${nowPage >= totalPage ? 'd-none' : ''}`} >{nowPage + 1}</a>
         </li>
-        <li className="page-item page-block" onClick={next}>
-          <a className="page-link" aria-label="Next">
+        <li className={`page-item page-block ${nowPage >= totalPage ? 'd-none' : ''}`} onClick={next}>
+          <a className={`page-item page-link ${nowPage >= totalPage ? 'd-none' : ''}`} aria-label="Next">
             <span aria-hidden="true">›</span>
           </a>
         </li>
