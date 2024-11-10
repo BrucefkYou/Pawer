@@ -25,7 +25,7 @@ export default function SearchBar({ inputValue, setInputValue, onSearch }) {
           onKeyDown={handleKeyDown}
         />
         <div
-          className={`btn btn-primary ${styles.search}`}
+          className={`btn btn-primary me-3 ${styles.search}`}
           type="button"
           onClick={() => onSearch(inputValue)}
         >

@@ -61,11 +61,11 @@ export default function Index(props) {
   };
   useEffect(() => {
     const showDown = (event) => {
-      const categoryElement = document.querySelector('.search-category');
+      const searchCategory = document.querySelector('.search-category');
       const filterIcon = document.querySelector('.filtericon');
       if (
-        categoryElement &&
-        !categoryElement.contains(event.target) &&
+        searchCategory &&
+        !searchCategory.contains(event.target) &&
         filterIcon &&
         !filterIcon.contains(event.target)
       ) {
