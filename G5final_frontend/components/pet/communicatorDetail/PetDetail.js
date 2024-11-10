@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import PetDetailButton from './pet-detail-button';
+import PetDetailButton from './PetDetailButton';
 
 export default function PetDetail(props) {
   // 使用路由判斷當前動態路由id
@@ -31,7 +31,6 @@ export default function PetDetail(props) {
       fetchData();
     }
   }, [myId]);
-
   // 先確保有資料在解構
   if (!fetchOne) {
     return <p>Loading...</p>;
