@@ -1,11 +1,5 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable prettier/prettier */
 import React from 'react';
-
-
 export function PageNav({ nowPage, totalPage, next, prev }) {
-  console.log(totalPage);
   return (
     <nav aria-label="Page navigation">
       <ul className="pagination m-0">
