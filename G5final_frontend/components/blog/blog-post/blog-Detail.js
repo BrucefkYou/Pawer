@@ -1,9 +1,11 @@
-import React from 'react'
-import Image from 'next/image'
-import Account from '@/components/blog/account/account'
-import BlogDate from '@/components/blog/date/blog-date'
-import ClickIcon from '@/components/icons/click-icon/click-icon'
-import PostCom from './blog-com'
+import React from 'react';
+import Image from 'next/image';
+import Account from '@/components/blog/account/account';
+import BlogDate from '@/components/blog/date/blog-date';
+import PostCom from './blog-com';
+import BlogPageBtn from '../pagebtn/pagebtn';
+import BlogLike from '../blog-like/blog-like';
+import BlogFav from '../blog-like/blog-favorite';
 
 // react-Bs-icon
 import {
@@ -11,10 +13,7 @@ import {
   BsHeart,
   BsBookmarkFill,
   BsBookmark,
-  BsArrowLeft,
-  BsArrowRight,
-} from 'react-icons/bs'
-import BlogPageBtn from '../pagebtn/pagebtn'
+} from 'react-icons/bs';
 
 export default function BlogDetail({
   blogImg,
@@ -25,12 +24,11 @@ export default function BlogDetail({
   likeCount,
   favoriteCount,
   id,
-  maxId,
   avatar,
   name,
 }) {
-  const imagePath = blogImg ? blogImg.replace('../', '/') : ''
-  const avatarPath = avatar ? avatar.replace('../', '/') : ''
+  const imagePath = blogImg ? blogImg.replace('../', '/') : '';
+  const avatarPath = avatar ? avatar.replace('../', '/') : '';
 
   return (
     <div className="blog-post">
@@ -68,21 +66,23 @@ export default function BlogDetail({
 
       {/* 按讚儲存 */}
       <div className="count-section">
-        <ClickIcon
+        <BlogLike
           IconFilled={BsHeartFill}
           IconOutline={BsHeart}
           count={likeCount}
+          id={id}
         />
-        <ClickIcon
+        <BlogFav
           IconFilled={BsBookmarkFill}
           IconOutline={BsBookmark}
           count={favoriteCount}
+          id={id}
         />
       </div>
 
       {/* 上下頁 */}
-      <BlogPageBtn id={id} maxId={maxId} />
+      <BlogPageBtn id={id} />
       <PostCom />
     </div>
-  )
+  );
 }

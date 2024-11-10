@@ -17,4 +17,12 @@
   max-height: 532px;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.droptext {
+  margin-top: 10rem;
+}
+
+.photo {
+  font-size: 6rem;
 }/*# sourceMappingURL=img-put-area.module.css.map */

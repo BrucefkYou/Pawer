@@ -8,6 +8,7 @@ import POPCard from '@/components/blog/pop-post/pop-post';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import CreateBtn from '@/components/blog/create-btn/create-btn';
 import BlogDetail from '@/components/blog/blog-post/blog-Detail';
+import BlogBtn from '@/components/blog/myBlog-btn/myBlog-btn';
 
 export default function BlogPost(props) {
   const [blogData, setBlogData] = useState(null);
@@ -22,12 +23,6 @@ export default function BlogPost(props) {
         const data = await response.json();
         setBlogData(data[0]);
         console.log('成功讀取資料', data);
-
-        // if (Array.isArray(data) && data.length > 0) {
-        //   setBlogData(data[0])
-        // } else {
-        //   console.error('資料格式不正確')
-        // }
       } catch (error) {
         console.error('無法獲取資料:', error);
       }
@@ -53,24 +48,15 @@ export default function BlogPost(props) {
             likeCount={blogData.likeCount}
             favoriteCount={blogData.favoriteCount}
             id={blogData.ID}
-            maxId={blogData.ID}
             avatar={blogData.MemberAvatar}
             name={blogData.Nickname}
           />
           {/* 側邊欄 */}
           <div className="sidebar">
             <div className="btn-sec">
-              <button className="btn btn-primary my-blog m-none">
-                我的部落格
-              </button>
+              <BlogBtn />
               <CreateBtn btnName={'建立文章'} />
             </div>
-            {/* <div className="s-card">
-              <SearchBar />
-            </div> */}
-            {/* <div className="m-none">
-              <TagCard />
-            </div> */}
             <div className="m-none">
               <LatestCard />
             </div>
