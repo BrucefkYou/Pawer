@@ -11,7 +11,7 @@ export default function Imagechoose({ Img, productImages, Name }) {
   }, [Img]);
 
   // 點擊輪播圖時更新顯示的圖片
-  const handleImageClick = (image) => {
+  const changeImage = (image) => {
     setCurrentImage(image);
   };
 
@@ -76,7 +76,7 @@ export default function Imagechoose({ Img, productImages, Name }) {
                     alt={Name}
                     width={112}
                     height={138}
-                    onClick={() => handleImageClick(image.ImageName)} // 更新主視圖
+                    onClick={() => changeImage(image.ImageName)} // 更新主視圖
                   />
                 </div>
               ) : null
