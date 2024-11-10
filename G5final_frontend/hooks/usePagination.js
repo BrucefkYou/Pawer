@@ -11,7 +11,7 @@ export function usePagination({
   //在初次狀態處理前先做處理
 }) {
   // 與auth狀態相依
-  const { auth } = useAuth()
+  const { auth } = useAuth();
   // 存放fetch所有容器
   const [data, setData] = useState([]);
   // 篩選掉重複物件
@@ -28,9 +28,9 @@ export function usePagination({
   const [filterRuleArr, setFilterRuleArr] = useState(
     needFilter.length > 0
       ? {
-        filterName: needFilter[0].filterName,
-        filterRule: needFilter[0].filterRule,
-      }
+          filterName: needFilter[0].filterName,
+          filterRule: needFilter[0].filterRule,
+        }
       : null
   );
   // 存放搜尋數據
@@ -74,14 +74,18 @@ export function usePagination({
       } else {
         // 如果是字串類型使用中英文進行排序
         return sortWay === 'asc'
-          ? a[sortName].localeCompare(b[sortName], ['zh', 'en'], {
-            numeric: true,
-            sensitivity: 'base',
-          })
-          : b[sortName].localeCompare(a[sortName], ['zh', 'en'], {
-            numeric: true,
-            sensitivity: 'base',
-          });
+          ? (a[sortName] || '')
+              .toString()
+              .localeCompare((b[sortName] || '').toString(), ['zh', 'en'], {
+                numeric: true,
+                sensitivity: 'base',
+              })
+          : (b[sortName] || '')
+              .toString()
+              .localeCompare((a[sortName] || '').toString(), ['zh', 'en'], {
+                numeric: true,
+                sensitivity: 'base',
+              });
       }
     });
   }, [filterData, sortWay, sortName]);
