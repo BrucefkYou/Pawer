@@ -66,7 +66,7 @@ export default function MemReserveList({ nowPageItems }) {
                                     <h5 className="text text-1 m-1">{v.Name}</h5>
                                     <p className="m-1 text-2 PT-sp-none-rwd">{v.Approach}</p>
                                     <p className="text text-3 m-1 PT-sp-none-rwd">寵物溝通預約｜{v.PetType}｜{v.PetName}</p>
-                                    <p className="text text-4 m-1">2024/10/20 19:30~20:30</p>
+                                    <p className="text text-4 m-1">{v.Time.split(' ')[0]} {v.Time.split(' ')[1]}</p>
                                 </div>
                                 {/* 按鈕 */}
                                 <MemListButton v={ v} />
