@@ -3,6 +3,7 @@ import { usePagination } from '@/hooks/usePagination';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
 import ProductList from '@/components/product/productList';
+import Link from 'next/link';
 
 Index.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
@@ -23,10 +24,18 @@ export default function Index() {
 
   return (
     <div>
-      <PageTitle title="我的收藏" />
+      <div className="card">
+        <PageTitle title={'收藏商品'} subTitle={'Favorite'} />
+      </div>
+
       <div className="productList">
         {nowPageItems.length === 0 ? (
-          <p className="mt-2">您沒有收藏的商品</p>
+          <>
+            <p className="mt-2">您沒有收藏的商品</p>
+            <Link href="/product" className="pet-choose-status no-underline">
+              去逛逛
+            </Link>
+          </>
         ) : (
           <div className="row ms-4 d-flex justify-content-start">
             {nowPageItems.map((pd) => (
