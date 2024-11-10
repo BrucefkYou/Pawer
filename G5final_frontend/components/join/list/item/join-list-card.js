@@ -7,10 +7,11 @@ import { useRouter } from 'next/router';
 import styles from '@/components/join/list/join-list.module.scss';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
+import FavoriteIcon from '@/components/join/list/item/favorite/FavoriteIcon/FavoriteIcon';
 
 export default function JoinListCard({
-  iconfillcolor = `${iconfillcolor}`,
   data = {},
+  setUrl,
   // handleToggleFav = () => {},
 }) {
   const router = useRouter();
@@ -65,10 +66,11 @@ export default function JoinListCard({
               type="button"
               className={`text-body-tertiary  ${styles['colicon']}`}
             >
-              <ClickIcon
+              <FavoriteIcon
+                setUrl={setUrl}
                 IconFilled={BsBookmarkFill}
                 IconOutline={BsBookmark}
-                // count={data.joinFavCount}
+                data={data.ID}
               />
             </div>
           </div>
