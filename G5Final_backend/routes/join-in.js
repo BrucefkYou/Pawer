@@ -78,6 +78,76 @@ WHERE
   }
 })
 
+// 加入收藏
+router.put('/favorite', async function (req, res) {
+  const { memberId, joininId } = req.body
+  console.log(req.body)
+  try {
+    const [rows] = await db2.query(
+      `INSERT INTO MemberFavoriteMapping (MemberID, JoininID) VALUES (?, ?)`,
+      [memberId, joininId]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('新增收藏時發生錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
+// 取消收藏
+router.delete('/favorite', async function (req, res) {
+  const { memberId, joininId } = req.body
+  try {
+    const [rows] = await db2.query(
+      `DELETE FROM MemberFavoriteMapping WHERE MemberID = ? AND JoininID = ?`,
+      [memberId, joininId]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('刪除收藏時發生錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
+// 檢查收藏狀態
+router.get('/favorite', async (req, res) => {
+  const { memberId, joininId } = req.query
+  try {
+    const [rows] = await db2.query(
+      `SELECT * FROM MemberFavoriteMapping WHERE MemberID = ? AND JoininID = ?`,
+      [memberId, joininId]
+    )
+    res.json({ isFavorite: rows.length > 0 })
+  } catch (err) {
+    console.error('檢查錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
+// 會員頁撈收藏的商品
+router.get('/member/favorite', async function (req, res, next) {
+  try {
+    const [rows] = await db2.query(
+      `
+      SELECT 
+          MemberFavoriteMapping.*, 
+          Member.ID AS ID, 
+          Joinin.* 
+      FROM 
+          MemberFavoriteMapping 
+      LEFT JOIN 
+          Member ON MemberFavoriteMapping.MemberID = Member.ID 
+      LEFT JOIN 
+          Joinin ON MemberFavoriteMapping.JoininID = Joinin.ID
+      `
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    return res.status(500).json({ error: '伺服器錯誤，請稍後再試' })
+  }
+})
+
 // 抓單筆資料¬
 router.get('/:id', async function (req, res, next) {
   try {
