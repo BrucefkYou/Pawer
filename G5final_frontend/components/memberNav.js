@@ -25,7 +25,7 @@ export default function MemberNav({ chooseFilter, needFilter, newdata }) {
           return (
             <li key={button.id} className="nav-item" role="presentation">
               <button
-                className={`nav-link ${index === 0 ? 'active' : ''}`}
+                className={`nav-link my-0 ${index === 0 ? 'active' : ''}`}
                 data-bs-toggle="tab"
                 onClick={() => {
                   chooseFilter(button.filterName, button.filterRule);

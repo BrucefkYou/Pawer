@@ -10,10 +10,15 @@ import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 import { useAuth } from '@/hooks/use-auth';
 import Products from './products';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import { is } from 'date-fns/locale';
+import { useLoader } from '@/hooks/use-loader';
+// import { toast } from 'react-toastify';
 
 export default function CartInfo(props) {
+  const { isLoading, setIsLoading } = useLoader();
   const { auth } = useAuth();
   const router = useRouter();
+  // const [isLoading, setIsLoading] = useState(true);
   const { items } = useCart();
   // 選擇便利商店
   const { store711, openWindow, closeWindow } = useShip711StoreOpener(
@@ -49,16 +54,33 @@ export default function CartInfo(props) {
   const goECPay = () => {
     window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
   };
+  // const goLinepay = async () => {
+  //   const url = `http://localhost:3005/api/line-pay/reserve`;
+  //   const fetchRes = await fetch(url, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     credentials: 'include',
+  //     body: JSON.stringify({ orderId: orderID }),
+  //   });
+  // };
+
   const goLinepay = async () => {
-    const url = `http://localhost:3005/api/line-pay/reserve`;
-    const fetchRes = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ orderId: orderID }),
-    });
+    window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${orderID}`;
+  };
+
+  const handleLinepayConfirm = async (transactionId) => {
+    const fetchConfirmUrl = `http://localhost:3005/api/line-pay/confirm?transactionId=${transactionId}`;
+    const fetchRes = await fetch(fetchConfirmUrl);
+    const resData = await fetchRes.json();
+    if (resData.status === 'success') {
+      router.push(`/cart/success?orderID=${resData.data.info.packages[0].id}`);
+      // toast.success('付款成功');
+    } else if (resData.status === 'fail') {
+      router.push('/cart/fail');
+      // toast.error('付款失敗');
+    }
   };
 
   // `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
@@ -198,6 +220,31 @@ export default function CartInfo(props) {
       goLinepay();
     }
   }, [orderID]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      // 這裡確保能得到router.query值
+      console.log(router.query);
+      // http://localhost:3000/order?transactionId=2022112800733496610&orderId=da3b7389-1525-40e0-a139-52ff02a350a8
+      // 這裡要得到交易id，處理伺服器通知line pay已確認付款，為必要流程
+      // TODO: 除非為不需登入的交易，為提高安全性應檢查是否為會員登入狀態
+      const { transactionId, orderId } = router.query;
+
+      // 如果沒有帶transactionId或orderId時，導向至首頁(或其它頁)
+      if (!transactionId || !orderId) {
+        // 關閉載入狀態
+        setIsLoading(false);
+        // 不繼續處理
+        return;
+      }
+
+      // 向server發送確認交易api
+      handleLinepayConfirm(transactionId);
+    }
+
+    // eslint-disable-next-line
+  }, [router.isReady])
+
 
   return (
     <>
@@ -390,9 +437,8 @@ export default function CartInfo(props) {
                         <div className="col mt10">
                           <button
                             type="button"
-                            className={`btn btn-convenience w-100 ${
-                              store711.storename ? 'btn-warning' : ''
-                            }`}
+                            className={`btn btn-convenience w-100 ${store711.storename ? 'btn-warning' : ''
+                              }`}
                             onClick={() => openWindow()}
                           >
                             <Image
@@ -471,7 +517,7 @@ export default function CartInfo(props) {
                     <span className="delivery-title">超商取貨付款</span>
                   </div>
                   {selectedPayment === 'store' &&
-                  selectedDelivery === 'convenience' ? (
+                    selectedDelivery === 'convenience' ? (
                     <>
                       {/* 基本資訊 */}
                       <div className="row row-cols-1 row-cols-lg-3">
@@ -519,6 +565,43 @@ export default function CartInfo(props) {
                     />
                     <span className="delivery-title">LinePay</span>
                   </div>
+                  {selectedPayment === 'LinePay' &&
+                    selectedDelivery !== 'home' ? (
+                    <>
+                      {/* 基本資訊 */}
+                      <div className="row row-cols-1 row-cols-lg-3">
+                        <div className="col">
+                          <input
+                            className="mt10 w-100 h-36p input-block"
+                            type="text"
+                            placeholder="收貨人姓名"
+                            value={receiver}
+                            onChange={(e) => setReceiver(e.target.value)}
+                            required={selectedPayment === 'store'}
+                          />
+                        </div>
+                        <div className="col">
+                          <input
+                            className="mt10 w-100 h-36p input-block"
+                            type="tel"
+                            placeholder="手機號碼"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            required={selectedPayment === 'store'}
+                          />
+                        </div>
+                        <div className="col">
+                          <input
+                            className="mt10 w-100 h-36p input-block"
+                            type="tel"
+                            placeholder="市話(非必填)"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    ' '
+                  )}
                 </section>
                 <hr className="desktop-hr" />
                 {/* 發票資訊 */}
@@ -612,7 +695,9 @@ export default function CartInfo(props) {
                         </div>
                         <hr />
                         <div className="price-block d-flex justify-content-between w-100">
-                          <div className="price-font set-middle">結帳金額</div>
+                          <div className="price-font set-middle">
+                            結帳金額
+                          </div>
                           <div className="price-font set-middle">
                             NT${checkedPrice - discountPrice}
                           </div>
@@ -634,7 +719,11 @@ export default function CartInfo(props) {
                 </Link>
               </div>
               <div>
-                <button type="submit" id="check-btn" className="btn check-btn">
+                <button
+                  type="submit"
+                  id="check-btn"
+                  className="btn check-btn"
+                >
                   確認付款
                 </button>
               </div>
