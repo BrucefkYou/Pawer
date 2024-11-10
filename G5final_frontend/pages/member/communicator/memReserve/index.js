@@ -114,7 +114,7 @@ export default function MemReserve(props) {
                 {/* 頭像 */}
                 <div className={`col-4 col-md-3 d-flex justify-content-center align-items-center ps-0 PT-sp-none-rwd`}>
                   <div className="imgg d-flex py-2">
-                    <Image src={`/pet/images/${v.Img}`} alt="1" width={100} height={100} style={{
+                    <Image src={`http://localhost:3005/pet/${v.Img}`} alt="1" width={100} height={100} style={{
                       borderRadius: '5px',
                       objectFit: 'cover'
                     }} />

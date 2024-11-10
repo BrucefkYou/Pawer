@@ -66,9 +66,13 @@ export default function Cart(props) {
 
   // 將選擇的優惠券帶到下一頁
   const bringDiscount = () => {
-    const updatedDiscount = { ...selectedDiscount, checked: true };
-    setSelectedDiscount(updatedDiscount);
-    window.localStorage.setItem('discount', JSON.stringify(updatedDiscount));
+    if (selectedDiscount) {
+      const updatedDiscount = { ...selectedDiscount, checked: true };
+      setSelectedDiscount(updatedDiscount);
+      window.localStorage.setItem('discount', JSON.stringify(updatedDiscount));
+    } else {
+      localStorage.setItem('discount', { checked: false });
+    }
   };
 
   // 當選擇優惠券發生變化時計算折扣

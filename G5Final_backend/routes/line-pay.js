@@ -2,8 +2,11 @@ import express from 'express'
 const router = express.Router()
 
 // 資料庫使用
-import sequelize from '#configs/db.js'
-const { Purchase_Order } = sequelize.models
+// import sequelize from '#configs/db.js'
+// const { Purchase_Order } = sequelize.models
+
+// 資料庫使用
+import db from '##/configs/mysql.js'
 
 // 中介軟體，存取隱私會員資料用
 import authenticate from '#middlewares/authenticate.js'
@@ -24,19 +27,32 @@ const linePayClient = createLinePayClient({
 })
 
 // 在資料庫建立order資料(需要會員登入才能使用)
-router.post('/create-order', authenticate, async (req, res) => {
+router.post('/LinePayOrder', authenticate, async (req, res) => {
   // 會員id由authenticate中介軟體提供
-  const userId = req.user.id
+  const OrderID = req.body.orderID
+
+  // 開始資料庫事務
+  const connection = await db.getConnection()
+  await connection.beginTransaction()
+
+  const orderSql = 'SELECT * FROM `Order` WHERE ID = ?'
+  const [rows, fields] = await connection.query(orderSql, OrderID)
+  const orderRecord = rows[0]
+
+  const productsSql =
+    'SELECT od.ProductID, od.ProductName, od.ProductOriginPrice, od.ProductAmount FROM `Order` o JOIN OrderDetail od ON o.ID = od.OrderID WHERE o.ID = ?'
+  const productValues = []
 
   //產生 orderId與packageId
   const orderId = uuidv4()
-  const packageId = uuidv4()
+  const packageId = orderRecord.OrderNumber
+  const orderAmount = orderRecord.ProductsAmount
 
   // 要傳送給line pay的訂單資訊
   const order = {
     orderId: orderId,
     currency: 'TWD',
-    amount: req.body.amount,
+    amount: orderAmount,
     packages: [
       {
         id: packageId,
@@ -52,14 +68,14 @@ router.post('/create-order', authenticate, async (req, res) => {
   // 要儲存到資料庫的order資料
   const dbOrder = {
     id: orderId,
-    user_id: userId,
+    // user_id: userId,
     amount: req.body.amount,
     status: 'pending', // 'pending' | 'paid' | 'cancel' | 'fail' | 'error'
     order_info: JSON.stringify(order), // 要傳送給line pay的訂單資訊
   }
 
   // 儲存到資料庫
-  await Purchase_Order.create(dbOrder)
+  // await Purchase_Order.create(dbOrder)
 
   // 回傳給前端的資料
   res.json({ status: 'success', data: { order } })
@@ -67,12 +83,13 @@ router.post('/create-order', authenticate, async (req, res) => {
 
 // 重新導向到line-pay，進行交易(純導向不回應前端)
 // 資料格式參考 https://enylin.github.io/line-pay-merchant/api-reference/request.html#example
-router.get('/reserve', async (req, res) => {
-  if (!req.query.orderId) {
+router.post('/reserve', async (req, res) => {
+  console.log(12112)
+  if (!req.body.orderId) {
+    console.log(121)
     return res.json({ status: 'error', message: 'order id不存在' })
   }
-
-  const orderId = req.query.orderId
+  const orderId = req.body.orderId
 
   // 設定重新導向與失敗導向的網址
   const redirectUrls = {
@@ -81,31 +98,35 @@ router.get('/reserve', async (req, res) => {
   }
 
   // 從資料庫取得訂單資料
-  const orderRecord = await Purchase_Order.findByPk(orderId, {
-    raw: true, // 只需要資料表中資料
-  })
+  // const orderRecord = await Purchase_Order.findByPk(orderId, {
+  //   raw: true, // 只需要資料表中資料
+  // })
+
+  const orderSql = 'SELECT * FROM `LinepayInfo` WHERE OrderID = ?'
+  const [rows, fields] = await db.query(orderSql, orderId)
+  const orderRecord = rows[0]
+  const orderData = JSON.parse(orderRecord.order_info)
 
   // const orderRecord = await findOne('orders', { order_id: orderId })
 
   // order_info記錄要向line pay要求的訂單json
-  const order = JSON.parse(orderRecord.order_info)
+  // const order = JSON.parse(orderRecord.order_info)
 
   //const order = cache.get(orderId)
   console.log(`獲得訂單資料，內容如下：`)
-  console.log(order)
-
+  console.log('2222:' + orderData)
   try {
     // 向line pay傳送的訂單資料
     const linePayResponse = await linePayClient.request.send({
-      body: { ...order, redirectUrls },
+      body: { ...orderData, redirectUrls },
     })
 
     // 深拷貝一份order資料
-    const reservation = JSON.parse(JSON.stringify(order))
+    const reservation = JSON.parse(JSON.stringify(orderData))
 
-    reservation.returnCode = linePayResponse.body.returnCode
+    reservation.return_code = linePayResponse.body.returnCode
     reservation.returnMessage = linePayResponse.body.returnMessage
-    reservation.transactionId = linePayResponse.body.info.transactionId
+    reservation.transaction_id = linePayResponse.body.info.transactionId
     reservation.paymentAccessToken =
       linePayResponse.body.info.paymentAccessToken
 
@@ -113,17 +134,25 @@ router.get('/reserve', async (req, res) => {
     console.log(reservation)
 
     // 在db儲存reservation資料
-    const result = await Purchase_Order.update(
-      {
-        reservation: JSON.stringify(reservation),
-        transaction_id: reservation.transactionId,
-      },
-      {
-        where: {
-          id: orderId,
-        },
-      }
-    )
+    const linepayinfoSql =
+      'UPDATE LinepayInfo SET reservation = ?, transaction_id = ? WHERE OrderID = ?'
+    const linepayinfoValues = [
+      JSON.stringify(reservation),
+      reservation.transactionId,
+      orderId,
+    ]
+    await db.query(linepayinfoSql, linepayinfoValues)
+    // const result = await Purchase_Order.update(
+    //   {
+    //     reservation: JSON.stringify(reservation),
+    //     transaction_id: reservation.transactionId,
+    //   },
+    //   {
+    //     where: {
+    //       id: orderId,
+    //     },
+    //   }
+    // )
 
     // console.log(result)
 
@@ -141,14 +170,16 @@ router.get('/confirm', async (req, res) => {
   const transactionId = req.query.transactionId
 
   // 從資料庫取得交易資料
-  const dbOrder = await Purchase_Order.findOne({
-    where: { transaction_id: transactionId },
-    raw: true, // 只需要資料表中資料
-  })
-
-  console.log(dbOrder)
+  const linepayInfoSql = 'SELECT * FROM `LinepayInfo` WHERE transaction_id = ?'
+  const [rows, fields] = await db.query(linepayInfoSql, transactionId)
+  const dbOrder = rows[0]
+  // const dbOrder = await Purchase_Order.findOne({
+  //   where: { transaction_id: transactionId },
+  //   raw: true, // 只需要資料表中資料
+  // })
 
   // 交易資料
+
   const transaction = JSON.parse(dbOrder.reservation)
 
   console.log(transaction)
@@ -179,18 +210,26 @@ router.get('/confirm', async (req, res) => {
     }
 
     // 更新資料庫的訂單狀態
-    const result = await Purchase_Order.update(
-      {
-        status,
-        return_code: linePayResponse.body.returnCode,
-        confirm: JSON.stringify(linePayResponse.body),
-      },
-      {
-        where: {
-          id: dbOrder.id,
-        },
-      }
-    )
+    const linepayinfoSql =
+      'UPDATE LinepayInfo SET status = ?, confirm = ? WHERE OrderID = ?'
+    const linepayinfoValues = [
+      status,
+      JSON.stringify(linePayResponse.body),
+      dbOrder.OrderID,
+    ]
+    const result = await db.query(linepayinfoSql, linepayinfoValues)
+    // const result = await Purchase_Order.update(
+    //   {
+    //     status,
+    //     return_code: linePayResponse.body.returnCode,
+    //     confirm: JSON.stringify(linePayResponse.body),
+    //   },
+    //   {
+    //     where: {
+    //       id: dbOrder.id,
+    //     },
+    //   }
+    // )
 
     console.log(result)
 

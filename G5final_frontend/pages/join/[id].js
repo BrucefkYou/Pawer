@@ -18,25 +18,47 @@ import {
 
 export default function JiDetail(props) {
   const router = useRouter();
-  const { auth } = useAuth();
 
+  // 參考範例
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const updateImageTags = (htmlContent) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const images = doc.querySelectorAll('img');
+
+    images.forEach((img) => {
+      img.classList.add('img-fluid');
+    });
+
+    return doc.body.innerHTML;
+  };
+
+  // 判斷是否登入
+  const { auth } = useAuth();
   const islogin = () => {
     if (auth.isAuth) {
-      router.push('/member');
+      router.push(`/`);
     } else {
-      router.push('member/login');
+      router.push(`/member/login`);
     }
   };
-  const [data, setData] = useState({ ID: 0, Title: '' });
+
+  const [data, setData] = useState({});
   const getTitle = async (id) => {
     const url = `http://localhost:3005/api/join-in/${id}`;
-
     try {
       const res = await fetch(url);
       const resData = await res.json();
       // 檢查資料類型是否正確，維持設定到狀態中都一定是所需的物件資料類型
       if (typeof resData === 'object') {
-        setData(resData);
+        const updatedData = {
+          ...resData,
+          Info: updateImageTags(resData.Info), // Update the <img> tags before setting the state
+        };
+        setData(updatedData);
+        setError(null);
       } else {
         console.log('資料格式錯誤');
       }
@@ -53,6 +75,20 @@ export default function JiDetail(props) {
     }
     // eslint-disable-next-line
   }, [router.isReady]);
+
+  const [imageUrl, setImageUrl] = useState('');
+  useEffect(() => {
+    const fetchImageUrl = () => {
+      if (data.ImageName) {
+        const url = `http://localhost:3005/join/${data.ImageName}`;
+        setImageUrl(url);
+      }
+    };
+
+    fetchImageUrl();
+  }, [data.ImageName]);
+
+  // 處理時間格式，但後來新增的有使用moment()先處理，之後可以換掉
   const StartTime = data.StartTime
     ? data.StartTime.replace(/-/g, '/').slice(0, 16)
     : '';
@@ -60,6 +96,7 @@ export default function JiDetail(props) {
     ? data.StartTime.replace(/-/g, '/').slice(0, 16)
     : '';
   const address = data.City + data.Township + data.Location;
+  const tag = data.Tags ? data.Tags.split(',') : [];
   const display = (
     <div className="container ji-detail-container">
       <Breadcrumbs />
@@ -70,7 +107,7 @@ export default function JiDetail(props) {
           className="ji-img1"
           width={1176}
           height={532}
-          src={`/join/${data.ImageName}`}
+          src={imageUrl}
           alt={`${data.Title}首圖`}
         />
       </div>
@@ -87,24 +124,11 @@ export default function JiDetail(props) {
               <p className="m-0">{address}</p>
             </div>
             <div className="d-flex gap-2 ms-2 py-3">
-              <div
-                type="button"
-                className="btn btn-warning text-white py-0 px-1"
-              >
-                123
-              </div>
-              <div
-                type="button"
-                className="btn btn-warning text-white py-0 px-1"
-              >
-                123
-              </div>
-              <div
-                type="button"
-                className="btn btn-warning text-white py-0 px-1"
-              >
-                123
-              </div>
+              {tag.map((t, index) => (
+                <div key={index} type="button" className="btn btn-warning text-white py-0 px-2">
+                  {t}
+                </div>
+              ))}
             </div>
           </div>
           <div className="flex-shrink-1">
@@ -147,7 +171,7 @@ export default function JiDetail(props) {
                   // href="#" 
                   className="btn btn-primary w-100" 
                   onClick={islogin} 
-                  disabled={data.ParticipantLimit - data.SignCount <= 0}
+                  // disabled={data.ParticipantLimit - data.SignCount <= 0}
                 >
                   {data.ParticipantLimit - data.SignCount > 0 ? "立即報名" : "報名已額滿"}
                 </button>
@@ -158,36 +182,8 @@ export default function JiDetail(props) {
       </div>
       <div className="detail-section2 mb-5">
         <h5 className="h5">活動內容</h5>
-        <p>
-         {data.Info}
-        </p>
-        <div className="ji-image">
-          <Image
-            className="ji-img1"
-            width={1144}
-            height={500}
-            src="/join/t3.jpg"
-            alt="1"
-          />
-        </div>
-        <div className="ji-image">
-          <Image
-            className="ji-img1"
-            width={1144}
-            height={500}
-            src="/join/t4.jpg"
-            alt="1"
-          />
-        </div>
-        <div className="ji-image">
-          <Image
-            className="ji-img1"
-            width={1144}
-            height={500}
-            src="/join/t2.jpg"
-            alt="1"
-          />
-        </div>
+        {/* CKEditor帶入內容 前面要記得加dangerouslySetInnerHTML 解析HTML語法 */}
+        <div dangerouslySetInnerHTML={{ __html: data.Info }} />
       </div>
       <div className="detail-section3">
         <h5 className="h5">活動地點</h5>
@@ -218,6 +214,7 @@ export default function JiDetail(props) {
       />
     </div>
   </div>);
+  if (!data) return <p>活動已下架</p>;
   return (
     <>
       <Banner bgImgUrl="/join/banner-jism.jpg" ImgCover="cover" />

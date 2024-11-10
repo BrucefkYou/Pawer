@@ -2,9 +2,11 @@ import React from 'react';
 import Image from 'next/image';
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 import ClickIcon from '@/components/icons/click-icon/click-icon';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/components/join/list/join-list.module.scss';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function JoinListCard({
   iconfillcolor = `${iconfillcolor}`,
@@ -12,6 +14,9 @@ export default function JoinListCard({
   // handleToggleFav = () => {},
 }) {
   const router = useRouter();
+  const { auth } = useAuth();
+  const id = auth.memberData.id;
+  // console.log(id);
   const StartTime = data.StartTime
     ? data.StartTime.replace(/-/g, '/').slice(0, 16)
     : '';
@@ -19,6 +24,19 @@ export default function JoinListCard({
     ? data.StartTime.replace(/-/g, '/').slice(0, 16)
     : '';
   // console.log(data.ID, data.SignCount);
+
+  // 從後端資料庫取得圖片
+  const [imageUrl, setImageUrl] = useState('');
+  useEffect(() => {
+    const fetchImageUrl = () => {
+      if (data.ImageName) {
+        const url = `http://localhost:3005/join/${data.ImageName}`;
+        setImageUrl(url);
+      }
+    };
+
+    fetchImageUrl();
+  }, [data.ImageName]);
   return (
     <>
       <div className={`card shadow ${styles['ji-card']}`}>
@@ -26,8 +44,8 @@ export default function JoinListCard({
           className={`${styles['card-image']}`}
           width={367}
           height={321}
-          src={`/join/${data.ImageName}`}
-          alt={data.Title}
+          src={imageUrl}
+          alt={data.ImageName}
         />
         <div className={`card-body ${styles['card-body']}`}>
           <div className="d-flex justify-content-between">
@@ -39,7 +57,7 @@ export default function JoinListCard({
               <p className="text-body-tertiary mb-2">
                 <BsPersonPlusFill className="me-1" />
                 <span className="align-middle">
-                  {data.SignCount}/ {data.ParticipantLimit}
+                  {data.SignCount} / {data.ParticipantLimit}
                 </span>
               </p>
             </div>
@@ -64,7 +82,11 @@ export default function JoinListCard({
           </h4>
           <div className="text-end">
             <Link
-              href={`./join/${data.ID}`}
+              href={
+                id === data.MemberID
+                  ? `./join/edit/${data.ID}`
+                  : `./join/${data.ID}`
+              }
               // onClick={() => router.push(`./join/${data.ID}`)}
               className="btn text-warning p-0"
             >

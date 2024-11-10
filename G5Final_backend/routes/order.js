@@ -1,6 +1,8 @@
 import authenticate from '##/middlewares/authenticate.js'
 import express from 'express'
 import db from '##/configs/mysql.js'
+import moment from 'moment'
+import { v4 as uuidv4 } from 'uuid'
 const router = express.Router()
 
 /* GET home page. */
@@ -40,19 +42,24 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   //  檢查付款方式
   // 如果是信用卡刷卡，則直接設定為已付款(0是為付款，1是已付款)
   let PaymentMethod
-  let PaymentStatus = 0
+  let PaymentStatus = '未付款'
   if (selectedPayment === 'credit-card') {
     PaymentMethod = '信用卡'
   } else if (selectedPayment === 'store') {
     PaymentMethod = '超商取貨付款'
+  } else if (selectedPayment === 'LinePay') {
+    PaymentMethod = 'LinePay'
   }
 
   // 檢查運送方式
   let DeliveryAddress
+  let DeliveryWay = ''
   if (selectedDelivery === 'convenience') {
+    DeliveryWay = '超商取貨'
     DeliveryAddress = storeAddress
   } else if (selectedDelivery === 'home') {
     DeliveryAddress = deliveryHome
+    DeliveryWay = '宅配'
   }
   // 檢查發票種類
   let Receipt
@@ -65,9 +72,18 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   }
 
   // 獲得現在時間
-  const now = new Date()
-  // 轉換格式為 'YYYY-MM-DD HH:MM:SS'
-  const today = now.toISOString().slice(0, 19).replace('T', ' ')
+  const now = moment().format('YYYY-MM-DD HH:mm:ss')
+
+  // 生成流水編號
+  // 使用 Date.now() 生成當前的毫秒級時間戳
+  const timestamp = Date.now()
+
+  // 隨機數部分（3位數）
+  const random = Math.floor(Math.random() * 900) + 100 // 生成 100-999 的隨機數
+
+  const OrderNumber = `EC${timestamp}${random}`
+
+  const uuid = uuidv4()
 
   // 開始資料庫事務
   const connection = await db.getConnection()
@@ -76,16 +92,22 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
   try {
     // 執行訂單插入
     const orderSql =
-      'INSERT INTO `Order` (MemberID, ProductsAmount, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+      'INSERT INTO `Order` (OrderNumber, UUID, MemberID, Date, ProductsAmount, OriginPrice, DiscountPrice, TotalPrice, CouponID, PaymentMethod, PaymentStatus, Receiver, ReceiverPhone, DeliveryWay, DeliveryAddress, DeliveryStatus, ReceiptType, ReceiptCarrier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     const orderValues = [
+      OrderNumber,
+      uuid,
       MemberID,
+      now,
       ProductsAmount,
+      checkedPrice,
+      DiscountPrice,
       TotalPrice,
       CouponID || 0,
       PaymentMethod,
       PaymentStatus,
       Receiver,
       ReceiverPhone,
+      DeliveryWay,
       DeliveryAddress,
       '未出貨',
       Receipt,
@@ -109,6 +131,31 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     ])
 
     await connection.query(orderDetailsSql, [orderDetailsValues])
+
+    // 如果是LinePay的話將資料寫進Linepayinfo
+    if (selectedPayment === 'LinePay') {
+      const order = {
+        orderId: uuid,
+        currency: 'TWD',
+        amount: ProductsAmount,
+        packages: [
+          {
+            id: OrderNumber, // 可以使用 OrderNumber 作为 package ID
+            amount: ProductsAmount,
+            products: Products.map((product) => ({
+              name: product.ProductName,
+              quantity: product.Quantity,
+              price: product.Price,
+            })),
+          },
+        ],
+        options: { display: { locale: 'zh_TW' } },
+      }
+      const linePayInfoSql =
+        'INSERT INTO LinepayInfo (OrderID, status, order_info) VALUES (?, ?, ?)'
+      const linePayInfoValues = [orderId, 'pending', JSON.stringify(order)]
+      await connection.query(linePayInfoSql, linePayInfoValues)
+    }
 
     await connection.commit()
 

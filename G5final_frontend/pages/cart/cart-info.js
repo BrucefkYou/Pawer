@@ -49,6 +49,18 @@ export default function CartInfo(props) {
   const goECPay = () => {
     window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
   };
+  const goLinepay = async () => {
+    const url = `http://localhost:3005/api/line-pay/reserve`;
+    const fetchRes = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ orderId: orderID }),
+    });
+  };
+
   // `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
   // `http://localhost:3005/api/ecpay-test-only?amount=${
   //   items.filter((item) => item.checked).length
@@ -179,8 +191,11 @@ export default function CartInfo(props) {
   }, [discount, checkedPrice]);
 
   useEffect(() => {
+    console.log('orderID:', orderID);
     if (selectedPayment === 'credit-card') {
       goECPay();
+    } else if (selectedPayment === 'LinePay') {
+      goLinepay();
     }
   }, [orderID]);
 
@@ -250,7 +265,7 @@ export default function CartInfo(props) {
                         type="checkbox"
                         name="discountCheck"
                         id="discountCheck"
-                        checked={discount.checked}
+                        checked={discount.checked ? 'checked' : false}
                         onChange={handleDiscountChange}
                       />
                       優惠券
@@ -492,6 +507,18 @@ export default function CartInfo(props) {
                   ) : (
                     ' '
                   )}
+                  <div className="mt20 d-flex align-items-center">
+                    <input
+                      className="mr10 checkbox-block"
+                      type="radio"
+                      name="payment-way"
+                      value="LinePay"
+                      checked={selectedPayment === 'LinePay'}
+                      onChange={handlePaymentChange}
+                      required
+                    />
+                    <span className="delivery-title">LinePay</span>
+                  </div>
                 </section>
                 <hr className="desktop-hr" />
                 {/* 發票資訊 */}
