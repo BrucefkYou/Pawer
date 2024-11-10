@@ -8,6 +8,7 @@ import { usePagination } from '@/hooks/usePagination';
 import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
+import { BsFilterSquareFill } from 'react-icons/bs';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import ProductList from '@/components/product/productList';
 import Clean from '@/components/product/clean/clean';
@@ -53,6 +54,30 @@ export default function Index(props) {
       { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
   });
+  const [showFilters, setShowFilters] = useState(false); // 控制篩選區域顯示的狀態
+  const toggleFilters = () => {
+    console.log('出來了嗎');
+    setShowFilters((open) => !open); // 切換顯示狀態
+  };
+  useEffect(() => {
+    const showDown = (event) => {
+      const categoryElement = document.querySelector('.search-category');
+      const filterIcon = document.querySelector('.filtericon');
+      if (
+        categoryElement &&
+        !categoryElement.contains(event.target) &&
+        filterIcon &&
+        !filterIcon.contains(event.target)
+      ) {
+        setShowFilters(false);
+      }
+    };
+
+    document.addEventListener('mousedown', showDown);
+    return () => {
+      document.removeEventListener('mousedown', showDown);
+    };
+  }, []);
 
   return (
     <>
@@ -65,11 +90,95 @@ export default function Index(props) {
           <div className="row d-none rwd-select">
             <div className="col d-flex justify-content-center align-items-center selectpd rwd-select ">
               <div className="rwd-select col d-flex justify-content-center">
-                <p className="howmaney howmaney-rwd col mt-3">
+                <div className="ms-3 howmaney howmaney-rwd col mt-3 d-flex justify-content-start">
                   顯示第{nowPageFirstItems + 1}-
                   {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
                   {filterData.length} 筆
-                </p>
+                  <div className="filtericon" onClick={toggleFilters}>
+                    <BsFilterSquareFill />
+                  </div>
+                  {showFilters && (
+                    <div className="row mb-5 bg-white">
+                      {/* 文字搜尋 */}
+                      <div className="col search-text-mp">
+                        <div
+                          className={`search-category ${
+                            showFilters ? 'show' : ''
+                          }`}
+                        >
+                          <Clean
+                            updateSearch={updateSearch}
+                            searchResults={filterData}
+                            setUrl={setUrl}
+                          />
+                          <div className="row d-flex flex-column align-items-start">
+                            <div className="col mt-3">
+                              <p className="searchcategory">種類</p>
+                              <p className="line" />
+                              <div className="d-flex pet-choose">
+                                <TagCat
+                                  setUrl={setUrl}
+                                  activeIndex={
+                                    active?.c === 'tagcat' ? active.v : null
+                                  }
+                                  onActiveChange={(v) =>
+                                    ActiveChange('tagcat', v)
+                                  }
+                                />
+                                <TagDog
+                                  setUrl={setUrl}
+                                  activeIndex={
+                                    active?.c === 'tagdog' ? active.v : null
+                                  }
+                                  onActiveChange={(v) =>
+                                    ActiveChange('tagdog', v)
+                                  }
+                                />
+                                <TagOther
+                                  setUrl={setUrl}
+                                  activeIndex={
+                                    active?.c === 'tagother' ? active.v : null
+                                  }
+                                  onActiveChange={(v) =>
+                                    ActiveChange('tagother', v)
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row d-flex flex-column align-items-start category-mal mx-0">
+                            <div>
+                              <p className="searchpro col">類別</p>
+                            </div>
+                            <div className="row category-detail d-flex flex-column mx-0">
+                              <CategoryCat
+                                setUrl={setUrl}
+                                activeIndex={
+                                  active?.c === 'cat' ? active.v : null
+                                }
+                                onActiveChange={(v) => ActiveChange('cat', v)}
+                              />
+                              <CategoryDog
+                                setUrl={setUrl}
+                                activeIndex={
+                                  active?.c === 'dog' ? active.v : null
+                                }
+                                onActiveChange={(v) => ActiveChange('dog', v)}
+                              />
+                              <CategoryOther
+                                setUrl={setUrl}
+                                activeIndex={
+                                  active?.c === 'other' ? active.v : null
+                                }
+                                onActiveChange={(v) => ActiveChange('other', v)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div className="d-flex justify-content-between align-items-center p-3">
                   <PerPageDom
                     itemsperPage={itemsperPage}
@@ -81,6 +190,10 @@ export default function Index(props) {
                     needSort={needSort}
                   />
                 </div>
+
+                {/* RWD側邊欄 */}
+
+                {/* RWD側邊欄 */}
               </div>
             </div>
           </div>
