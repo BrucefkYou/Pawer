@@ -1,3 +1,4 @@
+import moment from 'moment'
 import express from 'express'
 const router = express.Router()
 
@@ -25,6 +26,9 @@ const linePayClient = createLinePayClient({
   channelSecretKey: process.env.LINE_PAY_CHANNEL_SECRET,
   env: process.env.NODE_ENV,
 })
+
+// 獲得現在時間
+const now = moment().format('YYYY-MM-DD HH:mm:ss')
 
 // 在資料庫建立order資料(需要會員登入才能使用)
 router.post('/LinePayOrder', authenticate, async (req, res) => {
@@ -96,10 +100,6 @@ router.get('/reserve', authenticate, async (req, res) => {
   }
 
   // 從資料庫取得訂單資料
-  // const orderRecord = await Purchase_Order.findByPk(orderId, {
-  //   raw: true, // 只需要資料表中資料
-  // })
-
   const orderSql = 'SELECT * FROM `LinepayInfo` WHERE OrderID = ?'
   const [rows, fields] = await db.query(orderSql, orderId)
   const orderRecord = rows[0]
@@ -140,19 +140,6 @@ router.get('/reserve', authenticate, async (req, res) => {
       orderId,
     ]
     await db.query(linepayinfoSql, linepayinfoValues)
-    // const result = await Purchase_Order.update(
-    //   {
-    //     reservation: JSON.stringify(reservation),
-    //     transaction_id: reservation.transactionId,
-    //   },
-    //   {
-    //     where: {
-    //       id: orderId,
-    //     },
-    //   }
-    // )
-
-    // console.log(result)
 
     // 導向到付款頁面， line pay回應後會帶有info.paymentUrl.web為付款網址
     res.redirect(linePayResponse.body.info.paymentUrl.web)
@@ -171,10 +158,6 @@ router.get('/confirm', async (req, res) => {
   const linepayInfoSql = 'SELECT * FROM `LinepayInfo` WHERE transaction_id = ?'
   const [rows, fields] = await db.query(linepayInfoSql, transactionId)
   const dbOrder = rows[0]
-  // const dbOrder = await Purchase_Order.findOne({
-  //   where: { transaction_id: transactionId },
-  //   raw: true, // 只需要資料表中資料
-  // })
 
   // 交易資料
 
@@ -197,11 +180,12 @@ router.get('/confirm', async (req, res) => {
       },
     })
     console.log('確認完成')
+
     // linePayResponse.body回傳的資料
     console.log('linePayResponse')
     console.log(linePayResponse)
 
-    //transaction.confirmBody = linePayResponse.body
+    // transaction.confirmBody = linePayResponse.body
 
     // status: 'pending' | 'paid' | 'cancel' | 'fail' | 'error'
     let status = 'paid'
@@ -221,25 +205,37 @@ router.get('/confirm', async (req, res) => {
     console.log('linepayinfoValues')
     console.log(linepayinfoValues)
     const result = await db.query(linepayinfoSql, linepayinfoValues)
-    // const result = await Purchase_Order.update(
-    //   {
-    //     status,
-    //     return_code: linePayResponse.body.returnCode,
-    //     confirm: JSON.stringify(linePayResponse.body),
-    //   },
-    //   {
-    //     where: {
-    //       id: dbOrder.id,
-    //     },
-    //   }
-    // )
 
     console.log(result)
 
     if (status == 'paid') {
+      // 開始資料庫事務
+      const connection = await db.getConnection()
+      await connection.beginTransaction()
+
+      // 更新訂單的付款狀態
       const updataOrderSql = 'UPDATE `Order` SET PaymentStatus = ? WHERE ID = ?'
       const updataOrderValues = ['已付款', dbOrder.OrderID]
-      await db.query(updataOrderSql, updataOrderValues)
+      await connection.query(updataOrderSql, updataOrderValues)
+
+      // 取得訂單資料
+      const orderSql = 'SELECT * FROM `Order` WHERE ID = ?'
+      const orderValues = [dbOrder.OrderID]
+      const [rows, fields] = await connection.query(orderSql, orderValues)
+      const orderRecord = rows[0]
+
+      // 將MemberDiscountMapping表中使用過的優惠券設定為已使用
+      const updateCouponSql =
+        'UPDATE MemberDiscountMapping SET Used_Date = ?, Status = 1 WHERE MemberID = ? AND DiscountID = ?'
+      const updateCouponValues = [
+        now,
+        orderRecord.MemberID,
+        orderRecord.CouponID,
+      ]
+
+      await connection.query(updateCouponSql, updateCouponValues)
+
+      await connection.commit()
     }
 
     return res.json({ status: 'success', data: linePayResponse.body })

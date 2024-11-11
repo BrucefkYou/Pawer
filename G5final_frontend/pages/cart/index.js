@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import toast from 'react-hot-toast';
+import logo from 'public/LOGO.svg';
+import Image from 'next/image';
 
 export default function Cart(props) {
   const { auth, getMember } = useAuth();
@@ -95,6 +98,7 @@ export default function Cart(props) {
   useEffect(() => {
     getDiscount();
   }, []);
+  
   return (
     <>
       {auth.isAuth ? (
@@ -138,14 +142,14 @@ export default function Cart(props) {
                           {/* 篩選只有滿足優惠券最低金額的優惠券會顯示 */}
                           {discount
                             ? discount.map((item) => {
-                                if (item.ConditionMinValue <= checkPrice) {
-                                  return (
-                                    <option key={item.ID} value={item.ID}>
-                                      {item.Name}
-                                    </option>
-                                  );
-                                }
-                              })
+                              if (item.ConditionMinValue <= checkPrice) {
+                                return (
+                                  <option key={item.ID} value={item.ID}>
+                                    {item.Name}
+                                  </option>
+                                );
+                              }
+                            })
                             : '沒有符合條件的優惠券'}
                         </select>
                         {/* <button type="button"
@@ -187,7 +191,7 @@ export default function Cart(props) {
                         </div>
                       </div>
                       <div className="set-middle">
-                        <Link
+                        <button
                           href="/cart/cart-info"
                           className="btn bg-second-color btn-checkd text-decoration-none set-middle"
                           // 將選擇的優惠券帶到下一頁
@@ -196,15 +200,34 @@ export default function Cart(props) {
                               cart.items.filter((item) => item.checked === true)
                                 .length === 0
                             ) {
-                              alert('請選擇商品');
+                              // alert('請選擇商品');
+                              toast('請勾選商品', {
+                                icon: (
+                                  <Image
+                                    width={95}
+                                    height={53}
+                                    src={logo}
+                                    alt="logo"
+                                    priority
+                                  />
+                                ),
+                                duration: 1800,
+                                style: {
+                                  borderRadius: '10px',
+                                  background: 'rgba(84, 124, 215, 1)',
+                                  color: '#fff',
+                                  marginTop: '80px',
+                                },
+                              });
                               e.preventDefault();
                             } else {
                               bringDiscount();
+                              router.push('/cart/cart-info');
                             }
                           }}
                         >
                           去結帳
-                        </Link>
+                        </button>
                       </div>
                     </div>
                   </div>

@@ -54,7 +54,7 @@ export default function TWZipCode({
 
   return (
     <>
-      <div className="col w-50 mt10">
+      <div className="col w-50">
         <select
           className="form-select input-block"
           name="country"
@@ -78,7 +78,7 @@ export default function TWZipCode({
           ))}
         </select>
       </div>
-      <div className="col w-50 mt10">
+      <div className="col w-50">
         <select
           className="form-select input-block"
           name="township"
