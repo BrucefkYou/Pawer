@@ -11,7 +11,6 @@ import authenticate from '#middlewares/authenticate.js'
 import multer from 'multer'
 
 const router = express.Router()
-const apiRouter = createRouter()
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -195,6 +194,7 @@ GROUP BY
   }
 })
 
+// 首圖上傳
 router.post('/upload', upload.single('joinImage'), (req, res) => {
   try {
     const file = req.file
@@ -209,6 +209,13 @@ router.post('/upload', upload.single('joinImage'), (req, res) => {
   }
 })
 
+// 錯誤處理中間件
+router.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).json({ message: '伺服器錯誤' })
+})
+
+// 表單內容新增
 router.post('/create', upload.single('joinImage'), async (req, res) => {
   const {
     imageName,
@@ -260,6 +267,90 @@ router.post('/create', upload.single('joinImage'), async (req, res) => {
     // 將 tags 傳進 tag 表，tags是一個陣列，用for 迴圈將拆解的 tag 一個一個寫入
     const createDate = moment().format('YYYY-MM-DD HH:mm')
     for (const tag of tags) {
+      const [existingTag] = await db2.execute(
+        `SELECT Name FROM Tag WHERE Name = ?`,
+        [tag]
+      )
+
+      // 如果不存在 (existingTag 為空陣列) 才新增
+      if (existingTag.length === 0) {
+        await db2.execute(
+          `INSERT INTO Tag (Name, CreateDate, CreateUserID) VALUES (?, ?, ?)`,
+          [tag, createDate, memberId]
+        )
+      }
+    }
+
+    // 將 tags 傳進 tagmappings 表中
+    for (const tag of tags) {
+      const [tagId] = await db2.execute(`SELECT ID FROM Tag WHERE Name = ?`, [
+        tag,
+      ])
+      //  tagId[0].ID 是因為 tagId 是一個陣列，取第一個元素的 ID
+      await db2.execute(
+        `INSERT INTO Tagmappings (JoininId, TagId) VALUES (?, ?)`,
+        [joininId, tagId[0].ID]
+      )
+    }
+
+    res.status(200).json({ message: '寫入成功' })
+  } catch (error) {
+    console.error('處理過程中發生錯誤:', error)
+    res.status(500).json({ message: '伺服器錯誤', error })
+  }
+})
+
+// 表單內容修改
+router.post('/update/:id', upload.single('joinImage'), async (req, res) => {
+  const {
+    imageName,
+    memberId,
+    title,
+    info,
+    startTime,
+    endTime,
+    count,
+    signEndDate,
+    city,
+    township,
+    location,
+    tags,
+  } = req.body
+  const updateTime = moment().format('YYYY-MM-DD HH:mm')
+  try {
+    // 將資料寫入 joinin 表
+    const [result] = await db2.execute(
+      `UPDATE Joinin SET MemberID = ?,Title = ?, Info = ?, StartTime = ?, EndTime = ?,SignEndTime = ?, ParticipantLimit = ?, City = ?, Township = ?, Location = ?, UpdateDate = ? WHERE ID = ?`,
+      [
+        memberId,
+        title,
+        info,
+        startTime,
+        endTime,
+        signEndDate,
+        count,
+        city,
+        township,
+        location,
+        updateTime,
+        req.params.id,
+      ]
+    )
+
+    const joininId = req.params.id
+    const imgurl = `/join/+${imageName}`
+    const imageUploadDate = moment().format('YYYY-MM-DD HH:mm')
+    //抓取附檔名 slice(1)是為了去掉.
+    const imgType = path.extname(imageName).slice(1)
+    // const imgType = imageName.split('.').pop()
+    await db2.execute(
+      `UPDATE Image SET ImageName = ?,ImageUrl = ?,ImageUploadDate = ?,ImageType = ? WHERE JoininId = ?`,
+      [imageName, imgurl, imageUploadDate, imgType, joininId]
+    )
+
+    // 將 tags 傳進 tag 表，tags是一個陣列，用for 迴圈將拆解的 tag 一個一個寫入
+    const createDate = moment().format('YYYY-MM-DD HH:mm')
+    for (const tag of tags) {
       await db2.execute(
         `INSERT INTO Tag (Name,CreateDate,CreateUserID) VALUES (?,?,?)`,
         [tag, createDate, memberId]
@@ -282,6 +373,20 @@ router.post('/create', upload.single('joinImage'), async (req, res) => {
   } catch (error) {
     console.error('處理過程中發生錯誤:', error)
     res.status(500).json({ message: '伺服器錯誤', error })
+  }
+})
+
+// 表單內容軟刪除
+router.put('/:id', async (req, res) => {
+  try {
+    const [rows] = await db2.execute(
+      'UPDATE Joinin SET  Valid = 0 WHERE ID = ?',
+      [req.params.id]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('刪除錯誤：', err)
+    res.status(500).send(err)
   }
 })
 
