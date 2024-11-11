@@ -11,7 +11,7 @@ AuthContext.displayName = 'AuthContext';
 
 // 建立導出AuthProvider元件
 export function AuthProvider({ children }) {
-
+  const router = useRouter();
   const initMemberData = {
     id: 0,
     name: '',
