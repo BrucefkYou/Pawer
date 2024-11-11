@@ -52,18 +52,7 @@ export default function CartInfo(props) {
   const goECPay = () => {
     window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
   };
-  // const goLinepay = async () => {
-  //   const url = `http://localhost:3005/api/line-pay/reserve`;
-  //   const fetchRes = await fetch(url, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     credentials: 'include',
-  //     body: JSON.stringify({ orderId: orderID }),
-  //   });
-  // };
-
+  
   const goLinepay = async () => {
     window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${orderID}`;
   };
@@ -636,7 +625,7 @@ export default function CartInfo(props) {
                     <div className="col">
                       <div className="d-flex flex-column">
                         <div className="price-block d-flex justify-content-between w-100">
-                          <div className="price-font set-middle">總金額</div>
+                          <div className="price-font set-middle">商品合計</div>
                           <div className="price-font set-middle">
                             NT${checkedPrice}
                           </div>
@@ -657,7 +646,7 @@ export default function CartInfo(props) {
                         <hr />
                         <div className="price-block d-flex justify-content-between w-100">
                           <div className="price-font set-middle">
-                            結帳金額
+                            訂單總計
                           </div>
                           <div className="price-font set-middle">
                             NT${checkedPrice - discountPrice}

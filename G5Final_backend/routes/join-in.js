@@ -77,6 +77,24 @@ WHERE
   }
 })
 
+// 獲得活動地點
+router.get('/location', async (req, res) => {
+  try {
+    const [rows] = await db2.query(`
+      SELECT 
+        PositionX, 
+        PositionY,
+        CONCAT(City, ' ', Township, ' ', Location) AS Place
+      FROM 
+        Joinin
+    `)
+    res.json({ status: 'success', rows })
+  } catch (err) {
+    res.status(500).json({ status: 'fail', message: '伺服器錯誤:' + err })
+    console.error('地址查詢錯誤：', err)
+  }
+})
+
 // 加入收藏
 router.put('/favorite', async function (req, res) {
   const { memberId, joininId } = req.body
