@@ -1,3 +1,4 @@
+import moment from 'moment'
 import express from 'express'
 const router = express.Router()
 
@@ -25,6 +26,9 @@ const linePayClient = createLinePayClient({
   channelSecretKey: process.env.LINE_PAY_CHANNEL_SECRET,
   env: process.env.NODE_ENV,
 })
+
+// 獲得現在時間
+const now = moment().format('YYYY-MM-DD HH:mm:ss')
 
 // 在資料庫建立order資料(需要會員登入才能使用)
 router.post('/LinePayOrder', authenticate, async (req, res) => {
@@ -237,9 +241,31 @@ router.get('/confirm', async (req, res) => {
     console.log(result)
 
     if (status == 'paid') {
+      // 開始資料庫事務
+      const connection = await db.getConnection()
+      await connection.beginTransaction()
+
       const updataOrderSql = 'UPDATE `Order` SET PaymentStatus = ? WHERE ID = ?'
       const updataOrderValues = ['已付款', dbOrder.OrderID]
-      await db.query(updataOrderSql, updataOrderValues)
+      await connection.query(updataOrderSql, updataOrderValues)
+
+      const orderSql = 'SELECT * FROM `Order` WHERE ID = ?'
+      const orderValues = [dbOrder.OrderID]
+      const [rows, fields] = await connection.query(orderSql, orderValues)
+      const orderRecord = rows[0]
+
+      // 這邊需要將MemberDiscountMapping表中使用過的優惠券設定為已使用
+      const updateCouponSql =
+        'UPDATE MemberDiscountMapping SET Used_Date = ?, Status = 1 WHERE MemberID = ? AND DiscountID = ?'
+      const updateCouponValues = [
+        now,
+        orderRecord.MemberID,
+        orderRecord.CouponID,
+      ]
+
+      await connection.query(updateCouponSql, updateCouponValues)
+
+      await connection.commit()
     }
 
     return res.json({ status: 'success', data: linePayResponse.body })

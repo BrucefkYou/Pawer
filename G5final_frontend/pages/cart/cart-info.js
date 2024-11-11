@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import InfoList from '@/components/cart/info-list';
-import { set } from 'lodash';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import Image from 'next/image';
 import TWZipCode from '@/components/tw-zipcode';
@@ -8,14 +7,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 import { useAuth } from '@/hooks/use-auth';
-import Products from './products';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import { is } from 'date-fns/locale';
 import { useLoader } from '@/hooks/use-loader';
 // import { toast } from 'react-toastify';
 
 export default function CartInfo(props) {
-  const { isLoading, setIsLoading } = useLoader();
+  const { loading, setLoading } = useLoader();
   const { auth } = useAuth();
   const router = useRouter();
   // const [isLoading, setIsLoading] = useState(true);
@@ -71,9 +68,11 @@ export default function CartInfo(props) {
   };
 
   const handleLinepayConfirm = async (transactionId) => {
+    setLoading(true);
     const fetchConfirmUrl = `http://localhost:3005/api/line-pay/confirm?transactionId=${transactionId}`;
     const fetchRes = await fetch(fetchConfirmUrl);
     const resData = await fetchRes.json();
+    setLoading(false);
     if (resData.status === 'success') {
       router.push(`/cart/success?orderID=${resData.data.info.packages[0].id}`);
       // toast.success('付款成功');
@@ -108,10 +107,10 @@ export default function CartInfo(props) {
       // } else if (res.status === 500) {
       //   router.push('/cart/fail');
       // } else {
-      //   // 處理其他狀態碼
+      // 處理其他狀態碼
       //   console.log('Unexpected response status:', res.status);
       //   console.log('Response data:', resData);
-      //   // 可以在這裡顯示錯誤訊息給用戶
+      // 可以在這裡顯示錯誤訊息給用戶
       // }
     } catch (error) {
       console.log(error);
@@ -233,11 +232,10 @@ export default function CartInfo(props) {
       // 如果沒有帶transactionId或orderId時，導向至首頁(或其它頁)
       if (!transactionId || !orderId) {
         // 關閉載入狀態
-        setIsLoading(false);
+        setLoading(false);
         // 不繼續處理
         return;
       }
-
       // 向server發送確認交易api
       handleLinepayConfirm(transactionId);
     }
@@ -415,7 +413,6 @@ export default function CartInfo(props) {
                   ) : (
                     ' '
                   )}
-
                   {/* 寄送方式-超商取貨 */}
                   {/* !待新增效果-點擊後才出現便利商店選項 */}
                   <div className="mt20 d-flex align-items-center">
@@ -432,6 +429,39 @@ export default function CartInfo(props) {
                   </div>
                   {selectedDelivery === 'convenience' ? (
                     <>
+                    {/* 基本資訊 */}
+                    <div className="row row-cols-1 row-cols-lg-3">
+                        <div className="col">
+                          <input
+                            className="mt10 w-100 h-36p input-block"
+                            type="text"
+                            placeholder="收貨人姓名"
+                            value={receiver}
+                            onChange={(e) => setReceiver(e.target.value)}
+                            required={selectedPayment === 'store'}
+                          />
+                        </div>
+                        <div className="col">
+                          <input
+                            className="mt10 w-100 h-36p input-block"
+                            type="tel"
+                            placeholder="手機號碼"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            required={selectedPayment === 'store'}
+                          />
+                        </div>
+                        <div className="col">
+                          <input
+                            className="mt10 w-100 h-36p input-block"
+                            type="tel"
+                            placeholder="市話(非必填)"
+                          />
+                        </div>
+                      </div>
+                      <div className='mt20'>
+                        <span className="delivery-title">取貨門市</span>
+                      </div>
                       {/* 選擇超商 */}
                       <div className="row row-cols-2 row-cols-lg-4">
                         <div className="col mt10">
@@ -516,43 +546,7 @@ export default function CartInfo(props) {
                     />
                     <span className="delivery-title">超商取貨付款</span>
                   </div>
-                  {selectedPayment === 'store' &&
-                    selectedDelivery === 'convenience' ? (
-                    <>
-                      {/* 基本資訊 */}
-                      <div className="row row-cols-1 row-cols-lg-3">
-                        <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="text"
-                            placeholder="收貨人姓名"
-                            value={receiver}
-                            onChange={(e) => setReceiver(e.target.value)}
-                            required={selectedPayment === 'store'}
-                          />
-                        </div>
-                        <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="手機號碼"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            required={selectedPayment === 'store'}
-                          />
-                        </div>
-                        <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="市話(非必填)"
-                          />
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    ' '
-                  )}
+                  
                   <div className="mt20 d-flex align-items-center">
                     <input
                       className="mr10 checkbox-block"
@@ -565,43 +559,7 @@ export default function CartInfo(props) {
                     />
                     <span className="delivery-title">LinePay</span>
                   </div>
-                  {selectedPayment === 'LinePay' &&
-                    selectedDelivery !== 'home' ? (
-                    <>
-                      {/* 基本資訊 */}
-                      <div className="row row-cols-1 row-cols-lg-3">
-                        <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="text"
-                            placeholder="收貨人姓名"
-                            value={receiver}
-                            onChange={(e) => setReceiver(e.target.value)}
-                            required={selectedPayment === 'store'}
-                          />
-                        </div>
-                        <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="手機號碼"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            required={selectedPayment === 'store'}
-                          />
-                        </div>
-                        <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="市話(非必填)"
-                          />
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    ' '
-                  )}
+                  
                 </section>
                 <hr className="desktop-hr" />
                 {/* 發票資訊 */}

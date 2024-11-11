@@ -1,7 +1,8 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import Loader from '@/components/loader';
 
 export const LoaderContext = createContext();
+LoaderContext.displayName = 'LoaderContext';
 
 export const LoaderProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -13,3 +14,5 @@ export const LoaderProvider = ({ children }) => {
     </LoaderContext.Provider>
   );
 };
+
+export const useLoader = () => useContext(LoaderContext);
