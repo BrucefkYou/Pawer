@@ -97,87 +97,85 @@ export default function Index(props) {
                   <div className="filtericon" onClick={toggleFilters}>
                     <BsFilterSquareFill />
                   </div>
-                  {showFilters && (
-                    <div className="row mb-5 bg-white">
-                      {/* 文字搜尋 */}
-                      <div className="col search-text-mp">
-                        <div
-                          className={`search-category ${
-                            showFilters ? 'show' : ''
-                          }`}
-                        >
-                          <Clean
-                            updateSearch={updateSearch}
-                            searchResults={filterData}
-                            setUrl={setUrl}
-                          />
-                          <div className="row d-flex flex-column align-items-start">
-                            <div className="col mt-3">
-                              <p className="searchcategory">種類</p>
-                              <p className="line" />
-                              <div className="d-flex pet-choose">
-                                <TagCat
-                                  setUrl={setUrl}
-                                  activeIndex={
-                                    active?.c === 'tagcat' ? active.v : null
-                                  }
-                                  onActiveChange={(v) =>
-                                    ActiveChange('tagcat', v)
-                                  }
-                                />
-                                <TagDog
-                                  setUrl={setUrl}
-                                  activeIndex={
-                                    active?.c === 'tagdog' ? active.v : null
-                                  }
-                                  onActiveChange={(v) =>
-                                    ActiveChange('tagdog', v)
-                                  }
-                                />
-                                <TagOther
-                                  setUrl={setUrl}
-                                  activeIndex={
-                                    active?.c === 'tagother' ? active.v : null
-                                  }
-                                  onActiveChange={(v) =>
-                                    ActiveChange('tagother', v)
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="row d-flex flex-column align-items-start category-mal mx-0">
-                            <div>
-                              <p className="searchpro col">類別</p>
-                            </div>
-                            <div className="row category-detail d-flex flex-column mx-0">
-                              <CategoryCat
+                  <div className="row mb-5 bg-white">
+                    {/* 文字搜尋 */}
+                    <div className="col search-text-mp">
+                      <div
+                        className={`search-category ${
+                          showFilters ? 'show' : ''
+                        }`}
+                      >
+                        <Clean
+                          updateSearch={updateSearch}
+                          searchResults={filterData}
+                          setUrl={setUrl}
+                        />
+                        <div className="row d-flex flex-column align-items-start">
+                          <div className="col mt-3">
+                            <p className="searchcategory">種類</p>
+                            <p className="line" />
+                            <div className="d-flex pet-choose">
+                              <TagCat
                                 setUrl={setUrl}
                                 activeIndex={
-                                  active?.c === 'cat' ? active.v : null
+                                  active?.c === 'tagcat' ? active.v : null
                                 }
-                                onActiveChange={(v) => ActiveChange('cat', v)}
+                                onActiveChange={(v) =>
+                                  ActiveChange('tagcat', v)
+                                }
                               />
-                              <CategoryDog
+                              <TagDog
                                 setUrl={setUrl}
                                 activeIndex={
-                                  active?.c === 'dog' ? active.v : null
+                                  active?.c === 'tagdog' ? active.v : null
                                 }
-                                onActiveChange={(v) => ActiveChange('dog', v)}
+                                onActiveChange={(v) =>
+                                  ActiveChange('tagdog', v)
+                                }
                               />
-                              <CategoryOther
+                              <TagOther
                                 setUrl={setUrl}
                                 activeIndex={
-                                  active?.c === 'other' ? active.v : null
+                                  active?.c === 'tagother' ? active.v : null
                                 }
-                                onActiveChange={(v) => ActiveChange('other', v)}
+                                onActiveChange={(v) =>
+                                  ActiveChange('tagother', v)
+                                }
                               />
                             </div>
                           </div>
                         </div>
+                        <div className="row d-flex flex-column align-items-start category-mal mx-0">
+                          <div>
+                            <p className="searchpro col">類別</p>
+                          </div>
+                          <div className="row category-detail d-flex flex-column mx-0">
+                            <CategoryCat
+                              setUrl={setUrl}
+                              activeIndex={
+                                active?.c === 'cat' ? active.v : null
+                              }
+                              onActiveChange={(v) => ActiveChange('cat', v)}
+                            />
+                            <CategoryDog
+                              setUrl={setUrl}
+                              activeIndex={
+                                active?.c === 'dog' ? active.v : null
+                              }
+                              onActiveChange={(v) => ActiveChange('dog', v)}
+                            />
+                            <CategoryOther
+                              setUrl={setUrl}
+                              activeIndex={
+                                active?.c === 'other' ? active.v : null
+                              }
+                              onActiveChange={(v) => ActiveChange('other', v)}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  )}
+                  </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center p-3">
                   <PerPageDom
