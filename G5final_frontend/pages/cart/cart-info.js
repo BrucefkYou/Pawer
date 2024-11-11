@@ -303,7 +303,8 @@ export default function CartInfo(props) {
                 <InfoList />
                 <hr className="desktop-hr" />
                 {/* 優惠券 */}
-                <div className="info-discount">
+                {!discount || discount.ID === 0 ? ("") : (
+                  <div className="info-discount">
                   <div className="d-flex align-items-center">
                     <div className="discount-check-box mr50 d-flex align-items-center">
                       <input
@@ -330,8 +331,9 @@ export default function CartInfo(props) {
                       />
                     </div>
                   </div>
+                  <hr className="desktop-hr" />
                 </div>
-                <hr className="desktop-hr" />
+                )}
                 {/* 寄送方式 */}
                 <section className="deliver-block mt-3">
                   {/* 寄送方式-標題 */}
@@ -439,7 +441,7 @@ export default function CartInfo(props) {
                             placeholder="收貨人姓名"
                             value={receiver}
                             onChange={(e) => setReceiver(e.target.value)}
-                            required={selectedPayment === 'store'}
+                            required={selectedDelivery === 'convenience'}
                           />
                         </div>
                         <div className="col">
@@ -449,7 +451,7 @@ export default function CartInfo(props) {
                             placeholder="手機號碼"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
-                            required={selectedPayment === 'store'}
+                            required={selectedDelivery === 'convenience'}
                           />
                         </div>
                         <div className="col">
@@ -547,7 +549,7 @@ export default function CartInfo(props) {
                     />
                     <span className="delivery-title">超商取貨付款</span>
                   </div>
-                  
+                  {/* LinePay */}
                   <div className="mt20 d-flex align-items-center">
                     <input
                       className="mr10 checkbox-block"

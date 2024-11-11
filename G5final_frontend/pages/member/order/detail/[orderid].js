@@ -23,6 +23,7 @@ export default function OrderDetail() {
       const dborder = res.data.order;
       setOrder(dborder);
       setOrderProducts(dborder.OrderDetail);
+      console.log(order);
     }
   };
   // 每次刷新頁面時，取得訂單資料
@@ -73,11 +74,13 @@ export default function OrderDetail() {
             <span>付款狀態</span>
           </div>
           <div className="col-md-10 col-8 d-flex justify-content-between align-items-start">
-            <span className={`badge ${
-                    order.PaymentStatus === '已付款'
-                      ? 'text-bg-success text-white'
-                      : 'text-bg-warning text-white'
-                  }`}>
+            <span
+              className={`badge ${
+                order.PaymentStatus === '已付款'
+                  ? 'text-bg-success text-white'
+                  : 'text-bg-warning text-white'
+              }`}
+            >
               {order['PaymentStatus']}
             </span>
           </div>
@@ -147,25 +150,26 @@ export default function OrderDetail() {
             <div className="cell">總價</div>
           </div>
           {orderProducts.map((product) => {
-            const price = Number(product.ProductOriginPrice)
-            const amount = product.ProductAmount
-            
+            const price = Number(product.ProductOriginPrice);
+            const amount = product.ProductAmount;
+
             return (
-              
               <div className="row" key={product.ID}>
                 <div className="cell justify-content-start">
-                <Image 
-                  width={100}
-                  height={100}
-                  src={`/product/sqlimg/${product.ProductImg}`}
-                  alt='productimg'
-                  className='me-1'
-                />
+                  <Image
+                    width={100}
+                    height={100}
+                    src={`/product/sqlimg/${product.ProductImg}`}
+                    alt="productimg"
+                    className="me-1"
+                  />
                   {product.ProductName}
                 </div>
-                <div className="cell">${price.toLocaleString() }</div>
+                <div className="cell">${price.toLocaleString()}</div>
                 <div className="cell">{amount}</div>
-                <div className="cell text-warning">${price*amount.toLocaleString()}</div>
+                <div className="cell text-warning">
+                  ${price * amount.toLocaleString()}
+                </div>
               </div>
             );
           })}
@@ -174,20 +178,26 @@ export default function OrderDetail() {
           <div className="col-md-4 col-12">
             <div className="d-flex justify-content-between mt-3">
               <span>優惠券</span>
-              <span>2024九月寵物保健優惠</span>
+              {order.CouponName ? (
+                <span>{order.CouponName}</span>
+              ) : (
+                <span>未使用</span>
+              )}
             </div>
             <div className="d-flex justify-content-between mt-3">
               <span>商品合計</span>
-              <span>$1593</span>
+              <span>${Number(order.OriginPrice).toLocaleString()}</span>
             </div>
             <div className="d-flex justify-content-between mt-3">
-              <span>優惠券折抵</span>
-              <span>-$160</span>
+              <span>折抵金額</span>
+              <span>${Number(order.DiscountPrice).toLocaleString()}</span>
             </div>
             <hr />
             <div className="d-flex justify-content-between mt-3">
               <h5 className="title">訂單總計</h5>
-              <span className="title">$1,433</span>
+              <span className="title">
+                ${Number(order.TotalPrice).toLocaleString()}
+              </span>
             </div>
           </div>
         </div>
