@@ -7,6 +7,7 @@ import PageTitle from '@/components/member/page-title/page-title';
 import Image from 'next/image';
 import toast, { Toaster } from 'react-hot-toast';
 // react-datepicker套件
+import { BsCalendar } from 'react-icons/bs'; //日期樣式
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { zhCN } from 'date-fns/locale';
@@ -109,7 +110,8 @@ export default function Member() {
       });
       toast.success('會員資料修改成功');
     } else {
-      toast.error('會員資料修改失敗');
+      console.log(res.data);
+      toast.error(`會員資料修改失敗，${res.data.message}`);
     }
   };
 
@@ -282,6 +284,7 @@ export default function Member() {
                   出生日期
                 </label>
                 <DatePicker
+                  icon={<BsCalendar />}
                   locale="zhCN"
                   dateFormat="yyyy-MM-dd"
                   showIcon

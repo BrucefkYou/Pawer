@@ -33,7 +33,7 @@ const getSystemCodeMap = async (Type) => {
 
 // GET - 得到單筆資料(注意，有動態參數時要寫在GET區段最後面)
 router.get('/', authenticate, async function (req, res) {
-  // id可以用jwt的存取令牌(accessToken)從authenticate中得到(如果有登入的話)
+  // id可以用jwt的存取令牌(accessToken)從authenticate中得到
   const id = req.user.id
 
   const [results] = await db.execute('SELECT * FROM Member WHERE ID= ?', [id])
@@ -148,7 +148,7 @@ router.post('/', async function (req, res) {
     // 成功回應
     return res.json({
       status: 'success',
-      message: '恭喜註冊成功並獲得註冊禮',
+      message: '恭喜註冊成功並獲得註冊禮優惠券',
     })
   } catch (error) {
     console.error(error)
@@ -228,9 +228,12 @@ router.get(
       }
 
       const [orderMain] = await db.execute(
-        'SELECT * FROM `Order` WHERE MemberID = ? AND ID = ?',
+        // 'SELECT * FROM `Order` WHERE MemberID = ? AND ID = ?'
+        'SELECT o.*, d.Name as CouponName FROM `Order` o LEFT JOIN `Discount` d ON o.CouponID = d.ID WHERE o.MemberID = ? AND o.ID = ?',
         [memberId, orderId]
       )
+
+      console.log('orderMain', orderMain)
 
       if (orderMain.length === 0) {
         return res.json({ status: 'error', message: '沒有找到訂單資料' })
