@@ -48,7 +48,7 @@ export default function ComReserveList({ nowPageItems }) {
                     </div>
                     {/* 下拉卡片(已預約) */}
                     {iconStates[i] == true || windowWidth < 430 ?
-                        <div className={`row detail-card d-flex ${v.Status == 0 ? 'PT-sp-3' : ''} ${iconStates[i] ? 'active' : ''
+                        <div className={`row detail-card d-flex my-3 ${v.Status == 0 ? 'PT-sp-3' : ''} ${iconStates[i] ? 'active' : ''
                             }`}>
                             {/* 頭像 */}
                             <div className={`col-4 col-md-3 d-flex justify-content-center align-items-center ps-0 PT-sp-none-rwd`}>
