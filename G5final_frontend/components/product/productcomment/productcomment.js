@@ -13,7 +13,7 @@ export default function Productcomment({ pd }) {
   const { auth } = useAuth();
   const id = auth.memberData.id;
   const [comment, setComment] = useState(''); // input狀態
-  const avatar = auth.memberData.avatar;
+  const Img = auth.memberData.avatar;
 
   // 要是會員才能送出
   const CountIcon = () => {
@@ -52,10 +52,13 @@ export default function Productcomment({ pd }) {
                 <div className="card mb-3 mt-5 comment-send-range">
                   <div className="row g-0">
                     <div className="col-md-2 d-flex justify-content-center">
-                      <img
+                      <Image
                         className="commentimg"
-                        src="../product/commentIng4.png"
-                        alt="1"
+                        src={`/member/member-avatar/${Img.Avatar}`}
+                        alt="會員頭像"
+                        width={808}
+                        height={1287}
+                        priority
                       />
                     </div>
                     <div className="col-md-10 col-12">
