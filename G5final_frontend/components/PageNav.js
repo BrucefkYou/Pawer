@@ -2,7 +2,7 @@ import React from 'react';
 export function PageNav({ nowPage, totalPage, next, prev }) {
   return (
     <nav aria-label="Page navigation">
-      <ul className="pagination m-0">
+      <ul className="pagination m-0 justify-content-center">
         <li className={`page-item page-block ${nowPage === 1 ? 'd-none' : ''}`} onClick={prev}>
           <a className={`page-item page-link ${nowPage === 1 ? 'd-none' : ''}`} aria-label="Previous">
             <span aria-hidden="true">‹</span>

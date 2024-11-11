@@ -16,7 +16,7 @@ export default function Index() {
   const [url, setUrl] = useState(
     'http://localhost:3005/api/join-in/member/favorite'
   );
-
+  
   // setUrl 第一層在父層 帶下去商品卡片頁第二層子層
 
   const {
@@ -43,7 +43,8 @@ export default function Index() {
         />
       </div>
 
-      <div>
+      <div className="mb-card d-flex flex-wrap gap-4">
+        {' '}
         {nowPageItems.length === 0 ? (
           <>
             <p className="mt-2">您沒有收藏的商品</p>
@@ -52,14 +53,14 @@ export default function Index() {
             </Link>
           </>
         ) : (
-          <div className="row ms-4 d-flex justify-content-start card-favorite-list">
+          <div className="d-flex flex-wrap gap-5">
             {nowPageItems.map((data) => (
               <JoinListCard key={data.id} data={data} setUrl={setUrl} />
             ))}
           </div>
         )}
         {/* 頁碼 */}
-        <div className="d-flex justify-content-center align-items-center mt-3">
+        <div className=" mt-2 w-100">
           {nowPageItems.length === 0 ? (
             <div></div>
           ) : (
