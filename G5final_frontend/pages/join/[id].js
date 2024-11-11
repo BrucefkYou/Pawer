@@ -4,6 +4,7 @@ import Image from 'next/image';
 import SideBarCard from '@/components/sidebar/sidebar-card/sidebar-card';
 import pawButton from '@/assets/pawButton.svg';
 import Banner from '@/components/join/banner/banner';
+import { v4 as uuidv4 } from 'uuid';
 import AroundJoinCard from '@/components/join/detail/around-join-card/around-join-card';
 import ClickIcon from '@/components/icons/click-icon/click-icon';
 import { useAuth } from '@/hooks/use-auth';
@@ -46,8 +47,8 @@ export default function JiDetail(props) {
   };
 
   const [data, setData] = useState({});
-  const getTitle = async (id) => {
-    const url = `http://localhost:3005/api/join-in/${id}`;
+  const getTitle = async () => {
+    const url = `http://localhost:3005/api/join-in/${router.query.id}`;
     try {
       const res = await fetch(url);
       const resData = await res.json();
@@ -183,7 +184,7 @@ export default function JiDetail(props) {
       <div className="detail-section2 mb-5">
         <h5 className="h5">活動內容</h5>
         {/* CKEditor帶入內容 前面要記得加dangerouslySetInnerHTML 解析HTML語法 */}
-        <div dangerouslySetInnerHTML={{ __html: data.Info }} />
+       <div dangerouslySetInnerHTML={{ __html: data.Info }} />
       </div>
       <div className="detail-section3">
         <h5 className="h5">活動地點</h5>

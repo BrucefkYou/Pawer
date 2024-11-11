@@ -9,7 +9,7 @@
 
 .colicon {
   font-size: 1.25rem;
-  margin-top: -0.25rem;
+  margin-top: 0.25rem;
 }
 
 .card-image {
@@ -31,4 +31,4 @@
 .card-body p {
   border-radius: 2px;
   line-height: 26px;
-}/*# sourceMappingURL=join-card.module.css.map */
+}/*# sourceMappingURL=join-list.module.css.map */

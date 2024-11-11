@@ -2,6 +2,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 // ClearSearchContainer.js
 import React, { useState } from 'react';
+import { BsXSquareFill } from 'react-icons/bs';
+import styles from '@/components/searchBar/searchbar.module.scss';
 import SearchBar from './SearchBar';
 
 export default function Clean({ updateSearch }) {
@@ -19,15 +21,22 @@ export default function Clean({ updateSearch }) {
   };
 
   return (
-    <div>
+    <div className="d-flex">
       <SearchBar
         inputValue={inputValue}
         setInputValue={setInputValue}
         onSearch={handleSearch}
       />
-      <div className="btn p-0 mt-3" onClick={handleClear}>
-        <p className="clean">清除搜尋</p>
+      <div
+        className={`btn btn-primary rounded-1 ${styles.search}`}
+        onClick={handleClear}
+        style={{ width: '42px' }}
+      >
+        <div>&times;</div>
       </div>
+      {/* <div className="btn p-0 mt-3" onClick={handleClear}>
+        <p className="clean">清除搜尋</p>
+      </div> */}
     </div>
   );
 }

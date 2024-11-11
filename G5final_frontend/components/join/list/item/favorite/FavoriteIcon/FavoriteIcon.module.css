@@ -1,0 +1,12 @@
+.click-icon {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  line-height: 0px;
+}
+.click-icon .icon-btn {
+  color: #F4B13E;
+}
+.click-icon .count {
+  color: #888888;
+}/*# sourceMappingURL=FavoriteIcon.module.css.map */

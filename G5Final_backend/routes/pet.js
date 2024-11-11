@@ -71,7 +71,7 @@ router.post('/reserve', upload.none(), async function (req, res, next) {
   const {
     petCommID,
     memberID,
-    ReservName,
+    ReserveName,
     Phone,
     PetType,
     PetName,
@@ -87,7 +87,7 @@ router.post('/reserve', upload.none(), async function (req, res, next) {
       [
         petCommID,
         memberID,
-        ReservName,
+        ReserveName,
         Phone,
         PetType,
         PetName,

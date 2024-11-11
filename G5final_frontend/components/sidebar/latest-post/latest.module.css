@@ -3,7 +3,6 @@
   gap: 16px;
   background-color: #fff;
   padding-block: 10px;
-  justify-content: flex-start;
 }
 .latest-card .latest-cover-container {
   max-width: 80px;
@@ -42,7 +41,6 @@
 .latest-card .card-content .bottom-section {
   font-size: 12px;
   display: flex;
-  justify-content: flex-start;
   gap: 10%;
 }
 .latest-card .card-content .bottom-section .date-section {

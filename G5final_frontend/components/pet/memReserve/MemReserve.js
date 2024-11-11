@@ -60,7 +60,9 @@ export default function MemReserve(props) {
                         <div className="col-1" />
                     </div>
                     <MemReserveList nowPageItems={nowPageItems} />
-                    <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
+                    <div className='d-flex justify-content-center'>
+                        <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
+                    </div>
                 </>
             }
         </>

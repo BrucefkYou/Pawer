@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './login.module.scss';
 import Image from 'next/image';
-import { useAuth } from '@/hooks/use-auth';
+import { initMemberData,useAuth } from '@/hooks/use-auth';
+//google login
+import useFirebase from '@/hooks/use-firebase'
+
 
 export default function LoginForm({ Formtype, setFormtype }) {
   const [user, setUser] = useState({ email: '', password: '' });
@@ -69,7 +72,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
                 height={30}
                 className={`${styles['btn-google']}`}
               />
-              連結Google帳號
+              Google帳號登入
             </button>
           </div>
           <div className="d-flex justify-content-between">

@@ -1,0 +1,25 @@
+.search-bar {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  gap: 1em;
+}
+.search-bar .search-bar {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  gap: 1em;
+}
+.search-bar .search-bar input {
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  line-height: 36px;
+  padding: 2.5% 4.5%;
+  color: #7f7f7f;
+}
+.search-bar .search-bar .search {
+  padding: 4.5% 6.5%;
+  border-radius: 2px;
+  letter-spacing: 0.2em;
+  font-size: 16px;
+}/*# sourceMappingURL=searchbar.module.css.map */
