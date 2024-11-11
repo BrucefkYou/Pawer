@@ -36,7 +36,7 @@ export default async function (sequelize) {
       },
     },
     {
-      tableName: 'Payment',
+      tableName: 'LinepayInfo',
       timestamps: true,
       createdAt: 'CreateTime',
       updatedAt: 'UpdateTime',
