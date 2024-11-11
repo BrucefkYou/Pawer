@@ -219,6 +219,13 @@
     object-fit: cover;
     border-radius: 50%;
   }
+  .commentimgDown{
+    margin-top: 0;
+    width: 112px;
+    height: 112px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
   /* 卡陰影 */
   .pd-comment-shadow {
     width: 1200px;
@@ -304,6 +311,7 @@
     text-align: center;
     margin-top: 1.5rem;
     margin-bottom: 4rem;
+    cursor: pointer;
   }
   /* RWD */
   @media (max-width: 576px) {
@@ -316,6 +324,13 @@
     }
     .commentimg {
       margin-top: 1.5rem;
+      width: 112px;
+      height: 112px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .commentimgDown{
+      margin-top: 1rem;
       width: 112px;
       height: 112px;
       object-fit: cover;
@@ -392,6 +407,13 @@
       overflow: hidden;
       color: #585858;
       margin: 0;
+    }
+    .detail-text-layout {
+      height: 320px;
+      margin-top: 2rem;
+      padding: 16px 0px;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
     }
   }
 }

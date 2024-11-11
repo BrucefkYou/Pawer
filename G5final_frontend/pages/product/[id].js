@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import ProductDetail from '@/components/product/productDetail';
-import Productcomment from '@/components/product/productcomment/productcomment';
 
 export default function Id(props) {
   return (
@@ -15,8 +14,6 @@ export default function Id(props) {
         </div>
         {/* 商品細節內容 */}
         <ProductDetail />
-        {/* 評論 */}
-        <Productcomment />
       </main>
     </>
   );
