@@ -8,9 +8,11 @@ import logo from 'public/LOGO.svg';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
+import useFirebase from '@/hooks/use-firebase';
 export default function Navbar() {
   const { items, initCart } = useCart();
   const { auth, logout } = useAuth();
+  const { logoutFirebase } = useFirebase();
   const router = useRouter();
   const [cartItemNum, setCartItemNum] = useState(0);
 
@@ -183,7 +185,13 @@ export default function Navbar() {
                     width={24}
                     height={24}
                     className="navbar-login-img"
-                    src={`/member/member-avatar/${auth.memberData.avatar}`}
+                    src={
+                      auth.memberData.google_uid
+                        ? `${auth.memberData.avatar}`
+                        : `http://localhost:3005/member/${auth.memberData.avatar}`
+                    }
+                    // src={`/member/member-avatar/${auth.memberData.avatar}`}
+
                     alt="使用者頭像"
                   />
                 </button>
@@ -216,6 +224,7 @@ export default function Navbar() {
                 onClick={() => {
                   initCart();
                   localStorage.setItem('store711', {});
+                  if (auth.memberData.google_uid) logoutFirebase();
                   logout();
                   router.push('/');
                 }}

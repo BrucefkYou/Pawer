@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { updateProfile } from '@/services/member';
-import { BsCamera } from 'react-icons/bs';
 import { useAuth } from '@/hooks/use-auth';
-import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
-import Image from 'next/image';
 import toast, { Toaster } from 'react-hot-toast';
+// 更新會員資料
+import { updateProfile, updateProfileAvatar } from '@/services/member';
+// 頭像上傳元件
+import PreviewUploadImage from '@/components/member/avatar-preview/preview-upload-image';
 // react-datepicker套件
+import { BsCalendar } from 'react-icons/bs';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { zhCN } from 'date-fns/locale';
 registerLocale('zhCN', zhCN);
 // 套用memberlayout
+import MemberLayout from '@/components/layout/member-layout';
 Member.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
@@ -31,6 +33,7 @@ export default function Member() {
 
   const { auth, setAuth, getMember } = useAuth();
   const [userProfile, setUserProfile] = useState(initUserProfile);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   // 初始化會員資料
   const getUserData = async () => {
@@ -99,6 +102,20 @@ export default function Member() {
     const res = await updateProfile(auth.memberData.id, user);
     // console.log(res.data)
 
+    // 如果有選擇照片才執行上傳
+    if (selectedFile) {
+      const formData = new FormData();
+      // 對照server上的檔案名稱 req.files.avatar
+      formData.append('avatar', selectedFile);
+
+      const res2 = await updateProfileAvatar(formData);
+
+      // console.log(res2.data)
+      if (res2.data.status === 'success') {
+        toast.success('會員頭像修改成功');
+      }
+    }
+
     if (res.data.status === 'success') {
       setAuth({
         memberData: {
@@ -109,7 +126,8 @@ export default function Member() {
       });
       toast.success('會員資料修改成功');
     } else {
-      toast.error('會員資料修改失敗');
+      console.log(res.data);
+      toast.error(`會員資料修改失敗，${res.data.message}`);
     }
   };
 
@@ -122,22 +140,12 @@ export default function Member() {
         <PageTitle title={'會員資料'} subTitle={'Member'} />
         <div className="row mt-4">
           <div className="col-md-6 col-sm-12 d-flex justify-content-center align-items-center">
-            <div className="mb-3">
-              <div className="profile">
-                <div className="picture">
-                  <Image
-                    className="avatar"
-                    src="/member/member-profile.png"
-                    alt=""
-                    width={150}
-                    height={150}
-                  />
-                </div>
-                <button type="file" className="camera-icon">
-                  <BsCamera />
-                </button>
-              </div>
-            </div>
+            <PreviewUploadImage
+              avatarImg={userProfile.avatar}
+              avatarBaseUrl={'http://localhost:3005/member'}
+              setSelectedFile={setSelectedFile}
+              selectedFile={selectedFile}
+            />
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="col">
@@ -282,6 +290,7 @@ export default function Member() {
                   出生日期
                 </label>
                 <DatePicker
+                  icon={<BsCalendar />}
                   locale="zhCN"
                   dateFormat="yyyy-MM-dd"
                   showIcon

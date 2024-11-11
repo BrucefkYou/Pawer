@@ -5,18 +5,12 @@ import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 const router = express.Router()
 
-// 初始化折扣價格
-let lineDiscountPrice = 0
-
 /* GET home page. */
 // 獲得全部訂單
 router.get('/', function (req, res, next) {})
 
 // 成立訂單
 router.post('/createOrder', authenticate, async function (req, res, next) {
-  // 初始化折扣價格
-  lineDiscountPrice = 0
-
   // const ID = req.user.id
   const {
     MemberID,
@@ -37,11 +31,6 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     ReceiptCarrier,
     Products,
   } = req.body
-
-  // 如果有折扣價格，則設定折扣價格
-  if (lineDiscountPrice && lineDiscountPrice > 0) {
-    lineDiscountPrice = DiscountPrice
-  }
 
   //   if (MemberID !== ID) {
   //     return res.json({ status: 'error', message: '存取會員資料失敗' })
@@ -143,6 +132,13 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
 
     await connection.query(orderDetailsSql, [orderDetailsValues])
 
+    let lineProductName = ''
+    if (!CouponID || CouponID == 0) {
+      lineProductName = 'Pawer的訂單'
+    } else {
+      lineProductName = '使用了優惠券的Pawer訂單'
+    }
+
     // 如果是LinePay的話將資料寫進Linepayinfo
     if (selectedPayment === 'LinePay') {
       const order = {
@@ -151,13 +147,15 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
         amount: TotalPrice,
         packages: [
           {
-            id: OrderNumber, // 可以使用 OrderNumber 作为 package ID
+            id: OrderNumber, // 使用 OrderNumber 作为 package ID
             amount: TotalPrice,
-            products: Products.map((product) => ({
-              name: product.ProductName,
-              quantity: product.Quantity,
-              price: product.Price,
-            })),
+            products: [
+              {
+                name: lineProductName,
+                quantity: 1,
+                price: TotalPrice,
+              },
+            ],
           },
         ],
         options: { display: { locale: 'zh_TW' } },
@@ -180,18 +178,5 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     res.status(500).json({ error: '伺服器錯誤，無法創建訂單' })
   }
 })
-
-// 因為LinePay會根據商品單價計算訂單金額，因此得用商品價格-折扣價格計算折扣後的價格
-const calculateDiscountPrice = (productPrice, discountPrice) => {
-  if (!discountPrice || discountPrice == 0) {
-    return productPrice
-  }
-  if (productPrice >= discountPrice) {
-    return productPrice - discountPrice
-  } else if (productPrice < discountPrice) {
-    lineDiscountPrice -= productPrice
-    return 0
-  }
-}
 
 export default router

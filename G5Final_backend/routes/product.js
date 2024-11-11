@@ -194,6 +194,43 @@ router.get('/member/favorites', async function (req, res, next) {
   }
 })
 
+// 評論
+router.put('/productcomment', async function (req, res) {
+  const { ProductID, MemberID, ProductName, ProductContent, StarLevel } =
+    req.body
+  try {
+    const [rows] = await db2.query(
+      `INSERT INTO productcomment (ProductID, MemberID, ProductName, ProductContent, StarLevel) 
+       VALUES (?, ?, ?, ?, ?)`,
+      [ProductID, MemberID, ProductName, ProductContent, StarLevel]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('新增評論時發生錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+
+// 撈評論資料顯示在評論下方
+router.get('/productcomment', async function (req, res, next) {
+  const productId = req.query.productId // 從請求的查詢參數中獲取 productId
+
+  if (!productId) {
+    return res.status(400).json({ error: '缺少商品ID' })
+  }
+
+  try {
+    const [rows] = await db2.query(
+      `SELECT * FROM productcomment WHERE ProductID = ?`,
+      [productId]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    return res.status(500).json({ error: '伺服器錯誤，請稍後再試' })
+  }
+})
+
 // :id 這個要在最底下不然會讀不到他下面的
 //明細
 router.get('/:id', async function (req, res, next) {
