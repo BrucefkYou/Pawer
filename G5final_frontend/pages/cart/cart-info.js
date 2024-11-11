@@ -9,6 +9,7 @@ import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import { useLoader } from '@/hooks/use-loader';
+import toast from 'react-hot-toast';
 // import { toast } from 'react-toastify';
 
 export default function CartInfo(props) {

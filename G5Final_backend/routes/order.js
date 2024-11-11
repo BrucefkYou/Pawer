@@ -147,7 +147,7 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
         amount: TotalPrice,
         packages: [
           {
-            id: OrderNumber, // 可以使用 OrderNumber 作为 package ID
+            id: OrderNumber, // 使用 OrderNumber 作为 package ID
             amount: TotalPrice,
             products: [
               {
