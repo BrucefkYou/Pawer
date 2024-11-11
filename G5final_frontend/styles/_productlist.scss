@@ -22,6 +22,8 @@
       color: #253559;
     }
   }
+  // rwd 側邊欄
+
   /* 側邊欄 */
   .left {
     width: 360px;
@@ -248,6 +250,15 @@
     transition: all 0.5s ease;
     filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.3));
   }
+  // 卡片會員收藏title大小
+  .card-favorite {
+    padding: 15px 36px;
+    background-color: #fff;
+    border-radius: 4px;
+  }
+  .card-favorite-list {
+    margin-top: -2rem;
+  }
   /* 卡片大小 */
   .card-size {
     width: 15.25rem;
@@ -320,7 +331,7 @@
     font-size: 16px;
     font-weight: 500;
   }
-  .no-results{
+  .no-results {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -329,6 +340,27 @@
 
   /* RWD */
   @media (max-width: 576px) {
+    // 篩選
+    .search-category {
+      position: absolute; 
+      top: 120px; 
+      left: 0; 
+      width: 390px; 
+      box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
+      transform: translateX(-100%); 
+      transition: transform 1.3s ease; 
+      z-index: 1000; 
+      background-color: #fff;
+    }
+    
+    /* 顯示時將其移回原位 */
+    .search-category.show {
+      transform: translateX(0);
+    }
+    .filtericon{
+      margin-left: 2.5rem;
+    }
+    
     /* 麵包屑 */
     .productList-crumb-wei {
       font-family: Inter;
@@ -372,6 +404,11 @@
       font-size: 14px;
       font-weight: 500;
       line-height: 27px;
+      svg {
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+      }
     }
     .search-bg {
       display: none;
@@ -421,6 +458,10 @@
     /* 頁籤 */
     .tab-rwd {
       margin-left: 60px;
+    }
+    // 收藏會員卡片
+    .card-favorite-list {
+      margin-top: 1rem;
     }
   }
 }

@@ -4,9 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 // Components
-import ClickIcon from '@/components/icons/click-icon/click-icon';
 import Account from '../account/account';
 import BlogDate from '../date/blog-date';
+import BlogFav from '../blog-like/blog-favorite';
+import BlogLike from '../blog-like/blog-like';
 
 // React-Bs-icon
 import {
@@ -23,8 +24,13 @@ export default function BlogCard({
   updateDate,
   likeCount,
   favoriteCount,
+  blogId,
+  avatar,
+  name,
 }) {
   const imagePath = blogImg ? blogImg.replace('../', '/') : '';
+  const avatarPath = avatar ? avatar.replace('../', '/') : '';
+
   return (
     <div className={`card shadow ${styles['blog-card']}`}>
       <Image
@@ -44,20 +50,22 @@ export default function BlogCard({
             <div
               className={`text-secondary d-flex flex-column row-gap-2 ${styles.status}`}
             >
-              <Account name="nickname" w={18} h={18} />
+              <Account avatar={avatarPath} name={name} w={18} h={18} />
               <BlogDate updateDate={updateDate} />
             </div>
             {/* 按讚儲存 */}
             <div className="text-body-tertiary d-flex column-gap-2">
-              <ClickIcon
+              <BlogLike
                 IconFilled={BsHeartFill}
                 IconOutline={BsHeart}
                 count={likeCount}
+                id={id}
               />
-              <ClickIcon
+              <BlogFav
                 IconFilled={BsBookmarkFill}
                 IconOutline={BsBookmark}
                 count={favoriteCount}
+                id={id}
               />
             </div>
           </div>
@@ -70,7 +78,10 @@ export default function BlogCard({
         </div>
 
         <div className="text-end">
-          <Link href={`./blog/${id}`} className="btn text-warning p-0">
+          <Link
+            href={`http://localhost:3000/blog/${id}`}
+            className="btn text-warning p-0"
+          >
             查看更多
           </Link>
         </div>

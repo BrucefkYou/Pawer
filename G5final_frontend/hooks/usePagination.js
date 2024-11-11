@@ -137,8 +137,6 @@ export function usePagination({
     setFilterData(filtered);
     setNowPage(1);
   }, [newdata, filterRuleArr, searchInput]);
-  //
-
   // 執行當前頁碼+1 // 執行當前頁碼-1
   function next() {
     setNowPage((prevPage) => Math.min(prevPage + 1, totalPage));
