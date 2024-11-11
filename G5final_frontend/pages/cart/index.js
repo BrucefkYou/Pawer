@@ -98,6 +98,7 @@ export default function Cart(props) {
   useEffect(() => {
     getDiscount();
   }, []);
+  
   return (
     <>
       {auth.isAuth ? (
