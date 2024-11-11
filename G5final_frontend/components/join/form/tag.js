@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
-import style from './tag.module.scss';
 
 export default function Tag({
   label = '',
@@ -87,18 +86,13 @@ export default function Tag({
       <div className="tag-container d-flex">
         {tags.map((tag, i) => {
           return (
-            <div
-              key={i}
-              className={`${style['tag']} btn btn-warning rounded-2 mx-1`}
-            >
-              <span className="name text-white ">{tag}</span>
-              <span
-                className="ps-1
-               "
-                onClick={() => deleteTag(i)}
-              >
-                &times;
-              </span>
+            <div key={i} className={` btn btn-warning rounded-2 mx-1 d-flex `}>
+              <p className={` text-white text-nowrap m-0`}>
+                {tag}
+                <span className="ps-1" onClick={() => deleteTag(i)}>
+                  &times;
+                </span>
+              </p>
             </div>
           );
         })}

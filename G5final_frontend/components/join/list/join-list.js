@@ -46,11 +46,6 @@ export default function JoinList() {
   console.log(nowPageItems);
   // -----------------------------------------
 
-  // 初始化狀態，將每個加入的項目設置為fav: false
-  // const initState = joins.map((v) => {
-  //   return { ...v, fav: false };
-  // });
-
   // 宣告加入資料的狀態
   const [joinin, setJoinin] = useState([]);
 
