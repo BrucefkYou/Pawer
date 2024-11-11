@@ -13,6 +13,7 @@ import style from '@/components/product/productDetail.module.scss';
 import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
 import Imagechoose from '@/components/product/imagechoose';
+import Productcomment from '@/components/product/productcomment/productcomment';
 
 export default function ProductDetail(props) {
   // 建立購物車物件
@@ -260,6 +261,8 @@ export default function ProductDetail(props) {
           )}
         </div>
       </div>
+      {/* 評論 */}
+      <Productcomment fetchOne={fetchOne} />
     </>
   );
 }
