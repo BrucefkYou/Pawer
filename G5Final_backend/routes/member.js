@@ -8,11 +8,28 @@ import jwt from 'jsonwebtoken'
 import authenticate from '#middlewares/authenticate.js'
 // 新增會員，亂數生成會員編號用
 import crypto from 'crypto'
+// 加密密碼字串用
+import { generateHash } from '#db-helpers/password-hash.js'
+// 驗証加密密碼字串用
+import { compareHash } from '#db-helpers/password-hash.js'
 // 日期格式化
 import moment from 'moment'
 
 // 定義安全的私鑰字串
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
+
+// 定義查詢系統代碼的函數 (傳入欄位type回傳value與其中文描述)
+const getSystemCodeMap = async (Type) => {
+  const codes = await db.query(
+    'SELECT Value, Description FROM SystemCode WHERE Type = ?',
+    [Type]
+  )
+  const codeMap = {}
+  codes.forEach(({ Value, Description }) => {
+    codeMap[Value] = Description
+  })
+  return codeMap
+}
 
 // GET - 得到單筆資料(注意，有動態參數時要寫在GET區段最後面)
 router.get('/', authenticate, async function (req, res) {
@@ -36,22 +53,22 @@ router.get('/', authenticate, async function (req, res) {
 // 登入
 router.post('/login', async (req, res) => {
   const loginMember = req.body
-  // console.log(loginMember) { email: '123', password: '456' }
-  const [results] = await db.execute(
-    'SELECT * FROM Member WHERE eMail = ? and Password = ?',
-    [loginMember.email, loginMember.password]
-  )
+  // { email: '123', password: '456' }
+
+  const [results] = await db.execute('SELECT * FROM Member WHERE eMail = ?', [
+    loginMember.email,
+  ])
   if (results.length === 0) {
-    return res.json({ status: 'error', message: '該會員不存在' })
+    return res.json({ status: 'error', message: '此信箱尚未註冊' })
   }
   const dbMember = results[0]
 
-  // 2. 比對密碼hash是否相同(返回true代表密碼正確)
-  // const isValid = await compareHash(loginMember.password, dbMember.password)
+  // 比對密碼hash是否相同
+  const isValid = await compareHash(loginMember.password, dbMember.Password)
 
-  // if (!isValid) {
-  //   return res.json({ status: 'error', message: '密碼錯誤' })
-  // }
+  if (!isValid) {
+    return res.json({ status: 'error', message: '密碼錯誤' })
+  }
 
   // 存取令牌(access token)只需要id和email就足夠，其它資料可以再向資料庫查詢
   const returnUser = {
@@ -85,10 +102,13 @@ router.post('/logout', authenticate, (req, res) => {
 // POST - 新增會員資料
 router.post('/', async function (req, res) {
   const { name, email, password } = req.body
+
   // 檢查從前端來的資料哪些為必要
   if (!name || !email || !password) {
     return res.json({ status: 'error', message: '缺少必要資料' })
   }
+  // 密碼加密
+  const hashpassword = await generateHash(password)
 
   try {
     // 檢查email是否已經存在
@@ -105,13 +125,13 @@ router.post('/', async function (req, res) {
     // 新增會員資料
     const [insertResults] = await db.execute(
       'INSERT INTO Member (Name,Account,Password, eMail) VALUES (?,?,?,?)',
-      [name, accountCode, password, email]
+      [name, accountCode, hashpassword, email]
     )
     // console.log(insertResults)
     if (!insertResults) {
       return res.json({ status: 'error', message: '新增失敗' })
     }
-    // 新增註冊優惠券
+    // 註冊成功，自動發給優惠券
     const memberId = insertResults.insertId
     const now = moment().format('YYYY-MM-DD HH:mm:ss')
     const [couponResult] = await db.execute(
@@ -150,21 +170,12 @@ router.post('/', async function (req, res) {
 })
 
 // PUT - 更新會員資料(排除更新密碼)
-router.put('/:id/profile', authenticate, async function (req, res) {
-  //配合PUT-更新會員資料(排除更新密碼)，取出req.params.id並進行檢查轉為數字
-  const getIdParam = (req) => {
-    const id = req.params.id
-    if (/^\d+$/.test(id)) {
-      return Number.parseInt(id, 10)
-    }
-    throw new TypeError(`Invalid ':id' param: "${id}"`)
-  }
-  const id = getIdParam(req)
-
+router.put('/profile/:id', authenticate, async function (req, res) {
+  const id = Number(req.params.id)
   // 檢查是否為授權會員，只有授權會員可以存取自己的資料
   // req.user.id是從authenticate中token得到的, id 是從前端req.params.id取回
   if (req.user.id !== id) {
-    return res.json({ status: 'error', message: '存取會員資料失敗' })
+    return res.json({ status: 'error', message: '不可存取其他會員資料' })
   }
 
   // user為來自前端的會員資料(準備要修改的資料)
@@ -196,6 +207,116 @@ router.put('/:id/profile', authenticate, async function (req, res) {
     return res.json({ status: 'error', message: '更新失敗或沒有資料被更新' })
   } else {
     return res.json({ status: 'success', message: '更新成功' })
+  }
+})
+
+// GET - 取得單一訂單資料
+router.get(
+  '/:memberId/order/:orderId',
+  authenticate,
+  async function (req, res) {
+    try {
+      const memberId = Number(req.params.memberId)
+      const orderId = Number(req.params.orderId)
+      console.log(memberId)
+      console.log(orderId)
+
+      // 檢查是否為授權會員，只有授權會員可以存取自己的資料
+      // req.user.id是從authenticate中token得到的, id 是從前端req.params.id取回
+      if (req.user.id !== memberId) {
+        return res.json({ status: 'error', message: '不可存取其他會員資料' })
+      }
+
+      const [orderMain] = await db.execute(
+        'SELECT * FROM `Order` WHERE MemberID = ? AND ID = ?',
+        [memberId, orderId]
+      )
+
+      if (orderMain.length === 0) {
+        return res.json({ status: 'error', message: '沒有找到訂單資料' })
+      }
+
+      const [orderDetail] = await db.execute(
+        'SELECT od.*,p.Img as ProductImg FROM OrderDetail od JOIN Product p ON  od.ProductID = p.ID WHERE od.OrderId = ?',
+        [orderId]
+      )
+
+      // 合併訂單主檔與訂單明細一起回傳
+      const [order] = orderMain.map((main) => ({
+        ...main,
+        OrderDetail: orderDetail,
+      }))
+      console.log(order)
+
+      return res.json({ status: 'success', order: order })
+    } catch (error) {
+      console.error(error)
+      return res.json({ status: 'error', message: '伺服器錯誤，請稍後再試' })
+    }
+  }
+)
+
+// GET - 取得會員所有訂單資料
+router.get('/:id/orders', authenticate, async function (req, res) {
+  try {
+    const id = Number(req.params.id)
+
+    // 檢查是否為授權會員，只有授權會員可以存取自己的資料
+    // req.user.id是從authenticate中token得到的, id 是從前端req.params.id取回
+    if (req.user.id !== id) {
+      return res.json({ status: 'error', message: '不可存取其他會員資料' })
+    }
+
+    const [orders] = await db.execute(
+      'SELECT * FROM `Order` WHERE MemberID = ? ORDER BY Date DESC',
+      [id]
+    )
+
+    // 查詢 paymentstatus 對應的中文描述
+    // const paymentStatusMap = await getSystemCodeMap('PaymentStatus')
+
+    // 對照 paymentstatus 的值，轉換成中文描述
+    // const transformedOrders = orders.map((order) => ({
+    //   ...order,
+    //   PaymentStatus: paymentStatusMap[order.PaymentStatus] || '未知狀態',
+    // }))
+
+    console.log(orders)
+    if (orders.length === 0) {
+      return res.json({ status: 'error', message: '沒有找到訂單資料' })
+    }
+    return res.json({ status: 'success', orders: orders })
+  } catch (error) {
+    console.error(error)
+    return res.json({ status: 'error', message: '伺服器錯誤，請稍後再試' })
+  }
+})
+
+// GET - 取得會員所有優惠券資料
+router.get('/:id/coupons', authenticate, async function (req, res) {
+  try {
+    const memberid = Number(req.params.id)
+
+    // 檢查是否為授權會員，只有授權會員可以存取自己的資料
+    // req.user.id是從authenticate中token得到的, id 是從前端req.params.id取回
+    if (req.user.id !== memberid) {
+      return res.json({ status: 'error', message: '不可存取其他會員資料' })
+    }
+
+    let [coupons] = await db.execute(
+      'SELECT d.*,m.* FROM Discount d JOIN MemberDiscountMapping m ON m.DiscountID = d.ID WHERE m.MemberID = ? ORDER BY d.EndTime DESC',
+      [memberid]
+    )
+
+    if (coupons.length === 0) {
+      return res.json({ status: 'success', message: '查無優惠券' })
+    }
+    console.log(coupons)
+
+    return res.json({ status: 'success', coupons: coupons })
+  } catch (error) {
+    console.error(error)
+    return res.json({ status: 'error', message: '伺服器錯誤，請稍後再試' })
   }
 })
 

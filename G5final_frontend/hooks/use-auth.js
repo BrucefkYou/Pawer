@@ -11,7 +11,7 @@ AuthContext.displayName = 'AuthContext';
 
 // 建立導出AuthProvider元件
 export function AuthProvider({ children }) {
-
+  const router = useRouter();
   const initMemberData = {
     id: 0,
     name: '',
@@ -19,22 +19,16 @@ export function AuthProvider({ children }) {
     line_uid: '',
     nickname: '',
     avatar: '',
+    google_uid: '',
+    line_uid: '',
   };
-  const router = useRouter();
 
   //定義登入狀態與會員資料(可從此取得會員資料id, name, email, nickname, avatar，若需要更多就撈出id自行去撈db)
-
+ 
   const [auth, setAuth] = useState({
     isAuth: false,
     memberData: initMemberData,
   });
-
-  // 解析accessToken用的函式
-  const parseJwt = (token) => {
-    const base64Payload = token.split('.')[1];
-    const payload = Buffer.from(base64Payload, 'base64');
-    return JSON.parse(payload.toString());
-  };
 
   // 會員登入
   const login = async (email, password) => {
@@ -43,7 +37,7 @@ export function AuthProvider({ children }) {
         email,
         password,
       });
-      console.log(res);
+      // console.log(res);
       // 回傳資料
       // res.json({
       //   status: 'success',
@@ -53,7 +47,7 @@ export function AuthProvider({ children }) {
 
       if (res.data.status === 'success') {
         // 可以解析jwt token得出id,name (!後續要加上google_uid)
-        const jwtData = parseJwt(res.data.token.accessToken);
+        // const jwtData = parseJwt(res.data.token.accessToken);
         // console.log(jwtData);
 
         // 將登入成功與取回的會員資料設定到全域狀態auth，其他頁面可以直接取用
@@ -61,6 +55,7 @@ export function AuthProvider({ children }) {
         setAuth({
           isAuth: true,
           memberData: {
+            ...auth.memberData,
             id: res.data.memberData.ID ?? '',
             name: res.data.memberData.Name ?? '',
             email: res.data.memberData.eMail ?? '',
@@ -181,7 +176,7 @@ export function AuthProvider({ children }) {
   }, [router.isReady, router.pathname]);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, login, logout, getMember, initMemberData }}>
+    <AuthContext.Provider value={{ auth, setAuth, login, logout, getMember,initMemberData }}>
       <Toaster />
       {children}
     </AuthContext.Provider>

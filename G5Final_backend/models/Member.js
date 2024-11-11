@@ -5,10 +5,10 @@ export default async function (sequelize) {
     'Member',
     {
       ID: {
-        type: DataTypes.INTEGER(10),
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true, // 如果需要自動遞增
       },
       Name: {
         type: DataTypes.STRING(50),
@@ -16,11 +16,11 @@ export default async function (sequelize) {
       },
       Account: {
         type: DataTypes.STRING(20),
-        allowNull: false,
+        allowNull: true,
       },
       Password: {
         type: DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: true,
       },
       Avatar: {
         type: DataTypes.STRING(255),
@@ -30,25 +30,12 @@ export default async function (sequelize) {
         type: DataTypes.STRING(50),
         allowNull: true,
       },
-      Level: {
-        type: DataTypes.STRING(20),
-        allowNull: true,
-        defaultValue: '1',
-      },
       eMail: {
         type: DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: true,
       },
       Phone: {
         type: DataTypes.STRING(20),
-        allowNull: true,
-      },
-      Tel: {
-        type: DataTypes.STRING(20),
-        allowNull: true,
-      },
-      Address: {
-        type: DataTypes.STRING(100),
         allowNull: true,
       },
       Birth: {
@@ -60,28 +47,12 @@ export default async function (sequelize) {
         allowNull: true,
       },
       Valid: {
-        type: DataTypes.TINYINT(1),
-        allowNull: true,
+        type: DataTypes.TINYINT,
+        allowNull: false,
         defaultValue: 1,
       },
-      IsBlacklisted: {
-        type: DataTypes.TINYINT(1),
-        allowNull: true,
-      },
-      CreateDate: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      CreateUserID: {
-        type: DataTypes.INTEGER(10),
-        allowNull: true,
-      },
-      UpdateDate: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      UpdateUserID: {
-        type: DataTypes.INTEGER(10),
+      google_uid: {
+        type: DataTypes.STRING(255),
         allowNull: true,
       },
     },
