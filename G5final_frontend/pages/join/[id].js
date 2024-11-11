@@ -9,6 +9,7 @@ import AroundJoinCard from '@/components/join/detail/around-join-card/around-joi
 import ClickIcon from '@/components/icons/click-icon/click-icon';
 import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import SignStatusCard from '@/components/join/detail/sign-status-card/sign-status-card';
 import {
   BsClock,
   BsGeoAlt,
@@ -134,50 +135,7 @@ export default function JiDetail(props) {
           </div>
           <div className="flex-shrink-1">
             {/* 側邊活動狀態小卡 */}
-            <div className="card ji-detail-side-card shadow ms-auto">
-              <div className="card-body">
-                <div className=" d-flex align-items-center gap-2 ">
-                  <div className="ji-sidecard-imgbox rounded-circle">
-                    <img className="object-fit-cover" src="/join/t1.jpg" alt="1" />
-                  </div>
-                  <p className="my-auto text-primary">
-                    想哭的我戴上貓的面具
-                  </p>
-                </div>
-                <div className="row py-3 text-secondary-emphasis">
-                  <h5 className="col-9 card-title">快樂小狗的聚會</h5>
-                  <div className="col-3 ps-0 mt-1 ">
-                   <ClickIcon className="" IconFilled={BsBookmarkFill} IconOutline={BsBookmark} count={data.joinFavCount}/>
-                  </div>
-                </div>
-                <div className="ji-sidecard-info text-secondary-emphasis">
-                  <div className="row">
-                    <p className="col card-text mb-3 ji-info-content">
-                      目前參加人數
-                    </p>
-                    <p className="col text-end">
-                      {data.SignCount}<span>人</span>
-                    </p>
-                  </div>
-                  <div className="row">
-                    <p className="col card-text mb-3 ji-info-content">
-                      剩餘報名人數
-                    </p>
-                    <p className="col text-end">
-                      {data.ParticipantLimit-data.SignCount}<span>人</span>
-                    </p>
-                  </div>
-                </div>
-                <button 
-                  // href="#" 
-                  className="btn btn-primary w-100" 
-                  onClick={islogin} 
-                  // disabled={data.ParticipantLimit - data.SignCount <= 0}
-                >
-                  {data.ParticipantLimit - data.SignCount > 0 ? "立即報名" : "報名已額滿"}
-                </button>
-              </div>
-            </div>
+            <SignStatusCard data={data}/>
           </div>
         </div>
       </div>
@@ -205,8 +163,8 @@ export default function JiDetail(props) {
         title={'附近的活動'}
         img={pawButton}
         content={
-          <div className="row flex-nowrap overflow-scroll">
-           <AroundJoinCard/>
+          <div className="ji-detail-down row flex-nowrap overflow-x-scroll">
+           <AroundJoinCard data={data}/>
            <AroundJoinCard/>
            <AroundJoinCard/>
            <AroundJoinCard/>

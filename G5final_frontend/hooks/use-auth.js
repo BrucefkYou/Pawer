@@ -7,8 +7,6 @@ import toast, { Toaster } from 'react-hot-toast';
 const AuthContext = createContext(null);
 AuthContext.displayName = 'AuthContext';
 
-
-
 // 建立導出AuthProvider元件
 export function AuthProvider({ children }) {
   const router = useRouter();
@@ -20,11 +18,10 @@ export function AuthProvider({ children }) {
     nickname: '',
     avatar: '',
     google_uid: '',
-    line_uid: '',
   };
 
   //定義登入狀態與會員資料(可從此取得會員資料id, name, email, nickname, avatar，若需要更多就撈出id自行去撈db)
- 
+
   const [auth, setAuth] = useState({
     isAuth: false,
     memberData: initMemberData,
@@ -176,7 +173,9 @@ export function AuthProvider({ children }) {
   }, [router.isReady, router.pathname]);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, login, logout, getMember,initMemberData }}>
+    <AuthContext.Provider
+      value={{ auth, setAuth, login, logout, getMember, initMemberData }}
+    >
       <Toaster />
       {children}
     </AuthContext.Provider>

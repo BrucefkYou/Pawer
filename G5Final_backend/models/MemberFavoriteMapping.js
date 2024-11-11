@@ -8,6 +8,7 @@ export default async function (sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
       },
       MemberID: {
         type: DataTypes.INTEGER,
