@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import InfoList from '@/components/cart/info-list';
-import { set } from 'lodash';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import Image from 'next/image';
 import TWZipCode from '@/components/tw-zipcode';
@@ -8,9 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 import { useAuth } from '@/hooks/use-auth';
-import Products from './products';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import { is } from 'date-fns/locale';
 import { useLoader } from '@/hooks/use-loader';
 // import { toast } from 'react-toastify';
 
