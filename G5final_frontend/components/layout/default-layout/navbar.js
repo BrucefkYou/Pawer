@@ -188,7 +188,7 @@ export default function Navbar() {
                     src={
                       auth.memberData.google_uid
                         ? `${auth.memberData.avatar}`
-                        : `/member/member-avatar/${auth.memberData.avatar}`
+                        : `http://localhost:3005/member/${auth.memberData.avatar}`
                     }
                     // src={`/member/member-avatar/${auth.memberData.avatar}`}
 

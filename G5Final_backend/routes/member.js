@@ -14,6 +14,25 @@ import { generateHash } from '#db-helpers/password-hash.js'
 import { compareHash } from '#db-helpers/password-hash.js'
 // 日期格式化
 import moment from 'moment'
+// 上傳檔案用使用multer
+import path from 'path'
+import multer from 'multer'
+
+// multer的設定值 - START
+const storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    // 存放目錄
+    callback(null, 'public/member/')
+  },
+  filename: function (req, file, callback) {
+    // 經授權後，req.user帶有會員的id
+    const newFilename = req.user.id
+    // 新檔名由表單傳來的req.body.newFilename決定
+    callback(null, newFilename + path.extname(file.originalname))
+  },
+})
+const upload = multer({ storage: storage })
+// multer的設定值 - END
 
 // 定義安全的私鑰字串
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
@@ -209,6 +228,46 @@ router.put('/profile/:id', authenticate, async function (req, res) {
     return res.json({ status: 'success', message: '更新成功' })
   }
 })
+
+// POST - 可同時上傳與更新會員檔案用，使用multer(設定值在此檔案最上面)
+router.post(
+  '/upload-avatar',
+  authenticate,
+  upload.single('avatar'), // 上傳來的檔案(這是單個檔案，表單欄位名稱為avatar)
+  async function (req, res) {
+    // req.file 即上傳來的檔案(avatar這個檔案)
+    // req.body 其它的文字欄位資料…
+    // console.log(req.file, req.body)
+
+    if (req.file) {
+      const id = req.user.id
+      const avatar = req.file.filename
+      // console.log(`data:`, data)
+      // data: { avatar: '1.webp' }
+
+      // 更新至db
+      const [updateResults] = await db.execute(
+        'UPDATE Member SET Avatar=? WHERE ID= ?',
+        [avatar, id]
+      )
+
+      if (!updateResults) {
+        return res.json({
+          status: 'error',
+          message: '更新失敗或沒有資料被更新',
+        })
+      } else {
+        return res.json({
+          status: 'success',
+          message: '更新成功',
+          data: { avatar: req.file.filename },
+        })
+      }
+    } else {
+      return res.json({ status: 'fail', data: null })
+    }
+  }
+)
 
 // GET - 取得單一訂單資料
 router.get(
