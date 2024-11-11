@@ -463,5 +463,11 @@
     .card-favorite-list {
       margin-top: 1rem;
     }
+    .category-li li {
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      position: relative;
+      display: block;
+    }
   }
 }
