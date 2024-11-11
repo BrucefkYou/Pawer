@@ -33,8 +33,6 @@ export default function ComReserve(props) {
         needSort: [{ way: 'desc-ID', name: '' }],
         processData
     });
-    console.log(totalPage);
-
     return (
         <>
             <div className="d-flex justify-content-between">
@@ -61,7 +59,9 @@ export default function ComReserve(props) {
                         <div className="col-1" />
                     </div>
                     <ComReserveList nowPageItems={nowPageItems} />
-                    <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
+                    <div className='d-flex justify-content-center'>
+                        <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
+                    </div>
                 </>
             }
         </>

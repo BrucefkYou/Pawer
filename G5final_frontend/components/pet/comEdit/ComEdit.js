@@ -73,7 +73,6 @@ export default function ComEdit(props) {
                                         onChange={changeImg}
                                         name="pic"
                                     />
-                                    
                                 </div>
                             </div>
                             <div className="col-12 col-md-8">
