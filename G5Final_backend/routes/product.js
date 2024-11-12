@@ -196,13 +196,28 @@ router.get('/member/favorites', async function (req, res, next) {
 
 // 評論
 router.put('/productcomment', async function (req, res) {
-  const { ProductID, MemberID, ProductName, ProductContent, StarLevel } =
-    req.body
+  const {
+    ProductID,
+    MemberID,
+    ProductName,
+    ProductContent,
+    StarLevel,
+    Nickname,
+    MemberAvatar,
+  } = req.body
   try {
     const [rows] = await db2.query(
-      `INSERT INTO productcomment (ProductID, MemberID, ProductName, ProductContent, StarLevel) 
-       VALUES (?, ?, ?, ?, ?)`,
-      [ProductID, MemberID, ProductName, ProductContent, StarLevel]
+      `INSERT INTO productcomment (ProductID, MemberID, ProductName, ProductContent, StarLevel, Nickname, MemberAvatar) 
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        ProductID,
+        MemberID,
+        ProductName,
+        ProductContent,
+        StarLevel,
+        Nickname,
+        MemberAvatar,
+      ]
     )
     res.json(rows)
   } catch (err) {

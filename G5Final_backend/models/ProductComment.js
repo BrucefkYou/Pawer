@@ -7,7 +7,8 @@ export default async function (sequelize) {
       CommentID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true, // 如果 CommentID 自動增長，可以設定為 true
+        autoIncrement: true,
+        allowNull: false,
       },
       ProductName: {
         type: DataTypes.STRING(100),
@@ -23,6 +24,14 @@ export default async function (sequelize) {
       },
       MemberID: {
         type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      Nickname: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+      },
+      MemberAvatar: {
+        type: DataTypes.STRING(255),
         allowNull: false,
       },
       StarLevel: {
