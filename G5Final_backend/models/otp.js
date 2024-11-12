@@ -8,6 +8,7 @@ export default async function (sequelize) {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
       },
       user_id: {
         type: DataTypes.INTEGER,
