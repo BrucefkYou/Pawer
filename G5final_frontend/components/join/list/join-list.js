@@ -29,10 +29,12 @@ export default function JoinList() {
     itemsperPage,
     sortWay,
     needSort,
+    oldData,
     next,
     prev,
     choosePerpage,
     chooseSort,
+    updateData,
   } = usePagination({
     url: `http://localhost:3005/api/join-in?keyword=${keyword || ''}`,
     needFilter: [],
@@ -43,7 +45,7 @@ export default function JoinList() {
       // { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
   });
-  console.log(nowPageItems);
+  // console.log(nowPageItems);
   // -----------------------------------------
 
   // 宣告加入資料的狀態
@@ -105,7 +107,7 @@ export default function JoinList() {
                 <SelectDate />
               </div>
               <div className=" mb-4 d-none d-md-block">
-                <StatusCard />
+                <StatusCard oldData={oldData} updateData={updateData } />
               </div>
               <div className="mb-4 d-none d-md-block">
                 <LatestCard />

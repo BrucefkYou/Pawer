@@ -13,6 +13,7 @@ export function usePagination({
   // 與auth狀態相依
   const { auth } = useAuth();
   // 存放fetch所有容器
+  const [oldData, setOldData] = useState();
   const [data, setData] = useState([]);
   // 篩選掉重複物件
 
@@ -107,6 +108,7 @@ export function usePagination({
           data = await processData(data);
         }
         setData(data);
+        setOldData(data);
       } catch (err) {
         console.log(err);
       }
@@ -186,6 +188,7 @@ export function usePagination({
     needFilter, //客製化需要的篩選陣列
     newdata, //使用sql join語法會重複過濾用
     filterData, //篩選過後的筆數
+    oldData,
     next, //執行下一頁函式
     prev, //執行上一頁函式
     choosePerpage, //執行指定頁函式
