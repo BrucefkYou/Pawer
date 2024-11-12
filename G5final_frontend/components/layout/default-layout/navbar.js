@@ -179,32 +179,21 @@ export default function Navbar() {
           <div className="navbar-rightbtn">
             {/* 判斷有沒有登入 */}
             {auth.isAuth ? (
-              auth.memberData.avatar ? (
-                <button className="navbar-member" onClick={islogin}>
-                  <Image
-                    width={24}
-                    height={24}
-                    className="navbar-login-img"
-                    src={
-                      auth.memberData.google_uid
-                        ? `${auth.memberData.avatar}`
-                        : `http://localhost:3005/member/${auth.memberData.avatar}`
-                    }
-                    // src={`/member/member-avatar/${auth.memberData.avatar}`}
-
-                    alt="使用者頭像"
-                  />
-                </button>
-              ) : (
-                <button className="navbar-member" onClick={islogin}>
-                  <Image
-                    width={24}
-                    height={24}
-                    src={`/member/member-profile.png`}
-                    alt="預設使用者頭像"
-                  />
-                </button>
-              )
+              <button className="navbar-member" onClick={islogin}>
+                <Image
+                  width={24}
+                  height={24}
+                  className="navbar-login-img"
+                  src={
+                    auth.memberData.avatar
+                      ? `http://localhost:3005/member/${auth.memberData.avatar}`
+                      : auth.memberData.google_avatar
+                      ? auth.memberData.google_avatar
+                      : `http://localhost:3005/member/avatar-default.png`
+                  }
+                  alt="使用者頭像"
+                />
+              </button>
             ) : (
               <button className="navbar-member" onClick={islogin}>
                 <BsPerson className="text-secondary" />

@@ -32,7 +32,7 @@ export default function MyCoupon() {
       </div>
 
       {coupons ? (
-        <div className="d-flex flex-wrap gap-4 px-3 pt-4">
+        <div className="d-flex flex-wrap gap-4 pt-4 justify-content-evenly">
           {coupons.map((coupon) => (
             <Coupon key={coupon.ID} coupon={coupon} />
           ))}

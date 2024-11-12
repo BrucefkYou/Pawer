@@ -39,7 +39,7 @@ router.post('/', async function (req, res, next) {
   const { uid, displayName, email, photoURL } = req.body
   const google_uid = uid
   const google_mail = email
-  const google_photo = photoURL
+  const google_avatar = photoURL
 
   // 以下流程:
   // 1. 先查詢資料庫是否有同google_uid的資料
@@ -63,7 +63,7 @@ router.post('/', async function (req, res, next) {
 
   if (result.length > 0) {
     //設定已註冊過google會員的提示訊息
-    message = '登入成功，歡迎回來！'
+    message = '登入成功'
 
     // 回傳給前端的資料
     returnUser = {
@@ -80,8 +80,8 @@ router.post('/', async function (req, res, next) {
 
     // 新增會員資料
     const [insertResults] = await db.execute(
-      'INSERT INTO Member (Name,Account, google_uid, eMail, Avatar) VALUES (?,?,?,?,?)',
-      [displayName, accountCode, google_uid, google_mail, google_photo]
+      'INSERT INTO Member (Name,Account, google_uid, eMail, google_avatar) VALUES (?,?,?,?,?)',
+      [displayName, accountCode, google_uid, google_mail, google_avatar]
     )
     // console.log(insertResults)
     if (!insertResults) {

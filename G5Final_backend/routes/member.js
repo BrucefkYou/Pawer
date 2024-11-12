@@ -202,7 +202,7 @@ router.put('/profile/:id', authenticate, async function (req, res) {
   console.log(user)
 
   // 檢查從前端瀏覽器來的資料，哪些為必要(name, ...)
-  if (!id || !user.account || !user.email) {
+  if (!id || !user.account || !user.email || !user.name) {
     return res.json({ status: 'error', message: '缺少必要資料' })
   }
 
