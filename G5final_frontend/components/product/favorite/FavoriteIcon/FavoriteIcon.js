@@ -74,7 +74,7 @@ export default function FavoriteIcon({
           {
             method: 'DELETE',
             headers: {
-              'Content-Type': 'application/json', // 設置 Content-Type
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify({ pid: pd, uid: id }),
           }
@@ -123,7 +123,7 @@ export default function FavoriteIcon({
 
   useEffect(() => {
     setCurrentCount(count);
-  }, [count]);
+  }, [count]); // 活動 部落格要使用記數 把count相依即可
 
   useEffect(() => {
     // 檢查該商品是否已被收藏
