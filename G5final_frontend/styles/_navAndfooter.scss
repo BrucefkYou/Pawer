@@ -354,10 +354,12 @@
   .navbar-list {
     display: none;
   }
-  footer > ul,
+  footer {
+ul,
   li {
     display: none;
   }
+  } 
   footer > div > div > div > div > p {
     display: none;
   }
