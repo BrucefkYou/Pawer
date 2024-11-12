@@ -55,6 +55,10 @@ export default async function (sequelize) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
+      google_avatar: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
     },
     {
       tableName: 'Member', //直接提供資料表名稱

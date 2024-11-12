@@ -66,7 +66,7 @@ export function AuthProvider({ children }) {
         // 導向到會員中心
         router.push('/member');
         // 顯示登入成功訊息
-        toast.success('登入成功，歡迎回來！');
+        toast.success('登入成功');
       } else {
         toast.error('帳號或密碼錯誤');
       }

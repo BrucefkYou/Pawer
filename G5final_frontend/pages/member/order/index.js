@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Pagination from '@/components/pagination/pagination';
 import Link from 'next/link';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';

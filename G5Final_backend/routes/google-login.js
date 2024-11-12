@@ -63,7 +63,7 @@ router.post('/', async function (req, res, next) {
 
   if (result.length > 0) {
     //設定已註冊過google會員的提示訊息
-    message = '登入成功，歡迎回來！'
+    message = '登入成功'
 
     // 回傳給前端的資料
     returnUser = {

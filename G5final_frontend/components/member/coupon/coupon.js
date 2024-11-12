@@ -18,7 +18,9 @@ export default function Coupon({ coupon }) {
   return (
     <>
       <div>
-        <div className={`position-relative ${now > endTime ? styles['dark'] : ''}`}>
+        <div
+          className={`position-relative ${now > endTime ? styles['dark'] : ''}`}
+        >
           <Image
             src={`/member/coupon-bg.png`}
             width={385}
@@ -61,9 +63,13 @@ export default function Coupon({ coupon }) {
               <span className={`${styles['badge']} badge text-bg-warning`}>
                 倒數{remainingDays}日
               </span>
-            ) :  <span className={`${styles['badge']} ${styles['badge-gray']} badge`}>
-               已過期
-              </span>}
+            ) : (
+              <span
+                className={`${styles['badge']} ${styles['badge-gray']} badge`}
+              >
+                已過期
+              </span>
+            )}
           </div>
           {coupon.PromotionCondition === 2 ? (
             <div>
