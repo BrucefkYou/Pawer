@@ -1,7 +1,18 @@
 .Loader-component{
+	position: fixed; /* 固定定位，覆蓋整個視窗 */
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.8); /* 半透明背景 */
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	z-index: 9999; /* 確保位於最上層 */
+	.lds-default {
+		/* change color here */
+		color: $warning
+	  }
 	.lds-default,
 	.lds-default div {
 	  box-sizing: border-box;
