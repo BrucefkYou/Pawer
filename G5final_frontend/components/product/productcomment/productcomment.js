@@ -17,7 +17,10 @@ import logo from 'public/LOGO.svg';
 const StarToggle = ({ filled }) => (filled ? <FaStar /> : <FaRegStar />);
 
 export default function Productcomment({ fetchOne }) {
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState(''); // 評論input輸入
+  const [rating, setRating] = useState(1); // 星星狀態
+  const [commentsList, setCommentsList] = useState([]); // 輸入評論後的顯示
+  const [showmore, setShowMore] = useState(3); // 看更多
   const { auth } = useAuth();
   const id = auth.memberData.id;
   const nickname = auth.memberData.nickname;
@@ -26,11 +29,9 @@ export default function Productcomment({ fetchOne }) {
   const productId = fetchOne.ID;
   console.log(`http://localhost:3005/member/${Img}`);
 
-  const [rating, setRating] = useState(1);
-  const [commentsList, setCommentsList] = useState([]);
-  const [showmore, setShowMore] = useState(3);
+  
 
-  // 獲取評論的函數
+  // 獲取評論
   const fetchComments = async (productId) => {
     try {
       const response = await fetch(`http://localhost:3005/api/product/productcomment?productId=${productId}`);
@@ -96,7 +97,7 @@ export default function Productcomment({ fetchOne }) {
       rating: rating,
       content: comment,
       MemberAvatar:Img,
-      id: Date.now(), // 使用當前時間作為唯一ID
+      id: Date.now(), // 讓剛評論完的內容當下顯示在最上面
     };
 
     try {
@@ -113,7 +114,7 @@ export default function Productcomment({ fetchOne }) {
 
       if (!response.ok) throw new Error('新增評論失敗');
 
-      await response.json(); // 確保可以獲取到返回的數據
+      await response.json(); 
 
       // 將新評論添加到 commentsList 的開頭
       setCommentsList((prevComments) => [newComment, ...prevComments]);
@@ -131,7 +132,7 @@ export default function Productcomment({ fetchOne }) {
   };
 
   const starClick = (star) => {
-    setRating(star); // 更新評分為所點擊的星星數
+    setRating(star); // 更新評分為所滑動點擊的星星數
   };
 
   return (
