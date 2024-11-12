@@ -36,6 +36,9 @@ router.get('/', async function (req, res, next) {
     Image.ImageID,
     Image.ImageName,
     Image.ImageUrl,
+    Member.Account,
+    Member.Avatar,
+    Member.Nickname,
     (SELECT COUNT(*) FROM MemberFavoriteMapping WHERE MemberFavoriteMapping.JoininID = Joinin.ID) AS joinFavCount,
     (SELECT COUNT(*) 
      FROM Joined 
@@ -52,6 +55,8 @@ FROM
     Joinin
 LEFT JOIN 
     Image ON Image.JoininID = Joinin.ID
+LEFT JOIN
+    Member ON Member.ID = Joinin.MemberID    
 WHERE 
     Joinin.Valid = 1`
     const conditions = []
@@ -77,21 +82,56 @@ WHERE
   }
 })
 
-// 獲得活動地點
-router.get('/location', async (req, res) => {
+// 檢查Status 狀態
+router.get('/status', async (req, res) => {
   try {
-    const [rows] = await db2.query(`
-      SELECT 
-        PositionX, 
-        PositionY,
-        CONCAT(City, ' ', Township, ' ', Location) AS Place
+    const { memberId } = req.query
+    const [rows] = await db2.query(
+      `SELECT 
+        Joinin.*,
+        Image.ImageID,
+        Image.ImageName,
+        Image.ImageUrl,
+        (SELECT COUNT(*) FROM MemberFavoriteMapping WHERE MemberFavoriteMapping.JoininID = Joinin.ID) AS joinFavCount,
+        (SELECT COUNT(*) 
+         FROM Joined 
+         WHERE Joined.JoininID = Joinin.ID AND Status = 1) AS SignCount,
+        CASE
+            WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) = Joinin.ParticipantLimit THEN '已成團'
+            WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) + 5 >= Joinin.ParticipantLimit THEN '即將成團'
+            WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) >= Joinin.ParticipantLimit THEN '已額滿'
+            WHEN CURRENT_TIMESTAMP > Joinin.SignEndTime THEN '開團截止'
+            WHEN CURRENT_TIMESTAMP BETWEEN Joinin.CreateDate AND Joinin.SignEndTime THEN '報名中'
+            ELSE '未開放'
+        END AS newStatus
       FROM 
         Joinin
-    `)
-    res.json({ status: 'success', rows })
+      LEFT JOIN 
+        Image ON Image.JoininID = Joinin.ID
+      LEFT JOIN Member ON Member.ID = Joinin.MemberID
+      WHERE 
+        Joinin.MemberID = ? AND Joinin.Valid = 1`,
+      [memberId]
+    )
+    res.json(rows)
   } catch (err) {
-    res.status(500).json({ status: 'fail', message: '伺服器錯誤:' + err })
-    console.error('地址查詢錯誤：', err)
+    console.error('檢查錯誤：', err)
+    res.status(500).json({ error: '伺服器錯誤' })
+  }
+})
+
+// 檢查收藏狀態
+router.get('/favorite', async (req, res) => {
+  const { memberId, joininId } = req.query
+  try {
+    const [rows] = await db2.query(
+      `SELECT * FROM MemberFavoriteMapping WHERE MemberID = ? AND JoininID = ?`,
+      [memberId, joininId]
+    )
+    res.json({ isFavorite: rows.length > 0 })
+  } catch (err) {
+    console.error('檢查錯誤：', err)
+    res.status(500).send(err)
   }
 })
 
@@ -126,24 +166,10 @@ router.delete('/favorite', async function (req, res) {
   }
 })
 
-// 檢查收藏狀態
-router.get('/favorite', async (req, res) => {
-  const { memberId, joininId } = req.query
-  try {
-    const [rows] = await db2.query(
-      `SELECT * FROM MemberFavoriteMapping WHERE MemberID = ? AND JoininID = ?`,
-      [memberId, joininId]
-    )
-    res.json({ isFavorite: rows.length > 0 })
-  } catch (err) {
-    console.error('檢查錯誤：', err)
-    res.status(500).send(err)
-  }
-})
-
 // 會員頁撈收藏的商品
 router.get('/member/favorite', async function (req, res, next) {
   try {
+    const { memberId } = req.query
     const [rows] = await db2.query(
       `
       SELECT 
@@ -174,8 +200,10 @@ router.get('/member/favorite', async function (req, res, next) {
       LEFT JOIN 
         Image ON Image.JoininID = Joinin.ID 
       WHERE 
+        MemberFavoriteMapping.MemberID = ? AND
         Joinin.Valid = 1
-      `
+      `,
+      [memberId]
     )
     res.json(rows)
   } catch (err) {
@@ -194,6 +222,9 @@ router.get('/:id', async function (req, res, next) {
     Image.ImageID,
     Image.ImageName,
     Image.ImageUrl,
+    Member.Account,
+    Member.Avatar,
+    Member.Nickname,
     (SELECT COUNT(*) FROM MemberFavoriteMapping WHERE MemberFavoriteMapping.JoininID = Joinin.ID) AS joinFavCount,
     (SELECT COUNT(*) 
      FROM Joined 
@@ -211,6 +242,8 @@ FROM
     Joinin
 LEFT JOIN 
     Image ON Image.JoininID = Joinin.ID
+LEFT JOIN
+     Member ON Member.ID = Joinin.MemberID    
 LEFT JOIN 
     TagMappings ON TagMappings.JoininID = Joinin.ID
 LEFT JOIN 

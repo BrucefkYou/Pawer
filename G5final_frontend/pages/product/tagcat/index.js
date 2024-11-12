@@ -83,13 +83,13 @@ export default function Tagcat(props) {
   return (
     <>
       <div className="productList">
-        <div className="container d-flex justify-content-between">
+        <div className="container mt-3">
           {/* 麵包屑 */}
           <div>
             <Breadcrumbs />
           </div>
           <div className="row rwd-select">
-            <div className="ms-3 howmaney howmaney-rwd col mt-3 d-flex justify-content-start">
+            <div className="ms-5 howmaney howmaney-rwd col mt-3 d-flex justify-content-between">
               顯示第{nowPageFirstItems + 1}-
               {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
               {filterData.length} 筆
@@ -162,7 +162,7 @@ export default function Tagcat(props) {
                 </div>
               </div>
             </div>
-            <div className="d-flex justify-content-between align-items-center p-3">
+            <div className="d-flex justify-content-between align-items-center py-3 ps-5">
               <PerPageDom
                 itemsperPage={itemsperPage}
                 choosePerpage={choosePerpage}

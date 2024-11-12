@@ -45,8 +45,8 @@ export default function JoinListCard({
           className={`${styles['card-image']}`}
           width={367}
           height={321}
-          src={imageUrl}
-          alt={data.ImageName}
+          src={imageUrl || '/join/join-1.jpg'}
+          alt={data.Title}
         />
         <div className={`card-body ${styles['card-body']}`}>
           <div className="d-flex justify-content-between">

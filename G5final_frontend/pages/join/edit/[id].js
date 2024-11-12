@@ -221,6 +221,25 @@ export default function JiDetail(props) {
   const [township, setTownship] = useState('');
   const [location, setLocation] = useState('');
 
+  // useEffect 獲取原始資料
+  useEffect(() => {
+    fetch(`http://localhost:3005/api/join-in/${router.query.id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTitle(data.Title || '');
+        setCount(data.ParticipantLimit || 0);
+        setStartTime(data.StartTime || '');
+        setEndTime(data.EndTime || '');
+        setSignEndDate(data.SignEndTime || '');
+        setCity(data.City || '');
+        setTownship(data.Township || '');
+        setLocation(data.Location || '');
+        setTags(data.Tags ? data.Tags.split(',') : []);
+        console.log(data);
+      })
+      .catch((error) => console.error('Error:', error));
+  }, [router.query.id]);
+
   // 處理時間格式，但後來新增的有使用moment()先處理，之後可以換掉
   const StartTime = join.StartTime
     ? join.StartTime.replace(/-/g, '/').slice(0, 16)

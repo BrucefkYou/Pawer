@@ -5,6 +5,11 @@ export const updateProfile = async (memberId = 0, user = {}) => {
   return await axiosInstance.put(`/member/profile/${memberId}`, user);
 };
 
+// 修改會員頭像用，需要用FormData
+export const updateProfileAvatar = async (formData) => {
+  return await axiosInstance.post(`/member/upload-avatar`, formData);
+};
+
 export const register = async (user = {}) => {
   return await axiosInstance.post('/member', user);
 };

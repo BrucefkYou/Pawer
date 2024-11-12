@@ -51,6 +51,11 @@ body {
   background-color: $secondary;
 }
 
+// CKEditor 樣式
+.ck{
+  height: 32rem;
+}
+
 .page-block {
   display: $pageblock !important;
 }
