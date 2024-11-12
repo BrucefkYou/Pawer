@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './sidebar-card.module.scss';
 import Image from 'next/image';
 
-const SideBarCard = ({ title, img, content }) => {
+const SideBarCard = ({ title, img, content, filterData }) => {
   return (
     <div className={`rounded-1 shadow ${styles['sidebar-card']}`}>
       {img && (

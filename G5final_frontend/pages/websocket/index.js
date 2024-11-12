@@ -66,6 +66,16 @@ export default function Index(props) {
             console.log('WebSocket關閉連線');
         };
     }, [memberID]);
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') { 
+            e.preventDefault(); // 阻止換行
+            onSubmit(); // 發送訊息
+        }
+    };
+    useEffect(() => {
+        const chatContainer = document.querySelector('.chat-card');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }, [message]);
     return (
         <>
             <div className='pet-onebyone d-flex justify-content-center align-items-center flex-column'>
@@ -77,7 +87,7 @@ export default function Index(props) {
                             {message.map((v, i) => (
                                 v.from === memberID ? (
                                     <li key={i} className="text-start m-3 position-relative testsend">
-                                        <Image alt="avatar" src={`http://localhost:3005/avatar/${memberAvatar == '' ? 'default.png' : memberAvatar}`}  width={50} height={50} className="avatarsend" />
+                                        <Image alt="avatar" src={`http://localhost:3005/member/${memberAvatar == '' ? 'default.png' : memberAvatar}`}  width={50} height={50} className="avatarsend" />
                                         {v.content}
                                     </li>
                                 ) : (
@@ -91,7 +101,7 @@ export default function Index(props) {
                     </div>
                     {/* 發送訊息 */}
                     <div className='row d-flex justify-content-center mt-3'>
-                        <input type='text' className='form-control' placeholder='請輸入文字...' value={input} onChange={onchange} />
+                        <input type='text' className='form-control' placeholder='請輸入文字...' value={input} onChange={onchange} onKeyDown={handleKeyDown} />
                         <button className='btn btn-primary mt-1 col-4' onClick={onSubmit}>發送</button>
                     </div>
                 </div>
