@@ -188,7 +188,7 @@ export function usePagination({
     needFilter, //客製化需要的篩選陣列
     newdata, //使用sql join語法會重複過濾用
     filterData, //篩選過後的筆數
-    oldData,
+    oldData,//不受變動的初始資料
     next, //執行下一頁函式
     prev, //執行上一頁函式
     choosePerpage, //執行指定頁函式
