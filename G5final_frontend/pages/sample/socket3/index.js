@@ -3,7 +3,7 @@ import { useAuth } from '@/hooks/use-auth';
 export default function Index(props) {
   const { auth } = useAuth()
   const memberID = auth.memberData.id.toString();
-  const host = 'ws://localhost:3005/ws3';
+  const host = 'ws://127.0.0.1:3005/ws3';
   //連線狀態管理
   const [ws, setWs] = useState(null);
   // 將輸入的內容存放
