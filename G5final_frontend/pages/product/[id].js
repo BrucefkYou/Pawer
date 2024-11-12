@@ -7,14 +7,14 @@ import ProductDetail from '@/components/product/productDetail';
 export default function Id(props) {
   return (
     <>
-      <main className="productdetail">
+      <div className="productdetail">
         {/* 麵包屑 */}
-        <div className="container">
+        <div className="container py-3">
           <Breadcrumbs />
         </div>
         {/* 商品細節內容 */}
         <ProductDetail />
-      </main>
+      </div>
     </>
   );
 }

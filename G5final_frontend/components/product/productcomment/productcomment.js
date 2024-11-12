@@ -27,9 +27,6 @@ export default function Productcomment({ fetchOne }) {
   const Img = auth.memberData.avatar;
   const pdName = fetchOne.Name;
   const productId = fetchOne.ID;
-  console.log(`http://localhost:3005/member/${Img}`);
-
-  
 
   // 獲取評論
   const fetchComments = async (productId) => {
@@ -49,11 +46,11 @@ export default function Productcomment({ fetchOne }) {
     if (productId) {
       fetchComments(productId);
     } else {
-      console.error('缺少商品ID');
+      console.log('此商品沒人評論過');
     }
   }, [productId]);
 
-  const handleCommentSubmit = async () => {
+  const comSubmit = async () => {
     if (!id) {
       toast('您需要登入才能送出評論', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
@@ -69,12 +66,12 @@ export default function Productcomment({ fetchOne }) {
     }
 
     if (!comment.trim()) {
-      toast('請輸入評論內容', {
+      toast('請您輸入評論內容', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1800,
         style: {
           borderRadius: '10px',
-          background: 'rgba(34, 53, 92, 1)',
+          background: 'rgba(193, 69, 69, 1)',
           color: '#fff',
           marginTop: '80px',
         },
@@ -86,6 +83,31 @@ export default function Productcomment({ fetchOne }) {
       toast('商品ID無效', { duration: 1800 });
       return;
     }
+
+     // 檢查會員是否購買過該商品
+  const alreadyBuy = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${fetchOne.ID}`);
+  if (!alreadyBuy.ok) {
+    toast.error('檢查購買記錄時發生錯誤');
+    return;
+  }
+
+  const neverBuy = await alreadyBuy.json();
+  if (neverBuy.length === 0) {
+    toast(<>
+      您尚未購買過此商品，<br />
+      購買後即可評論！
+    </>, {
+      icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+      duration: 1800,
+      style: {
+        borderRadius: '10px',
+        background: 'rgba(193, 69, 69, 1)',
+        color: '#fff',
+        marginTop: '80px',
+      },
+    });
+    return;
+  }
 
     const newComment = {
       ProductID: fetchOne.ID,
@@ -111,16 +133,24 @@ export default function Productcomment({ fetchOne }) {
           body: JSON.stringify(newComment),
         }
       );
-
       if (!response.ok) throw new Error('新增評論失敗');
-
       await response.json(); 
 
       // 將新評論添加到 commentsList 的開頭
       setCommentsList((prevComments) => [newComment, ...prevComments]);
-
       setComment('');
       setRating(1);
+
+    toast.success('您的評論已成功送出！', {
+      icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+      duration: 1800,
+      style: {
+        borderRadius: '10px',
+        background: 'rgba(84, 124, 215, 1)',
+        color: '#fff',
+        marginTop: '80px',
+      },
+    });
     } catch (error) {
       console.error(error);
       toast.error('新增評論時發生錯誤');
@@ -146,7 +176,7 @@ export default function Productcomment({ fetchOne }) {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                handleCommentSubmit();
+                comSubmit();
               }}
             >
               <div className="col d-flex justify-content-center">
@@ -191,7 +221,7 @@ export default function Productcomment({ fetchOne }) {
                           <div className="comment-cancel" onClick={() => setComment('')}>
                             清除
                           </div>
-                          <div className="comment-send" onClick={handleCommentSubmit}>
+                          <div className="comment-send" onClick={comSubmit}>
                             送出
                           </div>
                         </div>
@@ -202,10 +232,13 @@ export default function Productcomment({ fetchOne }) {
               </div>
             </form>
             <div className="row d-flex justify-content-center">
-              {commentsList.slice(0, showmore).map((cmt) => (
-                <div key={cmt.id} className="card ms-4 mb-3 mt-5 pd-comment-shadow col-12">
-                  <div className="row g-0">
-                    <div className="col-md-2 d-flex justify-content-center align-items-center">
+            {commentsList.length === 0 ? (
+                <div className={`d-flex justify-content-center mt-4 ${style['noComment']}`}>此商品暫無評論</div> 
+              ) : (
+                commentsList.slice(0, showmore).map((cmt) => (
+                  <div key={cmt.id} className="card ms-4 mb-3 mt-5 pd-comment-shadow col-12">
+                    <div className="row g-0">
+                      <div className="col-md-2 d-flex justify-content-center align-items-center">
                         <Image
                           className="commentimgDown"
                           src={cmt.MemberAvatar ? `http://localhost:3005/member/${cmt.MemberAvatar}` : 'http://localhost:3005/member/avatar-default.png'}
@@ -214,28 +247,29 @@ export default function Productcomment({ fetchOne }) {
                           height={112}
                           priority
                         />
-                    </div>
-                    <div className="col-md-10 col-12">
-                      <div className="card-body">
-                        <h5 className="pd-comment-title">{cmt.Nickname}</h5>
-                        <div className={`d-flex ${style['star']}`}>
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <StarToggle key={star} filled={star <= cmt.StarLevel} />
-                          ))}
+                      </div>
+                      <div className="col-md-10 col-12">
+                        <div className="card-body">
+                          <h5 className="pd-comment-title">{cmt.Nickname}</h5>
+                          <div className={`d-flex ${style['star']}`}>
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <StarToggle key={star} filled={star <= cmt.StarLevel} />
+                            ))}
+                          </div>
+                          <p className="pd-comment-name">{cmt.ProductName}</p>
+                          <p className="pd-comment-content">{cmt.ProductContent}</p>
                         </div>
-                        <p className="pd-comment-name">{cmt.ProductName}</p>
-                        <p className="pd-comment-content">{cmt.ProductContent}</p>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
           {/* 顯示「看更多」按鈕 */}
           {showmore < commentsList.length && (
-            <div className='pd-comment-more d-flex justify-content-center' onClick={showMore}>
-              看更多
+            <div className='pd-comment-more d-flex justify-content-center'>
+              <button onClick={showMore}>查看更多</button>
             </div>
           )}
         </div>
