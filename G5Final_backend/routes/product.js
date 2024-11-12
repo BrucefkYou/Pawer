@@ -198,6 +198,8 @@ router.get('/member/favorites', async function (req, res, next) {
 router.get('/check-productcomment', async function (req, res, next) {
   const memberId = req.query.memberId // 會員ID
   const productId = req.query.productId // 商品ID
+  console.log(productId)
+  console.log(memberId)
 
   if (!memberId || !productId) {
     return res
@@ -215,7 +217,7 @@ router.get('/check-productcomment', async function (req, res, next) {
       JOIN 
         OrderDetail ON \`Order\`.ID = OrderDetail.OrderID
       WHERE 
-        \`Order\`.MemberID = ? AND OrderDetail.ProductID = ? AND \`Order\`.PaymentStatus = 1;
+        \`Order\`.MemberID = ? AND OrderDetail.ProductID = ? AND \`Order\`.PaymentStatus = "已付款";
       `,
       [memberId, productId]
     )
