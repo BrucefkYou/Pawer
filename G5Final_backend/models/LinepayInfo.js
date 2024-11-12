@@ -37,9 +37,7 @@ export default async function (sequelize) {
     },
     {
       tableName: 'LinepayInfo',
-      timestamps: true,
-      createdAt: 'CreateTime',
-      updatedAt: 'UpdateTime',
+      timestamps: false,
       paranoid: false,
       underscored: false,
     }
