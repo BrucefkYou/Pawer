@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Router, { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function MemListButton({ v }) {
     const router = useRouter()
@@ -25,9 +26,9 @@ export default function MemListButton({ v }) {
                   <button className={`btnn btnn-1 m-0 ${v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'}`} onClick={cancelReserve}>
                       取消預約
                   </button>
-                  <button className={`btnn btnn-2 m-0 ${v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'}`}>
-                      聯繫毛孩爸媽
-                  </button>
+                  <Link href={`/websocket?call=${v.PetCommID}`}  className={`btnn btnn-2 m-0 ${v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'}`}>
+                      聯繫溝通師
+                  </Link>
                   <button className={`btnn btnn-3 m-0 ${v.Status == 1 ? 'PT-sp-none' : 'PT-sp-block'} PT-sp-none-rwd`}>
                       聯繫毛孩爸媽
                   </button>

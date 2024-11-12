@@ -85,12 +85,12 @@ export default function Productcomment({ fetchOne }) {
     }
 
      // 檢查會員是否購買過該商品
-  const alreadyBuy = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${fetchOne.ID}`);
+  const alreadyBuy = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${productId}`);
   if (!alreadyBuy.ok) {
     toast.error('檢查購買記錄時發生錯誤');
     return;
   }
-
+  console.log(alreadyBuy);
   const neverBuy = await alreadyBuy.json();
   if (neverBuy.length === 0) {
     toast(<>
@@ -106,8 +106,10 @@ export default function Productcomment({ fetchOne }) {
         marginTop: '80px',
       },
     });
+    console.log(neverBuy);
     return;
   }
+  
 
     const newComment = {
       ProductID: fetchOne.ID,
