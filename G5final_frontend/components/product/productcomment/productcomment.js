@@ -6,11 +6,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
+import { FaRegStar, FaStar } from 'react-icons/fa';
 import { useAuth } from '@/hooks/use-auth';
+import style from '@/components/product/productcomment/productcomment.module.scss'
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
-import { FaRegStar, FaStar } from 'react-icons/fa';
+
 
 const StarToggle = ({ filled }) => (filled ? <FaStar /> : <FaRegStar />);
 
@@ -22,6 +24,7 @@ export default function Productcomment({ fetchOne }) {
   const Img = auth.memberData.avatar;
   const pdName = fetchOne.Name;
   const productId = fetchOne.ID;
+  console.log(`http://localhost:3005/member/${Img}`);
 
   const [rating, setRating] = useState(1);
   const [commentsList, setCommentsList] = useState([]);
@@ -65,7 +68,16 @@ export default function Productcomment({ fetchOne }) {
     }
 
     if (!comment.trim()) {
-      toast('請輸入評論內容', { duration: 1800 });
+      toast('請輸入評論內容', {
+        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          background: 'rgba(34, 53, 92, 1)',
+          color: '#fff',
+          marginTop: '80px',
+        },
+      });
       return;
     }
 
@@ -80,9 +92,10 @@ export default function Productcomment({ fetchOne }) {
       ProductName: pdName,
       ProductContent: comment,
       StarLevel: rating,
-      nickname: nickname,
+      Nickname: nickname,
       rating: rating,
       content: comment,
+      MemberAvatar:Img,
       id: Date.now(), // 使用當前時間作為唯一ID
     };
 
@@ -139,30 +152,19 @@ export default function Productcomment({ fetchOne }) {
                 <div className="card mb-3 mt-5 comment-send-range">
                   <div className="row g-0">
                     <div className="col-md-2 d-flex justify-content-center">
-                      {Img.Avatar ? (
                         <Image
                           className="commentimg"
-                          src={`/member/member-avatar/${Img.Avatar}`}
+                          src={Img ? `http://localhost:3005/member/${Img}` : 'http://localhost:3005/member/avatar-default.png'}
                           alt="會員頭像"
                           width={808}
                           height={1287}
                           priority
                         />
-                      ) : (
-                        <Image
-                          className="commentimg"
-                          src={`/member/member-profile.png`}
-                          alt="會員預設頭像"
-                          width={808}
-                          height={1287}
-                          priority
-                        />
-                      )}
                     </div>
                     <div className="col-md-10 col-12">
                       <div className="card-body">
                         <h5 className="pd-comment-title">{nickname}</h5>
-                        <div className="d-flex">
+                        <div className={`d-flex ${style['star']}`}>
                           {[1, 2, 3, 4, 5].map((star) => (
                             <div
                               key={star}
@@ -203,30 +205,19 @@ export default function Productcomment({ fetchOne }) {
                 <div key={cmt.id} className="card ms-4 mb-3 mt-5 pd-comment-shadow col-12">
                   <div className="row g-0">
                     <div className="col-md-2 d-flex justify-content-center align-items-center">
-                      {Img.Avatar ? (
                         <Image
                           className="commentimgDown"
-                          src={`/member/member-avatar/${Img.Avatar}`}
+                          src={cmt.MemberAvatar ? `http://localhost:3005/member/${cmt.MemberAvatar}` : 'http://localhost:3005/member/avatar-default.png'}
                           alt="會員頭像"
                           width={112}
                           height={112}
                           priority
                         />
-                      ) : (
-                        <Image
-                          className="commentimgDown"
-                          src={`/member/member-profile.png`}
-                          alt="會員預設頭像"
-                          width={112}
-                          height={112}
-                          priority
-                        />
-                      )}
                     </div>
                     <div className="col-md-10 col-12">
                       <div className="card-body">
-                        <h5 className="pd-comment-title">{cmt.nickname}</h5>
-                        <div className="d-flex">
+                        <h5 className="pd-comment-title">{cmt.Nickname}</h5>
+                        <div className={`d-flex ${style['star']}`}>
                           {[1, 2, 3, 4, 5].map((star) => (
                             <StarToggle key={star} filled={star <= cmt.StarLevel} />
                           ))}
