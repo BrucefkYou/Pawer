@@ -150,8 +150,6 @@ const Publish = () => {
           method="POST"
           encType="multipart/form-data"
         >
-          <input type="hidden" name="id" defaultValue="?" />
-
           <div className="ji-create-title">
             <h3 className="h3 text-primary">創建你的活動</h3>
             <Image src={titlebottomLine} />
@@ -192,7 +190,7 @@ const Publish = () => {
                   活動內容
                 </label>
                 <div id="full"></div>
-                <input type="hidden" id="EventInfo" name="EventInfo" required />
+                <input type="hidden" name="joinInfo" defaultValue="?" />
                 <Myeditor
                   name="article"
                   onChange={(data) => {
@@ -242,7 +240,7 @@ const Publish = () => {
                     </label>
                     <div className="input-group">
                       <button
-                        className="btn btn-secondary"
+                        className="btn btn-secondary btn-dec"
                         type="button"
                         aria-expanded="false"
                         onClick={handleDecrement}
@@ -259,7 +257,7 @@ const Publish = () => {
                         onChange={handleCountChange}
                       />
                       <button
-                        className="btn btn-secondary"
+                        className="btn btn-secondary btn-inc"
                         type="button"
                         aria-expanded="false"
                         onClick={handleIncrement}
