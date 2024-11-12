@@ -103,7 +103,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
                 onClick={handleRequestOtpToken}
                 disabled={disableBtn}
               >
-                取得驗證碼
+                {delay ? count + '秒後可取得驗証碼' : '取得驗証碼'}
               </button>
             </div>
             <input
