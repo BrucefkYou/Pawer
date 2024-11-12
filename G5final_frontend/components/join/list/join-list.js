@@ -32,6 +32,7 @@ export default function JoinList() {
     oldData,
     nowPageFirstItems,
     nowPageLastItems,
+    filterData,
     next,
     prev,
     choosePerpage,
@@ -119,7 +120,7 @@ export default function JoinList() {
               <div className="row choose-page">
                 <div className="join-sort d-flex align-items-center justify-content-lg-end justify-content-md-center text-body-tertiary mb-4">
                   <span className="d-none d-md-block">
-                    顯示第{nowPageFirstItems + 1}-{nowPageLastItems}筆 / 共{totalPage}筆
+                    顯示第{nowPageFirstItems + 1}-{filterData.length < nowPageLastItems ? filterData.length : nowPageLastItems}筆 / 共{filterData.length}筆
                   </span>
                   <div className="col-3 text-body-tertiary d-none d-md-block mx-3">
                     <PerPageDom
