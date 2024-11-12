@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import styles from '@/components/product/favorite/FavoriteIcon/FavoriteIcon.module.scss';
 import { useAuth } from '@/hooks/use-auth';
 import toast from 'react-hot-toast';
@@ -24,6 +25,15 @@ export default function FavoriteIcon({
   const [iconStatus, setIconStatus] = useState(false);
   const [currentCount, setCurrentCount] = useState(count);
   console.log(nowPageItems);
+  const router = useRouter();
+
+  const islogin = () => {
+    if (auth.isAuth) {
+      router.push(`/`);
+    } else {
+      router.push(`/member/login`);
+    }
+  };
 
   const CountIcon = () => {
     if (!id) {

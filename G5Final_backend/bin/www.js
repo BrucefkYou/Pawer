@@ -87,3 +87,35 @@ function onListening() {
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port
   debug('Listening on ' + bind)
 }
+
+// WebSocket
+//自己發送自己
+import testwss1 from '##/WebSocket/websocket1.js'
+const wss1 = testwss1()
+//自己發送全部
+import testwss2 from '##/WebSocket/websocket2.js'
+const wss2 = testwss2()
+//發送給指定
+import testwss3 from '##/WebSocket/websocket3.js'
+const wss3 = testwss3()
+
+server.on('upgrade', (request, socket, head) => {
+  // 動態地基於請求的 host 生成 URL
+  const { pathname } = new URL(request.url, `http://${request.headers.host}`)
+
+  if (pathname === '/ws1') {
+    wss1.handleUpgrade(request, socket, head, (ws) => {
+      wss1.emit('connection', ws, request)
+    })
+  } else if (pathname === '/ws2') {
+    wss2.handleUpgrade(request, socket, head, (ws) => {
+      wss2.emit('connection', ws, request)
+    })
+  } else if (pathname === '/ws3') {
+    wss3.handleUpgrade(request, socket, head, (ws) => {
+      wss3.emit('connection', ws, request)
+    })
+  } else {
+    socket.destroy() // 非 /ws 路徑則關閉連接
+  }
+})
