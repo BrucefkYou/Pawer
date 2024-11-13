@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable @next/next/no-img-element */
 import { Inter } from 'next/font/google';
-import Banner from '@/components/home/banner';
+import Banner from '@/components/home/banner/banner';
 import SectionTwo from '@/components/home/section-two';
 import SectionSix from '@/components/home/section-six';
 import Hotproduct from '@/components/home/hotproduct/hotproduct';
