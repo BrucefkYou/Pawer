@@ -35,6 +35,7 @@ export default function Hotcard({ pd }) {
               <FavoriteIcon
                 IconFilled={BsBookmarkFill}
                 IconOutline={BsBookmark}
+                pd={pd.ID}
               />
             </div>
           </div>
