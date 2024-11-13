@@ -29,10 +29,15 @@ export default function JoinList() {
     itemsperPage,
     sortWay,
     needSort,
+    oldData,
+    nowPageFirstItems,
+    nowPageLastItems,
+    filterData,
     next,
     prev,
     choosePerpage,
     chooseSort,
+    updateData,
   } = usePagination({
     url: `http://localhost:3005/api/join-in?keyword=${keyword || ''}`,
     needFilter: [],
@@ -43,13 +48,8 @@ export default function JoinList() {
       // { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
   });
-  console.log(nowPageItems);
+  // console.log(nowPageItems);
   // -----------------------------------------
-
-  // 初始化狀態，將每個加入的項目設置為fav: false
-  // const initState = joins.map((v) => {
-  //   return { ...v, fav: false };
-  // });
 
   // 宣告加入資料的狀態
   const [joinin, setJoinin] = useState([]);
@@ -107,10 +107,10 @@ export default function JoinList() {
                 <JiCreateCta />
               </div>
               <div className="mb-4">
-                <SelectDate />
+                <SelectDate oldData={oldData} updateData={updateData} />
               </div>
               <div className=" mb-4 d-none d-md-block">
-                <StatusCard />
+                <StatusCard oldData={oldData} updateData={updateData } />
               </div>
               <div className="mb-4 d-none d-md-block">
                 <LatestCard />
@@ -120,7 +120,7 @@ export default function JoinList() {
               <div className="row choose-page">
                 <div className="join-sort d-flex align-items-center justify-content-lg-end justify-content-md-center text-body-tertiary mb-4">
                   <span className="d-none d-md-block">
-                    顯示第1-12筆 / 共60筆
+                    顯示第{nowPageFirstItems + 1}-{filterData.length < nowPageLastItems ? filterData.length : nowPageLastItems}筆 / 共{filterData.length}筆
                   </span>
                   <div className="col-3 text-body-tertiary d-none d-md-block mx-3">
                     <PerPageDom

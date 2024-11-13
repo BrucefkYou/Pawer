@@ -7,8 +7,6 @@ import toast, { Toaster } from 'react-hot-toast';
 const AuthContext = createContext(null);
 AuthContext.displayName = 'AuthContext';
 
-
-
 // 建立導出AuthProvider元件
 export function AuthProvider({ children }) {
   const router = useRouter();
@@ -20,11 +18,11 @@ export function AuthProvider({ children }) {
     nickname: '',
     avatar: '',
     google_uid: '',
-    line_uid: '',
+    google_avatar: '',
   };
 
   //定義登入狀態與會員資料(可從此取得會員資料id, name, email, nickname, avatar，若需要更多就撈出id自行去撈db)
- 
+
   const [auth, setAuth] = useState({
     isAuth: false,
     memberData: initMemberData,
@@ -61,6 +59,8 @@ export function AuthProvider({ children }) {
             email: res.data.memberData.eMail ?? '',
             nickname: res.data.memberData.Nickname ?? '',
             avatar: res.data.memberData.Avatar ?? '',
+            google_uid: res.data.memberData.google_uid ?? '',
+            google_avatar: res.data.memberData.google_avatar ?? '',
           },
         });
         // 導向到會員中心
@@ -101,7 +101,7 @@ export function AuthProvider({ children }) {
   // 得到會員個人的資料(登入之後才可以用)
   const getMember = async () => {
     try {
-      const res = await axiosInstance.get('/member');
+      const res = await axiosInstance.get(`/member`);
 
       if (res.data.status === 'success') {
         // console.log('取得個人資料成功:', res);
@@ -136,18 +136,21 @@ export function AuthProvider({ children }) {
   // 隱私頁面路由，未登入時會，檢查後跳轉至登入頁面(檢查會員登入狀態)
   const checkState = async () => {
     try {
-      const res = await axiosInstance.get('/member');
+      const res = await axiosInstance.get(`/member`);
       // console.log('check:', res);
 
       if (res.data.status === 'success') {
         const nextAuth = {
           isAuth: true,
           memberData: {
+            ...auth.memberData,
             id: res.data.memberData.ID ?? '',
             name: res.data.memberData.Name ?? '',
             email: res.data.memberData.eMail ?? '',
             nickname: res.data.memberData.Nickname ?? '',
             avatar: res.data.memberData.Avatar ?? '',
+            google_uid: res.data.memberData.google_uid ?? '',
+            google_avatar: res.data.memberData.google_avatar ?? '',
           },
         };
         setAuth(nextAuth);
@@ -176,7 +179,9 @@ export function AuthProvider({ children }) {
   }, [router.isReady, router.pathname]);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, login, logout, getMember,initMemberData }}>
+    <AuthContext.Provider
+      value={{ auth, setAuth, login, logout, getMember, initMemberData }}
+    >
       <Toaster />
       {children}
     </AuthContext.Provider>

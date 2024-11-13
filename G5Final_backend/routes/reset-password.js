@@ -22,12 +22,12 @@ ${otpToken}
 router.post('/otp', async (req, res, next) => {
   const { email } = req.body
 
-  if (!email) return res.json({ status: 'error', message: '缺少必要資料' })
+  if (!email) return res.json({ status: 'error', message: 'email為必要欄位' })
 
   // 建立otp資料表記錄，成功回傳otp記錄物件，失敗為空物件{}
   const otp = await createOtp(email)
 
-  // console.log(otp)
+  console.log(otp)
 
   if (!otp.token)
     return res.json({ status: 'error', message: 'Email錯誤或期間內重覆要求' })
@@ -49,7 +49,11 @@ router.post('/otp', async (req, res, next) => {
       return res.json({ status: 'error', message: '發送電子郵件失敗' })
     } else {
       // 成功回覆的json
-      return res.json({ status: 'success', data: null })
+      return res.json({
+        status: 'success',
+        data: null,
+        message: '驗証碼已寄送到電子郵件中',
+      })
     }
   })
 })
@@ -70,7 +74,7 @@ router.post('/reset', async (req, res) => {
   }
 
   // 成功
-  return res.json({ status: 'success', data: null })
+  return res.json({ status: 'success', data: null, message: '密碼修改成功' })
 })
 
 export default router

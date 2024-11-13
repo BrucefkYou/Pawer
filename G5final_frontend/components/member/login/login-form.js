@@ -1,19 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import styles from './login.module.scss';
 import Image from 'next/image';
-import { initMemberData,useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/hooks/use-auth';
+import toast from 'react-hot-toast';
+import axiosInstance from '@/services/axios-instance';
+import { useRouter } from 'next/router';
 //google login
-import useFirebase from '@/hooks/use-firebase'
-
+import useFirebase from '@/hooks/use-firebase';
+import { googleLogin } from '@/services/member';
 
 export default function LoginForm({ Formtype, setFormtype }) {
+  const router = useRouter();
   const [user, setUser] = useState({ email: '', password: '' });
   // 共同處理input的onChange事件
   const handleFieldChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-  const { login } = useAuth();
-  // console.log(user);
+  const { login, logout, auth, setAuth } = useAuth();
+  const { loginGoogle } = useFirebase();
+
+  // 處理google登入後，要向伺服器進行登入動作
+  const callbackGoogleLoginPopup = async (providerData) => {
+    console.log(providerData);
+
+    // 如果目前react(next)已經登入中，不需要再作登入動作
+    if (auth.isAuth) return;
+
+    // 向伺服器進行登入動作
+    const res = await googleLogin(providerData);
+    console.log('callback', res);
+
+    if (res.data.status === 'success') {
+      try {
+        const res = await axiosInstance.get(`/member`);
+        console.log('google登入後', res.data);
+
+        if (res.data.status === 'success') {
+          const nextAuth = {
+            isAuth: true,
+            memberData: {
+              ...auth.memberData,
+              id: res.data.memberData.ID ?? '',
+              name: res.data.memberData.Name ?? '',
+              email: res.data.memberData.eMail ?? '',
+              nickname: res.data.memberData.Nickname ?? '',
+              avatar: res.data.memberData.Avatar ?? '',
+              google_uid: res.data.memberData.google_uid ?? '',
+            },
+          };
+          setAuth(nextAuth);
+          // 導向到會員中心
+          router.push('/member');
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      toast.error(res.data.data.message);
+    }
+    // 顯示登入成功訊息
+    toast.success(res.data.data.message);
+  };
 
   return (
     <>
@@ -64,6 +111,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
             </button>
             <button
               className={`btn btn-outline-primary w-100 mb-2 mt-3 ${styles['btn-custom']} position-relative`}
+              onClick={() => loginGoogle(callbackGoogleLoginPopup)}
             >
               <Image
                 src="/member/google-icon.png"

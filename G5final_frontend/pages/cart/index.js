@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import toast from 'react-hot-toast';
+import logo from 'public/LOGO.svg';
+import Image from 'next/image';
 
 export default function Cart(props) {
   const { auth, getMember } = useAuth();
@@ -95,6 +98,7 @@ export default function Cart(props) {
   useEffect(() => {
     getDiscount();
   }, []);
+
   return (
     <>
       {auth.isAuth ? (
@@ -138,14 +142,14 @@ export default function Cart(props) {
                           {/* 篩選只有滿足優惠券最低金額的優惠券會顯示 */}
                           {discount
                             ? discount.map((item) => {
-                                if (item.ConditionMinValue <= checkPrice) {
-                                  return (
-                                    <option key={item.ID} value={item.ID}>
-                                      {item.Name}
-                                    </option>
-                                  );
-                                }
-                              })
+                              if (item.ConditionMinValue <= checkPrice) {
+                                return (
+                                  <option key={item.ID} value={item.ID}>
+                                    {item.Name}
+                                  </option>
+                                );
+                              }
+                            })
                             : '沒有符合條件的優惠券'}
                         </select>
                         {/* <button type="button"
@@ -166,7 +170,7 @@ export default function Cart(props) {
                     </div>
                     <div className="d-flex flex-column w100per">
                       <div className="cart-check d-flex justify-content-between mb-4">
-                        <div className="total-price">總金額</div>
+                        <div className="total-price">商品合計</div>
                         <div className="price">NT$ {checkPrice}</div>
                       </div>
                       <div className="cart-check d-flex justify-content-between mb-4">
@@ -176,35 +180,73 @@ export default function Cart(props) {
                       <div className="cart-check d-flex justify-content-between mb-4">
                         <div className="total-price">優惠券</div>
                         <div className="price">
-                          {selectedDiscount?.Name || '沒有選擇優惠券'}
+                          {selectedDiscount?.Name || '未選擇優惠券'}
                         </div>
                       </div>
                       <hr className="mb-4" />
                       <div className="cart-check d-flex justify-content-between mb-4">
-                        <div className="total-price">結帳金額</div>
+                        <div className="total-price">訂單總計</div>
                         <div className="price">
                           NT$ {Math.max(0, checkPrice - discountPrice)}
                         </div>
                       </div>
                       <div className="set-middle">
-                        <Link
+                        <button
                           href="/cart/cart-info"
                           className="btn bg-second-color btn-checkd text-decoration-none set-middle"
                           // 將選擇的優惠券帶到下一頁
                           onClick={(e) => {
-                            if (
+                            if(cart.items.length === 0){
+                              toast('購物車內沒有商品', {
+                                icon: (
+                                  <Image
+                                    width={95}
+                                    height={53}
+                                    src={logo}
+                                    alt="logo"
+                                    priority
+                                  />
+                                ),
+                                duration: 1800,
+                                style: {
+                                  borderRadius: '10px',
+                                  background: 'rgba(84, 124, 215, 1)',
+                                  color: '#fff',
+                                  marginTop: '80px',
+                                },
+                              });
+                              e.preventDefault();
+                            }else if (
                               cart.items.filter((item) => item.checked === true)
                                 .length === 0
                             ) {
-                              alert('請選擇商品');
+                              toast('請勾選商品', {
+                                icon: (
+                                  <Image
+                                    width={95}
+                                    height={53}
+                                    src={logo}
+                                    alt="logo"
+                                    priority
+                                  />
+                                ),
+                                duration: 1800,
+                                style: {
+                                  borderRadius: '10px',
+                                  background: 'rgba(84, 124, 215, 1)',
+                                  color: '#fff',
+                                  marginTop: '80px',
+                                },
+                              });
                               e.preventDefault();
                             } else {
                               bringDiscount();
+                              router.push('/cart/cart-info');
                             }
                           }}
                         >
                           去結帳
-                        </Link>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -217,10 +259,10 @@ export default function Cart(props) {
       ) : (
         <div className="d-flex flex-column justify-content-center align-items-center my-3 gap-4">
           <div className="text-center">請先登入會員</div>
-          <button className="btn btn-warning">
-            <Link className="text-decoration-none" href={'/member/login'}>
-              去登入
-            </Link>
+          <button className="btn btn-warning text-decoration-none" onClick={() => {
+            router.push("/member/login")
+          }}>
+            去登入
           </button>
         </div>
       )}

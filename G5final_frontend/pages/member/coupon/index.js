@@ -30,12 +30,16 @@ export default function MyCoupon() {
       <div className="mb-content d-flex justify-content-between">
         <PageTitle title={'我的優惠券'} subTitle={'Coupon'} />
       </div>
-      <div className="d-flex flex-wrap gap-4 pt-4 justify-content-between">
-        {coupons.map((coupon) => {
-          return <Coupon key={coupon.ID} coupon={coupon}/>;
-        })}
-       
-      </div>
+
+      {coupons ? (
+        <div className="d-flex flex-wrap gap-4 pt-4 justify-content-evenly">
+          {coupons.map((coupon) => (
+            <Coupon key={coupon.ID} coupon={coupon} />
+          ))}
+        </div>
+      ) : (
+        <div className="mb-card text-primary">目前未獲得優惠券。</div>
+      )}
     </>
   );
 }

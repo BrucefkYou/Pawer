@@ -4,7 +4,7 @@ import { BsClock, BsGeoAlt } from 'react-icons/bs';
 import style from '@/components/join/detail/around-join-card/around-join-card.module.scss';
 import Image from 'next/image';
 
-export default function AroundJoinCard(props) {
+export default function AroundJoinCard(data = {}) {
   // const router = useRouter();
   // const [data, setData] = useState({ ID: 0, Title: '' });
   // const getTitle = async (id) => {
@@ -40,7 +40,7 @@ export default function AroundJoinCard(props) {
   //   : '';
   return (
     <>
-      <div className="col-md-6 col-lg-4 py-2 ">
+      <div className="col-md-6 col-lg-4 py-2 my-3">
         <div
           className={`card shadow border border-secondary ${style['ji-around-card']}`}
         >
@@ -50,6 +50,7 @@ export default function AroundJoinCard(props) {
                 className={`card-title ${style['card-title-mg']} text-secondary-emphasis m-0`}
               >
                 快樂小狗的聚會
+                {/* {data.Title} */}
               </h4>
               <span className="bg-primary text-white px-2 py-1 rounded-1 my-auto">
                 開團中
