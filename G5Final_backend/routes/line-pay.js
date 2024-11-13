@@ -91,6 +91,7 @@ router.get('/reserve', authenticate, async (req, res) => {
   if (!req.query.orderId || req.query.orderId === 0) {
     return res.json({ status: 'error', message: 'order id不存在' })
   }
+
   const orderId = req.query.orderId
 
   // 設定重新導向與失敗導向的網址

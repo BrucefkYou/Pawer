@@ -71,12 +71,21 @@
       height: 43px;
       border: 1px solid var(--main-color);
     }
+    .btn-keepShoping:hover {
+      border: none;
+      background-color: var(--second-color);
+      color: white;
+    }
     .btn-main-border {
       border: 2px solid var(--main-color);
     }
     .btn-checkd {
       width: 250px;
       height: 43px;
+    }
+    .btn-checkd:hover {
+      background-color: var(--main-color);
+      color: white;
     }
     .tr-solid {
       opacity: 1;
@@ -170,6 +179,24 @@
         height: 40px;
         border: 1px solid var(--main-color);
         border-radius: 5px;
+        background-color: #22355c;
+        color: white;
+      }
+      .btn-increase:hover {
+        background-color: var(--second-color);
+        color: black;
+      }
+      .btn-decrease {
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--main-color);
+        border-radius: 0 5px 5px 0;
+        background-color: #22355c;
+        color: white;
+      }
+      .btn-decrease:hover {
+        background-color: var(--second-color);
+        color: black;
       }
       .btn-quantity {
         border: 1px solid var(--main-color);
@@ -286,6 +313,10 @@
         width: 310px;
         /* height: 29px; */
       }
+      .btn-checkd:hover {
+        background-color: var(--main-color);
+        color: white;
+      }
       /* 設定增加按鈕樣式 */
       .choose-quantity-btn {
         display: flex;
@@ -296,11 +327,32 @@
       .btn-increase {
         width: 20px;
         height: 30px;
-        border: 1px solid var(--main-color);
-        border-radius: 5px;
         display: flex;
         align-items: center;
         justify-content: center;
+        border: 1px solid var(--main-color);
+        border-radius: 5px;
+        background-color: #22355c;
+        color: white;
+      }
+      .btn-increase:hover {
+        background-color: var(--second-color);
+        color: black;
+      }
+      .btn-decrease {
+        width: 20px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--main-color);
+        border-radius: 0 5px 5px 0;
+        background-color: #22355c;
+        color: white;
+      }
+      .btn-decrease:hover {
+        background-color: var(--second-color);
+        color: black;
       }
       .btn-quantity {
         border: 1px solid var(--main-color);
