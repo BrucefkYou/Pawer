@@ -10,6 +10,7 @@ import FavoriteIcon from '@/components/join/list/item/favorite/FavoriteIcon/Favo
 export default function JoinListCard({
   data = {},
   setUrl,
+  linkTo,
   // handleToggleFav = () => {},
 }) {
   const router = useRouter();
@@ -80,8 +81,8 @@ export default function JoinListCard({
           </h4>
           <div className="text-end">
             <Link
-              href={`./join/${data.ID}`}
-              onClick={() => router.push(`./join/${data.ID}`)}
+              href={`/join/${data.ID}`}
+              onClick={() => router.push(`/join/${data.ID}`)}
               className="btn text-warning p-0"
             >
               查看更多
