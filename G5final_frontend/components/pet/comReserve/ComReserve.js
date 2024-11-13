@@ -38,13 +38,12 @@ export default function ComReserve(props) {
     // 提示頁面狀態
     const [message, setMessage] = useState('')
     if (message == 'ok') {
-        return <Message status='ok' title='hi' content='' button='返回' url='/member/communicator/comReserve'/>
+        return <Message status='ok' title='hi' content='' button='返回' url='/member/communicator/comReserve' />
     } else if (message == 'warn') {
         return <Message status='warn' title='hi' content='' button='返回' url='/member/communicator/comReserve' />
     } else if (message == 'no') {
         return <Message status='no' title='hi' content='' button='返回' url='/member/communicator/comReserve' />
     }
-
     return (
         <>
             <div className="PT-reserve-card p-4 shadow">
@@ -60,7 +59,10 @@ export default function ComReserve(props) {
                 </div>
                 {/* 清單明細 */}
                 {nowPageItems.length < 1 ?
-                    (<Link href={'/communicator'} className='btn btn-danger mt-3'>＜ 目前無紀錄 ＞</Link>) :
+                    (<>
+                        <div className='mt-3 ps-1'>無預約紀錄</div>
+                        <Link href={'/communicator'} className='btn btn-primary mt-3'>前往預約 ＞</Link>
+                    </>) :
                     <>
                         <div className="row none title text-center mt-3 py-2">
                             <div className="col-1">序號</div>
