@@ -1,9 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
+import { useAuth } from '@/hooks/use-auth';
+
+// componentes
 import Account from '@/components/blog/account/account';
 import BlogDate from '@/components/blog/date/blog-date';
-import PostCom from './blog-com';
-import BlogPageBtn from '../pagebtn/pagebtn';
+import DelBtn from '@/components/blog/blog-btn/del-btn';
+import BlogCom from './blog-com';
+import BlogPageBtn from '@/components/blog/blog-btn/pagebtn';
 import BlogLike from '../blog-like/blog-like';
 import BlogFav from '../blog-like/blog-favorite';
 
@@ -27,16 +31,19 @@ export default function BlogDetail({
   avatar,
   name,
 }) {
-  const imagePath = blogImg ? blogImg.replace('../', '/') : '';
-  const avatarPath = avatar ? avatar.replace('../', '/') : '';
+  const { auth } = useAuth();
 
+  const imagePath = blogImg ? blogImg.replace('../', '/') : '';
+  const avatarPath = avatar
+    ? `http://localhost:3005/member/${avatar}`
+    : `http://localhost:3005/member/avatar-default.png`;
   return (
     <div className="blog-post">
       {/* 封面 */}
       <div className="blog-cover-container">
         <Image
           src={imagePath}
-          alt="文章封面預覽"
+          alt="文章封面"
           className="blog-cover"
           width={733}
           height={433.12}
@@ -78,11 +85,14 @@ export default function BlogDetail({
           count={favoriteCount}
           id={id}
         />
+
+        <DelBtn />
       </div>
 
       {/* 上下頁 */}
       <BlogPageBtn id={id} />
-      <PostCom />
+      {/* 留言 */}
+      <BlogCom id={id} />
     </div>
   );
 }

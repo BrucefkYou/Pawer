@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/use-auth';
+import { usePagination } from '@/hooks/usePagination';
+import Link from 'next/link';
+
+import { PageNav } from '@/components/PageNav';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
 import MemberNav from '@/components/memberNav';
-import { usePagination } from '@/hooks/usePagination';
-import BlogCard from '@/components/blog/blog-card/blog-card';
+import BlogDraftCard from '@/components/blog/blog-card/blog-draft-card';
+import MemCreateBtn from '@/components/blog/blog-btn/create-btn/mem-create-btn';
 
-import { PageNav } from '@/components/PageNav';
+import { BsPencilFill } from 'react-icons/bs';
+
 OrderDetail.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
 
 export default function OrderDetail() {
+  const { auth } = useAuth();
+  const uid = auth.memberData.id;
+  // console.log(uid);
+
   const {
     chooseFilter,
     newdata,
@@ -23,10 +33,8 @@ export default function OrderDetail() {
     next,
     prev,
   } = usePagination({
-    //!這裡更改路由
-    url: 'http://localhost:3005/api/blog/status',
+    url: `http://localhost:3005/api/blog/mem-blog?memberId=${uid}`,
     needSort: [{ way: 'desc-UpdateDate', name: '最新發佈' }],
-    //!這裡更改需要的按鈕數量及篩選欄位與值
     needFilter: [
       { id: 1, label: '已發布', filterRule: '1', filterName: 'Status' },
       { id: 2, label: '草稿', filterRule: '0', filterName: 'Status' },
@@ -54,7 +62,7 @@ export default function OrderDetail() {
             {nowPageItems && nowPageItems.length > 0 ? (
               nowPageItems.map((blog) => {
                 return (
-                  <BlogCard
+                  <BlogDraftCard
                     key={blog.ID}
                     id={blog.ID}
                     title={blog.Title}
@@ -64,12 +72,21 @@ export default function OrderDetail() {
                     favoriteCount={blog.favoriteCount}
                     avatar={blog.MemberAvatar}
                     name={blog.Nickname}
+                    status={blog.Status}
                   />
                 );
               })
             ) : (
-              <p>沒有符合關鍵字的搜尋結果</p>
+              <Link
+                href={'http://localhost:3000/blog/create'}
+                style={{ textDecoration: 'none' }}
+              >
+                開始建立文章
+              </Link>
             )}
+            <MemCreateBtn url="http://localhost:3000/blog/create">
+              <BsPencilFill />
+            </MemCreateBtn>
           </div>
           <div>
             <PageNav

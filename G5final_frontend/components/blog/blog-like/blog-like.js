@@ -32,7 +32,7 @@ export default function BlogLike({ IconFilled, IconOutline, count, id }) {
     }
 
     const addLike = async () => {
-      console.log({ blogId: id, uid: uid });
+      // console.log({ blogId: id, uid: uid });
       try {
         const response = await fetch('http://localhost:3005/api/blog/likes', {
           method: 'PUT',
@@ -43,7 +43,7 @@ export default function BlogLike({ IconFilled, IconOutline, count, id }) {
         });
         if (!response.ok) throw new Error('按讚失敗');
         const result = await response.json();
-        console.log('按讚成功', result);
+        // console.log('按讚成功', result);
         setCurrentCount((prevCount) => prevCount + 1);
       } catch (error) {
         console.error(error);
@@ -51,7 +51,7 @@ export default function BlogLike({ IconFilled, IconOutline, count, id }) {
     };
 
     const delLike = async () => {
-      console.log({ blogId: id, uid: uid });
+      // console.log({ blogId: id, uid: uid });
       try {
         const response = await fetch('http://localhost:3005/api/blog/likes', {
           method: 'DELETE',
@@ -62,7 +62,7 @@ export default function BlogLike({ IconFilled, IconOutline, count, id }) {
         });
         if (!response.ok) throw new Error('取消按讚');
         const result = await response.json();
-        console.log('取消按讚成功', result);
+        // console.log('取消按讚成功', result);
         setCurrentCount((prevCount) => prevCount - 1);
       } catch (error) {
         console.error(error);

@@ -17,7 +17,7 @@ import {
   BsBookmark,
 } from 'react-icons/bs';
 
-export default function BlogCard({
+export default function BlogDraftCard({
   id,
   title,
   blogImg,
@@ -25,7 +25,9 @@ export default function BlogCard({
   likeCount,
   favoriteCount,
   blogId,
+  avatar,
   name,
+  status,
 }) {
   // 暫時換一下，之後會改上傳圖片的路徑
   const imagePath = blogImg ? blogImg.replace('../', '/') : '';
@@ -36,6 +38,7 @@ export default function BlogCard({
     : auth.memberData.google_avatar
     ? auth.memberData.google_avatar
     : `http://localhost:3005/member/avatar-default.png`;
+
   return (
     <div className={`card shadow ${styles['blog-card']}`}>
       <Image
@@ -59,40 +62,37 @@ export default function BlogCard({
               <BlogDate updateDate={updateDate} />
             </div>
             {/* 按讚儲存 */}
-            <div className="text-body-tertiary d-flex column-gap-2">
-              <BlogLike
-                IconFilled={BsHeartFill}
-                IconOutline={BsHeart}
-                count={likeCount}
-                id={id}
-              />
-              <BlogFav
-                IconFilled={BsBookmarkFill}
-                IconOutline={BsBookmark}
-                count={favoriteCount}
-                id={id}
-              />
-            </div>
+            {status === 1 && (
+              <div className="text-body-tertiary d-flex column-gap-2">
+                <BlogLike
+                  IconFilled={BsHeartFill}
+                  IconOutline={BsHeart}
+                  count={likeCount}
+                  id={id}
+                />
+                <BlogFav
+                  IconFilled={BsBookmarkFill}
+                  IconOutline={BsBookmark}
+                  count={favoriteCount}
+                  id={id}
+                />
+              </div>
+            )}
           </div>
           {/* 標題 */}
-          <Link
-            href={`http://localhost:3000/blog/${id}`}
-            className="btn text-warning p-0 text-decoration-none"
+          <h4
+            className={`card-title text-primary mb-3 ${styles['card-title']}`}
           >
-            <h4
-              className={`card-title text-primary mb-3 ${styles['card-title']}`}
-            >
-              {title}
-            </h4>
-          </Link>
+            {title}
+          </h4>
         </div>
 
         <div className="text-end">
           <Link
-            href={`http://localhost:3000/blog/${id}`}
+            href={`http://localhost:3000/blog/edit/${id}`}
             className="btn text-warning p-0 text-decoration-none"
           >
-            查看更多
+            開始編輯
           </Link>
         </div>
       </div>

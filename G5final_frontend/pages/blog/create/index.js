@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
-import toast from 'react-hot-toast';
+import Link from 'next/link';
 
-// components
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import Myeditor from '@/components/join/CKEditorTest';
+import Tag from '@/components/join/form/tag';
+
+import { handleSubmit } from '@/components/blog/utils/handleSubmit ';
+import { handleSaveDraft } from '@/components/blog/utils/handleSaveDraft';
 
 // icons
 import { BsBookmarkFill } from 'react-icons/bs';
@@ -31,7 +33,10 @@ export default function BlogCreate() {
   const [data, setData] = useState('');
 
   // 標籤
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState([]);
+  const handleTagsChange = (newTags) => {
+    setTags(newTags);
+  };
 
   const router = useRouter();
 
@@ -43,13 +48,13 @@ export default function BlogCreate() {
       return;
     }
 
-    console.log('選擇的檔案:', file);
+    // console.log('選擇的檔案:', file);
 
     // 預覽圖片
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreviewImage(reader.result);
-      console.log('預覽成功:', reader.result);
+      // console.log('預覽成功:', reader.result);
     };
     reader.onerror = () => {
       console.error('預覽失敗:', reader.error);
@@ -59,7 +64,7 @@ export default function BlogCreate() {
     const formData = new FormData();
     formData.append('imageFile', file);
 
-    console.log('準備上傳的圖片:', formData.get('imageFile'));
+    // console.log('準備上傳的圖片:', formData.get('imageFile'));
 
     try {
       const response = await fetch('http://localhost:3005/api/blog/upload', {
@@ -69,10 +74,13 @@ export default function BlogCreate() {
       const data = await response.json();
 
       if (response.ok) {
-        const fullImageUrl = `http://localhost:3005${data.url}`;
-        setUploadedImageUrl(fullImageUrl);
+        // const fullImageUrl = `${data.url}`;
+        // setUploadedImageUrl(fullImageUrl);
+        setUploadedImageUrl(data.url);
+
         setImageName(data.name);
-        console.log('上傳成功:', fullImageUrl);
+        // console.log('上傳成功:', data.url);
+        // console.log('圖片名稱:', data.name);
       } else {
         console.error('上傳失敗:', data.message);
       }
@@ -81,111 +89,43 @@ export default function BlogCreate() {
     }
   };
 
-  // 提交表單
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!uploadedImageUrl) {
-      toast.error('請上傳封面', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
-      });
-      return;
-    }
-    if (!title) {
-      toast.error('標題是必填欄位', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
-      });
-      return;
-    }
-
-    if (!data) {
-      toast.error('內容是必填欄位', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
-      });
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('status', 1);
-    formData.append('memberId', uid);
-    formData.append('title', title);
-    formData.append('info', data);
-    const tagsArray = tags
-      .split(/[\s,]+/)
-      .map((tag) => tag.trim())
-      .filter((tag) => tag !== '');
-    formData.append('tags', JSON.stringify(tagsArray));
-    formData.append('imageName', imageName);
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ': ' + pair[1]);
-    }
-
-    try {
-      const response = await fetch('http://localhost:3005/api/blog/create', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        toast('文章發布成功!', {
-          duration: 1800,
-          style: {
-            borderRadius: '10px',
-            borderTop: '15px #22355C solid',
-            background: '#F5F5F5',
-            color: '#646464',
-            marginTop: '80px',
-            width: '300px',
-            height: '100px',
-          },
-        });
-        router.push('/blog');
-      } else {
-        throw new Error('發佈失敗');
-      }
-    } catch (error) {
-      toast('文章發布失敗', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
-      });
-      console.error(error);
-    }
+  // 預覽
+  const handlePreview = () => {
+    // 暫存
+    const previewData = {
+      title,
+      content: encodeURIComponent(data), //編碼 URI
+      tags: tags.join(','),
+      imageName,
+      previewImage: uploadedImageUrl || previewImage,
+      memberId: uid,
+    };
+    // console.log(previewData);
+    router.push({
+      pathname: 'http://localhost:3000/blog/preview',
+      query: previewData,
+    });
   };
+
+  // 從預覽返回的資料
+  useEffect(() => {
+    if (router.query.title) setTitle(router.query.title);
+    if (router.query.content) {
+      const decodedContent = decodeURIComponent(router.query.content); //解碼
+      setData(decodedContent);
+    }
+    if (router.query.tags) {
+      const tagsArray = router.query.tags.split(',');
+      setTags(tagsArray);
+    }
+    if (router.query.imageName) {
+      setImageName(router.query.imageName);
+    }
+
+    if (router.query.previewImage) {
+      setUploadedImageUrl(router.query.previewImage);
+    }
+  }, [router.query]);
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -264,48 +204,77 @@ export default function BlogCreate() {
               <label className="required" htmlFor="editor-container">
                 文章內容
               </label>
-              <div id="full"></div>
-              <input type="hidden" id="EventInfo" name="EventInfo" />
+              <div id="editor-container"></div>
+              <input type="hidden" id="edit" name="edit" />
               <Myeditor
                 name="article"
                 onChange={(data) => {
                   setData(data);
                 }}
+                value={data}
                 editorLoaded={editorLoaded}
               />
             </div>
 
-            {/* 標籤 */}
-            <div className="blog-input">
-              <label htmlFor="tags">文章標籤</label>
-              <input
-                type="text"
-                className="form-control mb-3"
-                id="tags"
-                name="tags"
-                placeholder="#輸入標籤"
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-              />
-            </div>
+            <Tag
+              label="文章標籤"
+              placeholder="輸入文章＃標籤，最多五個"
+              tagLength={5}
+              tags={tags}
+              setTags={handleTagsChange}
+            />
           </div>
 
           {/* 底部按鈕 */}
           <div className="blog-bottom-btn">
-            <button type="button" className="btn btn-danger">
+            <Link
+              href={`http://localhost:3000/member/blog`}
+              className="btn btn-danger text-decoration-none"
+              type="button"
+            >
               捨棄
-            </button>
+            </Link>
             <div className="btn-group">
-              <button type="button" className="btn btn-outline-primary">
+              <button
+                type="button"
+                className="btn btn-outline-primary"
+                onClick={handlePreview}
+              >
                 預覽
               </button>
-              <button type="button" className="btn btn-outline-primary">
+              <button
+                type="button"
+                className="btn btn-outline-primary"
+                onClick={(e) =>
+                  handleSaveDraft(
+                    e,
+                    uid,
+                    title,
+                    data,
+                    tags,
+                    imageName,
+                    router,
+                    uploadedImageUrl
+                  )
+                }
+              >
                 儲存草稿
               </button>
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={handleSubmit}
+                onClick={(e) =>
+                  handleSubmit(
+                    e,
+                    uid,
+                    title,
+                    data,
+                    tags,
+                    imageName,
+                    router,
+                    uploadedImageUrl
+                  )
+                }
               >
                 發佈文章
               </button>
@@ -315,22 +284,56 @@ export default function BlogCreate() {
       </div>
 
       <div className="blog-bottom-btn-mobile">
-        <button type="button" className="col btn-mobile">
+        <Link
+          href={`http://localhost:3000/member/blog`}
+          className="col btn-mobile text-decoration-none"
+          type="button"
+        >
           <FaTrashAlt className="icon" />
           捨棄
-        </button>
+        </Link>
+        {/* <button type="button" className="col btn-mobile">
+                </button> */}
 
-        <button className="col btn-mobile">
+        <button className="col btn-mobile" onClick={handlePreview}>
           <FaEye className="icon" />
           預覽
         </button>
 
         <button className="col btn-mobile">
-          <BsBookmarkFill className="icon" />
+          <BsBookmarkFill
+            className="icon "
+            onClick={(e) =>
+              handleSaveDraft(
+                e,
+                uid,
+                title,
+                data,
+                tags,
+                imageName,
+                router,
+                uploadedImageUrl
+              )
+            }
+          />
           儲存草稿
         </button>
 
-        <button className="col btn-mobile" onClick={handleSubmit}>
+        <button
+          className="col btn-mobile"
+          onClick={(e) =>
+            handleSubmit(
+              e,
+              uid,
+              title,
+              data,
+              tags,
+              imageName,
+              router,
+              uploadedImageUrl
+            )
+          }
+        >
           <FaUpload className="icon" />
           發佈文章
         </button>
