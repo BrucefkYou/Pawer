@@ -8,6 +8,7 @@ import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
 import Image from 'next/image';
+import PageTitle from '@/components/member/page-title/page-title';
 
 export default function Cart(props) {
   const { auth, getMember } = useAuth();
@@ -110,10 +111,7 @@ export default function Cart(props) {
               {/* cart */}
               <div className="cart-main">
                 {/* title */}
-                <div className="cart-title">
-                  <h1>我的購物車</h1>
-                  <hr />
-                </div>
+                <PageTitle title={'購物車'} subTitle={'Cart'} />
                 {/* product */}
                 <div className="cart-product">
                   {/* 購物車商品列表-桌機 */}
@@ -132,7 +130,7 @@ export default function Cart(props) {
                     <div className="row row-cols-lg-2">
                       <div className="col mt-lg-4 choose-discount set-mobile-middle">
                         <select
-                          className="bg-main-color btn-coupon-size border-0 text-white"
+                          className="bg-main-color text-white form-select mt-3"
                           name="coupon"
                           id="coupon"
                           value={selectedDiscount?.ID || ''}
@@ -163,7 +161,7 @@ export default function Cart(props) {
                     <div className="keep-shopping">
                       <Link
                         href="/product"
-                        className="btn btn-sm btn-keepShoping btn-border-main text-decoration-none set-middle"
+                        className="btn btn-sm btn-keepShoping btn-main-border text-decoration-none set-middle"
                       >
                         繼續購物
                       </Link>

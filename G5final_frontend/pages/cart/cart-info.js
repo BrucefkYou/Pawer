@@ -52,7 +52,7 @@ export default function CartInfo(props) {
   const goECPay = () => {
     window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
   };
-  
+
   const goLinepay = async () => {
     window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${orderID}`;
   };
@@ -205,7 +205,7 @@ export default function CartInfo(props) {
     console.log('orderID:', orderID);
     if (selectedPayment === 'credit-card') {
       goECPay();
-    } else if (selectedPayment === 'LinePay') {
+    } else if (selectedPayment === 'LinePay' && orderID != 0) {
       goLinepay();
     }
   }, [orderID]);
@@ -294,34 +294,34 @@ export default function CartInfo(props) {
                 {/* 優惠券 */}
                 {!discount || discount.ID === 0 ? ("") : (
                   <div className="info-discount">
-                  <div className="d-flex align-items-center">
-                    <div className="discount-check-box mr50 d-flex align-items-center">
-                      <input
-                        className="mr20 checkbox-block"
-                        type="checkbox"
-                        name="discountCheck"
-                        id="discountCheck"
-                        checked={discount.checked ? 'checked' : false}
-                        onChange={handleDiscountChange}
-                      />
-                      優惠券
+                    <div className="d-flex align-items-center">
+                      <div className="discount-check-box mr50 d-flex align-items-center">
+                        <input
+                          className="mr20 checkbox-block"
+                          type="checkbox"
+                          name="discountCheck"
+                          id="discountCheck"
+                          checked={discount.checked ? 'checked' : false}
+                          onChange={handleDiscountChange}
+                        />
+                        優惠券
+                      </div>
+                      <div className="checked mr50">
+                        {discount.checked && discount.ID !== 0
+                          ? '已選擇優惠券'
+                          : '未選擇優惠券'}
+                      </div>
+                      <div className="discount-svg">
+                        <Image
+                          width={288}
+                          height={123}
+                          src={'/member/coupon-bg.png'}
+                          alt="coupon"
+                        />
+                      </div>
                     </div>
-                    <div className="checked mr50">
-                      {discount.checked && discount.ID !== 0
-                        ? '已選擇優惠券'
-                        : '未選擇優惠券'}
-                    </div>
-                    <div className="discount-svg">
-                      <Image
-                        width={288}
-                        height={123}
-                        src={'/member/coupon-bg.png'}
-                        alt="coupon"
-                      />
-                    </div>
+                    <hr className="desktop-hr" />
                   </div>
-                  <hr className="desktop-hr" />
-                </div>
                 )}
                 {/* 寄送方式 */}
                 <section className="deliver-block mt-3">
@@ -335,7 +335,7 @@ export default function CartInfo(props) {
                   {/* 寄送方式-宅配 */}
                   <div className="d-flex align-items-center">
                     <input
-                      className="mr10 checkbox-block"
+                      className="mr10 checkbox-block form-check-input"
                       type="radio"
                       name="delivery-way"
                       value="home"
@@ -343,40 +343,43 @@ export default function CartInfo(props) {
                       onChange={handleDeliveryChange}
                       required
                     />
-                    <span className="delivery-title">宅配</span>
+                    <span className="delivery-title form-check-label">宅配</span>
                   </div>
                   {/* 基本資訊 */}
                   {selectedDelivery === 'home' ? (
                     <>
-                      <div className="row row-cols-1 row-cols-lg-3 input-block-block">
-                        <div>
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="text"
-                            placeholder="收貨人"
-                            value={receiver}
-                            onChange={(e) => setReceiver(e.target.value)}
-                            required={selectedDelivery === 'home'}
-                          />
+                      <div className="row row-cols-1 row-cols-lg-3">
+                        <div className="col">
+                          <div className="input-group input-block">
+                            <span className="input-group-text" id="basic-addon1">收貨人 <span className='text-danger'>*</span></span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              value={receiver}
+                              onChange={(e) => setReceiver(e.target.value)}
+                              required={selectedDelivery === 'convenience'} />
+                          </div>
                         </div>
-                        <div>
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="手機號碼"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            required={selectedDelivery === 'home'}
-                          />
+                        <div className="col">
+                          <div className="input-group input-block">
+                            <span className="input-group-text" id="basic-addon1">手機號碼 <span className='text-danger'>*</span></span>
+                            <input
+                              className="form-control"
+                              type="tel"
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
+                              required={selectedDelivery === 'convenience'}
+                            />
+                          </div>
                         </div>
-                        <div>
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="市話(非必填)"
-                            value={tel}
-                            onChange={(e) => setTel(e.target.value)}
-                          />
+                        <div className="col">
+                          <div className="input-group input-block">
+                            <span className="input-group-text" id="basic-addon1">市話</span>
+                            <input
+                              className="form-control"
+                              type="tel"
+                            />
+                          </div>
                         </div>
                       </div>
                       {/* 地址 */}
@@ -390,15 +393,17 @@ export default function CartInfo(props) {
                           township={setTownship}
                           nessary={selectedDelivery === 'home'}
                         />
-                        <div className="col w-100 mt10">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="text"
-                            placeholder="請輸入地址"
-                            value={address}
-                            required={selectedDelivery === 'home'}
-                            onChange={(e) => setAddress(e.target.value)}
-                          />
+                        <div className="col-12">
+                          <div className="input-group input-block">
+                            <span className="input-group-text" id="basic-addon1">地址 <span className='text-danger'>*</span></span>
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={address}
+                              required={selectedDelivery === 'home'}
+                              onChange={(e) => setAddress(e.target.value)}
+                            />
+                          </div>
                         </div>
                       </div>
                     </>
@@ -409,7 +414,7 @@ export default function CartInfo(props) {
                   {/* !待新增效果-點擊後才出現便利商店選項 */}
                   <div className="mt20 d-flex align-items-center">
                     <input
-                      className="mr10 checkbox-block"
+                      className="mr10 checkbox-block form-check-input"
                       type="radio"
                       name="delivery-way"
                       value="convenience"
@@ -417,42 +422,48 @@ export default function CartInfo(props) {
                       onChange={handleDeliveryChange}
                       required
                     />
-                    <span className="delivery-title">超商取貨</span>
+                    <span className="delivery-title form-check-label">超商取貨</span>
                   </div>
                   {selectedDelivery === 'convenience' ? (
                     <>
-                    {/* 基本資訊 */}
-                    <div className="row row-cols-1 row-cols-lg-3">
+                      {/* //!頭 */}
+                      {/* 基本資訊 */}
+                      <div className="row row-cols-1 row-cols-lg-3">
                         <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="text"
-                            placeholder="收貨人姓名"
-                            value={receiver}
-                            onChange={(e) => setReceiver(e.target.value)}
-                            required={selectedDelivery === 'convenience'}
-                          />
+                          <div className="input-group input-block">
+                            <span className="input-group-text" id="basic-addon1">收貨人 <span className='text-danger'>*</span></span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              value={receiver}
+                              onChange={(e) => setReceiver(e.target.value)}
+                              required={selectedDelivery === 'convenience'} />
+                          </div>
                         </div>
                         <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="手機號碼"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            required={selectedDelivery === 'convenience'}
-                          />
+                          <div className="input-group input-block">
+                            <span className="input-group-text" id="basic-addon1">手機號碼 <span className='text-danger'>*</span></span>
+                            <input
+                              className="form-control"
+                              type="tel"
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
+                              required={selectedDelivery === 'convenience'}
+                            />
+                          </div>
                         </div>
                         <div className="col">
-                          <input
-                            className="mt10 w-100 h-36p input-block"
-                            type="tel"
-                            placeholder="市話(非必填)"
-                          />
+                          <div className="input-group input-block">
+                            <span className="input-group-text" id="basic-addon1">市話</span>
+                            <input
+                              className="form-control"
+                              type="tel"
+                            />
+                          </div>
                         </div>
                       </div>
                       <div className='mt20'>
-                        <span className="delivery-title">取貨門市</span>
+                        <span className="delivery-title">取貨門市 <span className='text-danger'>*</span></span>
                       </div>
                       {/* 選擇超商 */}
                       <div className="row row-cols-2 row-cols-lg-4">
@@ -511,7 +522,7 @@ export default function CartInfo(props) {
                   {/* 信用卡 */}
                   <div className="mt20 d-flex align-items-center">
                     <input
-                      className="mr10 checkbox-block"
+                      className="mr10 checkbox-block form-check-input"
                       type="radio"
                       name="payment-way"
                       value="credit-card"
@@ -525,7 +536,7 @@ export default function CartInfo(props) {
                   {/* 超商取貨付款 */}
                   <div className="mt20 d-flex align-items-center">
                     <input
-                      className="mr10 checkbox-block"
+                      className="mr10 checkbox-block form-check-input"
                       type="radio"
                       name="payment-way"
                       value="store"
@@ -541,7 +552,7 @@ export default function CartInfo(props) {
                   {/* LinePay */}
                   <div className="mt20 d-flex align-items-center">
                     <input
-                      className="mr10 checkbox-block"
+                      className="mr10 checkbox-block form-check-input"
                       type="radio"
                       name="payment-way"
                       value="LinePay"
@@ -551,7 +562,7 @@ export default function CartInfo(props) {
                     />
                     <span className="delivery-title">LinePay</span>
                   </div>
-                  
+
                 </section>
                 <hr className="desktop-hr" />
                 {/* 發票資訊 */}
@@ -564,7 +575,7 @@ export default function CartInfo(props) {
                   {/* 捐贈發票 */}
                   <div className="mt20 d-flex align-items-center">
                     <input
-                      className="mr10 checkbox-block"
+                      className="mr10 checkbox-block form-check-input"
                       type="radio"
                       name="bill-way"
                       value="donate"
@@ -576,7 +587,7 @@ export default function CartInfo(props) {
                   {/* 手機載具 */}
                   <div className="mt20 d-flex align-items-center">
                     <input
-                      className="mr10 checkbox-block"
+                      className="mr10 checkbox-block form-check-input"
                       type="radio"
                       name="bill-way"
                       value="phone"
@@ -608,7 +619,7 @@ export default function CartInfo(props) {
                   {/* 紙本發票 */}
                   <div className="mt20 d-flex align-items-center">
                     <input
-                      className="mr10 checkbox-block"
+                      className="mr10 checkbox-block form-check-input"
                       type="radio"
                       name="bill-way"
                       value="paper"
@@ -618,7 +629,6 @@ export default function CartInfo(props) {
                     <span className="delivery-title">紙本發票</span>
                   </div>
                 </section>
-                {/* <hr class="desktop-hr"> */}
                 {/* 訂單金額 */}
                 <section className="bill-block">
                   <div className="row row-cols-lg-4 justify-content-lg-end">
@@ -630,19 +640,22 @@ export default function CartInfo(props) {
                             NT${checkedPrice}
                           </div>
                         </div>
-                        <div className="price-block d-flex justify-content-between w-100">
-                          <div className="price-font set-middle">優惠券</div>
-                          <div className="price-font set-middle d-flex flex-column">
-                            <div className="discount-icon">
-                              {discount.checked && discount.Name ? (
-                                discount.Name
-                              ) : (
-                                <div>無</div>
-                              )}
+                        {discount && discount.ID !== 0 ?
+                          (
+                            <div className="price-block d-flex justify-content-between w-100">
+                              <div className="price-font set-middle">優惠券</div>
+                              <div className="price-font set-middle d-flex flex-column">
+                                <div className="discount-icon">
+                                  {discount.checked && discount.Name ? (
+                                    discount.Name
+                                  ) : (
+                                    <div>無</div>
+                                  )}
+                                </div>
+                                <div>-NT${discountPrice}</div>
+                              </div>
                             </div>
-                            <div>-NT${discountPrice}</div>
-                          </div>
-                        </div>
+                          ) : ("")}
                         <hr />
                         <div className="price-block d-flex justify-content-between w-100">
                           <div className="price-font set-middle">
