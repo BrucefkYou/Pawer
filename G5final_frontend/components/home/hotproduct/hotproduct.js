@@ -14,6 +14,17 @@ export default function Hotproduct(props) {
     needFilter: [],
   });
 
+  // 切到左邊商品
+  const left = () => {
+    setShowIndex(
+      (prevIndex) => (prevIndex - 1 + hotProducts.length) % hotProducts.length
+    );
+  };
+  // 切到右邊商品
+  const right = () => {
+    setShowIndex((prevIndex) => (prevIndex + 1) % hotProducts.length);
+  };
+
   // 熱門的三筆的鉤子
   useEffect(() => {
     if (oldData && Array.isArray(oldData)) {
@@ -46,16 +57,6 @@ export default function Hotproduct(props) {
       window.removeEventListener('resize', handleResize); // 清理監聽
     };
   }, []);
-  // 切到左邊商品
-  const left = () => {
-    setShowIndex(
-      (prevIndex) => (prevIndex - 1 + hotProducts.length) % hotProducts.length
-    );
-  };
-  // 切到右邊商品
-  const right = () => {
-    setShowIndex((prevIndex) => (prevIndex + 1) % hotProducts.length);
-  };
 
   return (
     <>
