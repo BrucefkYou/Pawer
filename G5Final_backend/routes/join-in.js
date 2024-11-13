@@ -47,7 +47,7 @@ router.get('/', async function (req, res, next) {
         WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) >= Joinin.ParticipantLimit THEN '已成團'
         WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) + 5 >= Joinin.ParticipantLimit THEN '即將成團'
         WHEN CURRENT_TIMESTAMP > Joinin.SignEndTime THEN '開團截止'
-        WHEN CURRENT_TIMESTAMP BETWEEN Joinin.CreateDate AND Joinin.SignEndTime THEN '報名中'
+        WHEN CURRENT_TIMESTAMP BETWEEN Joinin.CreateDate AND Joinin.SignEndTime THEN '開團中'
         ELSE '未開放'
     END AS newStatus
 FROM 

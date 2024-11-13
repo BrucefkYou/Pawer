@@ -6,16 +6,21 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
+import { FaRegStar, FaStar } from 'react-icons/fa';
 import { useAuth } from '@/hooks/use-auth';
+import style from '@/components/product/productcomment/productcomment.module.scss'
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
-import { FaRegStar, FaStar } from 'react-icons/fa';
+
 
 const StarToggle = ({ filled }) => (filled ? <FaStar /> : <FaRegStar />);
 
 export default function Productcomment({ fetchOne }) {
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState(''); // 評論input輸入
+  const [rating, setRating] = useState(1); // 星星狀態
+  const [commentsList, setCommentsList] = useState([]); // 輸入評論後的顯示
+  const [showmore, setShowMore] = useState(3); // 看更多
   const { auth } = useAuth();
   const id = auth.memberData.id;
   const nickname = auth.memberData.nickname;
@@ -23,11 +28,7 @@ export default function Productcomment({ fetchOne }) {
   const pdName = fetchOne.Name;
   const productId = fetchOne.ID;
 
-  const [rating, setRating] = useState(1);
-  const [commentsList, setCommentsList] = useState([]);
-  const [showmore, setShowMore] = useState(3);
-
-  // 獲取評論的函數
+  // 獲取評論
   const fetchComments = async (productId) => {
     try {
       const response = await fetch(`http://localhost:3005/api/product/productcomment?productId=${productId}`);
@@ -45,11 +46,11 @@ export default function Productcomment({ fetchOne }) {
     if (productId) {
       fetchComments(productId);
     } else {
-      console.error('缺少商品ID');
+      console.log('此商品沒人評論過');
     }
   }, [productId]);
 
-  const handleCommentSubmit = async () => {
+  const comSubmit = async () => {
     if (!id) {
       toast('您需要登入才能送出評論', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
@@ -65,7 +66,16 @@ export default function Productcomment({ fetchOne }) {
     }
 
     if (!comment.trim()) {
-      toast('請輸入評論內容', { duration: 1800 });
+      toast('請您輸入評論內容', {
+        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          background: 'rgba(193, 69, 69, 1)',
+          color: '#fff',
+          marginTop: '80px',
+        },
+      });
       return;
     }
 
@@ -74,16 +84,44 @@ export default function Productcomment({ fetchOne }) {
       return;
     }
 
+     // 檢查會員是否購買過該商品
+  const alreadyBuy = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${productId}`);
+  if (!alreadyBuy.ok) {
+    toast.error('檢查購買記錄時發生錯誤');
+    return;
+  }
+  console.log(alreadyBuy);
+  const neverBuy = await alreadyBuy.json();
+  if (neverBuy.length === 0) {
+    toast(<>
+      您尚未購買過此商品，<br />
+      購買後即可評論！
+    </>, {
+      icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+      duration: 1800,
+      style: {
+        borderRadius: '10px',
+        background: 'rgba(193, 69, 69, 1)',
+        color: '#fff',
+        marginTop: '80px',
+      },
+    });
+    console.log(neverBuy);
+    return;
+  }
+  
+
     const newComment = {
       ProductID: fetchOne.ID,
       MemberID: id,
       ProductName: pdName,
       ProductContent: comment,
       StarLevel: rating,
-      nickname: nickname,
+      Nickname: nickname,
       rating: rating,
       content: comment,
-      id: Date.now(), // 使用當前時間作為唯一ID
+      MemberAvatar:Img,
+      id: Date.now(), // 讓剛評論完的內容當下顯示在最上面
     };
 
     try {
@@ -97,16 +135,24 @@ export default function Productcomment({ fetchOne }) {
           body: JSON.stringify(newComment),
         }
       );
-
       if (!response.ok) throw new Error('新增評論失敗');
-
-      await response.json(); // 確保可以獲取到返回的數據
+      await response.json(); 
 
       // 將新評論添加到 commentsList 的開頭
       setCommentsList((prevComments) => [newComment, ...prevComments]);
-
       setComment('');
       setRating(1);
+
+    toast.success('您的評論已成功送出！', {
+      icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+      duration: 1800,
+      style: {
+        borderRadius: '10px',
+        background: 'rgba(84, 124, 215, 1)',
+        color: '#fff',
+        marginTop: '80px',
+      },
+    });
     } catch (error) {
       console.error(error);
       toast.error('新增評論時發生錯誤');
@@ -118,7 +164,7 @@ export default function Productcomment({ fetchOne }) {
   };
 
   const starClick = (star) => {
-    setRating(star); // 更新評分為所點擊的星星數
+    setRating(star); // 更新評分為所滑動點擊的星星數
   };
 
   return (
@@ -132,37 +178,26 @@ export default function Productcomment({ fetchOne }) {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                handleCommentSubmit();
+                comSubmit();
               }}
             >
               <div className="col d-flex justify-content-center">
                 <div className="card mb-3 mt-5 comment-send-range">
                   <div className="row g-0">
                     <div className="col-md-2 d-flex justify-content-center">
-                      {Img.Avatar ? (
                         <Image
                           className="commentimg"
-                          src={`/member/member-avatar/${Img.Avatar}`}
+                          src={Img ? `http://localhost:3005/member/${Img}` : 'http://localhost:3005/member/avatar-default.png'}
                           alt="會員頭像"
                           width={808}
                           height={1287}
                           priority
                         />
-                      ) : (
-                        <Image
-                          className="commentimg"
-                          src={`/member/member-profile.png`}
-                          alt="會員預設頭像"
-                          width={808}
-                          height={1287}
-                          priority
-                        />
-                      )}
                     </div>
                     <div className="col-md-10 col-12">
                       <div className="card-body">
                         <h5 className="pd-comment-title">{nickname}</h5>
-                        <div className="d-flex">
+                        <div className={`d-flex ${style['star']}`}>
                           {[1, 2, 3, 4, 5].map((star) => (
                             <div
                               key={star}
@@ -188,7 +223,7 @@ export default function Productcomment({ fetchOne }) {
                           <div className="comment-cancel" onClick={() => setComment('')}>
                             清除
                           </div>
-                          <div className="comment-send" onClick={handleCommentSubmit}>
+                          <div className="comment-send" onClick={comSubmit}>
                             送出
                           </div>
                         </div>
@@ -199,51 +234,44 @@ export default function Productcomment({ fetchOne }) {
               </div>
             </form>
             <div className="row d-flex justify-content-center">
-              {commentsList.slice(0, showmore).map((cmt) => (
-                <div key={cmt.id} className="card ms-4 mb-3 mt-5 pd-comment-shadow col-12">
-                  <div className="row g-0">
-                    <div className="col-md-2 d-flex justify-content-center align-items-center">
-                      {Img.Avatar ? (
+            {commentsList.length === 0 ? (
+                <div className={`d-flex justify-content-center mt-4 ${style['noComment']}`}>此商品暫無評論</div> 
+              ) : (
+                commentsList.slice(0, showmore).map((cmt) => (
+                  <div key={cmt.id} className="card ms-4 mb-3 mt-5 pd-comment-shadow col-12">
+                    <div className="row g-0">
+                      <div className="col-md-2 d-flex justify-content-center align-items-center">
                         <Image
                           className="commentimgDown"
-                          src={`/member/member-avatar/${Img.Avatar}`}
+                          src={cmt.MemberAvatar ? `http://localhost:3005/member/${cmt.MemberAvatar}` : 'http://localhost:3005/member/avatar-default.png'}
                           alt="會員頭像"
                           width={112}
                           height={112}
                           priority
                         />
-                      ) : (
-                        <Image
-                          className="commentimgDown"
-                          src={`/member/member-profile.png`}
-                          alt="會員預設頭像"
-                          width={112}
-                          height={112}
-                          priority
-                        />
-                      )}
-                    </div>
-                    <div className="col-md-10 col-12">
-                      <div className="card-body">
-                        <h5 className="pd-comment-title">{cmt.nickname}</h5>
-                        <div className="d-flex">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <StarToggle key={star} filled={star <= cmt.StarLevel} />
-                          ))}
+                      </div>
+                      <div className="col-md-10 col-12">
+                        <div className="card-body">
+                          <h5 className="pd-comment-title">{cmt.Nickname}</h5>
+                          <div className={`d-flex ${style['star']}`}>
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <StarToggle key={star} filled={star <= cmt.StarLevel} />
+                            ))}
+                          </div>
+                          <p className="pd-comment-name">{cmt.ProductName}</p>
+                          <p className="pd-comment-content">{cmt.ProductContent}</p>
                         </div>
-                        <p className="pd-comment-name">{cmt.ProductName}</p>
-                        <p className="pd-comment-content">{cmt.ProductContent}</p>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
           {/* 顯示「看更多」按鈕 */}
           {showmore < commentsList.length && (
-            <div className='pd-comment-more d-flex justify-content-center' onClick={showMore}>
-              看更多
+            <div className='pd-comment-more d-flex justify-content-center'>
+              <button onClick={showMore}>查看更多</button>
             </div>
           )}
         </div>

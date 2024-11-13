@@ -1,0 +1,66 @@
+.pet-onebyone {
+  position: relative; /* 確保可以使用絕對定位的元素 */
+  background: url('/pet/images/chatbg.jpg') no-repeat center center;
+  background-size: cover;
+  width: 100%;
+  height: 100vh; /* 設置為視口高度 */
+  overflow: hidden; /* 防止內部元素溢出 */
+  .title {
+    color: white;
+  }
+  .chat-card {
+    position: relative; /* 讓內容保持在最上層 */
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.7);
+    height: 500px;
+    width: 400px;
+    overflow: auto;
+    border-radius: 20px;
+  }
+  ul {
+    list-style-type: none; /* 去除標記 */
+    padding-left: 0; /* 如果有內邊距，也可以去除 */
+    margin-left: 0; /* 如果有外邊距，也可以去除 */
+  }
+  li {
+    background: white;
+    border-radius: 20px;
+  }
+  .testfrom {
+    padding: 1rem 1rem 1rem 3rem;
+  }
+  .testsend {
+    padding: 1rem 3rem 1rem 1rem;
+  }
+  .avatarfrom {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background: #ccc;
+    position: absolute;
+    top: -1rem;
+    left: -1rem;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.7);
+  }
+  .avatarsend {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background: #ccc;
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.7);
+  }
+}
+
+.pet-onebyone::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}

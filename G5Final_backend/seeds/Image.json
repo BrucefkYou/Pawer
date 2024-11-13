@@ -1034,7 +1034,7 @@
       "EventID": null,
       "JoininID": null,
       "PetCommID": null,
-      "ImageName": "NU4Petimage01P2.jpg",
+      "ImageName": "1724570037.jpg",
       "ImageUrl": "",
       "ImageUploadDate": "2024-11-01T03:16:26.000Z",
       "ImageType": ""
@@ -2413,19 +2413,6 @@
     "JoininID": null,
     "PetCommID": null,
     "ImageName": "1724569203.jpg",
-    "ImageUrl": "",
-    "ImageUploadDate": "2024-08-23T06:40:03.000Z",
-    "ImageType": "jpg"
-  },
-  {
-    "ImageID": 187,
-    "ProductID": 49,
-    "ArticleID": null,
-    "BlogID": null,
-    "EventID": null,
-    "JoininID": null,
-    "PetCommID": null,
-    "ImageName": "1724570037.jpg",
     "ImageUrl": "",
     "ImageUploadDate": "2024-08-23T06:40:03.000Z",
     "ImageType": "jpg"

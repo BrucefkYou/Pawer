@@ -48,7 +48,7 @@ export default function MemReserve(props) {
             </div>
             {/* 清單明細 */}
             {nowPageItems.length < 1 ?
-                (<Link href={'/communicator'} className='btn btn-danger mt-3'>＜ 目前無紀錄 ＞</Link>) :
+                (<Link href={'/communicator'} className='btn btn-danger mt-3'>＜ 目前無紀錄 點擊前往預約 ＞</Link>) :
                 <>
                     <div className="row none title text-center mt-3 py-2">
                         <div className="col-1">序號</div>
