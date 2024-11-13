@@ -57,7 +57,11 @@
     justify-content: center;
     align-items: center;
   }
+  .mobile-bread-margin{
+    margin-block: 20px;
+  }
   @media (min-width: 992px) {
+    
     .btn-page-size {
       width: 36px;
       height: 36px;
@@ -285,6 +289,9 @@
       .btn-coupon-size {
         width: 330px;
         height: 36px;
+      }
+      .mobile-bread-margin{
+        margin-block: 20px;
       }
       /* 手機-繼續購物按鈕移除 */
       .keep-shopping {

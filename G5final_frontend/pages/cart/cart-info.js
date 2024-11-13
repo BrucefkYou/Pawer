@@ -179,6 +179,7 @@ export default function CartInfo(props) {
     // 清理函數會在組件卸載時執行
     return () => {
       localStorage.removeItem('discount');
+      localStorage.removeItem('store711');
     };
   }, []);
 
