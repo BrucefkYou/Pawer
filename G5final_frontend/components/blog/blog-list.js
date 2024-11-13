@@ -108,7 +108,7 @@ export default function BlogList() {
                       updateDate={blog.UpdateDate}
                       likeCount={blog.likeCount}
                       favoriteCount={blog.favoriteCount}
-                      avatar={blog.MemberAvatar}
+                      avatar={blog.MemberAvatar|| 'avatar-default.png'}
                       name={blog.Nickname}
                     />
                   );

@@ -70,7 +70,7 @@ export default function OrderDetail() {
                     updateDate={blog.UpdateDate}
                     likeCount={blog.likeCount}
                     favoriteCount={blog.favoriteCount}
-                    avatar={blog.MemberAvatar}
+                    avatar={blog.MemberAvatar|| 'avatar-default.png'}
                     name={blog.Nickname}
                     status={blog.Status}
                   />

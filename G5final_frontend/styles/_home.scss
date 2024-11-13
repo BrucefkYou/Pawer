@@ -429,6 +429,13 @@
   .sec7-row-card-layout {
     margin-top: 100px;
     padding: 0;
+    .slick-track{
+      padding-bottom: 30px;
+  }
+  .slick-initialized .slick-slide {
+    display: flex;
+    justify-content: center;
+  }
   }
   .sec7-img {
     width: 100%;
