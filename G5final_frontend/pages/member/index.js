@@ -52,6 +52,7 @@ export default function Member() {
         phone: dbMember.Phone ?? '',
         gender: dbMember.Gender ?? '',
         birth: dbMember.Birth ?? '',
+        google_avatar: dbMember.google_avatar ?? '',
       });
     }
   };

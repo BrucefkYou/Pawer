@@ -11,11 +11,11 @@ export default function MemberLayout({ children }) {
         <div className="container my-5">
           <Breadcrumbs />
           <div className="row">
-            <aside className="col-md-3">
+            <aside className="col-lg-3">
               {/* <aside className="col-3 d-none d-lg-block"> */}
               <MbSideBar />
             </aside>
-            <article className="col-md-9">{children}</article>
+            <article className="col-lg-9">{children}</article>
           </div>
         </div>
       </main>
