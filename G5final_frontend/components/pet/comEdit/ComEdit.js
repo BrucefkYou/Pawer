@@ -16,6 +16,7 @@ export default function ComEdit(props) {
         url: 'http://localhost:3005/api/pet',
         processData,
     });
+    
     //前端預覽照片處理
     const [imagePreview, setImagePreview] = useState()
     const changeImg = (event) => {
@@ -28,11 +29,23 @@ export default function ComEdit(props) {
             reader.readAsDataURL(file);
         }
     };
+    let Img
+    if (nowPageItems.length > 0) {
+        Img = nowPageItems[0].Img
+    }
     // 處理表單寫入資料庫
     async function submitForm(event) {
         event.preventDefault();
         const form = document.querySelector("#edit")
         const formData = new FormData(form);
+        // 移除圖片欄位
+        if (Img != '') {
+            formData.delete('pic'); 
+            for (const [key, value] of formData.entries()) {
+                console.log(`${key}:`, value);
+            }
+            
+        }
         try {
             const response = await fetch('http://localhost:3005/api/pet/communicatorEdit', {
                 method: 'POST',
@@ -60,7 +73,7 @@ export default function ComEdit(props) {
                                 {/* 頭像 */}
                                 <div className="avatar d-flex justify-content-center position-relative">
                                     <label htmlFor="file-upload" style={{ cursor: 'pointer' }} className=''>
-                                        {imagePreview ? (<Image alt='avtar' src={imagePreview} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />) : (<Image alt='avtar' src={`http://localhost:3005/pet/${mydata.Img}`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />)}
+                                        {imagePreview ? (<Image alt='avtar' src={imagePreview} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />) : mydata.Img ? (<Image alt='avtar' src={`http://localhost:3005/pet/${mydata.Img}`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />) : (<Image alt='avtar' src={`http://localhost:3005/pet/avatar-default.png`} width={200} height={200} style={{ borderRadius: '50%', objectFit: 'cover' }} />)}
                                         <div className="camera-icon">
                                             <BsCamera />
                                         </div>
