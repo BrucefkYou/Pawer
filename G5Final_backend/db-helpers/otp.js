@@ -1,9 +1,7 @@
 // 資料庫查詢處理函式
-import { generateToken } from '#configs/otp.js'
+import { generateToken } from '##/configs/otp-token.js'
 // 資料庫使用，使用原本的mysql2 + sql
 import db from '##/configs/mysql.js'
-// 加密密碼字串用
-import { generateHash } from '#db-helpers/password-hash.js'
 
 // 判斷是否可以重設token, true代表可以重設
 const shouldReset = (expTimestamp, exp, limit = 60) => {
@@ -11,22 +9,10 @@ const shouldReset = (expTimestamp, exp, limit = 60) => {
   return Date.now() - createdTimestamp > limit * 1000
 }
 
+//新增otp, 或是更新otp
 // exp = 是 30 分到期,  limit = 60 是 60秒內不產生新的token
-const createOtp = async (email, exp = 30, limit = 60) => {
+const createOTP = async (email, user_id = null, exp = 30, limit = 60) => {
   console.log(`email`, email)
-
-  // 檢查使用者email是否存在
-  const [userResult] = await db.execute(
-    'SELECT * FROM Member WHERE eMail = ?',
-    [email]
-  )
-
-  if (userResult.length === 0) {
-    console.log('ERROR - 使用者帳號不存在'.bgRed)
-    return {}
-  }
-  const user = userResult[0]
-  console.log('user:', user)
 
   // 檢查otp是否已經存在
   const [foundOtpResult] = await db.execute(
@@ -78,7 +64,7 @@ const createOtp = async (email, exp = 30, limit = 60) => {
 
   // 建立otp物件
   const newOtp = {
-    user_id: user.ID,
+    user_id: user_id,
     email,
     token,
     exp_timestamp,
@@ -88,7 +74,7 @@ const createOtp = async (email, exp = 30, limit = 60) => {
   // 建立新記錄
   const [createOtpResults] = await db.execute(
     'INSERT INTO otp (user_id, email,token,exp_timestamp) VALUE (?,?,?,?)',
-    [user.ID, email, token, exp_timestamp]
+    [user_id, email, token, exp_timestamp]
   )
 
   if (!createOtpResults) {
@@ -99,8 +85,8 @@ const createOtp = async (email, exp = 30, limit = 60) => {
   }
 }
 
-// 更新密碼
-const updatePassword = async (email, token, password) => {
+// 檢查otp
+const checkOTP = async (email, token) => {
   // 檢查otp是否已經存在
   const [otpResult] = await db.execute(
     `SELECT * FROM Otp WHERE email = ? AND token = ? LIMIT 1`,
@@ -109,31 +95,17 @@ const updatePassword = async (email, token, password) => {
   // 沒找到回傳false
   if (otpResult.length === 0) {
     console.log('ERROR - OTP Token資料不存在'.bgRed)
-    return false
+    return { status: 'error', message: 'OTP Token資料不存在' }
   }
   const foundOtp = otpResult[0]
 
   // 檢查 OTP 是否過期
   if (Date.now() > foundOtp.exp_timestamp) {
     console.log('ERROR - OTP Token已到期'.bgRed)
-    return false
+    return { status: 'error', message: 'OTP Token資料不存在' }
   }
 
-  // 密碼加密
-  const hashpassword = await generateHash(password)
-
-  // 修改密碼
-  await db.execute(
-    `UPDATE Member
-       SET Password = ?
-       WHERE ID = ?`,
-    [hashpassword, foundOtp.user_id]
-  )
-
-  // 移除 OTP 記錄
-  await db.execute(`DELETE FROM otp WHERE id = ?`, [foundOtp.id])
-
-  return true
+  return { status: 'success', message: 'OTP Token資料通過', otpdata: foundOtp }
 }
 
-export { createOtp, updatePassword }
+export { createOTP, checkOTP }

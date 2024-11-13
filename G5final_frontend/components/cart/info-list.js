@@ -29,13 +29,13 @@ export default function InfoList(props) {
                 <div className="col-9 col-lg-7 product-info">
                   <div className="product-title">{item.name}</div>
                   <div className="d-flex justify-content-between product-title2">
-                    <div>NT${Math.round(item.price)}</div>
+                    <div>NT$ {Math.round(item.price)}</div>
                     <div>數量：{item.quantity}</div>
                   </div>
                 </div>
                 <div className="col-2 d-lg-block d-none g-0" />
                 <div className="col-lg-2 d-lg-flex align-items-center justify-content-center d-none">
-                  {item.quantity * item.price}
+                  NT$ {item.quantity * item.price}
                 </div>
               </div>
             );

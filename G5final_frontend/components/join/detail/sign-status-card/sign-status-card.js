@@ -5,7 +5,7 @@ import FavoriteIcon from '@/components/join/list/item/favorite/FavoriteIcon/Favo
 import { useAuth } from '@/hooks/use-auth';
 import Image from 'next/image';
 
-export default function SignStatusCard({ data = {} }) {
+export default function SignStatusCard({ data = {}, disabled }) {
   const router = useRouter();
   const { auth } = useAuth();
   const uid = auth.memberData.id;
@@ -36,7 +36,7 @@ export default function SignStatusCard({ data = {} }) {
                 height={50}
                 src={
                   data.Avatar
-                    ? `/member/member-avatar/${data.Avatar}`
+                    ? `/http://localhost:3005/member/${auth.memberData.avatar}`
                     : '/member/member-avatar/member-profile.png'
                 }
                 alt="1"
@@ -85,7 +85,8 @@ export default function SignStatusCard({ data = {} }) {
             // href="#"
             className="btn btn-primary w-100"
             onClick={handleCol}
-            // disabled={data.ParticipantLimit - data.SignCount <= 0}
+            // disabled={false}
+            disabled={data.ParticipantLimit - data.SignCount <= 0 || disabled}
           >
             {data.ParticipantLimit - data.SignCount > 0
               ? '立即報名'

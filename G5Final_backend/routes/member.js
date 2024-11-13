@@ -118,8 +118,8 @@ router.post('/logout', authenticate, (req, res) => {
   res.json({ status: 'success', data: null })
 })
 
-// POST - 新增會員資料
-router.post('/', async function (req, res) {
+// POST - 新增會員資料 (不經過OTP)
+router.post('/register', async function (req, res) {
   const { name, email, password } = req.body
 
   // 檢查從前端來的資料哪些為必要

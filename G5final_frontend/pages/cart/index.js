@@ -8,6 +8,7 @@ import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
 import Image from 'next/image';
+import PageTitle from '@/components/member/page-title/page-title';
 
 export default function Cart(props) {
   const { auth, getMember } = useAuth();
@@ -18,6 +19,16 @@ export default function Cart(props) {
   const [discount, setDiscount] = useState(); // 優惠券數據
   const [checkPrice, setCheckPrice] = useState(0); // 結帳金額
 
+  // 要待到下一頁的優惠券的初始值
+  const defaultDiscount = {
+    ID: 0,
+    Name: '',
+    StartTime: '',
+    EndTime: '',
+    CalculateType: 0,
+    Value: 0,
+    checked: false,
+  };
   // 取得優惠券資料
   const getDiscount = async () => {
     try {
@@ -62,7 +73,7 @@ export default function Cart(props) {
   // 處理選擇優惠券
   const handleCouponChange = (e) => {
     const selected = discount.find(
-      (item) => item.ID === parseInt(e.target.value)
+      (item) => item.ID === parseInt(e.target.value) 
     );
     setSelectedDiscount(selected);
   };
@@ -74,7 +85,7 @@ export default function Cart(props) {
       setSelectedDiscount(updatedDiscount);
       window.localStorage.setItem('discount', JSON.stringify(updatedDiscount));
     } else {
-      localStorage.setItem('discount', { checked: false });
+      localStorage.setItem('discount', JSON.stringify(defaultDiscount));
     }
   };
 
@@ -106,13 +117,14 @@ export default function Cart(props) {
           <div className="cart">
             <div className="container">
               {/* 麵包屑 */}
+              <div className='mobile-bread-margin'>
               <Breadcrumbs />
+              </div>
               {/* cart */}
               <div className="cart-main">
                 {/* title */}
-                <div className="cart-title">
-                  <h1>我的購物車</h1>
-                  <hr />
+                <div className="cart-index-title mb-3">
+                  <PageTitle title={'購物車'} subTitle={'Cart'} />
                 </div>
                 {/* product */}
                 <div className="cart-product">
@@ -132,7 +144,7 @@ export default function Cart(props) {
                     <div className="row row-cols-lg-2">
                       <div className="col mt-lg-4 choose-discount set-mobile-middle">
                         <select
-                          className="bg-main-color btn-coupon-size border-0 text-white"
+                          className="bg-main-color text-white form-select mt-3"
                           name="coupon"
                           id="coupon"
                           value={selectedDiscount?.ID || ''}
@@ -152,10 +164,7 @@ export default function Cart(props) {
                             })
                             : '沒有符合條件的優惠券'}
                         </select>
-                        {/* <button type="button"
-									class="btn btn-sm bg-main-color btn-coupon-size border-0 text-white">選擇優惠券</button> */}
                       </div>
-                      {/* 分頁功能，目前暫時隱藏 */}
                     </div>
                   </div>
                   {/* 繼續購物 & 總金額 */}
@@ -163,7 +172,7 @@ export default function Cart(props) {
                     <div className="keep-shopping">
                       <Link
                         href="/product"
-                        className="btn btn-sm btn-keepShoping btn-border-main text-decoration-none set-middle"
+                        className="btn btn-sm btn-keepShoping btn-main-border text-decoration-none set-middle"
                       >
                         繼續購物
                       </Link>
