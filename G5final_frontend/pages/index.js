@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable @next/next/no-img-element */
 import { Inter } from 'next/font/google';
-import Pagination from '@/components/pagination/pagination';
 import Hotproduct from '@/components/product/hotproduct/hotproduct';
 
 const inter = Inter({ subsets: ['latin'] });
