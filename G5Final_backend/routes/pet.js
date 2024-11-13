@@ -125,8 +125,17 @@ router.post(
 
     try {
       const [rows] = await db2.query(
-        `UPDATE PetCommunicator SET Name = ?, Service = ?, Approach = ?, Fee = ?, Email = ?, Introduction = ?, Img = ? WHERE ID = ?`,
-        [Name, Service, Approach, Fee, Email, Introduction, Img, ID]
+        `UPDATE PetCommunicator 
+     SET 
+        Name = ?, 
+        Service = ?, 
+        Approach = ?, 
+        Fee = ?, 
+        Email = ?, 
+        Introduction = ?, 
+        Img = CASE WHEN ? IS NULL OR ? = '' THEN Img ELSE ? END 
+     WHERE ID = ?`,
+        [Name, Service, Approach, Fee, Email, Introduction, Img, Img, Img, ID]
       )
       res.json(rows)
     } catch (err) {

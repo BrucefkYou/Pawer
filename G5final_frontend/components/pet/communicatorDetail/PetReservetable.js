@@ -5,6 +5,9 @@ import DatePicker from "react-datepicker";
 import moment from 'moment';
 import { setHours, setMinutes, setSeconds } from 'date-fns';
 import emailjs from '@emailjs/browser';
+import toast from 'react-hot-toast';
+import logo from 'public/LOGO.svg';
+import Image from 'next/image';
 
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -15,7 +18,7 @@ export default function PetReservetable({ fetchOne }) {
     const memberID = auth.memberData.id
     const memberEmail = auth.memberData.email
     console.log(memberEmail);
-    
+
     const [from, setFrom] = useState({
         ReserveName: "",
         Phone: "",
@@ -40,24 +43,12 @@ export default function PetReservetable({ fetchOne }) {
     // 送出表單
     function submitForm(event) {
         event.preventDefault();
+
         // emailJS自動發送郵件
         const SERVICE_ID = 'service_y1soora'
         const TEMPLATE_ID = "template_jqmhk8c"
         const PUBLIC_ID = "uGgKuam9nMvWLqpjN"
-        emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-            from_name: "PAWER",
-            to_name: from.ReserveName,
-            to_email: memberEmail,
-            message:
-                `預約溝通師：${fetchOne.Name}
-                預約者姓名：${from.ReserveName}
-                聯繫電話：${from.Phone}
-                寵物類型：${from.PetType}
-                寵物名稱：${from.PetName}
-                進行方式：${from.Approach}
-                備註：${from.Remark}
-                預約時段：${from.Time}`
-        }, PUBLIC_ID);
+
 
         //寫入資料庫
         const form = document.querySelector('#reserve');
@@ -75,26 +66,75 @@ export default function PetReservetable({ fetchOne }) {
                 if (response.ok) {
                     return response.json();
                 }
+                toast('失敗請重新再試', {
+                    icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+                    duration: 1800,
+                    style: {
+                        borderRadius: '10px',
+                        background: 'rgba(34, 53, 92, 1)',
+                        color: '#fff',
+                        marginTop: '80px',
+                    },
+                });
                 throw new Error('網路回應不成功');
             })
             .then(data => {
+                //確認成功後
                 console.log('提交成功：', data);
-                router.push('/member/communicator/memReserve')
+                //提示成功訊息
+                toast('預約成功即將轉頁至會員預約表單...', {
+                    icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+                    duration: 2500,
+                    style: {
+                        borderRadius: '10px',
+                        background: 'rgba(84, 124, 215, 1)',
+                        color: '#fff',
+                        marginTop: '80px',
+                    },
+                });
+                //發送信件
+                emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+                    from_name: "PAWER",
+                    to_name: from.ReserveName,
+                    to_email: memberEmail,
+                    message:
+                        `預約溝通師：${fetchOne.Name}
+                預約者姓名：${from.ReserveName}
+                聯繫電話：${from.Phone}
+                寵物類型：${from.PetType}
+                寵物名稱：${from.PetName}
+                進行方式：${from.Approach}
+                備註：${from.Remark}
+                預約時段：${from.Time}`
+                }, PUBLIC_ID);
+                //轉頁
+                setTimeout(() => {
+                    router.push('/member/communicator/memReserve')
+                }, 3000);
             })
             .catch(error => {
                 console.error('提交失敗：', error);
+                toast('失敗請重新再試', {
+                    icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+                    duration: 1800,
+                    style: {
+                        borderRadius: '10px',
+                        background: 'rgba(34, 53, 92, 1)',
+                        color: '#fff',
+                        marginTop: '80px',
+                    },
+                });
             });
     }
     return (
         <>
-
             <div className="container col-12 col-md-8 justify-content-center align-content-center">
                 {/* 標題 */}
-                <h4>
+                <h4 className='pt-3 ps-3'>
                     寵物溝通師預約{' '}
                     <span style={{ color: '#f4b13e' }}>{fetchOne.Name}</span>
                 </h4>
-                <p>
+                <p className='px-3'>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width={64}
@@ -118,6 +158,7 @@ export default function PetReservetable({ fetchOne }) {
                 </p>
                 {/* 表單 */}
                 <form id="reserve" onSubmit={submitForm}>
+
                     <input type="hidden" name='petCommID' value={`${petCommID}`} />
                     <input type="hidden" name='memberID' value={memberID} />
                     <div className="d-flex flex-wrap contain justify-content-between container">
@@ -173,7 +214,7 @@ export default function PetReservetable({ fetchOne }) {
                                 ]}
                                 dateFormat="MMMM d, yyyy h:mm aa"
                                 required
-                                placeholderText="請選擇日期和時間" 
+                                placeholderText="請選擇日期和時間"
                             />
                         </div>
                         <div className="col-12 col-lg-5">
@@ -188,8 +229,8 @@ export default function PetReservetable({ fetchOne }) {
                                 onChange={onChange}
                             />
                         </div>
-                        <div className="col-12 col-lg-5">
-                            <button className="btnn" type='submit'>預約寵物溝通師</button>
+                        <div className="col-12 col-lg-5 d-flex justify-content-center">
+                            <button className="btnn my-2 my-md-3" type='submit'>預約寵物溝通師</button>
                         </div>
                     </div>
                 </form>
