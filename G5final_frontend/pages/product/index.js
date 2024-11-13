@@ -54,6 +54,8 @@ export default function Index(props) {
       { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
   });
+
+  // RWD 的搜尋篩選漢堡
   const [showFilters, setShowFilters] = useState(false); // 控制篩選區域顯示的狀態
   const toggleFilters = () => {
     console.log('出來了嗎');

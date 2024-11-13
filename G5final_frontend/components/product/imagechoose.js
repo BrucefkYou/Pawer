@@ -45,22 +45,26 @@ export default function Imagechoose({ Img, productImages, Name }) {
           height={456}
         />
         {/* 左右切換按鈕 */}
-        <Image
-          className={`${style.arrow} ${style.leftArrow}`}
-          src="/product/sqlimg/rwdDetailrow1.png"
-          alt="左"
-          width={30}
-          height={30}
-          onClick={left}
-        />
-        <Image
-          className={`${style.arrow} ${style.rightArrow}`}
-          src="/product/sqlimg/rwdDetailrow2.png"
-          alt="右"
-          width={30}
-          height={30}
-          onClick={right}
-        />
+        {productImages.length > 1 && ( // 只有在有多於一張圖片時顯示按鈕
+          <>
+            <Image
+              className={`${style.arrow} ${style.leftArrow}`}
+              src="/product/sqlimg/rwdDetailrow1.png"
+              alt="左"
+              width={30}
+              height={30}
+              onClick={left}
+            />
+            <Image
+              className={`${style.arrow} ${style.rightArrow}`}
+              src="/product/sqlimg/rwdDetailrow2.png"
+              alt="右"
+              width={30}
+              height={30}
+              onClick={right}
+            />
+          </>
+        )}
       </div>
 
       {/* 輪播圖 */}

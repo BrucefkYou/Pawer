@@ -159,7 +159,11 @@
   .sec-3 {
     display: flex;
     background: #f9f9f9;
-    gap: 10%
+  }
+  .sec3-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .sec-3-gap {
     gap: 10%;
@@ -168,6 +172,14 @@
   .sec-3-card-mg {
     margin: 67.5px 0px;
     box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
+  }
+  .card-size {
+    width: 15.25rem;
+  }
+  .card-size:hover {
+    scale: 1.025;
+    transition: all 0.1s ease;
+    filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.3));
   }
   .hotbg-text {
     background-color: #22355c;
@@ -636,9 +648,6 @@
     .sec-3-card-mg {
       margin: 0px 20px;
     }
-    .sec3-img {
-      content: url(../public/home/HotCardRWD.png);
-    }
     .hotbg-text {
       width: 100%;
       padding: 50px;
@@ -708,9 +717,6 @@
     .sec-3-card-mg {
       margin: 0px 20px;
     }
-    .sec3-img {
-      content: url(../public/home/HotCardRWD.png);
-    }
     .hotbg-text {
       width: 100%;
       padding: 50px;
@@ -744,9 +750,6 @@
     /* section-three */
     .sec-3-card-mg {
       margin: 0px 20px;
-    }
-    .sec3-img {
-      content: url(../public/home/HotCardRWD.png);
     }
     .hotbg-text {
       width: 100%;
