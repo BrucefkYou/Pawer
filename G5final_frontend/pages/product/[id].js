@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import ProductDetail from '@/components/product/productDetail';
+import ProductDetail from '@/components/product/detail/productDetail';
 
 export default function Id(props) {
   return (

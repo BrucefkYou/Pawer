@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import style from '@/components/product/Imagechoose.module.scss';
+import style from '@/components/product/imagechoose/Imagechoose.module.scss';
 
 export default function Imagechoose({ Img, productImages, Name }) {
   const [currentImage, setCurrentImage] = useState(Img);
