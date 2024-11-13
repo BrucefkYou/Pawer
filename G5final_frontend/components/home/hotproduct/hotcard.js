@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FavoriteIcon from '@/components/product/favorite/FavoriteIcon/FavoriteIcon';
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
-import style from '@/components/product/hotproduct/hotcard.module.scss';
+import style from '@/components/home/hotproduct/hotcard.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 

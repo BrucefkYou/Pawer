@@ -3,7 +3,7 @@ import { PageNav } from '@/components/PageNav';
 import { usePagination } from '@/hooks/usePagination';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
-import ProductList from '@/components/product/productList';
+import ProductList from '@/components/product/list/productList';
 import Link from 'next/link';
 
 import MemberNav from '@/components/memberNav';

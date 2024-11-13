@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { usePagination } from '@/hooks/usePagination';
 import Hotcard from './hotcard';
 import Image from 'next/image';
-import style from '@/components/product/hotproduct/hotproduct.module.scss';
+import style from '@/components/home/hotproduct/hotproduct.module.scss';
 
 export default function Hotproduct(props) {
   const [url, setUrl] = useState('http://localhost:3005/api/product');

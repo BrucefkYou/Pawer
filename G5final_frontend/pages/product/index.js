@@ -10,7 +10,7 @@ import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
 import { BsFilterSquareFill } from 'react-icons/bs';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import ProductList from '@/components/product/productList';
+import ProductList from '@/components/product/list/productList';
 import Clean from '@/components/product/clean/clean';
 import CategoryOther from '@/components/product/category/other/categoryOther';
 import CategoryCat from '@/components/product/category/cat/categoryCat';

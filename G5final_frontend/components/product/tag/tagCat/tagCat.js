@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect } from 'react';
-import ProductList from '@/components/product/productList';
+import ProductList from '@/components/product/list/productList';
 
 export default function TagCat({ activeIndex, onActiveChange, setUrl }) {
   const [products, setProducts] = useState([]); // 儲存篩選分類結果
