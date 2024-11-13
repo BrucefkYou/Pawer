@@ -43,7 +43,7 @@ export default function TagCard() {
   return (
     <div className={`${styles['tag-card']}`}>
       <SideBarCard
-        title="標籤"
+        title="熱門標籤"
         img={pawButton}
         content={
           <div className={styles['tag-section']}>
