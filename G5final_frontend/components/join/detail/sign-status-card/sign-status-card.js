@@ -36,7 +36,7 @@ export default function SignStatusCard({ data = {}, disabled }) {
                 height={50}
                 src={
                   data.Avatar
-                    ? `/member/member-avatar/${data.Avatar}`
+                    ? `/http://localhost:3005/member/${auth.memberData.avatar}`
                     : '/member/member-avatar/member-profile.png'
                 }
                 alt="1"

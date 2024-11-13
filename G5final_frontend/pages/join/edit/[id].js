@@ -5,7 +5,7 @@ import Banner from '@/components/join/banner/banner';
 import moment from 'moment';
 import ImgPutArea from '@/components/join/img-put-area/img-put-area';
 import Tag from '@/components/join/form/tag';
-import TWZipCode from '@/components/join/controlled-form/tw-zipcode';
+import AreaSelect from '@/components/join/form/area-select';
 import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import Myeditor from '@/components/join/CKEditorTest';
@@ -16,10 +16,10 @@ import Swal from 'sweetalert2';
 import { BsCalendar } from 'react-icons/bs';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { da, ro, zhCN } from 'date-fns/locale';
+import {zhCN } from 'date-fns/locale';
 registerLocale('zhCN', zhCN);
 
-export default function JiDetail(props) {
+export default function JiEdit(props) {
   const router = useRouter();
 
   // 參考範例
@@ -34,8 +34,8 @@ export default function JiDetail(props) {
   const handleCancelClick = async () => {
     const result = await Swal.fire({
       title: '取消將不會保留您的修改',
-      text: '這個操作無法撤銷！',
-      icon: 'warning',
+      text: '確定取消嗎?',
+      // icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#22355c;',
@@ -247,7 +247,7 @@ export default function JiDetail(props) {
 
   const saveUpdate = async () => {
     try {
-      const response = await fetch('http://localhost:3005/api/join-in/edit', {
+      const response = await fetch(`http://localhost:3005/api/join-in/update/${router.query.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -274,7 +274,7 @@ export default function JiDetail(props) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: '確認刪除',
+        confirmButtonText: '確認',
         cancelButtonText: '取消',
       });
       if (response.ok) {
@@ -283,7 +283,7 @@ export default function JiDetail(props) {
         alert(`寫入失敗: ${result.message}`);
       }
     } catch (error) {
-      console.error('寫入文章失敗', error);
+      console.error('寫入資料失敗', error);
       alert('寫入發生錯誤，稍後再試。');
     }
   };
@@ -429,7 +429,7 @@ export default function JiDetail(props) {
                 </div>
               </div>
               <div id="join-address" className="mb-3">
-                <TWZipCode
+              <AreaSelect
                   city={city}
                   township={township}
                   location={location}

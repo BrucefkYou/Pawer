@@ -27,6 +27,7 @@ export default function JiDetail(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // 更新CKEditor HTML內容中的圖片標籤
   const updateImageTags = (htmlContent) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
@@ -39,16 +40,9 @@ export default function JiDetail(props) {
     return doc.body.innerHTML;
   };
 
-  // 判斷是否登入
+  // 抓取登入會員id
   const { auth } = useAuth();
   const uid = auth.memberData.id;
-  const islogin = () => {
-    if (auth.isAuth) {
-      router.push(`/`);
-    } else {
-      router.push(`/member/login`);
-    }
-  };
 
   const [data, setData] = useState({});
   const getTitle = async () => {
@@ -106,7 +100,7 @@ export default function JiDetail(props) {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: '確認刪除',
+      confirmButtonText: '刪除',
       cancelButtonText: '取消',
     });
 

@@ -2,7 +2,7 @@ import ImgPutArea from '@/components/join/img-put-area/img-put-area';
 import Image from 'next/image';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import titlebottomLine from '@/assets/titleBottomLine.svg';
-import TWZipCode from '@/components/join/controlled-form/tw-zipcode';
+import AreaSelect from '@/components/join/form/area-select';
 import Tag from '@/components/join/form/tag';
 import Myeditor from '@/components/join/CKEditorTest';
 import { useState, useEffect, use } from 'react';
@@ -77,6 +77,9 @@ const Publish = () => {
     if (moment(date).isBefore(currentTime)) {
       Swal.fire('開始時間不得早於當前時間');
       setStartTime(newTime(currentTime));
+    // } else if(moment(date).isAfter(endTime)){
+    //   Swal.fire('開始時間不得晚於結束時間');
+    //   setStartTime(newTime(currentTime));
     } else {
       setStartTime(newTime(date));
     }
@@ -283,7 +286,7 @@ const Publish = () => {
                 </div>
               </div>
               <div id="join-address" className="mb-3">
-                <TWZipCode
+                <AreaSelect
                   city={city}
                   township={township}
                   location={location}

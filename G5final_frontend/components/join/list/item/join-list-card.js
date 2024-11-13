@@ -41,7 +41,7 @@ export default function JoinListCard({
           className={`${styles['card-image']}`}
           width={367}
           height={321}
-          src={imageUrl || '/join/join-1.jpg'}
+          src={imageUrl || '/join/t7.jpg'}
           alt={data.Title}
         />
         <div className={`card-body ${styles['card-body']}`}>

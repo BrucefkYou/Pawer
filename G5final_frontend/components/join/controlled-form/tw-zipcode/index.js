@@ -12,10 +12,6 @@ export default function TWZipCode({
   // 記錄陣列的索引值，預設值是-1，相當於"請選擇xxx"
   const [cityIndex, setCityIndex] = useState(-1);
   const [townshipIndex, setTownshipIndex] = useState(-1);
-  useEffect(() => {
-    setCity(citys[cityIndex]);
-    setLocation(location);
-  }, [city, township, location]);
 
   return (
     <>
