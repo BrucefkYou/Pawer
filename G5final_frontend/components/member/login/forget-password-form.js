@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './login.module.scss';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 // countdown use
 import useInterval from '@/hooks/use-interval';
-import { requestOtpToken, resetPassword } from '@/services/member';
-import toast from 'react-hot-toast';
+import { requestFPOtpToken, resetPassword } from '@/services/member';
 
 export default function ForgetPasswordForm({ Formtype, setFormtype }) {
   const [email, setEmail] = useState('');
@@ -35,7 +35,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
       return;
     }
 
-    const res = await requestOtpToken(email);
+    const res = await requestFPOtpToken(email);
     console.log(res.data);
 
     if (res.data.status === 'success') {
@@ -44,7 +44,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
       setDelay(1000); // 每 1000ms = 1s 減1
       setDisableBtn(true);
     } else {
-      toast.error(`錯誤 - ${res.data.message}`);
+      toast.error(`${res.data.message}`);
     }
   };
 

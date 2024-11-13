@@ -247,7 +247,7 @@
   // 變大
   .card-layout:hover {
     scale: 1.025;
-    transition: all 0.5s ease;
+    transition: all 0.1s ease;
     filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.3));
   }
   // 卡片會員收藏title大小
@@ -277,7 +277,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #253559;
+    color: #000;
     font-family: Inter;
     font-size: 16px;
     font-weight: 500;
@@ -441,7 +441,7 @@
       line-height: 27px;
     }
     .pd-card-text {
-      color: #253559;
+      color: #000;
       font-family: Inter;
       font-size: 14px;
       font-weight: 500;

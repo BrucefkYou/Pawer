@@ -1,0 +1,13 @@
+.leftArrow {
+    left: 10px;
+  }
+  
+  .rightArrow {
+    right: 10px;
+  }
+  .arrow {
+    position: absolute;
+    top: 285%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }

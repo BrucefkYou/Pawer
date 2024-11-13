@@ -370,7 +370,7 @@ router.post('/create', upload.single('joinImage'), async (req, res) => {
 })
 
 // 表單內容修改
-router.post('/update/:id', upload.single('joinImage'), async (req, res) => {
+router.put('/update/:id', upload.single('joinImage'), async (req, res) => {
   const {
     imageName,
     memberId,
@@ -407,25 +407,37 @@ router.post('/update/:id', upload.single('joinImage'), async (req, res) => {
     )
 
     const joininId = req.params.id
-    const imgurl = `/join/+${imageName}`
+    const imgurl = `/join/${imageName}`
     const imageUploadDate = moment().format('YYYY-MM-DD HH:mm')
     //抓取附檔名 slice(1)是為了去掉.
     const imgType = path.extname(imageName).slice(1)
     // const imgType = imageName.split('.').pop()
-    await db2.execute(
-      `UPDATE Image SET ImageName = ?,ImageUrl = ?,ImageUploadDate = ?,ImageType = ? WHERE JoininId = ?`,
-      [imageName, imgurl, imageUploadDate, imgType, joininId]
-    )
+    if (imageName) {
+      await db2.execute(
+        `UPDATE Image SET ImageName = ?,ImageUrl = ?,ImageUploadDate = ?,ImageType = ? WHERE JoininId = ?`,
+        [imageName, imgurl, imageUploadDate, imgType, joininId]
+      )
+    }
 
     // 將 tags 傳進 tag 表，tags是一個陣列，用for 迴圈將拆解的 tag 一個一個寫入
     const createDate = moment().format('YYYY-MM-DD HH:mm')
     for (const tag of tags) {
-      await db2.execute(
-        `INSERT INTO Tag (Name,CreateDate,CreateUserID) VALUES (?,?,?)`,
-        [tag, createDate, memberId]
+      const [existingTag] = await db2.execute(
+        `SELECT Name FROM Tag WHERE Name = ?`,
+        [tag]
       )
+
+      // 如果不存在 (existingTag 為空陣列) 才���增
+      if (existingTag.length === 0) {
+        await db2.execute(
+          `INSERT INTO Tag (Name, CreateDate, CreateUserID) VALUES (?, ?, ?)`,
+          [tag, createDate, memberId]
+        )
+      }
     }
 
+    // 刪除此 JoininId 的所有現有標籤對應
+    await db2.execute(`DELETE FROM Tagmappings WHERE JoininId = ?`, [joininId])
     // 將 tags 傳進 tagmappings 表中
     for (const tag of tags) {
       const [tagId] = await db2.execute(`SELECT ID FROM Tag WHERE Name = ?`, [
