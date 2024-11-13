@@ -10,6 +10,7 @@ import ClickIcon from '@/components/icons/click-icon/click-icon';
 import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import SignStatusCard from '@/components/join/detail/sign-status-card/sign-status-card';
+import Swal from 'sweetalert2';
 import {
   BsClock,
   BsGeoAlt,
@@ -17,6 +18,7 @@ import {
   BsChevronRight,
   BsBookmark,
 } from 'react-icons/bs';
+import { join } from 'lodash';
 
 export default function JiDetail(props) {
   const router = useRouter();
@@ -25,6 +27,7 @@ export default function JiDetail(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // 更新CKEditor HTML內容中的圖片標籤
   const updateImageTags = (htmlContent) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
@@ -37,15 +40,9 @@ export default function JiDetail(props) {
     return doc.body.innerHTML;
   };
 
-  // 判斷是否登入
+  // 抓取登入會員id
   const { auth } = useAuth();
-  const islogin = () => {
-    if (auth.isAuth) {
-      router.push(`/`);
-    } else {
-      router.push(`/member/login`);
-    }
-  };
+  const uid = auth.memberData.id;
 
   const [data, setData] = useState({});
   const getTitle = async () => {
@@ -89,6 +86,48 @@ export default function JiDetail(props) {
 
     fetchImageUrl();
   }, [data.ImageName]);
+  // 編輯活動
+  const handleEditClick = () => {
+    router.push(`/join/edit/${router.query.id}`);
+  };
+
+  // 刪除活動
+  const handleDeletClick = async () => {
+    const result = await Swal.fire({
+      title: '確定要刪除這個活動嗎？',
+      text: '這個操作無法撤銷！',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '刪除',
+      cancelButtonText: '取消',
+    });
+
+    if (result.isConfirmed) {
+      setLoading(true);
+
+      try {
+        const response = await fetch(
+          `http://localhost:3005/api/join-in/${router.query.id}`,
+          {
+            method: 'PUT',
+          }
+        );
+        if (response.ok) {
+          console.log('活動已刪除');
+          // 跳轉回到活動列表頁
+          router.push('/join');
+        } else {
+          console.log('刪除失敗');
+        }
+      } catch (error) {
+        console.error('刪除活動時發生錯誤', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
 
   // 處理時間格式，但後來新增的有使用moment()先處理，之後可以換掉
   const StartTime = data.StartTime
@@ -103,6 +142,29 @@ export default function JiDetail(props) {
     <div className="container ji-detail-container">
       <Breadcrumbs />
       <form className="ji-form bg-white" action="" method="POST">
+        {uid === data.MemberID ? (
+          <>
+            <div className="ji-detail-btngroup d-grid gap-3 d-flex">
+              <button
+                className="btn btn-warning"
+                type="button"
+                onClick={handleEditClick}
+              >
+                修改活動
+              </button>
+              <button
+                className="btn btn-danger"
+                type="button"
+                onClick={handleDeletClick}
+              >
+                刪除活動
+              </button>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+
         <div className="ji-image">
           {/* eslint-disable  */}
         <Image
@@ -135,7 +197,7 @@ export default function JiDetail(props) {
           </div>
           <div className="flex-shrink-1">
             {/* 側邊活動狀態小卡 */}
-            <SignStatusCard data={data}/>
+            <SignStatusCard data={data} disabled={(uid===data.MemberID)?"disabled":""}/>
           </div>
         </div>
       </div>

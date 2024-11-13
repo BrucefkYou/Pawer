@@ -2,7 +2,7 @@ import ImgPutArea from '@/components/join/img-put-area/img-put-area';
 import Image from 'next/image';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import titlebottomLine from '@/assets/titleBottomLine.svg';
-import TWZipCode from '@/components/join/controlled-form/tw-zipcode';
+import AreaSelect from '@/components/join/form/area-select';
 import Tag from '@/components/join/form/tag';
 import Myeditor from '@/components/join/CKEditorTest';
 import { useState, useEffect, use } from 'react';
@@ -77,6 +77,9 @@ const Publish = () => {
     if (moment(date).isBefore(currentTime)) {
       Swal.fire('開始時間不得早於當前時間');
       setStartTime(newTime(currentTime));
+    // } else if(moment(date).isAfter(endTime)){
+    //   Swal.fire('開始時間不得晚於結束時間');
+    //   setStartTime(newTime(currentTime));
     } else {
       setStartTime(newTime(date));
     }
@@ -150,8 +153,6 @@ const Publish = () => {
           method="POST"
           encType="multipart/form-data"
         >
-          <input type="hidden" name="id" defaultValue="?" />
-
           <div className="ji-create-title">
             <h3 className="h3 text-primary">創建你的活動</h3>
             <Image src={titlebottomLine} />
@@ -192,7 +193,7 @@ const Publish = () => {
                   活動內容
                 </label>
                 <div id="full"></div>
-                <input type="hidden" id="EventInfo" name="EventInfo" required />
+                <input type="hidden" name="joinInfo" defaultValue="?" />
                 <Myeditor
                   name="article"
                   onChange={(data) => {
@@ -242,7 +243,7 @@ const Publish = () => {
                     </label>
                     <div className="input-group">
                       <button
-                        className="btn btn-secondary"
+                        className="btn btn-secondary btn-dec"
                         type="button"
                         aria-expanded="false"
                         onClick={handleDecrement}
@@ -259,7 +260,7 @@ const Publish = () => {
                         onChange={handleCountChange}
                       />
                       <button
-                        className="btn btn-secondary"
+                        className="btn btn-secondary btn-inc"
                         type="button"
                         aria-expanded="false"
                         onClick={handleIncrement}
@@ -285,7 +286,7 @@ const Publish = () => {
                 </div>
               </div>
               <div id="join-address" className="mb-3">
-                <TWZipCode
+                <AreaSelect
                   city={city}
                   township={township}
                   location={location}
