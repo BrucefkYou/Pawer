@@ -616,12 +616,12 @@
   /* media 992*/
   @media (max-width: 992px) {
     /* section-one */
-    .bg-banner img {
-      margin-top: 1rem;
-      content: url(../public/home/RWD992aboutBanner.png);
-      width: 100%;
-      object-fit: cover;
-    }
+    // .bg-banner img {
+    //   margin-top: 1rem;
+    //   content: url(../public/home/RWD992aboutBanner.png);
+    //   width: 100%;
+    //   object-fit: cover;
+    // }
     .btnGap-wei {
       position: absolute;
       top: 30rem;
@@ -670,12 +670,12 @@
   /* media 768*/
   @media (max-width: 768px) {
     /* section-one */
-    .bg-banner img {
-      margin-top: 1rem;
-      content: url(../public/home/RWD768aboutBanner.png);
-      width: 100%;
-      object-fit: cover;
-    }
+    // .bg-banner img {
+    //   margin-top: 1rem;
+    //   content: url(../public/home/RWD768aboutBanner.png);
+    //   width: 100%;
+    //   object-fit: cover;
+    // }
     .btnGap-wei {
       position: absolute;
       top: 23rem;
@@ -738,7 +738,7 @@
     /* section-one */
     .btnGap-wei {
       position: absolute;
-      top: 17rem;
+      top: 14rem;
       left: 2.75rem;
       gap: 24px;
     }
