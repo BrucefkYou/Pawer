@@ -101,7 +101,56 @@ export default function BlogEdit() {
     }
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    if (!uploadedImageUrl) {
+      toast.error('請上傳封面', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #22355C solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '300px',
+          height: '100px',
+        },
+      });
+      return;
+    }
+    if (!title) {
+      toast.error('標題是必填欄位', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #22355C solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '300px',
+          height: '100px',
+        },
+      });
+      return;
+    }
+
+    if (!data) {
+      toast.error('內容是必填欄位', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #22355C solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '300px',
+          height: '100px',
+        },
+      });
+      return;
+    }
+
     const updatedData = {
       status: '1',
       title,
@@ -127,12 +176,34 @@ export default function BlogEdit() {
       if (response.ok) {
         const result = await response.json();
         // console.log('更新成功:', result);
-        toast.success('文章更新成功!');
+        toast('文章更新成功!', {
+          duration: 1800,
+          style: {
+            borderRadius: '10px',
+            borderTop: '15px #22355C solid',
+            background: '#F5F5F5',
+            color: '#646464',
+            marginTop: '80px',
+            width: '300px',
+            height: '100px',
+          },
+        });
         router.push('http://localhost:3000/member/blog');
       } else {
         const errorData = await response.json();
         console.error('更新失敗:', errorData.message);
-        toast.error('更新失敗');
+        toast('文章更新失敗', {
+          duration: 1800,
+          style: {
+            borderRadius: '10px',
+            borderTop: '15px #22355C solid',
+            background: '#F5F5F5',
+            color: '#646464',
+            marginTop: '80px',
+            width: '300px',
+            height: '100px',
+          },
+        });
       }
     } catch (error) {
       console.error('發生錯誤:', error);

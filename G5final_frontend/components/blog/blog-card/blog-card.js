@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './blog-card.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useAuth } from '@/hooks/use-auth';
 
 import Account from '../account/account';
 import BlogDate from '../date/blog-date';
@@ -24,18 +23,13 @@ export default function BlogCard({
   updateDate,
   likeCount,
   favoriteCount,
-  blogId,
+  avatar,
   name,
 }) {
   // 暫時換一下，之後會改上傳圖片的路徑
   const imagePath = blogImg ? blogImg.replace('../', '/') : '';
-  const { auth } = useAuth();
 
-  const avatarPath = auth.memberData.avatar
-    ? `http://localhost:3005/member/${auth.memberData.avatar}`
-    : auth.memberData.google_avatar
-    ? auth.memberData.google_avatar
-    : `http://localhost:3005/member/avatar-default.png`;
+  const avatarPath =  `http://localhost:3005/member/${avatar}`;
   return (
     <div className={`card shadow ${styles['blog-card']}`}>
       <Image
