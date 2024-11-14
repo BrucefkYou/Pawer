@@ -35,21 +35,23 @@ export const handleSaveDraft = async (e, uid, title, data, tags, imageName, rout
             });
             router.push('http://localhost:3000/member/blog');
         } else {
-            throw new Error('儲存草稿失敗');
+            const errorData = await response.json();
+            console.error('儲存草稿失敗:', errorData.message);
+            toast('儲存草稿失敗', {
+                duration: 1800,
+                style: {
+                    borderRadius: '10px',
+                    borderTop: '15px #22355C solid',
+                    background: '#F5F5F5',
+                    color: '#646464',
+                    marginTop: '80px',
+                    width: '300px',
+                    height: '100px',
+                },
+            });
         }
     } catch (error) {
-        toast('儲存草稿失敗', {
-            duration: 1800,
-            style: {
-                borderRadius: '10px',
-                borderTop: '15px #22355C solid',
-                background: '#F5F5F5',
-                color: '#646464',
-                marginTop: '80px',
-                width: '300px',
-                height: '100px',
-            },
-        });
-        console.error(error);
+        console.error('發生錯誤:', error);
+        toast.error('發生錯誤');
     }
 };
