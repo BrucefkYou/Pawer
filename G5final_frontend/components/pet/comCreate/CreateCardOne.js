@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { usePagination } from '@/hooks/usePagination'
-import { useAuth } from '@/hooks/use-auth';
 export default function CreateCardOne(props) {
-    const { auth } = useAuth()
-    const memberID= auth.memberData.id
-    const { filterData } = usePagination({
-        url:'http://localhost:3005/api/pet'
-    })
-    const comIDArr = filterData.map(v => v.MemberID)
-    console.log(comIDArr.includes(memberID));
-    if (comIDArr.includes(memberID)){
-        return (<></>)
-    }
+
     
     return (
         <>

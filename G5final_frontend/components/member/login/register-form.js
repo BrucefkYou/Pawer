@@ -4,11 +4,18 @@ import Image from 'next/image';
 import toast from 'react-hot-toast';
 import router from 'next/router';
 import { useAuth } from '@/hooks/use-auth';
+//顯示隱藏密碼圖示
+import { FaEye } from 'react-icons/fa';
+import { PiEyeClosed } from 'react-icons/pi';
 // countdown use
 import useInterval from '@/hooks/use-interval';
 import { requestRegisterOtpToken, register } from '@/services/member';
 
 export default function RegisterForm({ Formtype, setFormtype }) {
+  // checkbox 呈現密碼用
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setConfirmShowPassword] = useState(false);
+
   const { login } = useAuth();
   const [user, setUser] = useState({
     name: '',
@@ -17,6 +24,11 @@ export default function RegisterForm({ Formtype, setFormtype }) {
     password: '',
   });
   const [disableBtn, setDisableBtn] = useState(false);
+
+  // 處理input輸入的共用函式，設定回userProfile狀態
+  const handleFieldChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
 
   // 倒數計時 countdown use
   const [count, setCount] = useState(60); // 60s
@@ -50,11 +62,6 @@ export default function RegisterForm({ Formtype, setFormtype }) {
     } else {
       toast.error(`${res.data.message}`);
     }
-  };
-
-  // 處理input輸入的共用函式，設定回userProfile狀態
-  const handleFieldChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const handleRegister = async (e) => {
@@ -93,6 +100,9 @@ export default function RegisterForm({ Formtype, setFormtype }) {
         >
           <h2 className="text-center mb-4">會員註冊</h2>
           <div>
+            <p className="mb-4">
+              請輸入您的電子郵件後，按下【取得驗證碼】按鈕，隨後將寄出驗證碼給您，請將驗證碼輸入至下方欄位並填寫姓名與密碼，完成註冊。
+            </p>
             <input
               type="text"
               className="form-control mb-3"
@@ -105,7 +115,7 @@ export default function RegisterForm({ Formtype, setFormtype }) {
               <input
                 type="email"
                 className="form-control"
-                placeholder="信箱"
+                placeholder="電子郵件"
                 name="email"
                 value={user.email}
                 onChange={handleFieldChange}
@@ -116,7 +126,7 @@ export default function RegisterForm({ Formtype, setFormtype }) {
                 onClick={handleRequestOtpToken}
                 disabled={disableBtn}
               >
-                {delay ? count + '秒後可取得驗証碼' : '取得驗証碼'}
+                {delay ? count + '秒後可取得驗證碼' : '取得驗證碼'}
               </button>
             </div>
             <input
@@ -127,20 +137,39 @@ export default function RegisterForm({ Formtype, setFormtype }) {
               value={user.token}
               onChange={handleFieldChange}
             />
-
-            <input
-              type="password"
-              className="form-control mb-3"
-              placeholder="密碼"
-              name="password"
-              value={user.password}
-              onChange={handleFieldChange}
-            />
-            <input
-              type="password"
-              className="form-control mb-3"
-              placeholder="確認密碼"
-            />
+            <div className="position-relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="form-control mb-3"
+                placeholder="密碼"
+                name="password"
+                value={user.password}
+                onChange={handleFieldChange}
+              />
+              <button
+                onClick={() => {
+                  setShowPassword(!showPassword);
+                }}
+                className={`${styles['eye-btn']}`}
+              >
+                {showPassword ? <FaEye /> : <PiEyeClosed />}
+              </button>
+            </div>
+            <div className="position-relative">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                className="form-control mb-3"
+                placeholder="確認密碼"
+              />
+              <button
+                onClick={() => {
+                  setConfirmShowPassword(!showConfirmPassword);
+                }}
+                className={`${styles['eye-btn']}`}
+              >
+                {showConfirmPassword ? <FaEye /> : <PiEyeClosed />}
+              </button>
+            </div>
             <button
               className={`btn btn-warning text-white w-100 mb-4 mt-3 ${styles['btn-custom']}`}
               onClick={handleRegister}
@@ -150,7 +179,7 @@ export default function RegisterForm({ Formtype, setFormtype }) {
           </div>
           <button
             type="button"
-            className="btn btn-link text-warning"
+            className="btn btn-link text-warning p-0"
             onClick={() => {
               setFormtype(2);
             }}

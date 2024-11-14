@@ -18,8 +18,8 @@ const CategoryCat = ({ activeIndex, onActiveChange, setUrl }) => {
     '關節保健',
     '口腔保健',
     '眼睛保健',
-    '心臟保健',
-    '胰臟保健',
+    '腎臟保健',
+    '泌尿道保健',
   ];
 
   const open = () => {

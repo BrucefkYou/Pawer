@@ -47,6 +47,7 @@
 
 .pic {
     width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
@@ -60,4 +61,16 @@
     position: absolute;
     top: 7px;
     left: 17px;
+}
+
+.eye-btn {
+    all: unset; /* 清除所有預設樣式 */
+    cursor: pointer; /* 設定手型游標 */
+    display: inline-flex; /* 保持圖標對齊 */
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%; /* 將圖片從容器的一半開始(圖片頂端) */
+    transform: translateY(-50%); /* 將圖片修正從頂端開始的偏移問題 */
+    right: 15px;
 }
