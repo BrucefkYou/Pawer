@@ -47,12 +47,7 @@
         align-items: center;
         padding-inline: 0px;
       }
-      .input-block {
-        border-radius: 2px;
-        border: 1px solid #e0e0e0;
-        margin-top: 25px;
-        height: 50px;
-      }
+      
       /* 結帳金額區塊 */
       .price-block {
         width: 100%;
@@ -66,7 +61,7 @@
         padding-inline: 50px;
         margin-bottom: 30px;
       }
-
+     
       /* !元件設定 */
       .hr-marginB-20 {
         margin-block: 20px;
@@ -76,9 +71,32 @@
         margin-bottom: 30px;
       }
       /* input欄位設定 */
+      .input-wrapper {
+        position: relative;
+        margin-bottom: 20px;
+      }
+      
+      .input-wrapper input {
+        padding: 8px 12px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 25px 2px 2px 2px;
+      }
+      
+      /* 為 required 的 input-wrapper 添加紅色星號 */
+      .input-wrapper.required::after {
+        content: '*';
+        color: red;
+        position: absolute;
+        top: 42%;
+        left: 8px; /* 根據需要調整 */
+        transform: translateY(-50%);
+        font-size: 16px;
+      }
       .input-block {
+        margin-top: 25px;
         height: 54px;
-        padding-inline: 24px;
       }
       /* checkbox寬高設定 */
       .checkbox-block {
@@ -144,7 +162,11 @@
       width: 134px;
       height: 39px;
       background: var(--second-color);
-      color: #ffffff;
+      color: black;
+    }
+    .check-btn:hover {
+      background: var(--main-color);
+      color: white;
     }
   }
   @media (max-width: 576px) {
@@ -230,10 +252,7 @@
       }
       /* 基本資訊input欄位設定 */
       .input-block {
-        border-radius: 2px;
-        border: 1px solid #e0e0e0;
-        height: 36px;
-        padding-inline: 10px;
+        margin-top: 20px;
       }
       .price-font {
         font-size: 16px;
@@ -291,7 +310,11 @@
       width: 134px;
       height: 39px;
       background: var(--second-color);
-      color: #ffffff;
+      color: black;
+    }
+    .check-btn:hover {
+      background: var(--main-color);
+      color: white;
     }
   }
 }

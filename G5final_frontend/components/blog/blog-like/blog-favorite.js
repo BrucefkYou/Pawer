@@ -30,7 +30,7 @@ export default function BlogFav({ IconFilled, IconOutline, count, id }) {
     }
 
     const addLike = async () => {
-      console.log({ blogId: id, uid: uid });
+      // console.log({ blogId: id, uid: uid });
       try {
         const response = await fetch(
           'http://localhost:3005/api/blog/favorite',
@@ -44,7 +44,7 @@ export default function BlogFav({ IconFilled, IconOutline, count, id }) {
         );
         if (!response.ok) throw new Error('收藏失敗');
         const result = await response.json();
-        console.log('收藏成功', result);
+        // console.log('收藏成功', result);
         setCurrentCount((prevCount) => prevCount + 1);
       } catch (error) {
         console.error(error);
@@ -53,7 +53,7 @@ export default function BlogFav({ IconFilled, IconOutline, count, id }) {
     };
 
     const delLike = async () => {
-      console.log({ blogId: id, uid: uid });
+      // console.log({ blogId: id, uid: uid });
       try {
         const response = await fetch(
           'http://localhost:3005/api/blog/favorite',
@@ -67,7 +67,7 @@ export default function BlogFav({ IconFilled, IconOutline, count, id }) {
         );
         if (!response.ok) throw new Error('取消收藏');
         const result = await response.json();
-        console.log('取消收藏成功', result);
+        // console.log('取消收藏成功', result);
         setCurrentCount((prevCount) => prevCount - 1);
       } catch (error) {
         console.error(error);

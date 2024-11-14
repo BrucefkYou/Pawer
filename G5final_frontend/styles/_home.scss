@@ -159,7 +159,11 @@
   .sec-3 {
     display: flex;
     background: #f9f9f9;
-    gap: 10%
+  }
+  .sec3-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .sec-3-gap {
     gap: 10%;
@@ -168,6 +172,14 @@
   .sec-3-card-mg {
     margin: 67.5px 0px;
     box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.08);
+  }
+  .card-size {
+    width: 15.25rem;
+  }
+  .card-size:hover {
+    scale: 1.025;
+    transition: all 0.1s ease;
+    filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.3));
   }
   .hotbg-text {
     background-color: #22355c;
@@ -417,6 +429,13 @@
   .sec7-row-card-layout {
     margin-top: 100px;
     padding: 0;
+    .slick-track{
+      padding-bottom: 30px;
+  }
+  .slick-initialized .slick-slide {
+    display: flex;
+    justify-content: center;
+  }
   }
   .sec7-img {
     width: 100%;
@@ -604,12 +623,12 @@
   /* media 992*/
   @media (max-width: 992px) {
     /* section-one */
-    .bg-banner img {
-      margin-top: 1rem;
-      content: url(../public/home/RWD992aboutBanner.png);
-      width: 100%;
-      object-fit: cover;
-    }
+    // .bg-banner img {
+    //   margin-top: 1rem;
+    //   content: url(../public/home/RWD992aboutBanner.png);
+    //   width: 100%;
+    //   object-fit: cover;
+    // }
     .btnGap-wei {
       position: absolute;
       top: 30rem;
@@ -636,9 +655,6 @@
     .sec-3-card-mg {
       margin: 0px 20px;
     }
-    .sec3-img {
-      content: url(../public/home/HotCardRWD.png);
-    }
     .hotbg-text {
       width: 100%;
       padding: 50px;
@@ -661,12 +677,12 @@
   /* media 768*/
   @media (max-width: 768px) {
     /* section-one */
-    .bg-banner img {
-      margin-top: 1rem;
-      content: url(../public/home/RWD768aboutBanner.png);
-      width: 100%;
-      object-fit: cover;
-    }
+    // .bg-banner img {
+    //   margin-top: 1rem;
+    //   content: url(../public/home/RWD768aboutBanner.png);
+    //   width: 100%;
+    //   object-fit: cover;
+    // }
     .btnGap-wei {
       position: absolute;
       top: 23rem;
@@ -708,9 +724,6 @@
     .sec-3-card-mg {
       margin: 0px 20px;
     }
-    .sec3-img {
-      content: url(../public/home/HotCardRWD.png);
-    }
     .hotbg-text {
       width: 100%;
       padding: 50px;
@@ -732,7 +745,7 @@
     /* section-one */
     .btnGap-wei {
       position: absolute;
-      top: 17rem;
+      top: 14rem;
       left: 2.75rem;
       gap: 24px;
     }
@@ -744,9 +757,6 @@
     /* section-three */
     .sec-3-card-mg {
       margin: 0px 20px;
-    }
-    .sec3-img {
-      content: url(../public/home/HotCardRWD.png);
     }
     .hotbg-text {
       width: 100%;

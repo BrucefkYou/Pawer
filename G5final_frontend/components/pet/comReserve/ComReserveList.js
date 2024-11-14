@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { BsDashLg, BsChevronDown } from 'react-icons/bs';
 import Image from 'next/image';
 import ComListButton from './ComListButton';
-export default function ComReserveList({ nowPageItems }) {
+export default function ComReserveList({ nowPageItems, setMessage }) {
     const [iconStates, setIconStates] = useState({});
     const handleClick = (index) => {
         setIconStates((prevState) => ({
@@ -68,7 +68,7 @@ export default function ComReserveList({ nowPageItems }) {
                                     <p className="text text-4 m-1">{v.Time.split(' ')[0]} {v.Time.split(' ')[1]}</p>
                                 </div>
                                 {/* 按鈕 */}
-                                <ComListButton v={ v} />
+                                <ComListButton v={v} setMessage={setMessage} />
                             </div>
                             {/* 手機版狀態 */}
                             <div className="col status d-block d-md-none py-2 px-0 text-end">

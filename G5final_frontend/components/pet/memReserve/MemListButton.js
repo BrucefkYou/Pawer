@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 
-export default function MemListButton({ v }) {
+export default function MemListButton({ v, setMessage }) {
     const router = useRouter()
     async function cancelReserve(event) {
         try {
@@ -13,25 +13,51 @@ export default function MemListButton({ v }) {
                 },
                 body: JSON.stringify({ ID: v.ID })
             })
-            router.push('/member/communicator/memReserve/message')
+            setMessage('ok')
         }
         catch (err) {
             console.log(err);
+            setMessage('no')
         }
     }
+    const [showConfirm, setShowConfirm] = useState(false);
+    // 顯示確認視窗
+    const handleCancelClick = () => {
+        setShowConfirm(true);
+    };
+    // 執行取消預約的邏輯
+    const handleConfirm = () => {
+        cancelReserve();
+        setShowConfirm(false);
+    };
+    // 關閉確認視窗
+    const handleCancel = () => {
+        setShowConfirm(false);
+    };
   return (
     <>
           <div className="col d-flex btnn-group-position align-items-center">
               <div className="btnn-group me-3">
-                  <button className={`btnn btnn-1 m-0 ${v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'}`} onClick={cancelReserve}>
+                  <button className={`btnn btnn-1 m-0 ${v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'}`} onClick={handleCancelClick}>
                       取消預約
                   </button>
-                  <Link href={`/websocket?call=${v.PetCommID}`}  className={`btnn btnn-2 m-0 ${v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'}`}>
+                  {/* 再次確認提示框 */}
+                  {showConfirm && (
+                      <div className="pt-modal-overlay">
+                          <div className="pt-modal-content">
+                              <h4>確認取消預約</h4>
+                              <p>您確定要取消這個預約嗎？</p>
+                              <button className="btn btn-danger" onClick={handleConfirm}>確認</button>
+                              <button className="btn btn-secondary" onClick={handleCancel}>取消</button>
+                          </div>
+                      </div>
+                  )}
+                  <Link href={`/websocket?call=${v.PetCommID}`} className={`btnn btnn-2 m-0 text-decoration-none ${v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'}`}>
                       聯繫溝通師
                   </Link>
-                  <button className={`btnn btnn-3 m-0 ${v.Status == 1 ? 'PT-sp-none' : 'PT-sp-block'} PT-sp-none-rwd`}>
+                  <Link href={`/websocket?call=${v.PetCommID}`} className={`btnn btnn-3 m-0 text-decoration-none ${v.Status == 1 ? 'PT-sp-none' : 'PT-sp-block'} PT-sp-none-rwd`}>
                       聯繫毛孩爸媽
-                  </button>
+                  </Link>
               </div>
           </div>
     </>

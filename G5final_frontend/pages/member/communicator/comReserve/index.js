@@ -8,9 +8,7 @@ export default function ComReserveIndex(props) {
   
   return (
     <>
-      <div className="PT-reserve-card p-4 shadow">
         <ComReserve/>
-      </div>
     </>
   );
 };

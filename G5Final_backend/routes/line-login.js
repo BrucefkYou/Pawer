@@ -38,7 +38,7 @@ router.get('/login', LineLogin.authJson())
 
 // 登出機制
 router.get('/logout', async function (req, res, next) {
-  if (!req.query.line_uid) {
+  if (!req.query.line_uid || req.query.line_uid === '') {
     return res.json({ status: 'error', message: '缺少必要資料' })
   }
 

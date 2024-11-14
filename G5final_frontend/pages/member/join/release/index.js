@@ -52,7 +52,7 @@ export default function Index(props) {
     <>
       <div className="ji-member">
         <div className="card-favorite d-flex justify-content-between">
-          <PageTitle title={'發起活動'} subTitle={'Release'} />
+          <PageTitle title={'已發起活動'} subTitle={'Release'} />
           <MemberNav
             newdata={newdata}
             chooseFilter={chooseFilter}
@@ -65,7 +65,11 @@ export default function Index(props) {
             <>
               <div className="d-flex flex-wrap gap-5">
                 {nowPageItems.map((data) => (
-                  <JoinListCard key={data.id} data={data} />
+                  <JoinListCard
+                    key={data.id}
+                    data={data}
+                    linkTo={`http://Localhost:3000/join/${data.id}`}
+                  />
                 ))}
               </div>
             </>

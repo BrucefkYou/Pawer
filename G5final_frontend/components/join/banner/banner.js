@@ -57,6 +57,7 @@ export default function Banner({ bgImgUrl = '', imgCover = 'cover' }) {
             fill
             quality={100}
             style={{ objectFit: imgCover }}
+            priority
           />
           <div className={style['overlay']}></div>
           <h2 className={`${style['banner-title']}`}>

@@ -22,19 +22,6 @@
     .ji-ed-form{
         border-radius: 4px;
         overflow: hidden;
-        position: relative;
-    }
-    .ji-ed-btngroup{
-        position: absolute;
-        right: 1rem;
-        top:1rem;
-       .btn{
-        letter-spacing: 0.125em;
-        padding-inline:0.875em 0.75em;
-       }
-        .btn-warning{
-            color: $secondary;
-        }
     }
     .ji-image{
         width: 100%;

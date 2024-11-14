@@ -1,7 +1,7 @@
 [
   {
     "ID": "1",
-    "PetCommID": "34",
+    "PetCommID": "1",
     "MemberID": "2",
     "ReserveName": "小花",
     "Phone": "0910387673",
@@ -14,8 +14,8 @@
   },
   {
     "ID": "2",
-    "PetCommID": "3",
-    "MemberID": "4",
+    "PetCommID": "1",
+    "MemberID": "2",
     "ReserveName": "阿明",
     "Phone": "0920123456",
     "PetType": "貓",
@@ -27,7 +27,7 @@
   },
   {
     "ID": "3",
-    "PetCommID": "5",
+    "PetCommID": "1",
     "MemberID": "6",
     "ReserveName": "小芳",
     "Phone": "0930987654",
@@ -40,7 +40,7 @@
   },
   {
     "ID": "4",
-    "PetCommID": "7",
+    "PetCommID": "1",
     "MemberID": "8",
     "ReserveName": "阿強",
     "Phone": "0930555123",
@@ -53,7 +53,7 @@
   },
   {
     "ID": "5",
-    "PetCommID": "9",
+    "PetCommID": "1",
     "MemberID": "10",
     "ReserveName": "小美",
     "Phone": "0940333444",
@@ -66,7 +66,7 @@
   },
   {
     "ID": "6",
-    "PetCommID": "11",
+    "PetCommID": "1",
     "MemberID": "12",
     "ReserveName": "大勇",
     "Phone": "0950999888",
@@ -80,7 +80,7 @@
   {
     "ID": "7",
     "PetCommID": "13",
-    "MemberID": "14",
+    "MemberID": "2",
     "ReserveName": "阿寶",
     "Phone": "0960123123",
     "PetType": "狗",
@@ -93,7 +93,7 @@
   {
     "ID": "8",
     "PetCommID": "15",
-    "MemberID": "16",
+    "MemberID": "2",
     "ReserveName": "小晴",
     "Phone": "0970333444",
     "PetType": "狗",
@@ -106,7 +106,7 @@
   {
     "ID": "9",
     "PetCommID": "17",
-    "MemberID": "18",
+    "MemberID": "2",
     "ReserveName": "阿文",
     "Phone": "0980222333",
     "PetType": "貓",
@@ -119,7 +119,7 @@
   {
     "ID": "10",
     "PetCommID": "19",
-    "MemberID": "20",
+    "MemberID": "2",
     "ReserveName": "小安",
     "Phone": "0910123456",
     "PetType": "貓",
@@ -132,7 +132,7 @@
   {
     "ID": "11",
     "PetCommID": "21",
-    "MemberID": "22",
+    "MemberID": "2",
     "ReserveName": "阿健",
     "Phone": "0912345678",
     "PetType": "狗",
@@ -145,7 +145,7 @@
   {
     "ID": "12",
     "PetCommID": "23",
-    "MemberID": "24",
+    "MemberID": "1",
     "ReserveName": "小華",
     "Phone": "0922345678",
     "PetType": "貓",
@@ -158,7 +158,7 @@
   {
     "ID": "13",
     "PetCommID": "25",
-    "MemberID": "26",
+    "MemberID": "1",
     "ReserveName": "阿麗",
     "Phone": "0932345678",
     "PetType": "狗",
@@ -171,7 +171,7 @@
   {
     "ID": "14",
     "PetCommID": "27",
-    "MemberID": "28",
+    "MemberID": "1",
     "ReserveName": "小龍",
     "Phone": "0942345678",
     "PetType": "貓",
@@ -184,7 +184,7 @@
   {
     "ID": "15",
     "PetCommID": "29",
-    "MemberID": "30",
+    "MemberID": "1",
     "ReserveName": "小萍",
     "Phone": "0952345678",
     "PetType": "狗",
@@ -197,7 +197,7 @@
   {
     "ID": "16",
     "PetCommID": "31",
-    "MemberID": "32",
+    "MemberID": "1",
     "ReserveName": "大仁",
     "Phone": "0962345678",
     "PetType": "狗",

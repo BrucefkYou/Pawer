@@ -1,23 +1,20 @@
 import React from 'react';
-import Image from 'next/image';
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
-import ClickIcon from '@/components/icons/click-icon/click-icon';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/components/join/list/join-list.module.scss';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useAuth } from '@/hooks/use-auth';
 import FavoriteIcon from '@/components/join/list/item/favorite/FavoriteIcon/FavoriteIcon';
 
 export default function JoinListCard({
   data = {},
   setUrl,
+  linkTo,
   // handleToggleFav = () => {},
 }) {
   const router = useRouter();
-  const { auth } = useAuth();
-  const id = auth.memberData.id;
-  // console.log(id);
+
   const StartTime = data.StartTime
     ? data.StartTime.replace(/-/g, '/').slice(0, 16)
     : '';
@@ -45,7 +42,7 @@ export default function JoinListCard({
           className={`${styles['card-image']}`}
           width={367}
           height={321}
-          src={imageUrl || '/join/join-1.jpg'}
+          src={imageUrl || '/join/t7.jpg'}
           alt={data.Title}
         />
         <div className={`card-body ${styles['card-body']}`}>
@@ -84,12 +81,8 @@ export default function JoinListCard({
           </h4>
           <div className="text-end">
             <Link
-              href={
-                id === data.MemberID
-                  ? `./join/edit/${data.ID}`
-                  : `./join/${data.ID}`
-              }
-              // onClick={() => router.push(`./join/${data.ID}`)}
+              href={`/join/${data.ID}`}
+              onClick={() => router.push(`/join/${data.ID}`)}
               className="btn text-warning p-0"
             >
               查看更多

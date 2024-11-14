@@ -3,7 +3,6 @@ import styles from './blog-card.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Components
 import Account from '../account/account';
 import BlogDate from '../date/blog-date';
 import BlogFav from '../blog-like/blog-favorite';
@@ -24,13 +23,13 @@ export default function BlogCard({
   updateDate,
   likeCount,
   favoriteCount,
-  blogId,
   avatar,
   name,
 }) {
+  // 暫時換一下，之後會改上傳圖片的路徑
   const imagePath = blogImg ? blogImg.replace('../', '/') : '';
-  const avatarPath = avatar ? avatar.replace('../', '/') : '';
 
+  const avatarPath =  `http://localhost:3005/member/${avatar}`;
   return (
     <div className={`card shadow ${styles['blog-card']}`}>
       <Image
@@ -70,17 +69,22 @@ export default function BlogCard({
             </div>
           </div>
           {/* 標題 */}
-          <h4
-            className={`card-title text-primary mb-3 ${styles['card-title']}`}
+          <Link
+            href={`http://localhost:3000/blog/${id}`}
+            className="btn text-warning p-0 text-decoration-none"
           >
-            {title}
-          </h4>
+            <h4
+              className={`card-title text-primary mb-3 ${styles['card-title']}`}
+            >
+              {title}
+            </h4>
+          </Link>
         </div>
 
         <div className="text-end">
           <Link
             href={`http://localhost:3000/blog/${id}`}
-            className="btn text-warning p-0"
+            className="btn text-warning p-0 text-decoration-none"
           >
             查看更多
           </Link>

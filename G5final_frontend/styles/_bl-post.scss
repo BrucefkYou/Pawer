@@ -11,10 +11,10 @@
         margin: 0 auto;
         padding-bottom: 80px;
 
-        // 麵包屑
-        .breadcrumb {
-            margin-block: 20px 40px;
-        }
+        // // 麵包屑
+        // .breadcrumb {
+        //     margin-block: 20px 40px;
+        // }
 
         .main-section {
             display: flex;
@@ -188,7 +188,6 @@
                     width: 100%;
                     padding-top: 16px;
                     padding-bottom: 16px;
-
                     gap: 32px;
                     display: inline-flex;
 
@@ -207,8 +206,6 @@
                         width: 100%;
                         display: flex;
                         flex-direction: column;
-    
-
                         gap: 24px;
                     }
 
@@ -236,8 +233,6 @@
                         height: 67px;
                         padding: 5px;
                         border: 1px rgba(0, 0, 0, 0.60) solid;
-    
-
                         display: inline-flex;
                         color: black;
                         font-size: 16px;
@@ -277,10 +272,15 @@
                         background: white;
                         box-shadow: 0px 4px 16px rgba(40, 55, 90, 0.25);
                         border-radius: 4px;
-    
-
                         gap: 32px;
                         display: inline-flex;
+
+                        .avatar {
+                            border-radius: 9999px;
+                            background-color: #ccc;
+                            object-fit: cover;
+    
+                        }
 
                         .comment-content {
                             flex: 1 1 0;

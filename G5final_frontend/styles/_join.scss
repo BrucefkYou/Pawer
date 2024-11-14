@@ -33,6 +33,7 @@
     .ji-form{
         border-radius: 4px;
         overflow: hidden;
+        position: relative;
     }
     .ji-image{
         width: 100%;
@@ -63,6 +64,20 @@
 .ji-detail-down{
     margin-top: -1rem;
 }
+
+.ji-detail-btngroup{
+    position: absolute;
+    right: 1rem;
+    top:1rem;
+   .btn{
+    letter-spacing: 0.125em;
+    padding-inline:0.875em 0.75em;
+   }
+    .btn-warning{
+        color: $secondary;
+    }
+}
+
 
 .ji-info{
 margin-bottom: 2rem;
@@ -95,4 +110,11 @@ height: 3rem;
         padding-block: 1.875rem;
         background-color: white;
     }
+}
+
+.btn-dec{
+    border-radius: 4px 0 0 4px;
+}
+.btn-inc{
+    border-radius: 0 4px 4px 0;
 }

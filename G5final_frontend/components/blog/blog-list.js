@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 
-// Components
 import LatestCard from '@/components/sidebar/latest-post/latest-post';
 import TagCard from '@/components/sidebar/tags/tags';
 import SearchBar from '@/components/sidebar/search/search-bar';
 import POPCard from '@/components/blog/pop-post/pop-post';
 import BlogCard from '@/components/blog/blog-card/blog-card';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import CreateBtn from '@/components/blog/create-btn/create-btn';
+import CreateBtn from '@/components/blog/blog-btn/create-btn/create-btn';
+import BlogBtn from './blog-btn/myBlog-btn';
 
 import { usePagination } from '@/hooks/usePagination';
 import { PerPageDom } from '@/components/PerPageDom';
@@ -42,15 +41,14 @@ export default function BlogList() {
     needSort: [
       { way: 'dsc-likeCount', name: '熱門文章' },
       { way: 'desc-favoriteCount', name: '最多收藏' },
-      { way: 'asc-UpdateDate', name: '最新發佈' },
+      { way: 'desc-UpdateDate', name: '最新發佈' },
     ],
   });
 
-  // 將router中的tag解構出來 去重新查找匹配的資料 無則為空
   useEffect(() => {
     setSelectedTag(tag || '');
   }, [tag]);
-
+  // console.log('頁面結果:', nowPageItems);
   return (
     <div className="list-container container">
       <Breadcrumbs className="breadcrumb" />
@@ -58,14 +56,8 @@ export default function BlogList() {
       <div className="main-section">
         <div className="sidebar">
           <div className="btn-sec">
-            <Link
-              href={`http://localhost:3000/member/blog`}
-              className="btn btn-primary my-blog m-none"
-              type="button"
-            >
-              我的部落格
-            </Link>
-            <CreateBtn btnName={'建立文章'} />
+            <BlogBtn />
+            <CreateBtn />
           </div>
           <div className="s-card">
             <SearchBar />
@@ -116,7 +108,7 @@ export default function BlogList() {
                       updateDate={blog.UpdateDate}
                       likeCount={blog.likeCount}
                       favoriteCount={blog.favoriteCount}
-                      avatar={blog.MemberAvatar}
+                      avatar={blog.MemberAvatar|| 'avatar-default.png'}
                       name={blog.Nickname}
                     />
                   );

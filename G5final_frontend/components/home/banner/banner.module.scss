@@ -1,0 +1,25 @@
+.leftArrow {
+  position: absolute;
+  left: 10px; 
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.rightArrow {
+  position: absolute;
+  right: 10px; 
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+// 擋掉預設按鈕
+.slick-prev, .slick-next {
+  display: none !important; // 隱藏預設的左右按鈕
+}

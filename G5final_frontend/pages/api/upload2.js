@@ -7,7 +7,7 @@ const router = createRouter();
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/join');
+    cb(null, 'public/upload');
   },
   filename: function (req, file, cb) {
     const fileExt = path.extname(file.originalname);
@@ -31,7 +31,7 @@ router.use(upload.single('joinImage')).post((req, res) => {
     let params = {
       message: '檔案上傳成功',
       // 這裡的路徑直接放public下的檔案名稱/join/
-      url: '/join/' + req.file.filename,
+      url: '/upload/' + req.file.filename,
     };
     res.status(200).json(params);
   } catch (error) {

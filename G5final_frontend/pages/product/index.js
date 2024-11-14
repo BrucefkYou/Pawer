@@ -10,7 +10,7 @@ import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
 import { BsFilterSquareFill } from 'react-icons/bs';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import ProductList from '@/components/product/productList';
+import ProductList from '@/components/product/list/productList';
 import Clean from '@/components/product/clean/clean';
 import CategoryOther from '@/components/product/category/other/categoryOther';
 import CategoryCat from '@/components/product/category/cat/categoryCat';
@@ -54,6 +54,8 @@ export default function Index(props) {
       { way: 'desc-SalePrice', name: '價格 高 > 低' },
     ],
   });
+
+  // RWD 的搜尋篩選漢堡
   const [showFilters, setShowFilters] = useState(false); // 控制篩選區域顯示的狀態
   const toggleFilters = () => {
     console.log('出來了嗎');
@@ -276,7 +278,7 @@ export default function Index(props) {
               <div className="row ms-4 d-flex justify-content-start">
                 {/* 若 filterData 為空，顯示提示文字 */}
                 {filterData.length === 0 ? (
-                  <p className="no-results">沒有符合關鍵字的搜尋結果</p>
+                  <p className="no-results">沒有商品</p>
                 ) : (
                   // 若有結果，顯示 ProductList
                   nowPageItems.map((pd) => {

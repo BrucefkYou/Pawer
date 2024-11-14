@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import style from '@/components/product/category/cat/categoryCat.module.scss';
 import { BsPlusLg, BsDashLg } from 'react-icons/bs';
-import ProductList from '@/components/product/productList';
+import ProductList from '@/components/product/list/productList';
 
 const CategoryCat = ({ activeIndex, onActiveChange, setUrl }) => {
   const [Open, setOpen] = useState(false);

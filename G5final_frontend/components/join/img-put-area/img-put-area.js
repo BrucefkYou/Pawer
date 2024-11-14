@@ -3,11 +3,16 @@ import React, { useState, useCallback } from 'react';
 import style from './img-put-area.module.scss';
 import { BsCardImage } from 'react-icons/bs';
 import { useDropzone } from 'react-dropzone';
+import { useEffect } from 'react';
 import { extname } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function ImgPutArea({ onImageChange }) {
-  const [image, setImage] = useState(null);
+export default function ImgPutArea({ onImageChange, imageUrl }) {
+  const [image, setImage] = useState(imageUrl);
+
+  useEffect(() => {
+    setImage(imageUrl);
+  }, [imageUrl]);
 
   const onDrop = useCallback(
     async (acceptedFiles) => {
