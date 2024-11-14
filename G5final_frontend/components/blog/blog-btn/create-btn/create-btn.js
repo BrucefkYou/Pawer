@@ -116,7 +116,7 @@ export default function CreateBtn({ btnName }) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const resize = () => setIsMobile(window.innerWidth < 768);
+    const resize = () => setIsMobile(window.innerWidth < 770);
     resize();
     window.addEventListener('resize', resize);
     return () => window.removeEventListener('resize', resize);

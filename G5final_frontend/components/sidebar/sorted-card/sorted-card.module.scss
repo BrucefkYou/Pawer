@@ -1,0 +1,78 @@
+.sorted-card {
+  display: flex;
+  flex-direction: column;
+
+  
+  .sorted-content{
+    display: flex;
+    gap: 16px;
+    background-color: #fff;
+    padding-block: 10px;
+    
+
+  }
+  .sorted-cover-container {
+    max-width: 80px;
+    min-width: 60px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #646464;
+    display: flex;
+    position: relative;
+
+      img {
+        object-fit: cover;
+        width: 100%;
+      }
+
+  }
+
+  .card-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      gap: 4px;
+
+      .article-title {
+          color: #21212D;
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 26px;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          font-weight: 500;
+      }
+
+      .bottom-section {
+          display: flex;
+          gap: 10px;
+          font-size: 12px;
+          color: #888888;
+
+
+          // 日期
+          .date-section {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+
+              .date {
+                  color: #888888;
+              }
+          }
+
+          // 數量
+          .count-section {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+
+              .count {
+                  color: #888888;
+              }
+          }
+      }
+  }
+}

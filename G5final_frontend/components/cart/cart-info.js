@@ -10,8 +10,6 @@ import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import { useLoader } from '@/hooks/use-loader';
-import toast from 'react-hot-toast';
-// import { toast } from 'react-toastify';
 
 export default function CartInfo(props) {
   const { loading, setLoading } = useLoader();
@@ -92,9 +90,8 @@ export default function CartInfo(props) {
       });
       const resData = await res.json();
       setOrderID(resData.orderId);
-      
-      // 導頁的行為在後端處理
 
+      // 導頁的行為在後端處理
     } catch (error) {
       console.log(error);
     }
@@ -553,7 +550,7 @@ export default function CartInfo(props) {
                   {/* 付款方式-標題 */}
                   <div className="home-delivery">
                     <span className="delivery-title cartInfo-title">
-                      付款方式 
+                      付款方式
                     </span>
                   </div>
                   {/* !待新增效果-點擊後才出現下面的欄位 */}
@@ -606,7 +603,9 @@ export default function CartInfo(props) {
                 <section className="receipt-block">
                   {/* 發票資訊-標題 */}
                   <div className="home-delivery">
-                    <span className="delivery-title cartInfo-title">發票資訊</span>
+                    <span className="delivery-title cartInfo-title">
+                      發票資訊
+                    </span>
                   </div>
                   {/* !待新增效果-點擊後才出現下面的欄位 */}
                   {/* 捐贈發票 */}
