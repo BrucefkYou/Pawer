@@ -1,5 +1,6 @@
 import ImgPutArea from '@/components/join/img-put-area/img-put-area';
 import Image from 'next/image';
+import Head from 'next/head';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import titlebottomLine from '@/assets/titleBottomLine.svg';
 import AreaSelect from '@/components/join/form/area-select';
@@ -204,6 +205,10 @@ const Publish = () => {
 
   return (
     <>
+      <Head>
+        <title>Pawer寶沃-活動創建</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="container ji-create-container">
         <Breadcrumbs />
         <form

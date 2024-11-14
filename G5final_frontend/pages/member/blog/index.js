@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { usePagination } from '@/hooks/usePagination';
 import Link from 'next/link';
+import Head from 'next/head';
 
 import { PageNav } from '@/components/PageNav';
 import MemberLayout from '@/components/layout/member-layout';
@@ -42,6 +43,10 @@ export default function OrderDetail() {
   });
   return (
     <>
+      <Head>
+        <title>會員中心 - 我的部落格</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <article className="col-md-10">
         <div className="mb-content d-flex justify-content-between">
           <PageTitle title={'我的部落格'} subTitle={'Blog'} />
@@ -70,7 +75,7 @@ export default function OrderDetail() {
                     updateDate={blog.UpdateDate}
                     likeCount={blog.likeCount}
                     favoriteCount={blog.favoriteCount}
-                    avatar={blog.MemberAvatar|| 'avatar-default.png'}
+                    avatar={blog.MemberAvatar || 'avatar-default.png'}
                     name={blog.Nickname}
                     status={blog.Status}
                   />

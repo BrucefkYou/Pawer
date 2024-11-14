@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
+import Head from 'next/head';
 import List from '@/components/cart/list';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
@@ -73,7 +74,7 @@ export default function Cart(props) {
   // 處理選擇優惠券
   const handleCouponChange = (e) => {
     const selected = discount.find(
-      (item) => item.ID === parseInt(e.target.value) 
+      (item) => item.ID === parseInt(e.target.value)
     );
     setSelectedDiscount(selected);
   };
@@ -112,13 +113,17 @@ export default function Cart(props) {
 
   return (
     <>
+      <Head>
+        <title>Pawer寶沃 - 購物車</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {auth.isAuth ? (
         <>
           <div className="cart">
             <div className="container">
               {/* 麵包屑 */}
-              <div className='mobile-bread-margin'>
-              <Breadcrumbs />
+              <div className="mobile-bread-margin">
+                <Breadcrumbs />
               </div>
               {/* cart */}
               <div className="cart-main">
@@ -154,14 +159,14 @@ export default function Cart(props) {
                           {/* 篩選只有滿足優惠券最低金額的優惠券會顯示 */}
                           {discount
                             ? discount.map((item) => {
-                              if (item.ConditionMinValue <= checkPrice) {
-                                return (
-                                  <option key={item.ID} value={item.ID}>
-                                    {item.Name}
-                                  </option>
-                                );
-                              }
-                            })
+                                if (item.ConditionMinValue <= checkPrice) {
+                                  return (
+                                    <option key={item.ID} value={item.ID}>
+                                      {item.Name}
+                                    </option>
+                                  );
+                                }
+                              })
                             : '沒有符合條件的優惠券'}
                         </select>
                       </div>
@@ -205,7 +210,7 @@ export default function Cart(props) {
                           className="btn bg-second-color btn-checkd text-decoration-none set-middle"
                           // 將選擇的優惠券帶到下一頁
                           onClick={(e) => {
-                            if(cart.items.length === 0){
+                            if (cart.items.length === 0) {
                               toast('購物車內沒有商品', {
                                 icon: (
                                   <Image
@@ -225,7 +230,7 @@ export default function Cart(props) {
                                 },
                               });
                               e.preventDefault();
-                            }else if (
+                            } else if (
                               cart.items.filter((item) => item.checked === true)
                                 .length === 0
                             ) {
@@ -268,9 +273,12 @@ export default function Cart(props) {
       ) : (
         <div className="d-flex flex-column justify-content-center align-items-center my-3 gap-4">
           <div className="text-center">請先登入會員</div>
-          <button className="btn btn-warning text-decoration-none" onClick={() => {
-            router.push("/member/login")
-          }}>
+          <button
+            className="btn btn-warning text-decoration-none"
+            onClick={() => {
+              router.push('/member/login');
+            }}
+          >
             去登入
           </button>
         </div>

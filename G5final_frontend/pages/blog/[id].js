@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
+import Head from 'next/head';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import Banner from '@/components/blog/banner';
 import LatestCard from '@/components/sidebar/latest-post/latest-post';
@@ -31,8 +32,6 @@ export default function BlogPost(props) {
         } else {
           setIsRemoved(true);
         }
-
-        // console.log('成功讀取資料', data);
       } catch (error) {
         console.error('無法獲取資料:', error);
       }
@@ -46,41 +45,47 @@ export default function BlogPost(props) {
   if (!blogData) return <p>文章載入中</p>;
 
   return (
-    <div className="bl-post">
-      <Banner
-        bgImgUrl="/blog/blog-banner.svg"
-        url="http://localhost:3005/api/blog"
-      />
-      <div className="post-container container">
-        <Breadcrumbs className="breadcrumb" />
-        <div className="main-section">
-          <BlogDetail
-            title={blogData.Title ? blogData.Title : ''}
-            blogImg={blogData.blogImg}
-            content={blogData.Content}
-            tags={blogData.tags ? blogData.tags.split(',') : []}
-            updateDate={blogData.UpdateDate}
-            likeCount={blogData.likeCount}
-            favoriteCount={blogData.favoriteCount}
-            id={blogData.ID}
-            avatar={blogData.MemberAvatar}
-            name={blogData.Nickname}
-          />
-          {/* 側邊欄 */}
-          <div className="sidebar">
-            <div className="btn-sec">
-              <BlogBtn />
-              <CreateBtn />
-            </div>
-            <div className="m-none">
-              <LatestCard />
-            </div>
-            <div className="m-none">
-              <POPCard />
+    <>
+      <Head>
+        <title>Pawer寶沃-部落格明細</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="bl-post">
+        <Banner
+          bgImgUrl="/blog/blog-banner.svg"
+          url="http://localhost:3005/api/blog"
+        />
+        <div className="post-container container">
+          <Breadcrumbs className="breadcrumb" />
+          <div className="main-section">
+            <BlogDetail
+              title={blogData.Title ? blogData.Title : ''}
+              blogImg={blogData.blogImg}
+              content={blogData.Content}
+              tags={blogData.tags ? blogData.tags.split(',') : []}
+              updateDate={blogData.UpdateDate}
+              likeCount={blogData.likeCount}
+              favoriteCount={blogData.favoriteCount}
+              id={blogData.ID}
+              avatar={blogData.MemberAvatar}
+              name={blogData.Nickname}
+            />
+            {/* 側邊欄 */}
+            <div className="sidebar">
+              <div className="btn-sec">
+                <BlogBtn />
+                <CreateBtn />
+              </div>
+              <div className="m-none">
+                <LatestCard />
+              </div>
+              <div className="m-none">
+                <POPCard />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

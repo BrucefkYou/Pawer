@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
 import Coupon from '@/components/member/coupon/coupon';
 import PageTitle from '@/components/member/page-title/page-title';
 import { useAuth } from '@/hooks/use-auth';
@@ -27,6 +28,10 @@ export default function MyCoupon() {
 
   return (
     <>
+      <Head>
+        <title>會員中心 - 我的優惠券</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="mb-content d-flex justify-content-between">
         <PageTitle title={'我的優惠券'} subTitle={'Coupon'} />
       </div>

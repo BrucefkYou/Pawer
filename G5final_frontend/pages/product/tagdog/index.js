@@ -9,6 +9,7 @@ import { usePagination } from '@/hooks/usePagination';
 import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
+import Head from 'next/head';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import ProductList from '@/components/product/list/productList';
 import Clean from '@/components/product/clean/clean';
@@ -83,6 +84,10 @@ export default function Tagdog(props) {
 
   return (
     <>
+      <Head>
+        <title>Pawer寶沃-狗狗保健</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="productList">
         <div className="container mt-3">
           {/* 麵包屑 */}
