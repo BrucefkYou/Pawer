@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Head from 'next/head';
 import React, { useState, useEffect } from 'react';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import { useRouter } from 'next/router';
@@ -21,6 +22,10 @@ export default function Success(props) {
 
   return (
     <>
+      <Head>
+        <title>Pawer寶沃 - 付款成功</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="cart">
         <main>
           <div className="container">

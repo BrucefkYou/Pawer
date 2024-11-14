@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 // import joins from '@/data/Joins.json';
 import JoinListCard from './item/join-list-card';
 import Banner from '@/components/join/banner/banner';
@@ -94,6 +95,10 @@ export default function JoinList() {
 
   return (
     <>
+      <Head>
+        <title>Pawer寶沃-活動列表</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Banner bgImgUrl="/join/banner-jism.jpg" ImgCover="cover" />
       <div className="container ji-list-container px-3">
         <Breadcrumbs />
@@ -110,7 +115,7 @@ export default function JoinList() {
                 <SelectDate oldData={oldData} updateData={updateData} />
               </div>
               <div className=" mb-4 d-none d-md-block">
-                <StatusCard oldData={oldData} updateData={updateData } />
+                <StatusCard oldData={oldData} updateData={updateData} />
               </div>
               <div className="mb-4 d-none d-md-block">
                 <LatestCard />
@@ -120,7 +125,11 @@ export default function JoinList() {
               <div className="row choose-page">
                 <div className="join-sort d-flex align-items-center justify-content-lg-end justify-content-md-center text-body-tertiary mb-4">
                   <span className="d-none d-md-block">
-                    顯示第{nowPageFirstItems + 1}-{filterData.length < nowPageLastItems ? filterData.length : nowPageLastItems}筆 / 共{filterData.length}筆
+                    顯示第{nowPageFirstItems + 1}-
+                    {filterData.length < nowPageLastItems
+                      ? filterData.length
+                      : nowPageLastItems}
+                    筆 / 共{filterData.length}筆
                   </span>
                   <div className="col-3 text-body-tertiary d-none d-md-block mx-3">
                     <PerPageDom
