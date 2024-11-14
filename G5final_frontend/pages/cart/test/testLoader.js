@@ -22,9 +22,7 @@ export default function TestLoader() {
   return (
     <div>
       <h1>Loader 測試頁面</h1>
-      <div>
-        {loading ? <div>Loader 已啟動</div> : <div>Loader 未啟動</div>}
-      </div>
+      <div>{loading ? <div>Loader 已啟動</div> : <div>Loader 未啟動</div>}</div>
     </div>
   );
 }
