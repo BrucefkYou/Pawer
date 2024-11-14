@@ -5,34 +5,65 @@ import FavoriteIcon from '@/components/join/list/item/favorite/FavoriteIcon/Favo
 import { useAuth } from '@/hooks/use-auth';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
-import { ca } from 'date-fns/locale';
-import { result } from 'lodash';
+import { se } from 'date-fns/locale';
 
-export default function SignStatusCard({ data = {}, disabled }) {
+export default function SignStatusCard({
+  data = {},
+  disabled,
+  SignNum,
+  btnText,
+}) {
   const router = useRouter();
   const { auth } = useAuth();
   const uid = auth.memberData.id;
-  const [numStatus, setNumStatus] = useState(false);
   const CanSignNum = Number(data.ParticipantLimit - data.SignCount);
-  const [canSign, setCanSign] = useState(CanSignNum);
-  const [isFull, setIsFull] = useState(CanSignNum <= 0);
-  
+  const [canSign, setCanSign] = useState(SignNum);
+  const [isJoined, setIsJoined] = useState(false);
+  const buttonText = canSign === 0 ? '報名已額滿' : '立即報名';
+
+  console.log(CanSignNum);
+  console.log(canSign);
+
+  useEffect(() => {
+    // 檢查是否已報名
+    const checkJoined = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3005/api/join-in/joined?memberId=${uid}&joininId=${data.ID}`
+        );
+        if (!response.ok) throw new Error('無法確認報名狀態');
+        const result = await response.json();
+        console.log(result);
+
+        // 判斷是否已經報名
+        // 如果有資料 Length>0，代表已經報名
+        if (result.length > 0) {
+          setIsJoined(true);
+        }
+      } catch (error) {
+        console.error('檢查報名狀態時發生錯誤', error);
+      }
+    };
+    if (uid && data.ID) {
+      checkJoined();
+    }
+  }, [uid, data]);
 
   const handleSignUp = async () => {
     if (auth.isAuth) {
       try {
-        if (isFull) {
-          toast.error('報名已滿');
-          return;
-        }
-        const response = await fetch('http://localhost:3005/api/join-in/joined', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ joininId: data.ID, memberId: uid }),
-        });
-        setCanSign(canSign - 1);
+        const response = await fetch(
+          'http://localhost:3005/api/join-in/joined',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ joininId: data.ID, memberId: uid }),
+          }
+        );
+        setCanSign((prevCount) => prevCount - 1);
+        setIsJoined(true);
 
         if (response.ok) {
           toast.success('報名成功', {
@@ -44,7 +75,6 @@ export default function SignStatusCard({ data = {}, disabled }) {
               color: '#646464',
             },
           });
-          
         } else {
           throw new Error('報名失敗');
         }
@@ -69,27 +99,13 @@ export default function SignStatusCard({ data = {}, disabled }) {
     }
   };
 
-
   useEffect(() => {
-    // 檢查是否已報名
-    const checkJoined = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3005/api/join-in/joined?memberId=${uid}&joininId=${data.ID}`
-        );
-        if (!response.ok) throw new Error('無法確認報名狀態');
-        const result = await response.json();
-        
-        // 假設 result 返回的數據包含是否報名的布林值，例如 result.joined
-        setNumStatus(result.joined); // 更新狀態
-      } catch (error) {
-        console.error('檢查報名狀態時發生錯誤', error);
-      }
-    };
-    if (uid && data.ID) {
-      checkJoined();
-    }
-  }, [uid, data]);
+    setCanSign(SignNum);
+  }, [SignNum]);
+
+  // useEffect(() => {
+  //   setIsJoined(true);
+  // }, [canSign]);
 
   return (
     <div className="card ji-detail-side-card shadow ms-auto">
@@ -97,11 +113,12 @@ export default function SignStatusCard({ data = {}, disabled }) {
         <div className=" d-flex align-items-center gap-2 ">
           <div className="rounded-circle">
             <Image
+              className="rounded-circle"
               width={50}
               height={50}
               src={
                 data.Avatar
-                  ? `/http://localhost:3005/member/${auth.memberData.avatar}`
+                  ? `/member/${data.Avatar}`
                   : '/member/member-avatar/member-profile.png'
               }
               alt="1"
@@ -133,16 +150,22 @@ export default function SignStatusCard({ data = {}, disabled }) {
           <div className="row mx-1">
             <p className="col card-text mb-3 ji-info-content">還差幾人</p>
             <p className="col text-end">
-              {canSign}
+              {SignNum && canSign}
               <span>人</span>
             </p>
           </div>
         </div>
         <div
-          className={`w-100 btn ${isFull || disabled ? 'btn-secondary' : 'btn-primary'}`}
-          onClick={!isFull && !disabled ? handleSignUp : undefined}
+          className={`w-100 btn ${
+            canSign <= 0 || disabled || isJoined
+              ? 'btn-secondary'
+              : 'btn-primary'
+          }`}
+          onClick={
+            !disabled && canSign > 0 && !isJoined ? handleSignUp : undefined
+          }
         >
-          {isFull ? '報名已額滿' : '立即報名'}
+          {isJoined ? '已報名' : btnText || buttonText}
         </div>
       </div>
     </div>

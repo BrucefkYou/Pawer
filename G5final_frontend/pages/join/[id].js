@@ -198,7 +198,7 @@ export default function JiDetail(props) {
           </div>
           <div className="flex-shrink-1">
             {/* 側邊活動狀態小卡 */}
-            <SignStatusCard data={data} disabled={(uid===data.MemberID)?"disabled":""}/>
+            <SignStatusCard data={data} disabled={(uid===data.MemberID)?"disabled":"" } SignNum={data.ParticipantLimit-data.SignCount} btnText={(uid===data.MemberID)?"團主無法報名":""}/>
           </div>
         </div>
       </div>
