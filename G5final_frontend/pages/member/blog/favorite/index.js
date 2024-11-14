@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
 import MemberNav from '@/components/memberNav';
@@ -68,7 +69,12 @@ export default function OrderDetail() {
                 );
               })
             ) : (
-              <p>去收藏喜歡的文章</p>
+              <Link
+                href={'http://localhost:3000/blog/create'}
+                style={{ textDecoration: 'none' }}
+              >
+              去收藏喜歡的文章
+              </Link>
             )}
           </div>
           <div>

@@ -52,9 +52,8 @@ export default function BlogEdit() {
           // const fullImageUrl = blog.blogImg;
           setUploadedImageUrl(blog.blogImg);
           setPreviewImage(blog.blogImg);
-
-          setImageName(blog.blogImg || '尚未選擇封面');
-        } else {
+          setImageName(blog.imageName || '尚未選擇封面')
+} else {
           throw new Error('無法取得文章資料');
         }
       } catch (error) {

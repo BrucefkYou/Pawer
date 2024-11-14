@@ -16,6 +16,7 @@ export default function BlogPreview() {
   const [userData, setUserData] = useState(null);
   const [currentDate, setCurrentDate] = useState('');
   const [avatarLoaded, setAvatarLoaded] = useState(false);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,6 +60,7 @@ export default function BlogPreview() {
     : auth.memberData.google_avatar
       ? auth.memberData.google_avatar
       : `http://localhost:3005/member/avatar-default.png`;
+    
 
   return (
     <div className="bl-preview">
