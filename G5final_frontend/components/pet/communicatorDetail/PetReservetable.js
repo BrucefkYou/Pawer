@@ -82,7 +82,7 @@ export default function PetReservetable({ fetchOne }) {
                 //確認成功後
                 console.log('提交成功：', data);
                 //提示成功訊息
-                toast('預約成功即將轉頁至會員預約表單...', {
+                toast(<>預約成功,已寄發mail<br/>即將跳轉至會員預約表單頁...'</>, {
                     icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
                     duration: 2500,
                     style: {
@@ -92,7 +92,7 @@ export default function PetReservetable({ fetchOne }) {
                         marginTop: '80px',
                     },
                 });
-                //發送信件
+                // 發送信件
                 emailjs.send(SERVICE_ID, TEMPLATE_ID, {
                     from_name: "PAWER",
                     to_name: from.ReserveName,
@@ -105,8 +105,10 @@ export default function PetReservetable({ fetchOne }) {
                 寵物名稱：${from.PetName}
                 進行方式：${from.Approach}
                 備註：${from.Remark}
-                預約時段：${from.Time}`
+                預約時段：${formattedDateTime}`
                 }, PUBLIC_ID);
+                
+                
                 //轉頁
                 setTimeout(() => {
                     router.push('/member/communicator/memReserve')
