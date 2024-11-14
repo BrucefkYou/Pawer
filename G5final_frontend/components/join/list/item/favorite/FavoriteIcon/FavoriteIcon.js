@@ -124,7 +124,7 @@ export default function FavoriteIcon({
             borderTop: '15px #646464 solid',
             background: '#F5F5F5',
             color: '#646464',
-            // marginTop: '80px',
+            marginTop: '80px',
             width: '220px',
             height: '70px',
           },
