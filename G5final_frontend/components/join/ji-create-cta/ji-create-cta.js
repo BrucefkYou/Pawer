@@ -25,13 +25,15 @@ export default function JiCreateCta() {
   const handleCreate = () => {
     if (!auth.isAuth) {
       toast('您需要登入才能創建', {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1800,
         style: {
           borderRadius: '10px',
-          background: 'rgba(34, 53, 92, 1)',
-          color: '#fff',
+          borderTop: '15px #22355C solid',
+          background: '#F5F5F5',
+          color: '#646464',
           marginTop: '80px',
+          width: '220px',
+          height: '70px',
         },
       });
       setTimeout(() => {
