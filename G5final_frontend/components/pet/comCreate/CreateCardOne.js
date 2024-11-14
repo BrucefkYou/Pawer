@@ -7,11 +7,7 @@ export default function CreateCardOne(props) {
     const { filterData } = usePagination({
         url:'http://localhost:3005/api/pet'
     })
-    const comIDArr = filterData.map(v => v.MemberID)
-    console.log(comIDArr.includes(memberID));
-    if (comIDArr.includes(memberID)){
-        return (<></>)
-    }
+
     
     return (
         <>

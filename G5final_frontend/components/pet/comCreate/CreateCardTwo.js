@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/use-auth';
 import toast, { Toaster } from 'react-hot-toast';
 import { BsImage } from "react-icons/bs";
-export default function CreateCardTwo(props) {
+export default function CreateCardTwo({ setMessage }) {
   const { auth } = useAuth()
   const memberID = auth.memberData.id
   // 表單寫入資料庫

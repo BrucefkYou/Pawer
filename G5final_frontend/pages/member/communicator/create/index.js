@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MemberLayout from '@/components/layout/member-layout';
-import CreateCardOne from '@/components/pet/comCreate/CreateCardOne';
-import CreateCardTwo from '@/components/pet/comCreate/CreateCardTwo';
+import CreatCard from '@/components/pet/comCreate/CreatCard';
 
 ComCreateID.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
@@ -11,10 +10,7 @@ export default function ComCreateID(props) {
     <>
       <div className="PT-create">
         <div className="container">
-          {/* 第一張卡 */}
-          <CreateCardOne />
-          {/* 第二張卡 */}
-          <CreateCardTwo />
+          <CreatCard/>
         </div>
       </div>
     </>
