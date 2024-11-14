@@ -40,11 +40,7 @@ export default function ComEdit(props) {
         const formData = new FormData(form);
         // 移除圖片欄位
         if (Img != '') {
-            formData.delete('pic'); 
-            for (const [key, value] of formData.entries()) {
-                console.log(`${key}:`, value);
-            }
-            
+            formData.delete('pic');
         }
         try {
             const response = await fetch('http://localhost:3005/api/pet/communicatorEdit', {
