@@ -64,6 +64,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 4;
 }
 .pt-modal-content {
   background: white;
@@ -71,6 +72,7 @@
   border-radius: 8px;
   text-align: center;
   width: 500px;
+  z-index: 4;
 }
 .pt-modal-content button {
   margin: 0 10px;

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styles from './login.module.scss';
 import Image from 'next/image';
-import { useAuth } from '@/hooks/use-auth';
 import toast from 'react-hot-toast';
+import { useAuth } from '@/hooks/use-auth';
 import axiosInstance from '@/services/axios-instance';
 import { useRouter } from 'next/router';
+//顯示隱藏密碼圖示
+import { FaEye } from 'react-icons/fa';
+import { PiEyeClosed } from 'react-icons/pi';
 //google login
 import useFirebase from '@/hooks/use-firebase';
 import { googleLogin } from '@/services/member';
@@ -62,6 +65,9 @@ export default function LoginForm({ Formtype, setFormtype }) {
     toast.success(res.data.data.message);
   };
 
+  // checkbox 呈現密碼用
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <>
       <div
@@ -93,14 +99,25 @@ export default function LoginForm({ Formtype, setFormtype }) {
               value={user.email}
               onChange={handleFieldChange}
             />
-            <input
-              type="password"
-              className="form-control mb-3"
-              placeholder="密碼"
-              name="password"
-              value={user.password}
-              onChange={handleFieldChange}
-            />
+            <div className="position-relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="form-control mb-3"
+                placeholder="密碼"
+                name="password"
+                value={user.password}
+                onChange={handleFieldChange}
+              />
+              <button
+                onClick={() => {
+                  setShowPassword(!showPassword);
+                }}
+                className={`${styles['eye-btn']}`}
+              >
+                {showPassword ? <FaEye /> : <PiEyeClosed />}
+              </button>
+            </div>
+
             <button
               className={`btn btn-primary w-100 mt-3  ${styles['btn-custom']}`}
               onClick={() => {
@@ -110,7 +127,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
               登入
             </button>
             <button
-              className={`btn btn-outline-primary w-100 mb-2 mt-3 ${styles['btn-custom']} position-relative`}
+              className={`btn btn-outline-primary w-100 mb-4 mt-3 ${styles['btn-custom']} position-relative`}
               onClick={() => loginGoogle(callbackGoogleLoginPopup)}
             >
               <Image
@@ -125,7 +142,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
           </div>
           <div className="d-flex justify-content-between">
             <button
-              className="btn btn-link text-primary"
+              className="btn btn-link text-primary p-0"
               type="button"
               onClick={() => {
                 setFormtype(1);
@@ -134,7 +151,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
               註冊帳號
             </button>
             <button
-              className="btn btn-link text-primary"
+              className="btn btn-link text-primary p-0"
               type="button"
               onClick={() => {
                 setFormtype(3);

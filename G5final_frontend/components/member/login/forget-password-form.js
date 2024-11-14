@@ -2,20 +2,32 @@ import React, { useState, useEffect } from 'react';
 import styles from './login.module.scss';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+//顯示隱藏密碼圖示
+import { FaEye } from 'react-icons/fa';
+import { PiEyeClosed } from 'react-icons/pi';
 // countdown use
 import useInterval from '@/hooks/use-interval';
 import { requestFPOtpToken, resetPassword } from '@/services/member';
 
 export default function ForgetPasswordForm({ Formtype, setFormtype }) {
-  const [email, setEmail] = useState('');
-  const [token, setToken] = useState('');
-  const [password, setPassword] = useState('');
+  // checkbox 呈現密碼用
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setConfirmShowPassword] = useState(false);
+  // 設定輸入欄位狀態
+  const [user, setUser] = useState({
+    email: '',
+    token: '',
+    password: '',
+    confirmPassword: '',
+  });
   const [disableBtn, setDisableBtn] = useState(false);
-
+  // 處理input輸入的共用函式，設定回userProfile狀態
+  const handleFieldChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
   // 倒數計時 countdown use
   const [count, setCount] = useState(60); // 60s
   const [delay, setDelay] = useState(null); // delay=null可以停止, delay是數字時會開始倒數
-
   // 倒數計時 countdown use
   useInterval(() => {
     setCount(count - 1);
@@ -27,7 +39,6 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
       setDisableBtn(false);
     }
   }, [count]);
-
   // 處理要求一次性驗証碼用
   const handleRequestOtpToken = async () => {
     if (delay !== null) {
@@ -35,7 +46,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
       return;
     }
 
-    const res = await requestFPOtpToken(email);
+    const res = await requestFPOtpToken(user.email);
     console.log(res.data);
 
     if (res.data.status === 'success') {
@@ -50,7 +61,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
 
   // 處理重設密碼用
   const handleResetPassword = async () => {
-    const res = await resetPassword(email, password, token);
+    const res = await resetPassword(user.email, user.password, user.token);
     console.log(res.data);
 
     if (res.data.status === 'success') {
@@ -86,16 +97,17 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
         >
           <h2 className="text-center mb-4">重設密碼</h2>
           <div>
-            <p className="mb-4 ">
-              請輸入您的會員電子郵件後，按下[取得驗證碼]按鈕，隨後將寄出驗證碼給您，請將驗證碼輸入至下方欄位，並重新設置新密碼。
+            <p className="mb-4">
+              請輸入您的會員電子郵件後，按下【取得驗證碼】按鈕，隨後將寄出驗證碼給您，請將驗證碼輸入至下方欄位後，重新設置新密碼。
             </p>
             <div className="input-group mb-3">
               <input
                 type="text"
                 className="form-control"
                 placeholder="電子郵件"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                value={user.email}
+                onChange={handleFieldChange}
               />
               <button
                 className={`btn btn-primary`}
@@ -103,28 +115,54 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
                 onClick={handleRequestOtpToken}
                 disabled={disableBtn}
               >
-                {delay ? count + '秒後可取得驗証碼' : '取得驗証碼'}
+                {delay ? count + '秒後可取得驗證碼' : '取得驗證碼'}
               </button>
             </div>
             <input
               type="text"
               className="form-control mb-3"
               placeholder="驗證碼"
-              value={token}
-              onChange={(e) => setToken(e.target.value)}
+              name="token"
+              value={user.token}
+              onChange={handleFieldChange}
             />
-            <input
-              type="text"
-              className="form-control mb-3"
-              placeholder="密碼"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              className="form-control mb-3"
-              placeholder="確認密碼"
-            />
+
+            <div className="position-relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="form-control mb-3"
+                placeholder="密碼"
+                name="password"
+                value={user.password}
+                onChange={handleFieldChange}
+              />
+              <button
+                onClick={() => {
+                  setShowPassword(!showPassword);
+                }}
+                className={`${styles['eye-btn']}`}
+              >
+                {showPassword ? <FaEye /> : <PiEyeClosed />}
+              </button>
+            </div>
+            <div className="position-relative">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                className="form-control mb-3"
+                placeholder="確認密碼"
+                name="confirmPassword"
+                value={user.confirmPassword}
+                onChange={handleFieldChange}
+              />
+              <button
+                onClick={() => {
+                  setConfirmShowPassword(!showConfirmPassword);
+                }}
+                className={`${styles['eye-btn']}`}
+              >
+                {showConfirmPassword ? <FaEye /> : <PiEyeClosed />}
+              </button>
+            </div>
             <button
               className={`btn btn-primary w-100 mb-4 mt-3 ${styles['btn-custom']}`}
               onClick={handleResetPassword}
@@ -134,7 +172,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
           </div>
           <div className="d-flex justify-content-between">
             <button
-              className="btn btn-link text-primary"
+              className="btn btn-link text-primary p-0"
               type="button"
               onClick={() => {
                 setFormtype(1);
@@ -143,7 +181,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
               註冊帳號
             </button>
             <button
-              className="btn btn-link text-primary"
+              className="btn btn-link text-primary p-0"
               type="button"
               onClick={() => {
                 setFormtype(2);
