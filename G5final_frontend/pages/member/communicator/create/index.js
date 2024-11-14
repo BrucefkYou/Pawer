@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MemberLayout from '@/components/layout/member-layout';
 import CreatCard from '@/components/pet/comCreate/CreatCard';
-
 ComCreateID.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };

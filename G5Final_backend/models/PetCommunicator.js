@@ -87,6 +87,10 @@ export default async function (sequelize) {
         type: DataTypes.TEXT,
         allowNull: true,
       },
+      PetCommCertificateImg: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
     },
     {
       tableName: 'PetCommunicator', // 直接提供資料表名稱

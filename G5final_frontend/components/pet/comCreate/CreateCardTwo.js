@@ -26,6 +26,9 @@ export default function CreateCardTwo({ setMessage }) {
           },
         }
       );
+      setTimeout(() => {
+        setMessage('ok')
+      }, 2000);
     } catch (err) {
       console.log(err);
     }
