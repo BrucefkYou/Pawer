@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-// Components
-import LatestCard from '@/components/sidebar/latest-post/latest-post';
-import Banner from '@/components/join/banner/banner';
-import POPCard from '@/components/blog/pop-post/pop-post';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
-import CreateBtn from '@/components/blog/create-btn/create-btn';
-import BlogDetail from '@/components/blog/blog-post/blog-Detail';
-import BlogBtn from '@/components/blog/myBlog-btn/myBlog-btn';
+import Banner from '@/components/blog/banner';
+import LatestCard from '@/components/sidebar/latest-post/latest-post';
+import POPCard from '@/components/blog/pop-post/pop-post';
+import BlogDetail from '@/components/blog/blog-post/blog-detail';
+import CreateBtn from '@/components/blog/blog-btn/create-btn/create-btn';
+import BlogBtn from '@/components/blog/blog-btn/myBlog-btn';
 
 export default function BlogPost(props) {
   const [blogData, setBlogData] = useState(null);
+  const [isRemoved, setIsRemoved] = useState(false);
   const router = useRouter();
   const { id } = router.query;
 
@@ -21,8 +21,18 @@ export default function BlogPost(props) {
       try {
         const response = await fetch(`http://localhost:3005/api/blog/${id}`);
         const data = await response.json();
-        setBlogData(data[0]);
-        console.log('成功讀取資料', data);
+
+        if (data[0]) {
+          if (data[0].Status === 1) {
+            setBlogData(data[0]);
+          } else {
+            setIsRemoved(true);
+          }
+        } else {
+          setIsRemoved(true);
+        }
+
+        // console.log('成功讀取資料', data);
       } catch (error) {
         console.error('無法獲取資料:', error);
       }
@@ -31,11 +41,16 @@ export default function BlogPost(props) {
     fetchBlogData();
   }, [id]);
 
-  if (!blogData) return <p>文章已下架</p>;
+  if (isRemoved) return <p>文章已下架</p>;
+
+  if (!blogData) return <p>文章載入中</p>;
 
   return (
     <div className="bl-post">
-      <Banner bgImgUrl="/blog/blog-banner.svg" />
+      <Banner
+        bgImgUrl="/blog/blog-banner.svg"
+        url="http://localhost:3005/api/blog"
+      />
       <div className="post-container container">
         <Breadcrumbs className="breadcrumb" />
         <div className="main-section">
@@ -55,7 +70,7 @@ export default function BlogPost(props) {
           <div className="sidebar">
             <div className="btn-sec">
               <BlogBtn />
-              <CreateBtn btnName={'建立文章'} />
+              <CreateBtn />
             </div>
             <div className="m-none">
               <LatestCard />

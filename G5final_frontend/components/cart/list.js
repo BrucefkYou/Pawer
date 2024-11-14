@@ -48,7 +48,7 @@ export default function List(props) {
               <div className="mobile-column col-lg-6 col-7 d-flex justify-content-between align-items-center g-0">
                 <div className="product-title">{item.name}</div>
                 <div className="choose-quantity-btn">
-                  <div className="mr-55">NT${Math.round(item.price)}</div>
+                  <div className="mr-55">NT$ {Math.round(item.price)}</div>
                   <div
                     className="btn-group"
                     role="group"
@@ -56,7 +56,7 @@ export default function List(props) {
                   >
                     <button
                       type="button"
-                      className="btn btn-secondary btn-increase bg-main-color"
+                      className="btn btn-secondary btn-increase"
                       onClick={() => decrement(item.id)}
                     >
                       -
@@ -70,7 +70,7 @@ export default function List(props) {
                     </button>
                     <button
                       type="button"
-                      className="btn btn-secondary btn-increase  bg-main-color"
+                      className="btn btn-secondary btn-decrease"
                       onClick={() => increment(item.id)}
                     >
                       +
@@ -79,7 +79,7 @@ export default function List(props) {
                 </div>
               </div>
               <div className="col d-none d-sm-flex set-middle">
-                {item.price * item.quantity}
+                NT$ {item.price * item.quantity}
               </div>
               <div className="col-1 set-middle">
                 <button

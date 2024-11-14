@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import style from '@/components/product/productList.module.scss';
+import style from '@/components/product/list/productList.module.scss';
 
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 

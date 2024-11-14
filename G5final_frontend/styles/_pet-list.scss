@@ -2,63 +2,12 @@
   .no-underline {
     text-decoration: none;
   }
-  /* 搜尋框 */
-  .pet-searchbar-yen {
-    display: flex;
-
-    button {
-      all: unset;
-      /* 移除所有預設樣式 */
-      margin: 0 20px;
-      cursor: pointer;
-      /* 確保滑鼠指標為手形 */
-    }
-
-    input {
-      all: unset;
-      /* 移除所有預設樣式 */
-      width: 100%;
-      /* 根據需要設定寬度 */
-      border-bottom: 1px solid #000;
-    }
-  }
-
-  /* 排序 */
-  .pet-sort-yen {
-    all: unset;
-    /* 移除所有預設樣式 */
-    cursor: pointer;
-    /* 確保滑鼠指標為手形 */
-    border-radius: 30px;
-    border: 1px solid #bfbfbf;
-    padding: 3px 23px;
-  }
-
-  /* 每頁筆數 */
-  .pet-perpage-yen {
-    all: unset;
-    /* 移除所有預設樣式 */
-    cursor: pointer;
-    /* 確保滑鼠指標為手形 */
-    border-radius: 30px;
-    border: 1px solid #bfbfbf;
-    padding: 3px 23px;
-  }
-
   /* 師資卡片 */
   .pet-teachercard-yen {
     margin: 10px;
     padding: 0;
     border-radius: 5px;
     overflow: hidden;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
-
-    @media (max-width: 430px) {
-      img {
-        height: 150px;
-        width: 100%;
-      }
-    }
 
     .contain {
       padding: 10px;
@@ -85,14 +34,16 @@
       left: 0;
       padding: 20px;
       color: white;
-      overflow: hidden;
+      // overflow: hidden;
+      .hover-text {
+        font-size: 32px;
+      }
     }
     @media (min-width: 431px) {
       &:hover {
         .contain-hover {
           display: block;
         }
-
         img {
           filter: brightness(0.6);
           /* 調整亮度，越接近 0 越黑 */
@@ -112,7 +63,6 @@
       }
     }
   }
-
   /* 溝通師廣告 */
   .pet-advertise-yen {
     width: 100%;
@@ -122,24 +72,14 @@
     justify-content: center;
     position: relative;
     padding: 50px;
-
-    img {
-      height: 100px;
-      width: 100px;
-    }
-
-    .advertise-img {
-      text-align: center;
-    }
-
     .pet-btnApply-yen {
       background-color: #f4b13e;
       color: white;
       border: none;
       border-radius: 10px;
       padding: 10px 20px 10px 20px;
+      text-decoration: none;
     }
-
     @media (max-width: 547px) {
       .img-none {
         display: none;

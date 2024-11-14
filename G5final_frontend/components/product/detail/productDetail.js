@@ -9,10 +9,10 @@ import Image from 'next/image';
 import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 import FavoriteIcon from '@/components/product/favorite/FavoriteIcon/FavoriteIcon';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
-import style from '@/components/product/productDetail.module.scss';
+import style from '@/components/product/detail/productDetail.module.scss';
 import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
-import Imagechoose from '@/components/product/imagechoose';
+import Imagechoose from '@/components/product/imagechoose/imagechoose';
 import Productcomment from '@/components/product/productcomment/productcomment';
 
 export default function ProductDetail(props) {
