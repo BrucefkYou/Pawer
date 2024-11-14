@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import { useAuth } from '@/hooks/use-auth';
 import PageTitle from '@/components/member/page-title/page-title';
 import toast, { Toaster } from 'react-hot-toast';
@@ -137,6 +138,10 @@ export default function Member() {
 
   return (
     <>
+      <Head>
+        <title>Pawer寶沃 - 會員資料</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="mb-content">
         <PageTitle title={'會員資料'} subTitle={'Member'} />
         <div className="row mt-4">
@@ -296,6 +301,9 @@ export default function Member() {
                   dateFormat="yyyy-MM-dd"
                   showIcon
                   selected={startDate}
+                  showYearDropdown
+                  yearDropdownItemNumber={100}
+                  scrollableYearDropdown
                   onChange={handleDateChange}
                 />
               </div>

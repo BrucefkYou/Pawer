@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
 import Link from 'next/link';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
@@ -27,6 +28,10 @@ export default function Order() {
 
   return (
     <>
+      <Head>
+        <title>會員中心 - 訂單查詢</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="mb-content d-flex justify-content-between">
         <PageTitle title={'訂單查詢'} subTitle={'Order'} />
       </div>

@@ -24,7 +24,6 @@ export default function FavoriteIcon({
   const id = auth.memberData.id;
   const [iconStatus, setIconStatus] = useState(false);
   const [currentCount, setCurrentCount] = useState(count);
-  console.log(nowPageItems);
   const router = useRouter();
 
   const islogin = () => {
@@ -38,20 +37,19 @@ export default function FavoriteIcon({
   const CountIcon = () => {
     if (!id) {
       toast('您需要登入才能收藏', {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1800,
         style: {
           borderRadius: '10px',
-          background: 'rgba(34, 53, 92, 1)',
-          color: '#fff',
+          borderTop: '15px #22355C solid',
+          background: '#F5F5F5',
+          color: '#646464',
           marginTop: '80px',
+          width: '240px',
+          height: '80px',
         },
       });
       return;
     }
-
-    // setUrl('http://localhost:3005/api/product/member/favorites');
-    // 有bug 會員頁移除 列表頁就壞掉 看要reload重整還是要繼續研究立即執行
 
     const addFv = async () => {
       console.log({ joininId: data, memberId: id });
@@ -103,26 +101,32 @@ export default function FavoriteIcon({
       const newStatus = !prevStatus;
       if (newStatus) {
         addFv();
-        toast('您已加入收藏', {
-          icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+        toast('收藏成功', {
+          // icon: "",
           duration: 1800,
           style: {
             borderRadius: '10px',
-            background: 'rgba(84, 124, 215, 1)',
-            color: '#fff',
+            borderTop: '15px #22355C solid',
+            background: '#F5F5F5',
+            color: '#646464',
             marginTop: '80px',
+            width: '220px',
+            height: '70px',
           },
         });
       } else {
         delFv();
-        toast('您已取消收藏', {
-          icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+        toast('取消收藏', {
+          // icon: '',
           duration: 1800,
           style: {
             borderRadius: '10px',
-            background: 'rgba(193, 69, 69, 1)',
-            color: '#fff',
+            borderTop: '15px #646464 solid',
+            background: '#F5F5F5',
+            color: '#646464',
             marginTop: '80px',
+            width: '220px',
+            height: '70px',
           },
         });
       }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import { PageNav } from '@/components/PageNav';
 import { usePagination } from '@/hooks/usePagination';
 import MemberLayout from '@/components/layout/member-layout';
@@ -36,49 +37,55 @@ export default function Index() {
     needFilter: [{ id: 1, label: '已收藏' }],
   });
   return (
-    <div className="ji-member">
-      <div className="card-favorite d-flex justify-content-between">
-        <PageTitle title={'收藏活動'} subTitle={'Favorite'} />
-        <MemberNav
-          newdata={newdata}
-          chooseFilter={chooseFilter}
-          needFilter={needFilter}
-        />
-      </div>
+    <>
+      <Head>
+        <title>會員中心 - 收藏活動</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="ji-member">
+        <div className="card-favorite d-flex justify-content-between">
+          <PageTitle title={'收藏活動'} subTitle={'Favorite'} />
+          <MemberNav
+            newdata={newdata}
+            chooseFilter={chooseFilter}
+            needFilter={needFilter}
+          />
+        </div>
 
-      <div className=" mb-card d-flex flex-wrap gap-4 my-3">
-        {nowPageItems.length > 0 ? (
-          <>
-            <div className=" d-flex flex-wrap justify-content-evenly gap-4">
-              {nowPageItems.map((data) => (
-                <JoinListCard key={data.id} data={data} />
-              ))}
-            </div>
-          </>
-        ) : (
-          <>
-            <p className="m-0">
-              沒有收藏活動？
-              <Link href="/join" className="">
-                去逛逛
-              </Link>
-            </p>
-          </>
-        )}
-        {/* 頁碼 */}
-        <div className=" mt-2 w-100">
-          {nowPageItems.length === 0 ? (
-            <div></div>
+        <div className=" mb-card d-flex flex-wrap gap-4 my-3">
+          {nowPageItems.length > 0 ? (
+            <>
+              <div className=" d-flex flex-wrap justify-content-evenly gap-4">
+                {nowPageItems.map((data) => (
+                  <JoinListCard key={data.id} data={data} />
+                ))}
+              </div>
+            </>
           ) : (
-            <PageNav
-              nowPage={nowPage}
-              totalPage={totalPage}
-              next={next}
-              prev={prev}
-            />
+            <>
+              <p className="m-0">
+                沒有收藏活動？
+                <Link href="/join" className="">
+                  去逛逛
+                </Link>
+              </p>
+            </>
           )}
+          {/* 頁碼 */}
+          <div className=" mt-2 w-100">
+            {nowPageItems.length === 0 ? (
+              <div></div>
+            ) : (
+              <PageNav
+                nowPage={nowPage}
+                totalPage={totalPage}
+                next={next}
+                prev={prev}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

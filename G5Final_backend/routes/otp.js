@@ -44,11 +44,11 @@ router.post('/forget-password-mail', async (req, res, next) => {
   }
   const user = userResult[0]
   const user_id = user.ID
-  // console.log('user:', user)
+  // console.log('user:', user, 'user_id:', user_id)
 
   // 建立otp資料表記錄，成功回傳otp記錄物件，失敗為空物件{}
   const otp = await createOTP(email, user_id)
-  console.log(otp)
+  console.log('otp', otp)
 
   if (!otp.token)
     return res.json({ status: 'error', message: 'Email錯誤或期間內重覆要求' })
@@ -83,6 +83,7 @@ router.post('/forget-password-mail', async (req, res, next) => {
 // 重設密碼-檢查OTP並更新密碼
 router.post('/reset-password', async (req, res) => {
   const { email, token, password } = req.body
+  console.log(email, token, password)
 
   if (!token || !email || !password) {
     return res.json({ status: 'error', message: '缺少必要資料' })
@@ -95,6 +96,7 @@ router.post('/reset-password', async (req, res) => {
   }
 
   const otpdata = checkResult.otpdata
+  console.log('otpdata:', otpdata)
 
   // 密碼加密
   const hashpassword = await generateHash(password)
@@ -129,6 +131,14 @@ router.post('/reset-password', async (req, res) => {
 router.post('/register-mail', async (req, res, next) => {
   const { email } = req.body
   if (!email) return res.json({ status: 'error', message: 'email為必要欄位' })
+
+  // 檢查email是否已經存在
+  const [emailCheck] = await db.execute('SELECT * FROM Member WHERE eMail= ?', [
+    email,
+  ])
+  if (emailCheck.length > 0) {
+    return res.json({ status: 'error', message: '信箱已被註冊' })
+  }
 
   // 建立otp資料表記錄，成功回傳otp記錄物件，失敗為空物件{}
   const otp = await createOTP(email)

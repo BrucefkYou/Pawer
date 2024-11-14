@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
+import Head from 'next/head';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import Banner from '@/components/blog/banner';
 import SortedCard from '@/components/sidebar/sorted-card/sorted-card'
@@ -44,8 +45,6 @@ export default function BlogPost(props) {
         } else {
           setIsRemoved(true);
         }
-
-
         console.log('成功讀取資料', data);
       } catch (error) {
         console.error('無法獲取資料:', error);
@@ -59,6 +58,11 @@ export default function BlogPost(props) {
   if (!blogData) return <p>文章載入中</p>;
 
   return (
+    <>
+      <Head>
+        <title>Pawer寶沃-部落格明細</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
     <div className="bl-post">
       <Banner
         bgImgUrl="/blog/blog-banner.svg"
@@ -119,6 +123,7 @@ export default function BlogPost(props) {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

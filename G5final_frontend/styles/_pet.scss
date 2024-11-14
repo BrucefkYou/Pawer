@@ -64,6 +64,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 4;
 }
 .pt-modal-content {
   background: white;
@@ -71,7 +72,134 @@
   border-radius: 8px;
   text-align: center;
   width: 500px;
+  z-index: 4;
 }
 .pt-modal-content button {
   margin: 0 10px;
 }
+//首頁
+/* 容器設定 */
+
+.hover-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 遮色片 */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 黑色半透明 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 按鈕樣式 */
+.overlay-btn {
+  padding: 10px 20px;
+  background-color: #f4b13e;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  border-radius: 5px;
+}
+/* 按鈕樣式與縮放效果 */
+.overlay-btn {
+  padding: 10px 20px;
+  background-color: #f4b13e;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  border-radius: 5px;
+  transition: transform 0.3s ease;
+}
+.overlay-btn:hover {
+  transform: scale(1.1); /* 當按鈕被 hover 時放大 */
+}
+
+/* hover 效果：遮色片淡入 */
+.hover-container:hover .overlay {
+  opacity: 1;
+  transform: scale(1); /* 回到正常大小 */
+}
+
+.sec5-shadow {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.hover-container:hover .sec5-shadow {
+  transform: scale(1.05); /* 放大效果 */
+}
+// 手手
+.pet-pawer-icon {
+  position: absolute; /* 使圖標可以相對於容器進行定位 */
+  bottom: 0; /* 起始位置設置為右下角 */
+  right: 0;
+  z-index: 3;
+}
+.pet-pawer-icon:hover {
+  transform: scale(1.05); /* 放大效果 */
+}
+.hover-container:hover .pet-pawer-icon {
+  animation: moveToTopLeft 1s ease-in-out forwards; /* 設置動畫效果 */
+  animation-delay: 3s;
+}
+//左狗
+.pet-pawer-icon-1 {
+  position: absolute; /* 使圖標可以相對於容器進行定位 */
+  top: -100px; /* 起始位置設置為右下角 */
+  left: 38%;
+  z-index: 3;
+}
+.hover-container:hover .pet-pawer-icon-1 {
+  animation: moveDown 1s ease-in-out forwards; /* 設置動畫效果 */
+  animation-delay: 1s;
+}
+// 右狗
+.pet-pawer-icon-2 {
+  position: absolute; /* 使圖標可以相對於容器進行定位 */
+  top: -100px; /* 起始位置設置為右下角 */
+  right: 38%;
+  z-index: 3;
+}
+.hover-container:hover .pet-pawer-icon-2 {
+  animation: moveDown 1s ease-in-out forwards; /* 設置動畫效果 */
+  animation-delay: 2s;
+}
+@media (min-width:576px) {
+  @keyframes moveToTopLeft {
+  0% {
+    bottom: 0;
+    right: 0;
+  }
+  100% {
+    bottom: 40%;
+    right: 40%;
+  }
+}
+@keyframes moveDown {
+  0% {
+    top:-10%;
+  }
+  60%{
+    top: 50%;
+  }
+  80%{
+top:34%
+  }
+  100% {
+    top:36%;
+  }
+}
+}
+/* 定義從右下角到左上角的動畫 */
+

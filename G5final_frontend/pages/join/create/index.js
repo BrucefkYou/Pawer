@@ -1,5 +1,6 @@
 import ImgPutArea from '@/components/join/img-put-area/img-put-area';
 import Image from 'next/image';
+import Head from 'next/head';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import titlebottomLine from '@/assets/titleBottomLine.svg';
 import AreaSelect from '@/components/join/form/area-select';
@@ -18,6 +19,7 @@ import moment from 'moment';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { zhCN } from 'date-fns/locale';
+import toast from 'react-hot-toast';
 registerLocale('zhCN', zhCN);
 
 const Publish = () => {
@@ -77,9 +79,9 @@ const Publish = () => {
     if (moment(date).isBefore(currentTime)) {
       Swal.fire('開始時間不得早於當前時間');
       setStartTime(newTime(currentTime));
-    // } else if(moment(date).isAfter(endTime)){
-    //   Swal.fire('開始時間不得晚於結束時間');
-    //   setStartTime(newTime(currentTime));
+      // } else if(moment(date).isAfter(endTime)){
+      //   Swal.fire('開始時間不得晚於結束時間');
+      //   setStartTime(newTime(currentTime));
     } else {
       setStartTime(newTime(date));
     }
@@ -128,7 +130,18 @@ const Publish = () => {
       });
       const result = await response.json();
       if (response.ok) {
-        alert('資料寫入成功');
+        toast('發佈成功', {
+          duration: 1000,
+          style: {
+            borderRadius: '10px',
+            borderTop: '15px #22355C solid',
+            background: '#F5F5F5',
+            color: '#646464',
+            marginTop: '80px',
+            width: '220px',
+            height: '70px',
+          },
+        });
         router.push('/join');
       } else {
         alert(`寫入失敗: ${result.message}`);
@@ -143,8 +156,59 @@ const Publish = () => {
     setEditorLoaded(true);
   }, []);
 
+  const saveDraft = async () => {
+    try {
+      const response = await fetch('http://localhost:3005/api/join-in/draft', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageName,
+          memberId: auth.memberData.id,
+          status: 0,
+          title,
+          info: data,
+          startTime,
+          endTime,
+          count,
+          signEndDate,
+          city,
+          township,
+          location,
+          tags,
+        }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        toast('發佈成功', {
+          duration: 1000,
+          style: {
+            borderRadius: '10px',
+            borderTop: '15px #22355C solid',
+            background: '#F5F5F5',
+            color: '#646464',
+            marginTop: '80px',
+            width: '220px',
+            height: '70px',
+          },
+        });
+        router.push('/join');
+      } else {
+        alert(`寫入失敗: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('寫入文章失敗', error);
+      alert('寫入發生錯誤，稍後再試。');
+    }
+  };
+
   return (
     <>
+      <Head>
+        <title>Pawer寶沃-活動創建</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="container ji-create-container">
         <Breadcrumbs />
         <form
@@ -318,7 +382,15 @@ const Publish = () => {
                 saveToDo();
               }}
             >
-              {/* 預覽 */}
+              發佈
+            </button>
+            <button
+              className="ji-preview-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                saveDraft();
+              }}
+            >
               預覽
             </button>
           </div>

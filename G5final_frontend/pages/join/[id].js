@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Head from 'next/head';
 import SideBarCard from '@/components/sidebar/sidebar-card/sidebar-card';
 import pawButton from '@/assets/pawButton.svg';
 import Banner from '@/components/join/banner/banner';
@@ -197,7 +198,7 @@ export default function JiDetail(props) {
           </div>
           <div className="flex-shrink-1">
             {/* 側邊活動狀態小卡 */}
-            <SignStatusCard data={data} disabled={(uid===data.MemberID)?"disabled":""}/>
+            <SignStatusCard data={data} disabled={(uid===data.MemberID)?"disabled":"" } SignNum={data.ParticipantLimit-data.SignCount} btnText={(uid===data.MemberID)?"團主無法報名":""}/>
           </div>
         </div>
       </div>
@@ -238,6 +239,10 @@ export default function JiDetail(props) {
   if (!data) return <p>活動已下架</p>;
   return (
     <>
+    <Head>
+        <title>Pawer寶沃-活動明細</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Banner bgImgUrl="/join/banner-jism.jpg" ImgCover="cover" />
       {display}
    

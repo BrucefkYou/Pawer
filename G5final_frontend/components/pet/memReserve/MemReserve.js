@@ -6,6 +6,7 @@ import MemberNav from '@/components/memberNav';
 import { PageNav } from '@/components/PageNav';
 import MemReserveList from './MemReserveList';
 import Link from 'next/link';
+import Message from '../message';
 export default function MemReserve(props) {
     const { auth } = useAuth()
     const id = auth.memberData.id
@@ -15,6 +16,15 @@ export default function MemReserve(props) {
             return item.MemberID == id
         });
     };
+    // 提示頁面狀態
+    const [message, setMessage] = useState('')
+    if (message == 'ok') {
+        return <Message status='ok' title='hi' content='' button='返回' url='/member/communicator/comReserve' />
+    } else if (message == 'warn') {
+        return <Message status='warn' title='hi' content='' button='返回' url='/member/communicator/comReserve' />
+    } else if (message == 'no') {
+        return <Message status='no' title='hi' content='' button='返回' url='/member/communicator/comReserve' />
+    }
     const {
         chooseFilter,
         newdata,
@@ -59,7 +69,7 @@ export default function MemReserve(props) {
                         <div className="col">預約時段</div>
                         <div className="col-1" />
                     </div>
-                    <MemReserveList nowPageItems={nowPageItems} />
+                    <MemReserveList nowPageItems={nowPageItems} setMessage={setMessage} />
                     <div className='d-flex justify-content-center'>
                         <PageNav nowPage={nowPage} totalPage={totalPage} next={next} prev={prev} />
                     </div>

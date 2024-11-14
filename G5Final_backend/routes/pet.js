@@ -157,7 +157,7 @@ router.post(
     try {
       const [rows] = await db2.query(
         `INSERT INTO PetCommunicator
-      (MemberID, RealName, Certificateid, CertificateDate, Status,Img)
+      (MemberID, RealName, Certificateid, CertificateDate, Status,PetCommCertificateImg)
       VALUES (?, ?, ?, ?, ?,?)`,
         [MemberID, RealName, Certificateid, CertificateDate, '未刊登', Img]
       )

@@ -15,7 +15,7 @@ export default function Banner(props) {
     dots: true, // banner下方的點點圖
     arrows: false, // 關閉預設箭頭樣式及功能
     infinite: true, // 是否無限循環
-    speed: 500, // 切換速度
+    speed: 1000, // 切換速度
     slidesToShow: 1, // 每次切換顯示數量
     slidesToScroll: 1, // 滾動的數量
     beforeChange: (prev, next) => setChangeBanner(next), // beforeChange套件函式,prev, next參數可以自定義 當前顯示,下一個顯示

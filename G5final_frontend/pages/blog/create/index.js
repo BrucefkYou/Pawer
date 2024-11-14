@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Head from 'next/head';
 
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import Myeditor from '@/components/join/CKEditorTest';
@@ -132,179 +133,202 @@ export default function BlogCreate() {
   }, []);
 
   return (
-    <div className="bl-create">
-      <div className="bl-create-main container">
-        <Breadcrumbs />
-        <div className="main-section">
-          {/* 標題 */}
-          <div className="blog-create-title">
-            <h5>建立文章</h5>
-            <Image src="/blog/line.svg" alt="" width={64} height={2} />
-          </div>
-
-          {/* 文章封面 */}
-          <div className="card-section cover shadow rounded-1">
-            <div id="image-preview-wrapper" className="image-preview-wrapper">
-              <Image
-                src={uploadedImageUrl || previewImage}
-                alt="圖片預覽"
-                fill
-              />
+    <>
+      <Head>
+        <title>Pawer寶沃-部落格創建</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="bl-create">
+        <div className="bl-create-main container">
+          <Breadcrumbs />
+          <div className="main-section">
+            {/* 標題 */}
+            <div className="blog-create-title">
+              <h5>建立文章</h5>
+              <Image src="/blog/line.svg" alt="" width={64} height={2} />
             </div>
 
-            <div className="cover-info">
-              <label className="required" htmlFor="imageName">
-                文章封面
-              </label>
-              <div className="upload-section">
-                <div className="input-group">
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => fileInputRef.current.click()}
-                  >
-                    選擇封面
-                  </button>
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    id="imageName"
-                    name="imageName"
-                    style={{ display: 'none' }}
-                    onChange={uploadCover}
-                  />
-                  <input
-                    className="form-control"
-                    placeholder={imageName}
-                    readOnly
-                  />
+            {/* 文章封面 */}
+            <div className="card-section cover shadow rounded-1">
+              <div id="image-preview-wrapper" className="image-preview-wrapper">
+                <Image
+                  src={uploadedImageUrl || previewImage}
+                  alt="圖片預覽"
+                  fill
+                />
+              </div>
+
+              <div className="cover-info">
+                <label className="required" htmlFor="imageName">
+                  文章封面
+                </label>
+                <div className="upload-section">
+                  <div className="input-group">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => fileInputRef.current.click()}
+                    >
+                      選擇封面
+                    </button>
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      id="imageName"
+                      name="imageName"
+                      style={{ display: 'none' }}
+                      onChange={uploadCover}
+                    />
+                    <input
+                      className="form-control"
+                      placeholder={imageName}
+                      readOnly
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* 輸入標題 */}
-          <div className="card-section shadow rounded-1">
-            <div className="blog-input">
-              <label className="required" htmlFor="title">
-                文章標題
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                name="title"
-                placeholder="請填寫文章標題"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+            {/* 輸入標題 */}
+            <div className="card-section shadow rounded-1">
+              <div className="blog-input">
+                <label className="required" htmlFor="title">
+                  文章標題
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="title"
+                  name="title"
+                  placeholder="請填寫文章標題"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+
+              {/* 文章編輯器 */}
+              <div className="blog-input">
+                <label className="required" htmlFor="editor-container">
+                  文章內容
+                </label>
+                <div id="editor-container"></div>
+                <input type="hidden" id="edit" name="edit" />
+                <Myeditor
+                  name="article"
+                  onChange={(data) => {
+                    setData(data);
+                  }}
+                  value={data}
+                  editorLoaded={editorLoaded}
+                />
+              </div>
+
+              <Tag
+                label="文章標籤"
+                placeholder="輸入文章＃標籤，最多五個"
+                tagLength={5}
+                tags={tags}
+                setTags={handleTagsChange}
               />
             </div>
 
-            {/* 文章編輯器 */}
-            <div className="blog-input">
-              <label className="required" htmlFor="editor-container">
-                文章內容
-              </label>
-              <div id="editor-container"></div>
-              <input type="hidden" id="edit" name="edit" />
-              <Myeditor
-                name="article"
-                onChange={(data) => {
-                  setData(data);
-                }}
-                value={data}
-                editorLoaded={editorLoaded}
-              />
-            </div>
-
-            <Tag
-              label="文章標籤"
-              placeholder="輸入文章＃標籤，最多五個"
-              tagLength={5}
-              tags={tags}
-              setTags={handleTagsChange}
-            />
-          </div>
-
-          {/* 底部按鈕 */}
-          <div className="blog-bottom-btn">
-            <Link
-              href={`http://localhost:3000/member/blog`}
-              className="btn btn-danger text-decoration-none"
-              type="button"
-            >
-              捨棄
-            </Link>
-            <div className="btn-group">
-              <button
+            {/* 底部按鈕 */}
+            <div className="blog-bottom-btn">
+              <Link
+                href={`http://localhost:3000/member/blog`}
+                className="btn btn-danger text-decoration-none"
                 type="button"
-                className="btn btn-outline-primary"
-                onClick={handlePreview}
               >
-                預覽
-              </button>
-              <button
-                type="button"
-                className="btn btn-outline-primary"
-                onClick={(e) =>
-                  handleSaveDraft(
-                    e,
-                    uid,
-                    title,
-                    data,
-                    tags,
-                    imageName,
-                    router,
-                    uploadedImageUrl
-                  )
-                }
-              >
-                儲存草稿
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={(e) =>
-                  handleSubmit(
-                    e,
-                    uid,
-                    title,
-                    data,
-                    tags,
-                    imageName,
-                    router,
-                    uploadedImageUrl
-                  )
-                }
-              >
-                發佈文章
-              </button>
+                捨棄
+              </Link>
+              <div className="btn-group">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
+                  onClick={handlePreview}
+                >
+                  預覽
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
+                  onClick={(e) =>
+                    handleSaveDraft(
+                      e,
+                      uid,
+                      title,
+                      data,
+                      tags,
+                      imageName,
+                      router,
+                      uploadedImageUrl
+                    )
+                  }
+                >
+                  儲存草稿
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={(e) =>
+                    handleSubmit(
+                      e,
+                      uid,
+                      title,
+                      data,
+                      tags,
+                      imageName,
+                      router,
+                      uploadedImageUrl
+                    )
+                  }
+                >
+                  發佈文章
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="blog-bottom-btn-mobile">
-        <Link
-          href={`http://localhost:3000/member/blog`}
-          className="col btn-mobile text-decoration-none"
-          type="button"
-        >
-          <FaTrashAlt className="icon" />
-          捨棄
-        </Link>
-        {/* <button type="button" className="col btn-mobile">
+        <div className="blog-bottom-btn-mobile">
+          <Link
+            href={`http://localhost:3000/member/blog`}
+            className="col btn-mobile text-decoration-none"
+            type="button"
+          >
+            <FaTrashAlt className="icon" />
+            捨棄
+          </Link>
+          {/* <button type="button" className="col btn-mobile">
                 </button> */}
 
-        <button className="col btn-mobile" onClick={handlePreview}>
-          <FaEye className="icon" />
-          預覽
-        </button>
+          <button className="col btn-mobile" onClick={handlePreview}>
+            <FaEye className="icon" />
+            預覽
+          </button>
 
-        <button className="col btn-mobile">
-          <BsBookmarkFill
-            className="icon "
+          <button className="col btn-mobile">
+            <BsBookmarkFill
+              className="icon "
+              onClick={(e) =>
+                handleSaveDraft(
+                  e,
+                  uid,
+                  title,
+                  data,
+                  tags,
+                  imageName,
+                  router,
+                  uploadedImageUrl
+                )
+              }
+            />
+            儲存草稿
+          </button>
+
+          <button
+            className="col btn-mobile"
             onClick={(e) =>
-              handleSaveDraft(
+              handleSubmit(
                 e,
                 uid,
                 title,
@@ -315,29 +339,12 @@ export default function BlogCreate() {
                 uploadedImageUrl
               )
             }
-          />
-          儲存草稿
-        </button>
-
-        <button
-          className="col btn-mobile"
-          onClick={(e) =>
-            handleSubmit(
-              e,
-              uid,
-              title,
-              data,
-              tags,
-              imageName,
-              router,
-              uploadedImageUrl
-            )
-          }
-        >
-          <FaUpload className="icon" />
-          發佈文章
-        </button>
+          >
+            <FaUpload className="icon" />
+            發佈文章
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
