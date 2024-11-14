@@ -96,7 +96,7 @@ export default function JoinList() {
   return (
     <>
       <Head>
-        <title>Pawer寶沃-活動列表</title> {/* 設置當前頁面的標題 */}
+        <title>Pawer寶沃-萌寵聚會</title> {/* 設置當前頁面的標題 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Banner bgImgUrl="/join/banner-jism.jpg" ImgCover="cover" />

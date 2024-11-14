@@ -264,6 +264,7 @@ const Publish = () => {
                     setData(data);
                   }}
                   editorLoaded={editorLoaded}
+                  required
                 />
               </div>
               <div className="mb-3">
@@ -280,6 +281,7 @@ const Publish = () => {
                       timeInputLabel="Time:"
                       dateFormat="yyyy/MM/dd HH:mm"
                       showTimeInput
+                      required
                     />
                   </div>
 
@@ -295,6 +297,7 @@ const Publish = () => {
                       timeInputLabel="Time:"
                       dateFormat="yyyy/MM/dd HH:mm"
                       showTimeInput
+                      required
                     />
                   </div>
                 </div>
@@ -345,6 +348,7 @@ const Publish = () => {
                       timeInputLabel="Time:"
                       dateFormat="yyyy/MM/dd HH:mm"
                       showTimeInput
+                      required
                     />
                   </div>
                 </div>
@@ -357,6 +361,7 @@ const Publish = () => {
                   setCity={setCity}
                   setTownship={setTownship}
                   setLocation={setLocation}
+                  required
                 />
                 {/* <MySelect data={addressData} setData={setAddressData} /> */}
               </div>
@@ -372,27 +377,38 @@ const Publish = () => {
               {/* Tag 輸入框區 */}
             </div>
           </div>
-          <div className="d-flex justify-content-center my-5">
+          <div className="d-flex justify-content-between my-5">
             <button
-              id="send"
-              // type="submit"
-              className="btn btn-primary rounded-2 ji-pr-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                saveToDo();
-              }}
-            >
-              發佈
-            </button>
-            <button
-              className="ji-preview-btn"
+              className="ji-preview-btn btn btn-danger rounded-2"
               onClick={(e) => {
                 e.preventDefault();
                 saveDraft();
               }}
             >
-              預覽
+              取消
             </button>
+            <div>
+              <button
+                className="ji-preview-btn btn btn-outline-primary rounded-2 me-3"
+                onClick={(e) => {
+                  e.preventDefault();
+                  saveDraft();
+                }}
+              >
+                草稿
+              </button>
+              <button
+                id="send"
+                // type="submit"
+                className="btn btn-primary rounded-2"
+                onClick={(e) => {
+                  e.preventDefault();
+                  saveToDo();
+                }}
+              >
+                發佈
+              </button>
+            </div>
           </div>
         </form>
       </div>
