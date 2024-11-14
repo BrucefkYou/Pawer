@@ -23,3 +23,13 @@
 .slick-prev, .slick-next {
   display: none !important; // 隱藏預設的左右按鈕
 }
+
+@media (max-width:576px) {
+  .leftArrow {
+    display: none;
+  }
+  
+  .rightArrow {
+    display: none;
+  }
+}
