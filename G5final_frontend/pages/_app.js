@@ -3,6 +3,7 @@ import { AuthProvider } from '@/hooks/use-auth';
 import { CartProvider } from '@/hooks/use-cart/use-cart-state';
 import { LoaderProvider } from '@/hooks/use-loader';
 import Head from 'next/head';
+import CustomCursor from '@/components/mouseCursor';
 import '@/index.scss';
 import DefaultLayout from '@/components/layout/default-layout';
 
@@ -20,6 +21,7 @@ export default function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LoaderProvider>
+        <CustomCursor />
         <AuthProvider>
           <CartProvider>{getLayout(<Component {...pageProps} />)}</CartProvider>
         </AuthProvider>

@@ -91,17 +91,9 @@ export default function CartInfo(props) {
       });
       const resData = await res.json();
       setOrderID(resData.orderId);
+      
+      // 導頁的行為在後端處理
 
-      // if (res.status === 201) {
-      //   router.push('/cart/success');
-      // } else if (res.status === 500) {
-      //   router.push('/cart/fail');
-      // } else {
-      // 處理其他狀態碼
-      //   console.log('Unexpected response status:', res.status);
-      //   console.log('Response data:', resData);
-      // 可以在這裡顯示錯誤訊息給用戶
-      // }
     } catch (error) {
       console.log(error);
     }
@@ -328,8 +320,8 @@ export default function CartInfo(props) {
                 <section className="deliver-block mt-3">
                   {/* 寄送方式-標題 */}
                   <div className="home-delivery">
-                    <span className="delivery-title">
-                      寄送方式 <span className="text-danger">*</span>
+                    <span className="delivery-title cartInfo-title">
+                      寄送方式
                     </span>
                   </div>
                   {/* 寄送方式-選項 */}
@@ -515,8 +507,8 @@ export default function CartInfo(props) {
                 <section className="payment-block">
                   {/* 付款方式-標題 */}
                   <div className="home-delivery">
-                    <span className="delivery-title">
-                      付款方式 <span className="text-danger">*</span>
+                    <span className="delivery-title cartInfo-title">
+                      付款方式 
                     </span>
                   </div>
                   {/* !待新增效果-點擊後才出現下面的欄位 */}
@@ -570,7 +562,7 @@ export default function CartInfo(props) {
                 <section className="receipt-block">
                   {/* 發票資訊-標題 */}
                   <div className="home-delivery">
-                    <span className="delivery-title">發票資訊</span>
+                    <span className="delivery-title cartInfo-title">發票資訊</span>
                   </div>
                   {/* !待新增效果-點擊後才出現下面的欄位 */}
                   {/* 捐贈發票 */}

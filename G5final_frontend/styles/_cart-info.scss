@@ -124,6 +124,10 @@
         font-weight: 500;
         line-height: 24px; /* 150% */
       }
+      .cartInfo-title{
+        font-size: 20px;
+        color: $primary;
+      }
       /* 便利商店選擇按鈕樣式 */
       .btn-convenience {
         height: 50px;
@@ -249,6 +253,10 @@
         font-size: 18px;
         font-weight: 400;
         color: #646464;
+      }
+      .cartInfo-title{
+        font-size: 20px;
+        color: $primary;
       }
       /* 基本資訊input欄位設定 */
       .input-block {
