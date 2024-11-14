@@ -10,13 +10,14 @@ import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import Myeditor from '@/components/join/CKEditorTest';
 import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 
 // react-datepicker套件 與其他相關設定
 // moment 處理時間格式
 import { BsCalendar } from 'react-icons/bs';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import {zhCN } from 'date-fns/locale';
+import { zhCN } from 'date-fns/locale';
 registerLocale('zhCN', zhCN);
 
 export default function JiEdit(props) {
@@ -247,26 +248,78 @@ export default function JiEdit(props) {
 
   const saveUpdate = async () => {
     try {
-      const response = await fetch(`http://localhost:3005/api/join-in/update/${router.query.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          imageName,
-          memberId: auth.memberData.id,
-          title,
-          info: data,
-          startTime,
-          endTime,
-          count,
-          signEndDate,
-          city,
-          township,
-          location,
-          tags,
-        }),
+      const response = await fetch(
+        `http://localhost:3005/api/join-in/update/${router.query.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            imageName,
+            memberId: auth.memberData.id,
+            title,
+            status: 0,
+            info: data,
+            startTime,
+            endTime,
+            count,
+            signEndDate,
+            city,
+            township,
+            location,
+            tags,
+          }),
+        }
+      );
+      const result = await Swal.fire({
+        title: '確認提交修改？',
+        // text: '這個操作無法撤銷！',
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '確認',
+        cancelButtonText: '取消',
       });
+      if (response.ok) {
+        router.push('/join');
+      } else {
+        alert(`寫入失敗: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('寫入資料失敗', error);
+      alert('寫入發生錯誤，稍後再試。');
+    }
+  };
+
+  // 發佈活動
+  const savePublish = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3005/api/join-in/update/${router.query.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            imageName,
+            memberId: auth.memberData.id,
+            title,
+            status: 1,
+            info: data,
+            startTime,
+            endTime,
+            count,
+            signEndDate,
+            city,
+            township,
+            location,
+            tags,
+          }),
+        }
+      );
       const result = await Swal.fire({
         title: '確認提交修改？',
         // text: '這個操作無法撤銷！',
@@ -429,7 +482,7 @@ export default function JiEdit(props) {
                 </div>
               </div>
               <div id="join-address" className="mb-3">
-              <AreaSelect
+                <AreaSelect
                   city={city}
                   township={township}
                   location={location}
@@ -451,11 +504,11 @@ export default function JiEdit(props) {
               {/* Tag 輸入框區 */}
             </div>
           </div>
-          <div className="d-flex justify-content-center my-5">
+          <div className="d-flex justify-content-between my-5">
             <button
               id="send"
               // type="submit"
-              className="btn btn-outline-primary rounded-2 me-4"
+              className="btn btn-danger rounded-2"
               onClick={(e) => {
                 e.preventDefault();
                 handleCancelClick();
@@ -463,17 +516,30 @@ export default function JiEdit(props) {
             >
               取消
             </button>
-            <button
-              id="send"
-              // type="submit"
-              className="btn btn-primary rounded-2 "
-              onClick={(e) => {
-                e.preventDefault();
-                saveUpdate();
-              }}
-            >
-              保存
-            </button>
+            <div>
+              <button
+                id="send"
+                // type="submit"
+                className="btn btn-outline-primary rounded-2 me-3"
+                onClick={(e) => {
+                  e.preventDefault();
+                  saveUpdate();
+                }}
+              >
+                草稿
+              </button>
+              <button
+                id="send"
+                // type="submit"
+                className="btn btn-primary rounded-2 "
+                onClick={(e) => {
+                  e.preventDefault();
+                  savePublish();
+                }}
+              >
+                發佈
+              </button>
+            </div>
           </div>
         </form>
       </div>

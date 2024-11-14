@@ -6,6 +6,7 @@ import SectionTwo from '@/components/home/section-two';
 import SectionSix from '@/components/home/section-six';
 import Hotproduct from '@/components/home/hotproduct/hotproduct';
 import HomeBlCard from '@/components/blog/home-bl-sec';
+import HomeJoinCard from '@/components/join/home-join-card';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -262,7 +263,7 @@ export default function Home() {
           {/* section-six */}
           <SectionSix />
           {/* section-seven */}
-          <HomeBlCard/>
+          <HomeBlCard />
         </div>
       </div>
     </>
