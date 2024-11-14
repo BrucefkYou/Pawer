@@ -9,7 +9,7 @@ export default function ComDetail(props) {
     const id = auth?.memberData?.id;
     const processData = (items) => {
         if (!id) return [];
-        return items.filter((item) => item.ID === id);
+        return items.filter((item) => item.MemberID === id);
     };
     const { nowPageItems } = usePagination({
         url: 'http://localhost:3005/api/pet',
