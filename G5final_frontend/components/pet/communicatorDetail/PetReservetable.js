@@ -8,8 +8,6 @@ import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
 import Image from 'next/image';
-
-
 import "react-datepicker/dist/react-datepicker.css";
 export default function PetReservetable({ fetchOne }) {
     const router = useRouter()
@@ -17,8 +15,6 @@ export default function PetReservetable({ fetchOne }) {
     const { auth } = useAuth()
     const memberID = auth.memberData.id
     const memberEmail = auth.memberData.email
-    console.log(memberEmail);
-
     const [from, setFrom] = useState({
         ReserveName: "",
         Phone: "",
@@ -48,8 +44,6 @@ export default function PetReservetable({ fetchOne }) {
         const SERVICE_ID = 'service_y1soora'
         const TEMPLATE_ID = "template_jqmhk8c"
         const PUBLIC_ID = "uGgKuam9nMvWLqpjN"
-
-
         //寫入資料庫
         const form = document.querySelector('#reserve');
         // 用表單元素創建 FormData 物件
@@ -107,8 +101,6 @@ export default function PetReservetable({ fetchOne }) {
                 備註：${from.Remark}
                 預約時段：${formattedDateTime}`
                 }, PUBLIC_ID);
-                
-                
                 //轉頁
                 setTimeout(() => {
                     router.push('/member/communicator/memReserve')

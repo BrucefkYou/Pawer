@@ -2,12 +2,27 @@ import React, { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/use-auth';
 import toast, { Toaster } from 'react-hot-toast';
 import { BsImage } from "react-icons/bs";
+import logo from 'public/LOGO.svg';
+import Image from 'next/image';
 export default function CreateCardTwo({ setMessage }) {
   const { auth } = useAuth()
   const memberID = auth.memberData.id
   // 表單寫入資料庫
   const submitForm = (event) => {
     event.preventDefault()
+    if (!imagePreview) {
+      toast('請上傳頭像', {
+        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          background: 'rgba(34, 53, 92, 1)',
+          color: '#fff',
+          marginTop: '80px',
+        },
+      });
+      return
+    }
     const form = document.querySelector("#create")
     const formData = new FormData(form)
     try {
@@ -15,27 +30,37 @@ export default function CreateCardTwo({ setMessage }) {
         method: "POST",
         body: formData,
       })
-      toast('註冊成功,處理工作日7-10天',
-        {
-          icon: '👏',
-          duration: 2000,
-          style: {
-            borderRadius: '10px',
-            background: '#333',
-            color: '#fff',
-          },
-        }
-      );
+      toast('註冊成功,待工作人員審核', {
+        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          background: 'rgba(84, 124, 215, 1)',
+          color: '#fff',
+          marginTop: '80px',
+        },
+      });
       setTimeout(() => {
         setMessage('ok')
       }, 2000);
     } catch (err) {
       console.log(err);
+      toast('失敗請重新再試', {
+        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          background: 'rgba(34, 53, 92, 1)',
+          color: '#fff',
+          marginTop: '80px',
+        },
+      });
     }
   }
   // 前端照片處理預覽
   const [imagePreview, setImagePreview] = useState()
   const changeImg = (event) => {
+    
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();

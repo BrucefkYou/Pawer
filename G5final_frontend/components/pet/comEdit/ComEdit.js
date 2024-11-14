@@ -10,7 +10,7 @@ export default function ComEdit(props) {
     const { auth } = useAuth()
     const id = auth.memberData.id
     const processData = (items) => {
-        return items.filter((item) => item.ID === id);
+        return items.filter((item) => item.MemberID === id);
     };
     const { nowPageItems } = usePagination({
         url: 'http://localhost:3005/api/pet',
@@ -39,7 +39,7 @@ export default function ComEdit(props) {
         const form = document.querySelector("#edit")
         const formData = new FormData(form);
         // 移除圖片欄位
-        if (Img != '') {
+        if (Img != '' && !imagePreview) {
             formData.delete('pic');
         }
         try {
@@ -55,6 +55,8 @@ export default function ComEdit(props) {
             console.log(err);
         }
     }
+    console.log(nowPageItems);
+    
     return (
         <>
             {nowPageItems.map((mydata) => < React.Fragment key={mydata.ID || i} >
