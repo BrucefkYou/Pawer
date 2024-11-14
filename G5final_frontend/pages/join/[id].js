@@ -12,6 +12,10 @@ import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import SignStatusCard from '@/components/join/detail/sign-status-card/sign-status-card';
 import Swal from 'sweetalert2';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 import {
   BsClock,
   BsGeoAlt,
@@ -104,10 +108,8 @@ export default function JiDetail(props) {
       confirmButtonText: '刪除',
       cancelButtonText: '取消',
     });
-
     if (result.isConfirmed) {
       setLoading(true);
-
       try {
         const response = await fetch(
           `http://localhost:3005/api/join-in/${router.query.id}`,
@@ -139,6 +141,52 @@ export default function JiDetail(props) {
     : '';
   const address = data.City + data.Township + data.Location;
   const tag = data.Tags ? data.Tags.split(',') : [];
+
+  const [joinin, setJoinin] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3005/api/join-in');
+        if (!response.ok) {
+          throw new Error('網路回應不成功：' + response.status);
+        }
+        const data = await response.json();
+        const sortJoin = data
+          .filter((v) => v.Status === 1 || v.Status === '即將成團')
+          .sort((a, b) => b.SignCount - a.SignCount)
+          .slice(0, 7);
+
+        console.log(sortJoin);
+        setJoinin(sortJoin);
+        console.log(joinin);
+      } catch (err) {
+        console.error('錯誤：', err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    speed: 1000,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    accessibility: true,
+    arrows: false,
+
+    responsive: [
+      {
+        breakpoint: 1320,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   const display = (
     <div className="container ji-detail-container">
       <Breadcrumbs />
@@ -226,12 +274,17 @@ export default function JiDetail(props) {
         title={'附近的活動'}
         img={pawButton}
         content={
-          <div className="ji-detail-down row flex-nowrap overflow-x-scroll">
-           <AroundJoinCard data={data}/>
-           <AroundJoinCard/>
-           <AroundJoinCard/>
-           <AroundJoinCard/>
-          </div>
+          <Slider {...settings}>
+          {joinin.map((data) => {
+            return (
+              <AroundJoinCard
+                key={uuidv4()}
+                iconfillcolor="#FFD700"
+                data={data}
+              />
+            );
+          })}
+        </Slider>
         }
       />
     </div>

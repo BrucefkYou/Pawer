@@ -682,7 +682,7 @@ router.put('/update/:id', upload.single('joinImage'), async (req, res) => {
         [tag]
       )
 
-      // 如果不存在 (existingTag 為空陣列) 才���增
+      // 如果不存在 (existingTag 為空陣列)才新增
       if (existingTag.length === 0) {
         await db2.execute(
           `INSERT INTO Tag (Name, CreateDate, CreateUserID) VALUES (?, ?, ?)`,
