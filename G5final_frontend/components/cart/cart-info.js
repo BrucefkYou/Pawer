@@ -9,8 +9,6 @@ import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import { useLoader } from '@/hooks/use-loader';
-import toast from 'react-hot-toast';
-// import { toast } from 'react-toastify';
 
 export default function CartInfo(props) {
   const { loading, setLoading } = useLoader();
@@ -91,9 +89,8 @@ export default function CartInfo(props) {
       });
       const resData = await res.json();
       setOrderID(resData.orderId);
-      
-      // 導頁的行為在後端處理
 
+      // 導頁的行為在後端處理
     } catch (error) {
       console.log(error);
     }
@@ -285,7 +282,9 @@ export default function CartInfo(props) {
                 <InfoList />
                 <hr className="desktop-hr" />
                 {/* 優惠券 */}
-                {!discount || discount.ID === 0 ? ("") : (
+                {!discount || discount.ID === 0 ? (
+                  ''
+                ) : (
                   <div className="info-discount">
                     <div className="d-flex align-items-center">
                       <div className="discount-check-box mr50 d-flex align-items-center">
@@ -336,7 +335,9 @@ export default function CartInfo(props) {
                       onChange={handleDeliveryChange}
                       required
                     />
-                    <span className="delivery-title form-check-label">宅配</span>
+                    <span className="delivery-title form-check-label">
+                      宅配
+                    </span>
                   </div>
                   {/* 基本資訊 */}
                   {selectedDelivery === 'home' ? (
@@ -344,18 +345,29 @@ export default function CartInfo(props) {
                       <div className="row row-cols-1 row-cols-lg-3">
                         <div className="col">
                           <div className="input-group input-block">
-                            <span className="input-group-text" id="basic-addon1">收貨人 <span className='text-danger'>*</span></span>
+                            <span
+                              className="input-group-text"
+                              id="basic-addon1"
+                            >
+                              收貨人 <span className="text-danger">*</span>
+                            </span>
                             <input
                               type="text"
                               className="form-control"
                               value={receiver}
                               onChange={(e) => setReceiver(e.target.value)}
-                              required={selectedDelivery === 'convenience'} />
+                              required={selectedDelivery === 'convenience'}
+                            />
                           </div>
                         </div>
                         <div className="col">
                           <div className="input-group input-block">
-                            <span className="input-group-text" id="basic-addon1">手機號碼 <span className='text-danger'>*</span></span>
+                            <span
+                              className="input-group-text"
+                              id="basic-addon1"
+                            >
+                              手機號碼 <span className="text-danger">*</span>
+                            </span>
                             <input
                               className="form-control"
                               type="tel"
@@ -367,11 +379,13 @@ export default function CartInfo(props) {
                         </div>
                         <div className="col">
                           <div className="input-group input-block">
-                            <span className="input-group-text" id="basic-addon1">市話</span>
-                            <input
-                              className="form-control"
-                              type="tel"
-                            />
+                            <span
+                              className="input-group-text"
+                              id="basic-addon1"
+                            >
+                              市話
+                            </span>
+                            <input className="form-control" type="tel" />
                           </div>
                         </div>
                       </div>
@@ -388,7 +402,12 @@ export default function CartInfo(props) {
                         />
                         <div className="col-12">
                           <div className="input-group input-block">
-                            <span className="input-group-text" id="basic-addon1">地址 <span className='text-danger'>*</span></span>
+                            <span
+                              className="input-group-text"
+                              id="basic-addon1"
+                            >
+                              地址 <span className="text-danger">*</span>
+                            </span>
                             <input
                               className="form-control"
                               type="text"
@@ -415,7 +434,9 @@ export default function CartInfo(props) {
                       onChange={handleDeliveryChange}
                       required
                     />
-                    <span className="delivery-title form-check-label">超商取貨</span>
+                    <span className="delivery-title form-check-label">
+                      超商取貨
+                    </span>
                   </div>
                   {selectedDelivery === 'convenience' ? (
                     <>
@@ -424,18 +445,29 @@ export default function CartInfo(props) {
                       <div className="row row-cols-1 row-cols-lg-3">
                         <div className="col">
                           <div className="input-group input-block">
-                            <span className="input-group-text" id="basic-addon1">收貨人 <span className='text-danger'>*</span></span>
+                            <span
+                              className="input-group-text"
+                              id="basic-addon1"
+                            >
+                              收貨人 <span className="text-danger">*</span>
+                            </span>
                             <input
                               type="text"
                               className="form-control"
                               value={receiver}
                               onChange={(e) => setReceiver(e.target.value)}
-                              required={selectedDelivery === 'convenience'} />
+                              required={selectedDelivery === 'convenience'}
+                            />
                           </div>
                         </div>
                         <div className="col">
                           <div className="input-group input-block">
-                            <span className="input-group-text" id="basic-addon1">手機號碼 <span className='text-danger'>*</span></span>
+                            <span
+                              className="input-group-text"
+                              id="basic-addon1"
+                            >
+                              手機號碼 <span className="text-danger">*</span>
+                            </span>
                             <input
                               className="form-control"
                               type="tel"
@@ -447,24 +479,29 @@ export default function CartInfo(props) {
                         </div>
                         <div className="col">
                           <div className="input-group input-block">
-                            <span className="input-group-text" id="basic-addon1">市話</span>
-                            <input
-                              className="form-control"
-                              type="tel"
-                            />
+                            <span
+                              className="input-group-text"
+                              id="basic-addon1"
+                            >
+                              市話
+                            </span>
+                            <input className="form-control" type="tel" />
                           </div>
                         </div>
                       </div>
-                      <div className='mt20'>
-                        <span className="delivery-title">取貨門市 <span className='text-danger'>*</span></span>
+                      <div className="mt20">
+                        <span className="delivery-title">
+                          取貨門市 <span className="text-danger">*</span>
+                        </span>
                       </div>
                       {/* 選擇超商 */}
                       <div className="row row-cols-2 row-cols-lg-4">
                         <div className="col mt10">
                           <button
                             type="button"
-                            className={`btn btn-convenience w-100 ${store711.storename ? 'btn-warning' : ''
-                              }`}
+                            className={`btn btn-convenience w-100 ${
+                              store711.storename ? 'btn-warning' : ''
+                            }`}
                             onClick={() => openWindow()}
                           >
                             <Image
@@ -508,7 +545,7 @@ export default function CartInfo(props) {
                   {/* 付款方式-標題 */}
                   <div className="home-delivery">
                     <span className="delivery-title cartInfo-title">
-                      付款方式 
+                      付款方式
                     </span>
                   </div>
                   {/* !待新增效果-點擊後才出現下面的欄位 */}
@@ -555,14 +592,15 @@ export default function CartInfo(props) {
                     />
                     <span className="delivery-title">LinePay</span>
                   </div>
-
                 </section>
                 <hr className="desktop-hr" />
                 {/* 發票資訊 */}
                 <section className="receipt-block">
                   {/* 發票資訊-標題 */}
                   <div className="home-delivery">
-                    <span className="delivery-title cartInfo-title">發票資訊</span>
+                    <span className="delivery-title cartInfo-title">
+                      發票資訊
+                    </span>
                   </div>
                   {/* !待新增效果-點擊後才出現下面的欄位 */}
                   {/* 捐贈發票 */}
@@ -633,27 +671,26 @@ export default function CartInfo(props) {
                             NT${checkedPrice}
                           </div>
                         </div>
-                        {discount && discount.ID !== 0 ?
-                          (
-                            <div className="price-block d-flex justify-content-between w-100">
-                              <div className="price-font set-middle">優惠券</div>
-                              <div className="price-font set-middle d-flex flex-column">
-                                <div className="discount-icon">
-                                  {discount.checked && discount.Name ? (
-                                    discount.Name
-                                  ) : (
-                                    <div>無</div>
-                                  )}
-                                </div>
-                                <div>-NT${discountPrice}</div>
+                        {discount && discount.ID !== 0 ? (
+                          <div className="price-block d-flex justify-content-between w-100">
+                            <div className="price-font set-middle">優惠券</div>
+                            <div className="price-font set-middle d-flex flex-column">
+                              <div className="discount-icon">
+                                {discount.checked && discount.Name ? (
+                                  discount.Name
+                                ) : (
+                                  <div>無</div>
+                                )}
                               </div>
+                              <div>-NT${discountPrice}</div>
                             </div>
-                          ) : ("")}
+                          </div>
+                        ) : (
+                          ''
+                        )}
                         <hr />
                         <div className="price-block d-flex justify-content-between w-100">
-                          <div className="price-font set-middle">
-                            訂單總計
-                          </div>
+                          <div className="price-font set-middle">訂單總計</div>
                           <div className="price-font set-middle">
                             NT${checkedPrice - discountPrice}
                           </div>
@@ -675,11 +712,7 @@ export default function CartInfo(props) {
                 </Link>
               </div>
               <div>
-                <button
-                  type="submit"
-                  id="check-btn"
-                  className="btn check-btn"
-                >
+                <button type="submit" id="check-btn" className="btn check-btn">
                   確認付款
                 </button>
               </div>

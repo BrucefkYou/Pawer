@@ -4,7 +4,6 @@ import PetAdvertise from '@/components/pet/communicator/Advertise';
 import PetIndex from '@/components/pet/communicator/PetIndex';
 
 export default function communicatorIndex(props) {
-  
   return (
     <>
       <div className="PT-list">
@@ -13,7 +12,7 @@ export default function communicatorIndex(props) {
         {/* 主要內容 */}
         <PetIndex />
         {/* 廣告 */}
-        <PetAdvertise/>
+        <PetAdvertise />
       </div>
     </>
   );
