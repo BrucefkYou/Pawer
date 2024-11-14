@@ -12,15 +12,18 @@ const shouldReset = (expTimestamp, exp, limit = 60) => {
 //新增otp, 或是更新otp
 // exp = 是 30 分到期,  limit = 60 是 60秒內不產生新的token
 const createOTP = async (email, user_id = null, exp = 30, limit = 60) => {
-  console.log(`email`, email)
+  // console.log(`email`, email, `creatotp user_id`, user_id)
 
-  // 檢查otp是否已經存在
-  const [foundOtpResult] = await db.execute(
-    'SELECT * FROM otp WHERE email = ?',
-    [email]
-  )
+  const query = user_id
+    ? 'SELECT * FROM otp WHERE user_id = ? AND email = ?'
+    : 'SELECT * FROM otp WHERE email = ?'
+
+  const params = user_id ? [user_id, email] : [email]
+
+  const [foundOtpResult] = await db.execute(query, params)
+
   const foundOtp = foundOtpResult[0]
-  console.log('foundOtp:', foundOtp)
+  // console.log('foundOtp:', foundOtp)
 
   // 找到記錄，因為在60s(秒)內限制，所以"不能"產生新的otp token
   if (foundOtp && !shouldReset(foundOtp.exp_timestamp, exp, limit)) {
@@ -57,7 +60,7 @@ const createOTP = async (email, user_id = null, exp = 30, limit = 60) => {
   // 以下為"沒找到otp記錄"
   // 以使用者輸入的Email作為secret產生otp token
   const token = generateToken(email)
-  console.log('token:', token)
+  // console.log('token:', token)
 
   // 到期時間 預設 exp = 30 分鐘到期
   const exp_timestamp = Date.now() + exp * 60 * 1000
@@ -69,7 +72,7 @@ const createOTP = async (email, user_id = null, exp = 30, limit = 60) => {
     token,
     exp_timestamp,
   }
-  console.log('newOtp:', newOtp)
+  // console.log('newOtp:', newOtp)
 
   // 建立新記錄
   const [createOtpResults] = await db.execute(
