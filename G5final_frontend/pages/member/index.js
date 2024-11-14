@@ -296,6 +296,9 @@ export default function Member() {
                   dateFormat="yyyy-MM-dd"
                   showIcon
                   selected={startDate}
+                  showYearDropdown
+                  yearDropdownItemNumber={100}
+                  scrollableYearDropdown
                   onChange={handleDateChange}
                 />
               </div>
