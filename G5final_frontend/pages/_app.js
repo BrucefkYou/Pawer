@@ -11,6 +11,8 @@ export default function MyApp({ Component, pageProps }) {
   const getLayout =
     Component.getLayout || ((page) => <DefaultLayout>{page}</DefaultLayout>);
 
+  const pageTitle = pageProps.title || 'Pawer寶沃';
+
   useEffect(() => {
     import('bootstrap/dist/js/bootstrap');
   }, []);
@@ -19,6 +21,7 @@ export default function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <title>{pageTitle}</title>
       </Head>
       <LoaderProvider>
         <CustomCursor />

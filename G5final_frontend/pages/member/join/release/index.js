@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
 import MemberNav from '@/components/memberNav';
@@ -50,6 +51,10 @@ export default function Index(props) {
 
   return (
     <>
+      <Head>
+        <title>會員中心 - 已發起活動</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="ji-member">
         <div className="card-favorite d-flex justify-content-between">
           <PageTitle title={'已發起活動'} subTitle={'Release'} />

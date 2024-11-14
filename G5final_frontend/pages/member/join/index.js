@@ -2,6 +2,7 @@ import MemberLayout from '@/components/layout/member-layout';
 import React, { useState, useEffect } from 'react';
 import JoinListCard from '@/components/join/list/item/join-list-card';
 import Link from 'next/link';
+import Head from 'next/head';
 import MemberNav from '@/components/memberNav';
 import { usePagination } from '@/hooks/usePagination';
 import { PageNav } from '@/components/PageNav';
@@ -37,6 +38,10 @@ export default function OrderDetail() {
   });
   return (
     <>
+      <Head>
+        <title>會員中心 - 已報名活動</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="ji-member">
         <div className="card-favorite d-flex justify-content-between">
           <PageTitle title={'已報名活動'} subTitle={'Joined'} />

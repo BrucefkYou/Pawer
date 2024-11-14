@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/use-auth';
 import MemberLayout from '@/components/layout/member-layout';
@@ -33,8 +34,12 @@ export default function OrderDetail() {
 
   return (
     <>
+      <Head>
+        <title>會員中心 - 訂單詳情</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="mb-content d-flex justify-content-between">
-        <PageTitle title={'訂單查詢'} subTitle={'Order'} />
+        <PageTitle title={'訂單詳情'} subTitle={'Order'} />
       </div>
       <div className="mb-card">
         <div className="row">

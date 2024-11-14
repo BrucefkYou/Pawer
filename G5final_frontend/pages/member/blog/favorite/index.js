@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
 import MemberNav from '@/components/memberNav';
@@ -34,6 +35,10 @@ export default function OrderDetail() {
   });
   return (
     <>
+      <Head>
+        <title>會員中心 - 收藏部落格</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <article className="col-md-10">
         <div className="mb-content d-flex justify-content-between">
           <PageTitle title={'我的部落格'} subTitle={'Blog'} />

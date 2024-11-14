@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 
 export default function Fail(props) {
   return (
     <>
+      <Head>
+        <title>Pawer寶沃 - 付款失敗</title> {/* 設置當前頁面的標題 */}
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="cart">
         <div className="container">
           {/* 付款失敗區塊 */}
