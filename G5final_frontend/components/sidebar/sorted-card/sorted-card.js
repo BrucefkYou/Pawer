@@ -50,7 +50,7 @@ export default function SortedCard({ title,api, link, id, img,  content, date, c
                 <div className={styles['sorted-content']}>
                   <div className={styles['sorted-cover-container']}>
                     <Image
-                      src={blog[img]}
+                      src={blog[img] || '/blog/cover.svg'}
                       alt="Cover"
                       fill
                     />
