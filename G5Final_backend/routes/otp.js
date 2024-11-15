@@ -10,22 +10,12 @@ import moment from 'moment'
 import crypto from 'crypto'
 // OTPtoken產生與檢查
 import { createOTP, checkOTP } from '#db-helpers/otp.js'
+// 電子信箱文字訊息樣版
+import { generateOtpMailHtml } from '../emails/otpMailTemplate.js'
 // 寄送email
-import transporter from '#configs/mail.js'
+import { sendMail } from '../emails/emailService.js'
+// 環境變數
 import 'dotenv/config.js'
-
-// 電子郵件文字訊息樣版
-let mailFor = ''
-const forgetPasswordMailText = (otpToken, mailFor) => `親愛的網站會員 您好，
-通知 ${mailFor} 所需要的驗証碼，
-請輸入以下的6位數字，重設密碼頁面的"電子郵件驗証碼"欄位中。
-請注意驗証碼將於寄送後30分鐘後到期，如有任何問題請洽網站客服人員:
-    
-${otpToken}
-    
-敬上
-
-台灣 NextJS Inc. 網站`
 
 // 忘記密碼-產生OTP並寄信
 router.post('/forget-password-mail', async (req, res, next) => {
@@ -54,30 +44,25 @@ router.post('/forget-password-mail', async (req, res, next) => {
     return res.json({ status: 'error', message: 'Email錯誤或期間內重覆要求' })
 
   // 寄送email
-  mailFor = '重設密碼'
-  const mailOptions = {
-    // 這裡要改寄送人名稱，email在.env檔中代入
-    from: `"support"<${process.env.SMTP_TO_EMAIL}>`,
-    to: email,
-    subject: '重設密碼要求的電子郵件驗証碼',
-    text: forgetPasswordMailText(otp.token, mailFor),
-  }
+  const mailFor = '重設密碼'
+  const mailHTML = generateOtpMailHtml(otp.token, mailFor)
+  const mailSubject = 'Pawer 重設密碼要求的電子信箱驗証碼'
 
   // 寄送email
-  transporter.sendMail(mailOptions, (err, response) => {
-    if (err) {
-      // 失敗處理
-      // console.log(err)
-      return res.json({ status: 'error', message: '發送電子郵件失敗' })
-    } else {
-      // 成功回覆的json
-      return res.json({
-        status: 'success',
-        data: null,
-        message: '驗証碼已寄送到電子郵件中',
-      })
-    }
-  })
+  const result = await sendMail(email, mailSubject, mailHTML)
+
+  if (result.status === 'success') {
+    return res.json({
+      status: 'success',
+      data: null,
+      message: '驗證碼已寄送到電子信箱中',
+    })
+  } else {
+    return res.json({
+      status: 'error',
+      message: result.message,
+    })
+  }
 })
 
 // 重設密碼-檢查OTP並更新密碼
@@ -85,8 +70,14 @@ router.post('/reset-password', async (req, res) => {
   const { email, token, password } = req.body
   console.log(email, token, password)
 
-  if (!token || !email || !password) {
-    return res.json({ status: 'error', message: '缺少必要資料' })
+  if (!email) {
+    return res.json({ status: 'error', message: '信箱為必要欄位' })
+  }
+  if (!token) {
+    return res.json({ status: 'error', message: '驗證碼為必要欄位' })
+  }
+  if (!password) {
+    return res.json({ status: 'error', message: '密碼為必要欄位' })
   }
 
   // 驗証otp的存在與合法性(是否有到期)
@@ -137,7 +128,7 @@ router.post('/register-mail', async (req, res, next) => {
     email,
   ])
   if (emailCheck.length > 0) {
-    return res.json({ status: 'error', message: '信箱已被註冊' })
+    return res.json({ status: 'error', message: '此信箱已被註冊' })
   }
 
   // 建立otp資料表記錄，成功回傳otp記錄物件，失敗為空物件{}
@@ -149,30 +140,25 @@ router.post('/register-mail', async (req, res, next) => {
     return res.json({ status: 'error', message: 'Email錯誤或期間內重覆要求' })
 
   // 寄送email
-  mailFor = '註冊Pawer會員帳號'
-  const mailOptions = {
-    // 這裡要改寄送人名稱，email在.env檔中代入
-    from: `"support"<${process.env.SMTP_TO_EMAIL}>`,
-    to: email,
-    subject: '註冊帳號要求的電子郵件驗証碼',
-    text: forgetPasswordMailText(otp.token, mailFor),
-  }
+  const mailFor = '註冊帳號'
+  const mailHTML = generateOtpMailHtml(otp.token, mailFor)
+  const mailSubject = 'Pawer 註冊帳號要求的電子信箱驗証碼'
 
   // 寄送email
-  transporter.sendMail(mailOptions, (err, response) => {
-    if (err) {
-      // 失敗處理
-      // console.log(err)
-      return res.json({ status: 'error', message: '發送電子郵件失敗' })
-    } else {
-      // 成功回覆的json
-      return res.json({
-        status: 'success',
-        data: null,
-        message: '驗証碼已寄送到電子郵件中',
-      })
-    }
-  })
+  const result = await sendMail(email, mailSubject, mailHTML)
+
+  if (result.status === 'success') {
+    return res.json({
+      status: 'success',
+      data: null,
+      message: '驗證碼已寄送到電子信箱中',
+    })
+  } else {
+    return res.json({
+      status: 'error',
+      message: result.message,
+    })
+  }
 })
 
 // 註冊會員-檢查OTP並進行註冊

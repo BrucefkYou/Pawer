@@ -20,6 +20,17 @@ export default function LoginForm({ Formtype, setFormtype }) {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const { login, logout, auth, setAuth } = useAuth();
+  const handleLogin = async () => {
+    // 表單驗證 - START
+    if (user.email === '') {
+      return toast.error('請輸入電子信箱');
+    }
+    if (user.password === '') {
+      return toast.error('請輸入密碼');
+    }
+    // 表單驗證 - END
+    login(user.email, user.password);
+  };
   const { loginGoogle } = useFirebase();
 
   // 處理google登入後，要向伺服器進行登入動作
@@ -120,9 +131,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
 
             <button
               className={`btn btn-primary w-100 mt-3  ${styles['btn-custom']}`}
-              onClick={() => {
-                login(user.email, user.password);
-              }}
+              onClick={handleLogin}
             >
               登入
             </button>

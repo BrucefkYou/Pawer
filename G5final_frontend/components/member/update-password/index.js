@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styles from './login.module.scss';
-import Image from 'next/image';
+import Modal from 'react-bootstrap/Modal';
 import toast from 'react-hot-toast';
+import { useAuth } from '@/hooks/use-auth';
 //顯示隱藏密碼圖示
 import { FaEye } from 'react-icons/fa';
 import { PiEyeClosed } from 'react-icons/pi';
@@ -9,17 +9,17 @@ import { PiEyeClosed } from 'react-icons/pi';
 import useInterval from '@/hooks/use-interval';
 import { requestFPOtpToken, resetPassword } from '@/services/member';
 
-export default function ForgetPasswordForm({ Formtype, setFormtype }) {
+export default function ResetPasswordModal({ show, onClose, email }) {
   // checkbox 呈現密碼用
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setConfirmShowPassword] = useState(false);
   // 設定輸入欄位狀態
   const [user, setUser] = useState({
-    email: '',
     token: '',
     password: '',
     confirmPassword: '',
   });
+
   const [disableBtn, setDisableBtn] = useState(false);
   // 處理input輸入的共用函式，設定回userProfile狀態
   const handleFieldChange = (e) => {
@@ -41,17 +41,12 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
   }, [count]);
   // 處理要求一次性驗証碼用
   const handleRequestOtpToken = async () => {
-    // 表單驗證 - START
-    if (user.email === '') {
-      return toast.error('請輸入電子信箱');
-      }
-    // 表單驗證 - END
     if (delay !== null) {
       toast.error('錯誤 - 60s內無法重新獲得驗証碼');
       return;
     }
 
-    const res = await requestFPOtpToken(user.email);
+    const res = await requestFPOtpToken(email);
     console.log(res.data);
 
     if (res.data.status === 'success') {
@@ -63,73 +58,55 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
       toast.error(`${res.data.message}`);
     }
   };
+
   // 處理重設密碼用
   const handleResetPassword = async () => {
-    // 表單驗證 - START
-    
-    if (user.email === '') {
-    return toast.error('請輸入電子信箱');
-    }
-    if (user.token === '') {
-    return toast.error('請輸入驗證碼');
-    }
-    if (user.password === '') {
-    return toast.error('請輸入密碼');
-    }
-    if (user.confirmPassword === '') {
-    return toast.error('請輸入確認密碼');
-    }
-    if (user.password !== user.confirmPassword) {
-    return toast.error('密碼與確認密碼不相同');
-    }
-    // 表單驗證 - END
-
-    const res = await resetPassword(user.email, user.password, user.token);
+     // 表單驗證 - START
+     if (user.email === '') {
+        return toast.error('請輸入電子信箱');
+        }
+        if (user.token === '') {
+        return toast.error('請輸入驗證碼');
+        }
+        if (user.password === '') {
+        return toast.error('請輸入密碼');
+        }
+        if (user.confirmPassword === '') {
+        return toast.error('請輸入確認密碼');
+        }
+        if (user.password !== user.confirmPassword) {
+        return toast.error('密碼與確認密碼不相同');
+        }
+        // 表單驗證 - END
+    const res = await resetPassword(email, user.password, user.token);
     console.log(res.data);
+    console.log(email, user);
 
     if (res.data.status === 'success') {
-      toast.success(`${res.data.message}，為您轉至登入頁面`);
-      setTimeout(() => {
-        setFormtype(2);
-      }, 2000);
+      toast.success(`${res.data.message}`);
     } else {
       toast.error(`${res.data.message}`);
     }
   };
-
   return (
     <>
-      <div
-        className={
-          Formtype === 3
-            ? `row ${styles['auth-container']} position-relative`
-            : `d-none`
-        }
-      >
-        <div className={`col-lg-6 p-0 d-none d-lg-block`}>
-          <Image
-            src={'/member/login-pic.png'}
-            alt=""
-            width={446}
-            height={630}
-            className={`${styles['pic']}`}
-          />
-        </div>
-        <div
-          className={`col-lg-6 p-5 ${styles['login-form']} d-flex flex-column justify-content-between`}
-        >
-          <h2 className="text-center mb-4">重設密碼</h2>
+      <Modal show={show} onHide={onClose} backdrop="static" centered>
+        <Modal.Header closeButton>
+          <h5 className="text-primary m-0">重設密碼</h5>
+          {/* <Modal.Title className="text-primary"></Modal.Title> */}
+        </Modal.Header>
+        <Modal.Body>
           <div>
             <p className="mb-4">
-              請輸入您的會員電子信箱後，按下【取得驗證碼】按鈕，隨後將寄出驗證碼至您的信箱，請將驗證碼輸入至下方欄位後，重新設置新密碼。
+              為確保您個人資料的安全，請按下【取得驗證碼】按鈕，隨後將寄出驗證碼至您的信箱，請將驗證碼輸入至下方欄位後，重新設置新密碼。
             </p>
             <div className="input-group mb-3">
               <input
                 type="text"
                 className="form-control"
-                placeholder="電子信箱"
-                name="email"
-                value={user.email}
+                placeholder="驗證碼"
+                name="token"
+                value={user.token}
                 onChange={handleFieldChange}
               />
               <button
@@ -141,14 +118,6 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
                 {delay ? count + '秒後可取得驗證碼' : '取得驗證碼'}
               </button>
             </div>
-            <input
-              type="text"
-              className="form-control mb-3"
-              placeholder="驗證碼"
-              name="token"
-              value={user.token}
-              onChange={handleFieldChange}
-            />
 
             <div className="position-relative">
               <input
@@ -163,7 +132,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
                 onClick={() => {
                   setShowPassword(!showPassword);
                 }}
-                className={`${styles['eye-btn']}`}
+                className={`eye-btn`}
               >
                 {showPassword ? <FaEye /> : <PiEyeClosed />}
               </button>
@@ -181,40 +150,22 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
                 onClick={() => {
                   setConfirmShowPassword(!showConfirmPassword);
                 }}
-                className={`${styles['eye-btn']}`}
+                className="eye-btn"
               >
                 {showConfirmPassword ? <FaEye /> : <PiEyeClosed />}
               </button>
             </div>
-            <button
-              className={`btn btn-primary w-100 mb-4 mt-3 ${styles['btn-custom']}`}
-              onClick={handleResetPassword}
-            >
-              送出
-            </button>
           </div>
-          <div className="d-flex justify-content-between">
-            <button
-              className="btn btn-link text-primary p-0"
-              type="button"
-              onClick={() => {
-                setFormtype(1);
-              }}
-            >
-              註冊帳號
-            </button>
-            <button
-              className="btn btn-link text-primary p-0"
-              type="button"
-              onClick={() => {
-                setFormtype(2);
-              }}
-            >
-              回到登入
-            </button>
-          </div>
-        </div>
-      </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className={`btn btn-primary`} onClick={handleResetPassword}>
+            送出
+          </button>
+          <button className={`btn btn-secondary`} onClick={onClose}>
+            返回
+          </button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
