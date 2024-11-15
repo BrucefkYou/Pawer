@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import PageTitle from '@/components/member/page-title/page-title';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 // 更新會員資料
 import { updateProfile, updateProfileAvatar } from '@/services/member';
+// 修改密碼
+import ResetPasswordModal from '@/components/member/update-password';
 // 頭像上傳元件
 import PreviewUploadImage from '@/components/member/avatar-preview/preview-upload-image';
 // react-datepicker套件
@@ -29,6 +31,7 @@ export default function Member() {
     phone: '',
     gender: '',
     birth: '',
+    google_avatar: '',
   };
 
   const { auth, setAuth, getMember } = useAuth();
@@ -73,7 +76,6 @@ export default function Member() {
     // 如果有生日資料就用，沒有就用當天
     userProfile.birth ? new Date(userProfile.birth) : null
   );
-
   const handleDateChange = (date) => {
     // 日期有選擇onchange 就設定日期狀態
     setStartDate(date);
@@ -83,7 +85,6 @@ export default function Member() {
       birth: date ? date.toISOString().split('T')[0] : '',
     });
   };
-
   useEffect(() => {
     if (userProfile.birth) {
       setStartDate(new Date(userProfile.birth));
@@ -109,10 +110,10 @@ export default function Member() {
       // 對照server上的檔案名稱 req.files.avatar
       formData.append('avatar', selectedFile);
 
-      const res2 = await updateProfileAvatar(formData);
+      const updateAvatarRes = await updateProfileAvatar(formData);
 
       // console.log(res2.data)
-      if (res2.data.status === 'success') {
+      if (updateAvatarRes.data.status === 'success') {
         toast.success('會員頭像修改成功');
       }
     }
@@ -131,9 +132,10 @@ export default function Member() {
       toast.error(`會員資料修改失敗，${res.data.message}`);
     }
   };
-
-  // 未登入時，不會出現頁面內容
-  // if (!auth.isAuth) return <></>;
+  // 定義修改密碼的modal開關狀態
+  const [showModal, setShowModal] = useState(false);
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   return (
     <>
@@ -143,6 +145,7 @@ export default function Member() {
           <div className="col-md-6 col-sm-12 d-flex justify-content-center align-items-center">
             <PreviewUploadImage
               avatarImg={userProfile.avatar}
+              googleAvatarImg={userProfile.google_avatar}
               avatarBaseUrl={'http://localhost:3005/member'}
               setSelectedFile={setSelectedFile}
               selectedFile={selectedFile}
@@ -170,9 +173,18 @@ export default function Member() {
                   密碼
                 </label>
                 <div className="w-100">
-                  <button type="button" className="btn btn-primary">
-                    設定新密碼
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleOpenModal}
+                  >
+                    重設密碼
                   </button>
+                  <ResetPasswordModal
+                    show={showModal}
+                    onClose={handleCloseModal}
+                    email={userProfile.email}
+                  />
                 </div>
               </div>
             </div>
@@ -311,8 +323,6 @@ export default function Member() {
           </div>
         </form>
       </div>
-      {/* 土司訊息視窗用 */}
-      <Toaster />
     </>
   );
 }
