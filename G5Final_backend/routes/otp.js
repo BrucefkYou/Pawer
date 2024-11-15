@@ -10,7 +10,7 @@ import moment from 'moment'
 import crypto from 'crypto'
 // OTPtoken產生與檢查
 import { createOTP, checkOTP } from '#db-helpers/otp.js'
-// 電子郵件文字訊息樣版
+// 電子信箱文字訊息樣版
 import { generateOtpMailHtml } from '../emails/otpMailTemplate.js'
 // 寄送email
 import { sendMail } from '../emails/emailService.js'
@@ -46,7 +46,7 @@ router.post('/forget-password-mail', async (req, res, next) => {
   // 寄送email
   const mailFor = '重設密碼'
   const mailHTML = generateOtpMailHtml(otp.token, mailFor)
-  const mailSubject = 'Pawer 重設密碼要求的電子郵件驗証碼'
+  const mailSubject = 'Pawer 重設密碼要求的電子信箱驗証碼'
 
   // 寄送email
   const result = await sendMail(email, mailSubject, mailHTML)
@@ -55,7 +55,7 @@ router.post('/forget-password-mail', async (req, res, next) => {
     return res.json({
       status: 'success',
       data: null,
-      message: '驗証碼已寄送到電子郵件中',
+      message: '驗證碼已寄送到電子信箱中',
     })
   } else {
     return res.json({
@@ -70,8 +70,14 @@ router.post('/reset-password', async (req, res) => {
   const { email, token, password } = req.body
   console.log(email, token, password)
 
-  if (!token || !email || !password) {
-    return res.json({ status: 'error', message: '缺少必要資料' })
+  if (!email) {
+    return res.json({ status: 'error', message: '信箱為必要欄位' })
+  }
+  if (!token) {
+    return res.json({ status: 'error', message: '驗證碼為必要欄位' })
+  }
+  if (!password) {
+    return res.json({ status: 'error', message: '密碼為必要欄位' })
   }
 
   // 驗証otp的存在與合法性(是否有到期)
@@ -122,7 +128,7 @@ router.post('/register-mail', async (req, res, next) => {
     email,
   ])
   if (emailCheck.length > 0) {
-    return res.json({ status: 'error', message: '信箱已被註冊' })
+    return res.json({ status: 'error', message: '此信箱已被註冊' })
   }
 
   // 建立otp資料表記錄，成功回傳otp記錄物件，失敗為空物件{}
@@ -136,7 +142,7 @@ router.post('/register-mail', async (req, res, next) => {
   // 寄送email
   const mailFor = '註冊帳號'
   const mailHTML = generateOtpMailHtml(otp.token, mailFor)
-  const mailSubject = 'Pawer 註冊帳號要求的電子郵件驗証碼'
+  const mailSubject = 'Pawer 註冊帳號要求的電子信箱驗証碼'
 
   // 寄送email
   const result = await sendMail(email, mailSubject, mailHTML)
@@ -145,7 +151,7 @@ router.post('/register-mail', async (req, res, next) => {
     return res.json({
       status: 'success',
       data: null,
-      message: '驗証碼已寄送到電子郵件中',
+      message: '驗證碼已寄送到電子信箱中',
     })
   } else {
     return res.json({
