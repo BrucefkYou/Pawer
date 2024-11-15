@@ -41,6 +41,11 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
   }, [count]);
   // 處理要求一次性驗証碼用
   const handleRequestOtpToken = async () => {
+    // 表單驗證 - START
+    if (user.email === '') {
+      return toast.error('請輸入電子信箱');
+      }
+    // 表單驗證 - END
     if (delay !== null) {
       toast.error('錯誤 - 60s內無法重新獲得驗証碼');
       return;
@@ -58,9 +63,27 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
       toast.error(`${res.data.message}`);
     }
   };
-
   // 處理重設密碼用
   const handleResetPassword = async () => {
+    // 表單驗證 - START
+    
+    if (user.email === '') {
+    return toast.error('請輸入電子信箱');
+    }
+    if (user.token === '') {
+    return toast.error('請輸入驗證碼');
+    }
+    if (user.password === '') {
+    return toast.error('請輸入密碼');
+    }
+    if (user.confirmPassword === '') {
+    return toast.error('請輸入確認密碼');
+    }
+    if (user.password !== user.confirmPassword) {
+    return toast.error('密碼與確認密碼不相同');
+    }
+    // 表單驗證 - END
+
     const res = await resetPassword(user.email, user.password, user.token);
     console.log(res.data);
 
@@ -98,13 +121,13 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
           <h2 className="text-center mb-4">重設密碼</h2>
           <div>
             <p className="mb-4">
-              請輸入您的會員電子郵件後，按下【取得驗證碼】按鈕，隨後將寄出驗證碼給您，請將驗證碼輸入至下方欄位後，重新設置新密碼。
+              請輸入您的會員電子信箱後，按下【取得驗證碼】按鈕，隨後將寄出驗證碼至您的信箱，請將驗證碼輸入至下方欄位後，重新設置新密碼。
             </p>
             <div className="input-group mb-3">
               <input
                 type="text"
                 className="form-control"
-                placeholder="電子郵件"
+                placeholder="電子信箱"
                 name="email"
                 value={user.email}
                 onChange={handleFieldChange}
@@ -167,7 +190,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
               className={`btn btn-primary w-100 mb-4 mt-3 ${styles['btn-custom']}`}
               onClick={handleResetPassword}
             >
-              確定
+              送出
             </button>
           </div>
           <div className="d-flex justify-content-between">
