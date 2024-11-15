@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 export default function MbSideBar(props) {
   const router = useRouter();
-  const [openSubMenu, setOpenSubMenu] = useState(null); // 控制子選單開關狀態
+  const [activeMenu, setActiveMenu] = useState(1); // 控制目前選單狀態
 
   const menuItems = [
     {
@@ -78,9 +78,9 @@ export default function MbSideBar(props) {
     },
   ];
 
-  const toggleSubMenu = (id) => {
-    setOpenSubMenu(openSubMenu === id ? null : id);
-  };
+  const toggleMenu = (id) => {
+    setActiveMenu(activeMenu === id ? null : id);
+  }
 
   return (
     <div className="mb-sidebar">
@@ -97,12 +97,12 @@ export default function MbSideBar(props) {
           <li key={v.id} className={`nav-item`}>
             <Link
               className={`nav-link ${
-                router.pathname === v.href ? 'active' : ''
-              } ${openSubMenu === v.id ? 'active' : ''}`}
+                activeMenu === v.id ? 'active' : ''
+              } `}
               href={v.href}
-              onClick={() => toggleSubMenu(v.id)}
+              onClick={() => toggleMenu(v.id)}
             >
-              {v.subMenu.length > 0 && openSubMenu === v.id ? (
+              {v.subMenu.length > 0 && activeMenu === v.id ? (
                 <IoIosArrowDown className="me-1" />
               ) : (
                 <IoIosArrowForward className="me-1" />
@@ -110,7 +110,7 @@ export default function MbSideBar(props) {
 
               {v.title}
             </Link>
-            {v.subMenu.length > 0 && openSubMenu === v.id && (
+            {v.subMenu.length > 0 && activeMenu === v.id && (
               <ul className="nav flex-column gap-1 p-1">
                 {v.subMenu.map((sub) => (
                   <li key={sub.id} className={`ps-4`}>
