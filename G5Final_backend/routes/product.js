@@ -237,19 +237,35 @@ router.put('/productcomment', async function (req, res) {
     ProductName,
     ProductContent,
     StarLevel,
+    eMail,
     Nickname,
     MemberAvatar,
   } = req.body
+
   try {
+    // 先檢查會員是否已經評論過此商品
+    const [checkComment] = await db2.query(
+      `SELECT * FROM productcomment WHERE MemberID = ? AND ProductID = ?`,
+      [MemberID, ProductID]
+    )
+
+    if (checkComment.length > 0) {
+      return res
+        .status(400)
+        .json({ message: '您已經對此商品評論過，無法再次評論。' })
+    }
+
+    // 如果未評論過，則插入新評論
     const [rows] = await db2.query(
-      `INSERT INTO productcomment (ProductID, MemberID, ProductName, ProductContent, StarLevel, Nickname, MemberAvatar) 
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO productcomment (ProductID, MemberID, ProductName, ProductContent, StarLevel, eMail, Nickname, MemberAvatar) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         ProductID,
         MemberID,
         ProductName,
         ProductContent,
         StarLevel,
+        eMail,
         Nickname,
         MemberAvatar,
       ]
