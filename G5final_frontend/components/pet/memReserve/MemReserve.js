@@ -73,7 +73,7 @@ export default function MemReserve(props) {
     <>
       <div className="d-flex justify-content-between">
         {/* 標題 */}
-        <PageTitle title={'預約清單'} subTitle={'Reserve'} />
+        <PageTitle title={'會員專區 ｜ 預約清單'} subTitle={'Reserve'} />
         {/* 頁籤 */}
         <MemberNav
           newdata={newdata}
@@ -83,8 +83,8 @@ export default function MemReserve(props) {
       </div>
       {/* 清單明細 */}
       {nowPageItems.length < 1 ? (
-        <Link href={'/communicator'} className="btn btn-danger mt-3">
-          ＜ 目前無紀錄 點擊前往預約 ＞
+        <Link href={'/communicator'} className="btn btn-primary mt-3">
+          目前無紀錄 點擊前往預約 ＞
         </Link>
       ) : (
         <>

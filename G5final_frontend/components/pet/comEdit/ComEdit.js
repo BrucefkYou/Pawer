@@ -16,9 +16,8 @@ export default function ComEdit(props) {
     url: 'http://localhost:3005/api/pet',
     processData,
   });
-
   //前端預覽照片處理
-  const [imagePreview, setImagePreview] = useState();
+  const [imagePreview, setImagePreview] = useState(null);
   const changeImg = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -58,8 +57,6 @@ export default function ComEdit(props) {
       console.log(err);
     }
   }
-  console.log(nowPageItems);
-
   return (
     <>
       {nowPageItems.map((mydata) => (
