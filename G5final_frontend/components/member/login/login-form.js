@@ -61,6 +61,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
               avatar: res.data.memberData.Avatar ?? '',
               google_uid: res.data.memberData.google_uid ?? '',
               google_avatar: res.data.memberData.google_avatar ?? '',
+              isPetCom: res.data.memberData.isPetCom ?? '',
             },
           };
           setAuth(nextAuth);
