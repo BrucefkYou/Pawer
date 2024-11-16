@@ -15,9 +15,14 @@ export default function ComDetail(props) {
     url: 'http://localhost:3005/api/pet',
     processData,
   });
+  useEffect(() => {
+    if (nowPageItems >= 1) {
+      console.log(nowPageItems[0].Status);
+    }
+  }, [nowPageItems]);
 
+  // 一鍵刊登功能
   const [isPublished, setIsPublished] = useState(false);
-
   function togglePublish() {
     // 更新狀態
     const newStatus = !isPublished;
@@ -37,7 +42,6 @@ export default function ComDetail(props) {
         if (!response.ok) {
           throw new Error('Failed to update status');
         }
-        console.log('狀態更新成功');
       });
     } catch (err) {
       console.error('錯誤：', err);
