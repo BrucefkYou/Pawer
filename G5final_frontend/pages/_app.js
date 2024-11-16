@@ -24,7 +24,6 @@ export default function MyApp({ Component, pageProps }) {
         <title>{pageTitle}</title>
       </Head>
       <LoaderProvider>
-        <CustomCursor />
         <AuthProvider>
           <CartProvider>{getLayout(<Component {...pageProps} />)}</CartProvider>
         </AuthProvider>

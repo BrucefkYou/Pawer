@@ -10,6 +10,7 @@ import { useShip711StoreOpener } from '@/hooks/use-cart/use-ship-711-store';
 import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import { useLoader } from '@/hooks/use-loader';
+import toast from 'react-hot-toast';
 
 export default function CartInfo(props) {
   const { loading, setLoading } = useLoader();
@@ -25,7 +26,7 @@ export default function CartInfo(props) {
   // 設定訂單資訊
   const [selectedDelivery, setSelectedDelivery] = useState(''); // 被選中的運送方式
   const [selectedPayment, setSelectedPayment] = useState(''); // 被選中的付款方式
-  const [selectedBill, setSelectedBill] = useState(''); // 被選中的發票方式
+  const [selectedBill, setSelectedBill] = useState('paper'); // 被選中的發票方式
 
   // 設定表單內容
   const [tel, setTel] = useState('');
@@ -89,6 +90,12 @@ export default function CartInfo(props) {
         body: JSON.stringify(data),
       });
       const resData = await res.json();
+      if (res.status === 201) {
+        window.localStorage.setItem(
+          'cart',
+          JSON.stringify(items.filter((item) => !item.checked))
+        );
+      }
       setOrderID(resData.orderId);
 
       // 導頁的行為在後端處理
@@ -236,6 +243,10 @@ export default function CartInfo(props) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
+              if (store711.storename === '') {
+                toast.error('請選擇超商取貨門市');
+                return;
+              }
               const orderData = {
                 MemberID: auth.memberData.id,
                 ProductsAmount: items.filter((item) => item.checked).length,
@@ -523,6 +534,7 @@ export default function CartInfo(props) {
                             </span>
                           </button>
                         </div>
+
                         <div className="col mt10">
                           <button
                             type="button"
