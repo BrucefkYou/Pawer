@@ -93,14 +93,16 @@ export default function OrderDetail() {
               <BsPencilFill />
             </MemCreateBtn>
           </div>
-          <div>
-            <PageNav
-              nowPage={nowPage}
-              totalPage={totalPage}
-              next={next}
-              prev={prev}
-            />
-          </div>
+          {nowPageItems && nowPageItems.length > 0 && (
+            <div>
+              <PageNav
+                nowPage={nowPage}
+                totalPage={totalPage}
+                next={next}
+                prev={prev}
+              />
+            </div>
+          )}
         </div>
       </article>
     </>

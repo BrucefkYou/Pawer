@@ -1,4 +1,3 @@
-// components/CustomCursor.js
 import React, { useEffect } from 'react';
 
 const CustomCursor = () => {
@@ -7,7 +6,7 @@ const CustomCursor = () => {
       'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     if (isTouchDevice) {
-      // 如果是触摸设备，不显示自定义指针
+      // 如果是觸控設備的，隱藏自定義游標
       return;
     }
 
@@ -16,9 +15,9 @@ const CustomCursor = () => {
     document.body.appendChild(cursor);
 
     cursor.style.position = 'fixed';
-    cursor.style.width = '32px'; // 根据您的图片尺寸调整
-    cursor.style.height = '32px';
-    cursor.style.backgroundImage = 'url(/cursor.png)'; // 确保图片路径正确
+    cursor.style.width = '30px';
+    cursor.style.height = '30px';
+    cursor.style.backgroundImage = 'url(/cursor.png)';
     cursor.style.backgroundSize = 'contain';
     cursor.style.backgroundRepeat = 'no-repeat';
     cursor.style.pointerEvents = 'none';
@@ -51,29 +50,30 @@ const CustomCursor = () => {
 
     const hideCursor = () => {
       cursor.style.display = 'none';
-      document.body.style.cursor = 'default'; // 恢复默认鼠标指针
+      document.body.style.cursor = 'default';
     };
 
     const showCursor = () => {
       cursor.style.display = 'block';
-      document.body.style.cursor = 'none'; // 隐藏默认鼠标指针
+      document.body.style.cursor = 'none';
     };
 
     window.addEventListener('pointermove', moveCursor);
     window.addEventListener('mousedown', mouseDown);
     window.addEventListener('mouseup', mouseUp);
 
-    // 为所有的 select 元素添加事件监听器
+    // 因為在使用 select 元素時，游標會被隱藏，所以需要在 select 元素上添加事件監聽器
+    // 爲所有的 select 元素添加事件監聽器，當 select 元素被選中時，隱藏自定義游標
     const selectElements = document.querySelectorAll('select');
     selectElements.forEach((select) => {
       select.addEventListener('focus', hideCursor);
       select.addEventListener('blur', showCursor);
     });
 
-    // 定期更新鼠标指针位置
-    const intervalId = setInterval(updateCursor, 16); // 大约60fps
+    // 定期更游標指针位置
+    const intervalId = setInterval(updateCursor, 16); // 大約60fps
 
-    // 清理事件监听器和元素
+    // 清理事件監聽器和元素
     return () => {
       window.removeEventListener('pointermove', moveCursor);
       window.removeEventListener('mousedown', mouseDown);
@@ -89,7 +89,7 @@ const CustomCursor = () => {
     };
   }, []);
 
-  return null; // 这个组件不需要渲染任何内容
+  return null;
 };
 
 export default CustomCursor;

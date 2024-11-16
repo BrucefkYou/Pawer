@@ -12,8 +12,8 @@ import { useBlogDel } from '@/components/blog/utils/handleDel';
 import Tag from '@/components/join/form/tag';
 
 // icons
-import { BsBookmarkFill } from 'react-icons/bs';
-import { FaUpload, FaEye, FaTrashAlt } from 'react-icons/fa';
+import { BsBookmarkFill, BsReplyFill } from 'react-icons/bs';
+import { FaUpload, FaTrashAlt } from 'react-icons/fa';
 
 export default function BlogEdit() {
   const { auth } = useAuth();
@@ -42,6 +42,7 @@ export default function BlogEdit() {
           const blogData = await response.json();
           // console.log('抓取到的文章資料:', blogData);
           const blog = blogData[0];
+          // console.log(blog);
           setTitle(blog.Title);
           setData(blog.Content);
           const tagsArray = blog.tags
@@ -52,8 +53,8 @@ export default function BlogEdit() {
           // const fullImageUrl = blog.blogImg;
           setUploadedImageUrl(blog.blogImg);
           setPreviewImage(blog.blogImg);
-          setImageName(blog.imageName || '尚未選擇封面')
-} else {
+          setImageName(blog.imageName || '尚未選擇封面');
+        } else {
           throw new Error('無法取得文章資料');
         }
       } catch (error) {
@@ -91,7 +92,7 @@ export default function BlogEdit() {
       if (response.ok) {
         setUploadedImageUrl(data.url);
         setImageName(data.name);
-        // console.log('上傳成功:', data.url);
+        console.log('上傳成功:', data.url);
       } else {
         console.error('上傳失敗:', data.message);
       }
@@ -313,16 +314,16 @@ export default function BlogEdit() {
 
           {/* 底部按鈕 */}
           <div className="blog-bottom-btn">
-            <div className="btn btn-danger" type="button" onClick={delBlogt}>
+            <button className="btn btn-danger" type="button" onClick={delBlogt}>
               刪除
-            </div>
+            </button>
             <div className="btn-group">
               <Link
                 href={`/member/blog`}
                 type="button"
-                className="btn btn-outline-primary text-decoration-none"
+                className="btn col btn-outline-primary text-decoration-none"
               >
-                捨棄變更
+                返回
               </Link>
               <button
                 type="button"
@@ -356,14 +357,14 @@ export default function BlogEdit() {
 
       {/* 手機按鈕 */}
       <div className="blog-bottom-btn-mobile">
-        <Link
-          href={`http://localhost:3000/member/blog`}
+        <button
           className="col btn-mobile text-decoration-none"
           type="button"
+          onClick={delBlogt}
         >
           <FaTrashAlt className="icon" />
           刪除
-        </Link>
+        </button>
         {/* <button type="button" className="col btn-mobile">
                 </button> */}
         <Link
@@ -372,12 +373,26 @@ export default function BlogEdit() {
           className="col d-flex justify-content-center text-decoration-none"
         >
           <button className="btn-mobile">
-            <FaEye className="icon" />
-            捨棄變更
+            <BsReplyFill className="icon" />
+            返回
           </button>
         </Link>
         <button className="col btn-mobile">
-          <BsBookmarkFill className="icon " onClick={handleSaveDraft} />
+          <BsBookmarkFill
+            className="icon "
+            onClick={(e) =>
+              handleSaveDraft(
+                e,
+                uid,
+                title,
+                data,
+                tags,
+                imageName,
+                router,
+                uploadedImageUrl
+              )
+            }
+          />
           儲存草稿
         </button>
 

@@ -3,10 +3,13 @@ import { IoIosArrowForward, IoIosArrowDown } from 'react-icons/io';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function MbSideBar(props) {
   const router = useRouter();
-  const [openSubMenu, setOpenSubMenu] = useState(null); // 控制子選單開關狀態
+  const [activeMenu, setActiveMenu] = useState(1); // 控制目前選單狀態
+  const { auth } = useAuth();
+  const isPetCom = auth.memberData.isPetCom;
 
   const menuItems = [
     {
@@ -59,27 +62,34 @@ export default function MbSideBar(props) {
       subMenu: [
         {
           id: 1,
-          title: '(師資)預約清單',
+          title: '師資專區 預約清單',
           href: '/member/communicator/comReserve',
+          isPetCom: isPetCom,
         },
         {
           id: 2,
-          title: '(師資)溝通師資料',
+          title: '師資專區 刊登資料',
           href: '/member/communicator/detail',
+          isPetCom: isPetCom,
         },
-        { id: 3, title: '(師資)資料編輯', href: '/member/communicator/edit' },
         {
-          id: 4,
-          title: '(會員)預約清單',
+          id: 3,
+          title: '會員預約清單',
           href: '/member/communicator/memReserve',
         },
-        { id: 5, title: '(會員)師資註冊', href: '/member/communicator/create' },
+        {
+          id: 4, 
+          title: '我要成為溝通師', 
+          href: '/member/communicator/create',
+        },
       ],
     },
   ];
+  console.log(menuItems);
+  
 
-  const toggleSubMenu = (id) => {
-    setOpenSubMenu(openSubMenu === id ? null : id);
+  const toggleMenu = (id) => {
+    setActiveMenu(activeMenu === id ? null : id);
   };
 
   return (
@@ -96,13 +106,11 @@ export default function MbSideBar(props) {
         {menuItems.map((v) => (
           <li key={v.id} className={`nav-item`}>
             <Link
-              className={`nav-link ${
-                router.pathname === v.href ? 'active' : ''
-              } ${openSubMenu === v.id ? 'active' : ''}`}
+              className={`nav-link ${activeMenu === v.id ? 'active' : ''} `}
               href={v.href}
-              onClick={() => toggleSubMenu(v.id)}
+              onClick={() => toggleMenu(v.id)}
             >
-              {v.subMenu.length > 0 && openSubMenu === v.id ? (
+              {v.subMenu.length > 0 && activeMenu === v.id ? (
                 <IoIosArrowDown className="me-1" />
               ) : (
                 <IoIosArrowForward className="me-1" />
@@ -110,14 +118,15 @@ export default function MbSideBar(props) {
 
               {v.title}
             </Link>
-            {v.subMenu.length > 0 && openSubMenu === v.id && (
+            {v.subMenu.length > 0 && activeMenu === v.id && (
               <ul className="nav flex-column gap-1 p-1">
-                {v.subMenu.map((sub) => (
+                {v.subMenu
+                .filter((sub) => sub.isPetCom !== 0) // 過濾掉 isPetCom = 0 的項目
+                .map((sub) => (
                   <li key={sub.id} className={`ps-4`}>
                     <Link
-                      className={`nav-link ms-1 ${
-                        router.pathname === sub.href ? 'text-warning' : ''
-                      }`}
+                      className={`nav-link ms-1 ${router.pathname === sub.href ? 'text-warning' : ''
+                        }`}
                       href={sub.href}
                     >
                       {sub.title}

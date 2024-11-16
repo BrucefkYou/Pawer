@@ -130,7 +130,15 @@ export default function ProductDetail(props) {
               {/* 文字內容簡介 */}
               <div className="detail-text-layout">
                 <div className="col">
-                  <p className="detail-text">{Info}</p>
+                  <p
+                    className="detail-text"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        fetchOne && typeof fetchOne.Info === 'string'
+                          ? fetchOne.Info.replace(/\n/g, '<br />')
+                          : '',
+                    }} // 把資料庫的內容轉為字串dangerouslySetInnerHTML方法
+                  />
                 </div>
               </div>
               {/* 價格 加入購物車 */}

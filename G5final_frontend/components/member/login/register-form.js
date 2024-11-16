@@ -22,6 +22,7 @@ export default function RegisterForm({ Formtype, setFormtype }) {
     email: '',
     token: '',
     password: '',
+    confirmPassword: '',
   });
   const [disableBtn, setDisableBtn] = useState(false);
 
@@ -48,6 +49,11 @@ export default function RegisterForm({ Formtype, setFormtype }) {
 
   // 處理要求一次性驗証碼用
   const handleRequestOtpToken = async () => {
+    // 表單驗證 - START
+    if (user.email === '') {
+      return toast.error('請輸入電子信箱');
+    }
+    // 表單驗證 - END
     if (delay !== null) {
       toast.error('錯誤 - 60s內無法重新獲得驗証碼');
       return;
@@ -67,6 +73,27 @@ export default function RegisterForm({ Formtype, setFormtype }) {
   const handleRegister = async (e) => {
     // 阻擋表單預設送出行為
     e.preventDefault();
+
+    // 表單驗證 - START
+    if (user.name === '') {
+      return toast.error('請輸入姓名');
+    }
+    if (user.email === '') {
+      return toast.error('請輸入電子信箱');
+    }
+    if (user.token === '') {
+      return toast.error('請輸入驗證碼');
+    }
+    if (user.password === '') {
+      return toast.error('請輸入密碼');
+    }
+    if (user.confirmPassword === '') {
+      return toast.error('請輸入確認密碼');
+      }
+      if (user.password !== user.confirmPassword) {
+      return toast.error('密碼與確認密碼不相同');
+      }
+    // 表單驗證 - END
 
     const res = await register(
       user.name,
@@ -101,7 +128,7 @@ export default function RegisterForm({ Formtype, setFormtype }) {
           <h2 className="text-center mb-4">會員註冊</h2>
           <div>
             <p className="mb-4">
-              請輸入您的電子郵件後，按下【取得驗證碼】按鈕，隨後將寄出驗證碼給您，請將驗證碼輸入至下方欄位並填寫姓名與密碼，完成註冊。
+              請輸入您的電子信箱後，按下【取得驗證碼】按鈕，隨後將寄出驗證碼至您的信箱，請將驗證碼輸入至下方欄位並填寫姓名與密碼，完成註冊。
             </p>
             <input
               type="text"
@@ -115,7 +142,7 @@ export default function RegisterForm({ Formtype, setFormtype }) {
               <input
                 type="email"
                 className="form-control"
-                placeholder="電子郵件"
+                placeholder="電子信箱"
                 name="email"
                 value={user.email}
                 onChange={handleFieldChange}
@@ -160,6 +187,9 @@ export default function RegisterForm({ Formtype, setFormtype }) {
                 type={showConfirmPassword ? 'text' : 'password'}
                 className="form-control mb-3"
                 placeholder="確認密碼"
+                name="confirmPassword"
+                value={user.confirmPassword}
+                onChange={handleFieldChange}
               />
               <button
                 onClick={() => {

@@ -17,15 +17,26 @@ const StarToggle = ({ filled }) => (filled ? <FaStar /> : <FaRegStar />);
 
 export default function Productcomment({ fetchOne }) {
   const [comment, setComment] = useState(''); // 評論input輸入
-  const [rating, setRating] = useState(1); // 星星狀態
+  const [rating, setRating] = useState(1); // 預覽星星狀態
+  const [finalRating, setFinalRating] = useState(1); // 最終星星狀態
   const [commentsList, setCommentsList] = useState([]); // 輸入評論後的顯示
   const [showmore, setShowMore] = useState(3); // 看更多
   const { auth } = useAuth();
   const id = auth.memberData.id;
   const nickname = auth.memberData.nickname;
+  const mail = auth.memberData.email;
   const Img = auth.memberData.avatar;
   const pdName = fetchOne.Name;
   const productId = fetchOne.ID;
+
+  const showMore = () => {
+    setShowMore((prevCount) => prevCount + 3); // 每次增加3條可見評論
+  };
+
+  const starClick = (star) => {
+    setFinalRating(star); // 更新最終評分
+    setRating(star); // 同時更新預覽評分
+  };
 
   // 獲取評論
   const fetchComments = async (productId) => {
@@ -63,7 +74,7 @@ export default function Productcomment({ fetchOne }) {
       });
       return;
     }
-
+  
     if (!comment.trim()) {
       toast('請您輸入評論內容', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
@@ -77,13 +88,13 @@ export default function Productcomment({ fetchOne }) {
       });
       return;
     }
-
+  
     if (!fetchOne || !fetchOne.ID) {
       toast('商品ID無效', { duration: 1800 });
       return;
     }
-
-    // 檢查會員是否購買過該商品
+  
+    // 檢查會員是否已經購買過該商品
     const alreadyBuy = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${productId}`);
     if (!alreadyBuy.ok) {
       toast.error('檢查購買記錄時發生錯誤');
@@ -91,9 +102,31 @@ export default function Productcomment({ fetchOne }) {
     }
     const neverBuy = await alreadyBuy.json();
     if (neverBuy.length === 0) {
+      toast('您尚未購買過此商品，無法評論。', {
+        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          background: 'rgba(193, 69, 69, 1)',
+          color: '#fff',
+          marginTop: '80px',
+        },
+      });
+      return;
+    }
+  
+    // 檢查會員是否已經對該商品評論過
+    const alreadyComment = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${productId}`);
+    if (!alreadyComment.ok) {
+      toast.error('檢查評論記錄時發生錯誤');
+      return;
+    }
+    const commentData = await alreadyComment.json();
+    if (commentData.length > 0) {
       toast(<>
-        您尚未購買過此商品，<br />
-        購買後即可評論！
+      您已經對此商品評論過，
+      <br />
+      再次購買此商品即可評論。
       </>, {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1800,
@@ -106,20 +139,20 @@ export default function Productcomment({ fetchOne }) {
       });
       return;
     }
-
+  
+    // 新增評論
     const newComment = {
       ProductID: fetchOne.ID,
       MemberID: id,
       ProductName: pdName,
       ProductContent: comment,
-      StarLevel: rating,
+      StarLevel: finalRating,
+      eMail: mail,
       Nickname: nickname,
-      rating: rating,
-      content: comment,
       MemberAvatar: Img,
       id: Date.now(), // 讓剛評論完的內容當下顯示在最上面
     };
-
+  
     try {
       const response = await fetch(
         'http://localhost:3005/api/product/productcomment',
@@ -133,12 +166,13 @@ export default function Productcomment({ fetchOne }) {
       );
       if (!response.ok) throw new Error('新增評論失敗');
       await response.json();
-
+  
       // 將新評論添加到 commentsList 的開頭
       setCommentsList((prevComments) => [newComment, ...prevComments]);
       setComment('');
       setRating(1);
-
+      setFinalRating(1);
+  
       toast.success('您的評論已成功送出！', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1800,
@@ -154,14 +188,13 @@ export default function Productcomment({ fetchOne }) {
       toast.error('新增評論時發生錯誤');
     }
   };
+  
 
-  const showMore = () => {
-    setShowMore((prevCount) => prevCount + 3); // 每次增加3條可見評論
-  };
-
-  const starClick = (star) => {
-    setRating(star); // 更新評分為所滑動點擊的星星數
-  };
+  // useEffect(() => {
+  //   if (auth && auth.memberData) {
+  //     console.log(auth.memberData.eMail);
+  //   }
+  // }, [auth]);
 
   return (
     <>
@@ -193,14 +226,14 @@ export default function Productcomment({ fetchOne }) {
                       </div>
                       <div className="col-md-10 col-12">
                         <div className="card-body">
-                          <h5 className="pd-comment-title">{nickname}</h5>
+                          <h5 className="pd-comment-title">{nickname ? nickname : mail.slice(0, 3)}</h5>
                           <div className={`d-flex ${style['star']}`}>
-                            {[1, 2, 3, 4, 5].map((star) => (
+                          {[1, 2, 3, 4, 5].map((star) => (
                               <div
                                 key={star}
-                                onClick={() => starClick(star)}
-                                onMouseEnter={() => setRating(star)}
-                                onMouseLeave={() => setRating(rating)}
+                                onClick={() => starClick(star)} // 點擊時更新最終評分
+                                onMouseEnter={() => setRating(star)} // 滑動時更新預覽評分
+                                onMouseLeave={() => setRating(finalRating)} // 滑出時恢復最終評分
                               >
                                 <StarToggle filled={star <= rating} />
                               </div>

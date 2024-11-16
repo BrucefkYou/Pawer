@@ -4,6 +4,7 @@ import { BsCamera } from 'react-icons/bs';
 
 export default function PreviewUploadImage({
   avatarImg = '',
+  googleAvatarImg = '',
   avatarBaseUrl = '',
   defaultImg = 'avatar-default.png',
   setSelectedFile,
@@ -43,6 +44,10 @@ export default function PreviewUploadImage({
 
     if (avatarImg) {
       return avatarBaseUrl + '/' + avatarImg;
+    }
+
+    if (googleAvatarImg) {
+      return googleAvatarImg;
     }
 
     return avatarBaseUrl + '/' + defaultImg;
