@@ -57,7 +57,7 @@ export default function OrderDetail() {
             <>
               <div className=" d-flex flex-wrap justify-content-evenly gap-4">
                 {nowPageItems.map((data) => (
-                  <JoinListCard key={data.id} data={data} />
+                  <JoinListCard key={data.id} data={data} cancelBtn />
                 ))}
               </div>
             </>
