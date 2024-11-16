@@ -52,7 +52,7 @@ export const handleSubmit = async (e, uid, title, data, tags, imageName, router,
 
     const formData = new FormData();
     const tagsArray = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '') : (tags || []);
-    formData.append('status', 1);  
+    formData.append('status', 1);
     formData.append('memberId', uid);
     formData.append('title', title);
     formData.append('content', data);
@@ -66,7 +66,6 @@ export const handleSubmit = async (e, uid, title, data, tags, imageName, router,
         });
 
         if (response.ok) {
-            // const data = await response.json();
             toast('文章發布成功!', {
                 duration: 1800,
                 style: {
@@ -81,21 +80,23 @@ export const handleSubmit = async (e, uid, title, data, tags, imageName, router,
             });
             router.push('/blog');
         } else {
-            throw new Error('發佈失敗');
+            const errorData = await response.json();
+            console.error('文章發布失敗:', errorData.message);
+            toast('文章發布失敗', {
+                duration: 1800,
+                style: {
+                    borderRadius: '10px',
+                    borderTop: '15px #22355C solid',
+                    background: '#F5F5F5',
+                    color: '#646464',
+                    marginTop: '80px',
+                    width: '300px',
+                    height: '100px',
+                },
+            });
         }
     } catch (error) {
-        toast('文章發布失敗', {
-            duration: 1800,
-            style: {
-                borderRadius: '10px',
-                borderTop: '15px #22355C solid',
-                background: '#F5F5F5',
-                color: '#646464',
-                marginTop: '80px',
-                width: '300px',
-                height: '100px',
-            },
-        });
-        console.error(error);
+        console.error('發生錯誤:', error);
+        toast.error('發生錯誤');
     }
 };

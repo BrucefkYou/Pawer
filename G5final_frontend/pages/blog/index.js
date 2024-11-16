@@ -13,7 +13,7 @@ export default function Blogindex() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="bl-list">
-        <Banner bgImgUrl="/blog/blog-banner.svg" />
+        <Banner bgImgUrl="/blog/blog-banner.svg" imgCover='none' />
         <BlogList />
       </div>
     </>

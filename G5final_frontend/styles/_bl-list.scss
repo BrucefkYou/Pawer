@@ -36,7 +36,11 @@
                     flex-wrap: wrap;
                     justify-content: space-between;
                     gap: 48px 0;
-                }
+
+                    @media (max-width: 1200px) {
+                        justify-content: center;
+                      }
+                            }
             }
 
             // 側邊欄
@@ -79,10 +83,6 @@
                     .m-none {
                         display: none;
                     }
-                }
-
-                .card-section {
-                    justify-content: center ;
                 }
 
             }

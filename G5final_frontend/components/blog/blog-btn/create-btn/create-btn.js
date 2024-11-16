@@ -53,7 +53,6 @@
 //   )
 // }
 
-
 import { BsPencilFill } from 'react-icons/bs';
 import { useState, useEffect } from 'react';
 import styles from './create-btn.module.scss';
@@ -66,7 +65,7 @@ export default function CreateBtn({ btnName }) {
   const { id } = router.query; //文章ID
   const { auth } = useAuth();
   const [ownerId, setOwnerId] = useState(null); //存作者ID
-  const uid = auth.memberData.id
+  const uid = auth.memberData.id;
 
   useEffect(() => {
     if (id) {
@@ -80,8 +79,7 @@ export default function CreateBtn({ btnName }) {
           // console.log('文章建立者的會員 ID:', memberId);
           // console.log('部落格 ID:', blogData.ID);
           // console.log('目前登入的會員ID：', uid);
-          setOwnerId(memberId)
-
+          setOwnerId(memberId);
         } catch (error) {
           console.error('無法獲取文章資料', error);
         }
@@ -109,30 +107,32 @@ export default function CreateBtn({ btnName }) {
           height: '100px',
         },
       });
-      router.push('member/login');
+      router.push('http://localhost:3000/member/login');
     }
   };
 
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const resize = () => setIsMobile(window.innerWidth < 768);
+    const resize = () => setIsMobile(window.innerWidth < 770);
     resize();
     window.addEventListener('resize', resize);
     return () => window.removeEventListener('resize', resize);
   }, []);
 
   return (
-    <div
+    <button
       className={`btn btn-warning ${styles['create-btn']}`}
       type="button"
       onClick={islogin}
     >
       {isMobile ? (
         <BsPencilFill size={20} color="white" />
-      ) : (isOwner ? '編輯文章' : '建立文章'
+      ) : isOwner ? (
+        '編輯文章'
+      ) : (
+        '建立文章'
       )}
-    </div>
+    </button>
   );
 }
-
