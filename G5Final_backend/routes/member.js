@@ -37,19 +37,6 @@ const upload = multer({ storage: storage })
 // 定義安全的私鑰字串
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
 
-// 定義查詢系統代碼的函數 (傳入欄位type回傳value與其中文描述)
-const getSystemCodeMap = async (Type) => {
-  const codes = await db.query(
-    'SELECT Value, Description FROM SystemCode WHERE Type = ?',
-    [Type]
-  )
-  const codeMap = {}
-  codes.forEach(({ Value, Description }) => {
-    codeMap[Value] = Description
-  })
-  return codeMap
-}
-
 // GET - 得到單筆資料(注意，有動態參數時要寫在GET區段最後面)
 router.get('/', authenticate, async function (req, res) {
   // id可以用jwt的存取令牌(accessToken)從authenticate中得到
@@ -93,6 +80,7 @@ router.post('/login', async (req, res) => {
 
   // 比對密碼hash是否相同
   const isValid = await compareHash(loginMember.password, dbMember.Password)
+  // console.log(`isValid`, isValid)
 
   if (!isValid) {
     return res.json({ status: 'error', message: '密碼錯誤' })
@@ -115,6 +103,7 @@ router.post('/login', async (req, res) => {
   // 傳送access token回應(例如react可以儲存在state中使用)
   return res.json({
     status: 'success',
+    message: '登入成功',
     token: { accessToken },
     memberData: dbMember,
   })
@@ -197,62 +186,23 @@ router.post('/register', async function (req, res) {
   }
 })
 
-// PUT - 更新會員資料(排除更新密碼)
-router.put('/profile/:id', authenticate, async function (req, res) {
-  const id = Number(req.params.id)
-  // 檢查是否為授權會員，只有授權會員可以存取自己的資料
-  // req.user.id是從authenticate中token得到的, id 是從前端req.params.id取回
-  if (req.user.id !== id) {
-    return res.json({ status: 'error', message: '不可存取其他會員資料' })
-  }
-
-  // user為來自前端的會員資料(準備要修改的資料)
-  const user = req.body
-  console.log(user)
-
-  // 檢查從前端瀏覽器來的資料，哪些為必要(name, ...)
-  if (!id || !user.account || !user.email || !user.name) {
-    return res.json({ status: 'error', message: '缺少必要資料' })
-  }
-
-  // 判斷日期欄位為假值要轉為null存回db
-  user.birth = user.birth || null
-
-  // 檢查該id的db資料
-  const [results] = await db.execute('SELECT * FROM Member WHERE ID= ?', [id])
-
-  if (results.length === 0) {
-    return res.json({ status: 'error', message: '沒有找到會員資料' })
-  }
-
-  // 更新至db
-  const [updateResults] = await db.execute(
-    'UPDATE Member SET Name=?, Nickname=?, Phone=?, Gender=?, Birth=? WHERE ID= ?',
-    [user.name, user.nickname, user.phone, user.gender, user.birth, id]
-  )
-
-  if (!updateResults) {
-    return res.json({ status: 'error', message: '更新失敗或沒有資料被更新' })
-  } else {
-    return res.json({ status: 'success', message: '更新成功' })
-  }
-})
-
-// POST - 可同時上傳與更新會員檔案用，使用multer(設定值在此檔案最上面)
-router.post(
-  '/upload-avatar',
+// PUT - 更新會員資料(排除更新密碼)同時上傳與更新會員檔案用，使用multer(設定值在此檔案最上面)
+router.put(
+  '/profile/:id',
   authenticate,
-  upload.single('avatar'), // 上傳來的檔案(這是單個檔案，表單欄位名稱為avatar)
+  upload.single('avatar'),
   async function (req, res) {
-    // req.file 即上傳來的檔案(avatar這個檔案)
-    // req.body 其它的文字欄位資料…
-    // console.log(req.file, req.body)
+    const id = Number(req.params.id)
+    // 檢查是否為授權會員，只有授權會員可以存取自己的資料
+    // req.user.id是從authenticate中token得到的, id 是從前端req.params.id取回
+    if (req.user.id !== id) {
+      return res.json({ status: 'error', message: '不可存取其他會員資料' })
+    }
 
+    // 上傳檔案(頭像)的處理
     if (req.file) {
-      const id = req.user.id
       const avatar = req.file.filename
-      // console.log(`data:`, data)
-      // data: { avatar: '1.webp' }
+      // filename 已經在storage中設定好為userid + 原檔名
 
       // 更新至db
       const [updateResults] = await db.execute(
@@ -263,18 +213,52 @@ router.post(
       if (!updateResults) {
         return res.json({
           status: 'error',
-          message: '更新失敗或沒有資料被更新',
-        })
-      } else {
-        return res.json({
-          status: 'success',
-          message: '更新成功',
-          data: { avatar: req.file.filename },
+          message: '頭像更新失敗',
         })
       }
-    } else {
-      return res.json({ status: 'fail', data: null })
     }
+
+    // user為來自前端的會員資料(準備要修改的資料)
+    const user = req.body
+    // console.log(user)
+
+    // 檢查從前端瀏覽器來的資料，哪些為必要(name, ...)
+    if (!id || !user.account || !user.email || !user.name) {
+      return res.json({ status: 'error', message: '缺少必要資料' })
+    }
+
+    // 判斷日期欄位為假值要轉為null存回db
+    user.birth = user.birth || null
+
+    // 檢查該id的db資料
+    const [results] = await db.execute('SELECT * FROM Member WHERE ID= ?', [id])
+
+    if (results.length === 0) {
+      return res.json({ status: 'error', message: '沒有找到會員資料' })
+    }
+
+    // 更新至db
+    const [updateResults] = await db.execute(
+      'UPDATE Member SET Name=?, Nickname=?, Phone=?, Gender=?, Birth=? WHERE ID= ?',
+      [user.name, user.nickname, user.phone, user.gender, user.birth, id]
+    )
+
+    if (!updateResults) {
+      return res.json({ status: 'error', message: '更新失敗或沒有資料被更新' })
+    }
+
+    //傳回最新會員資料
+    const [updatedMember] = await db.execute(
+      'SELECT * FROM Member WHERE ID= ?',
+      [id]
+    )
+    const dbMember = updatedMember[0]
+
+    return res.json({
+      status: 'success',
+      message: '更新成功',
+      memberData: dbMember,
+    })
   }
 )
 
@@ -286,8 +270,8 @@ router.get(
     try {
       const memberId = Number(req.params.memberId)
       const orderId = Number(req.params.orderId)
-      console.log(memberId)
-      console.log(orderId)
+      // console.log(memberId)
+      // console.log(orderId)
 
       // 檢查是否為授權會員，只有授權會員可以存取自己的資料
       // req.user.id是從authenticate中token得到的, id 是從前端req.params.id取回
@@ -301,7 +285,7 @@ router.get(
         [memberId, orderId]
       )
 
-      console.log('orderMain', orderMain)
+      // console.log('orderMain', orderMain)
 
       if (orderMain.length === 0) {
         return res.json({ status: 'error', message: '沒有找到訂單資料' })
@@ -317,7 +301,7 @@ router.get(
         ...main,
         OrderDetail: orderDetail,
       }))
-      console.log(order)
+      // console.log(order)
 
       return res.json({ status: 'success', order: order })
     } catch (error) {
@@ -327,7 +311,7 @@ router.get(
   }
 )
 
-// GET - 取得會員所有訂單資料
+// GET - 取得會員所有訂單主檔
 router.get('/:id/orders', authenticate, async function (req, res) {
   try {
     const id = Number(req.params.id)
@@ -342,15 +326,6 @@ router.get('/:id/orders', authenticate, async function (req, res) {
       'SELECT * FROM `Order` WHERE MemberID = ? ORDER BY Date DESC',
       [id]
     )
-
-    // 查詢 paymentstatus 對應的中文描述
-    // const paymentStatusMap = await getSystemCodeMap('PaymentStatus')
-
-    // 對照 paymentstatus 的值，轉換成中文描述
-    // const transformedOrders = orders.map((order) => ({
-    //   ...order,
-    //   PaymentStatus: paymentStatusMap[order.PaymentStatus] || '未知狀態',
-    // }))
 
     console.log(orders)
     if (orders.length === 0) {
