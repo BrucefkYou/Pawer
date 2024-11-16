@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { BsXLg } from "react-icons/bs";
+import { BsXLg } from 'react-icons/bs';
 import PetReservetable from './PetReservetable';
 import { useAuth } from '@/hooks/use-auth';
 import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
 export default function PetDetailButton({ fetchOne }) {
-  const { auth } = useAuth()
-  
+  const { auth } = useAuth();
+  const memberID = auth.memberData.id;
   const router = useRouter();
-  const [window, setWindow] = useState();
+  const [window, setWindow] = useState(false);
   const goBack = () => {
     router.push('/communicator');
   };
   const showWindow = () => {
     if (auth.isAuth) {
       setWindow(true);
-    } else { 
+    } else {
       toast('尚未登入會員無法預約', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1800,
@@ -29,7 +29,6 @@ export default function PetDetailButton({ fetchOne }) {
         },
       });
     }
-    
   };
   const closeWindow = () => {
     setWindow(false);
@@ -57,7 +56,7 @@ export default function PetDetailButton({ fetchOne }) {
               <BsXLg size={30} />
             </button>
             {/* 照片 */}
-            <div className='row d-flex '>
+            <div className="row d-flex ">
               <div className="col-3 imgg">
                 <Image
                   className=""
@@ -68,7 +67,7 @@ export default function PetDetailButton({ fetchOne }) {
                 />
               </div>
               {/* 欄位 */}
-              <PetReservetable fetchOne={fetchOne} />
+              <PetReservetable fetchOne={fetchOne} memberID={memberID} />
             </div>
           </div>
         </div>
