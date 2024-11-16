@@ -14,8 +14,7 @@ import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
 
-import { BsHeartFill} from 'react-icons/bs'
-
+import { BsHeartFill } from 'react-icons/bs';
 
 export default function BlogList() {
   const router = useRouter();
@@ -70,35 +69,34 @@ export default function BlogList() {
 
           <div className="m-none">
             <SortedCard
-              title='熱門文章'
-              id='ID'
-              api='http://localhost:3005/api/blog'
-              link='http://localhost:3000/blog'
-              img='blogImg'
-              content='Title'
-              date='UpdateDate'
-              count='likeCount'
+              title="熱門文章"
+              id="ID"
+              api="http://localhost:3005/api/blog"
+              link="http://localhost:3000/blog"
+              img="blogImg"
+              content="Title"
+              date="UpdateDate"
+              count="likeCount"
               IconComponent={BsHeartFill}
-              sorted='count'
+              sorted="count"
               limit={5}
             />
           </div>
           <div className="m-none">
             <SortedCard
-              title='最新發佈'
-              id='ID'
-              api='http://localhost:3005/api/blog'
-              link='http://localhost:3000/blog'
-              img='blogImg'
-              content='Title'
-              date='UpdateDate'
-              count='likeCount'
+              title="最新發佈"
+              id="ID"
+              api="http://localhost:3005/api/blog"
+              link="http://localhost:3000/blog"
+              img="blogImg"
+              content="Title"
+              date="UpdateDate"
+              count="likeCount"
               IconComponent={BsHeartFill}
-              sorted='date'
+              sorted="date"
               limit={5}
             />
           </div>
-
         </div>
         <div className="blog-list">
           <div className="col-12 d-flex justify-content-end gap-3">
@@ -135,7 +133,7 @@ export default function BlogList() {
                       updateDate={blog.UpdateDate}
                       likeCount={blog.likeCount}
                       favoriteCount={blog.favoriteCount}
-                      avatar={blog.MemberAvatar|| 'avatar-default.png'}
+                      avatar={blog.MemberAvatar || 'avatar-default.png'}
                       name={blog.Nickname}
                     />
                   );

@@ -17,6 +17,7 @@ export default function OrderDetail() {
   const { auth } = useAuth();
   const uid = auth.memberData.id;
   // console.log(uid);
+  const [data, setNewData] = useState(false);
 
   const {
     chooseFilter,
@@ -34,6 +35,7 @@ export default function OrderDetail() {
     needSort: [{ way: 'desc-UpdateDate', name: '最新發佈' }],
     needFilter: [{ id: 1, label: '已收藏' }],
   });
+
   return (
     <>
       <Head>
@@ -75,10 +77,10 @@ export default function OrderDetail() {
               })
             ) : (
               <Link
-                href={'http://localhost:3000/blog/create'}
+                href={'http://localhost:3000/blog/'}
                 style={{ textDecoration: 'none' }}
               >
-              去收藏喜歡的文章
+                去收藏喜歡的文章
               </Link>
             )}
           </div>

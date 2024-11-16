@@ -23,7 +23,7 @@ export default function TagCard() {
         const url = 'http://localhost:3005/api/blog/tags';
         const response = await fetch(url);
         const data = await response.json();
-        console.log('前五個標籤', data);
+        // console.log('前五個標籤', data);
         setTags(data);
       } catch (error) {
         console.error('無法獲取標籤資料:', error);
