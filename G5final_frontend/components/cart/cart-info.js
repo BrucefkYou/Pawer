@@ -11,12 +11,13 @@ import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import { useLoader } from '@/hooks/use-loader';
 import toast from 'react-hot-toast';
+import logo from '@/public/LOGO.svg';
 
 export default function CartInfo(props) {
   const { loading, setLoading } = useLoader();
   const { auth } = useAuth();
   const router = useRouter();
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { items } = useCart();
   // 選擇便利商店
   const { store711, openWindow, closeWindow } = useShip711StoreOpener(
@@ -171,6 +172,68 @@ export default function CartInfo(props) {
     }
   };
 
+  // 提交表單
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (isSubmitting) return;
+
+    if (store711.storename === '') {
+      toast.error('請選擇便利商店', {
+        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          background: '#c14545',
+          color: '#fff',
+          marginTop: '80px',
+        },
+      });
+      return;
+    }
+    setLoading(true);
+    setIsSubmitting(true);
+
+    try {
+      const orderData = {
+        MemberID: auth.memberData.id,
+        ProductsAmount: items.filter((item) => item.checked).length,
+        CouponID: discount.ID,
+        Receiver: receiver,
+        ReceiverPhone: phone,
+        country: country,
+        township: township,
+        address: address,
+        storeAddress: store711.storeaddress,
+        selectedDelivery: selectedDelivery,
+        selectedPayment: selectedPayment,
+        ReceiptType: selectedBill,
+        checkedPrice: checkedPrice,
+        DiscountPrice: discountPrice,
+        ReceiptCarrier: carrierNum,
+        Products: items
+          .filter((item) => item.checked)
+          .map((item) => ({
+            ProductID: item.id,
+            ProductName: item.name,
+            Quantity: item.quantity,
+            Price: item.price,
+          })),
+      };
+
+      await createOrder(orderData);
+
+      toast.success('訂單已成功提交！');
+      // 重置表單或執行其他操作
+    } catch (error) {
+      toast.error('提交訂單時出錯，請稍後再試。');
+      console.error(error);
+    } finally {
+      setLoading(false);
+      setIsSubmitting(false);
+    }
+  };
+
   // 當離開頁面的時候，將 localStorage 裡面的 discount 移除
   useEffect(() => {
     // 清理函數會在組件卸載時執行
@@ -240,44 +303,7 @@ export default function CartInfo(props) {
       </Head>
       <div className="cart">
         <div className="container">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (store711.storename === '') {
-                toast.error('請選擇超商取貨門市');
-                return;
-              }
-              const orderData = {
-                MemberID: auth.memberData.id,
-                ProductsAmount: items.filter((item) => item.checked).length,
-                CouponID: discount.ID,
-                Receiver: receiver,
-                ReceiverPhone: phone,
-                // 這三個會組合成一個地址
-                country: country,
-                township: township,
-                address: address,
-                storeAddress: store711.storeaddress,
-                selectedDelivery: selectedDelivery,
-                selectedPayment: selectedPayment,
-                ReceiptType: selectedBill,
-                checkedPrice: checkedPrice,
-                DiscountPrice: discountPrice,
-                ReceiptCarrier: carrierNum,
-                Products: items
-                  .filter((item) => item.checked)
-                  .map((item) => {
-                    return {
-                      ProductID: item.id,
-                      ProductName: item.name,
-                      Quantity: item.quantity,
-                      Price: item.price,
-                    };
-                  }),
-              };
-              createOrder(orderData);
-            }}
-          >
+          <form onSubmit={handleSubmit}>
             <div className="row">
               {/* 麵包屑 */}
               <Breadcrumbs />
