@@ -164,6 +164,7 @@ export default function SignStatusCard({
             </p>
           </div>
         </div>
+        {/* eslint-disable-next-line */}
         <div
           className={`w-100 btn ${
             canSign <= 0 || disabled || isJoined
