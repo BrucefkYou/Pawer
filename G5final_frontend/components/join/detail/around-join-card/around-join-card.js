@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { BsClock, BsGeoAlt } from 'react-icons/bs';
 import style from '@/components/join/detail/around-join-card/around-join-card.module.scss';
+import Link from 'next/link';
 import Image from 'next/image';
 
 export default function AroundJoinCard({ data = {} }) {
@@ -42,44 +43,53 @@ export default function AroundJoinCard({ data = {} }) {
   return (
     <>
       <div
-        className={`card shadow border border-secondary my-4 ${style['ji-around-card']}`}
+        className={`card shadow border border-secondary my-4 mx-auto ${style['ji-around-card']}`}
       >
-        <div className="card-body py-4">
-          <div className="d-flex justify-content-between mb-3">
-            <h4
-              className={`card-title ${style['card-title-mg']} text-secondary-emphasis m-0`}
-            >
-              {data.Title}
-            </h4>
-            <span className="bg-primary text-white px-2 py-1 rounded-1 my-auto">
-              {data.newStatus}
-            </span>
-          </div>
-          <div className="ji-info">
-            <p className="card-text mb-3 ji-info-content text-secondary-emphasis">
-              <BsClock className="ms-1 me-2" />
-              {StartTime} - {EndTime}
-            </p>
-            <p className="card-text m-0 ji-info-content text-secondary-emphasis">
-              <BsGeoAlt className="ms-1 me-2" />
-              {address}
-            </p>
-          </div>
-          <div className="ji-member d-flex align-items-center gap-2">
-            <div className={`rounded-circle ${style['ji-img']}`}>
-              <Image
-                width={100}
-                height={100}
-                className="object-fit-cover"
-                src={`/member/${data.ImageName}`}
-                alt=""
-              />
+        <Link
+          href={`http://localhost:3000/join/${data.ID}`}
+          className="text-decoration-none"
+        >
+          <div className="card-body py-4 ">
+            <div className="d-flex justify-content-between mb-3">
+              <h4
+                className={`card-title ${style['card-title-mg']} text-secondary-emphasis m-0`}
+              >
+                {data.Title}
+              </h4>
+              <span className="bg-primary text-white px-2 py-1 rounded-1 my-auto">
+                {data.newStatus}
+              </span>
             </div>
-            <p className="my-auto text-primary">
-              {data.Nickname ? data.Nickname : data.Account}
-            </p>
+            <div className="ji-info">
+              <p className="card-text mb-3 ji-info-content text-secondary-emphasis">
+                <BsClock className="ms-1 me-2" />
+                {StartTime} - {EndTime}
+              </p>
+              <p className="card-text m-0 ji-info-content text-secondary-emphasis">
+                <BsGeoAlt className="ms-1 me-2" />
+                {address}
+              </p>
+            </div>
+            <div className="ji-member d-flex align-items-center gap-2">
+              <div className={`rounded-circle ${style['ji-img']}`}>
+                <Image
+                  width={100}
+                  height={100}
+                  className="object-fit-cover"
+                  src={
+                    data.Avatar
+                      ? `http://localhost:3005/member/${data.Avatar}`
+                      : '/member/member-avatar/member-profile.png'
+                  }
+                  alt=""
+                />
+              </div>
+              <p className="my-auto text-primary">
+                {data.Nickname ? data.Nickname : data.Account}
+              </p>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
     </>
   );
