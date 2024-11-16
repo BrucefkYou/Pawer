@@ -50,8 +50,6 @@ export function AuthProvider({ children }) {
 
         // 將登入成功與取回的會員資料設定到全域狀態auth，其他頁面可以直接取用
         // 使用 ?? 可以 接受false與0的值  null undefined都會被排除
-        console.log('login:', res.data.memberData);
-        
         setAuth({
           isAuth: true,
           memberData: {
