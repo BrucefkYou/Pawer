@@ -20,7 +20,7 @@ export default function Banner({
 
   useEffect(() => {
     if (router.isReady && router.query.id) {
-      console.log('ID:', router.query.id);
+      // console.log('ID:', router.query.id);
       if (url) {
         getTitle(router.query.id);
       }

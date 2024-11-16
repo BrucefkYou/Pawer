@@ -107,7 +107,7 @@ export default function CreateBtn({ btnName }) {
           height: '100px',
         },
       });
-      router.push('member/login');
+      router.push('http://localhost:3000/member/login');
     }
   };
 
