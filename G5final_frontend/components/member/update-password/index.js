@@ -84,6 +84,7 @@ export default function ResetPasswordModal({ show, onClose, email }) {
 
     if (res.data.status === 'success') {
       toast.success(`${res.data.message}`);
+      onClose();
     } else {
       toast.error(`${res.data.message}`);
     }

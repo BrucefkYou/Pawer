@@ -1,13 +1,8 @@
 import axiosInstance from './axios-instance';
 
-//  修改會員一般資料用(排除password, username, email)
-export const updateProfile = async (memberId = 0, user = {}) => {
-  return await axiosInstance.put(`/member/profile/${memberId}`, user);
-};
-
-// 修改會員頭像用，需要用FormData
-export const updateProfileAvatar = async (formData) => {
-  return await axiosInstance.post(`/member/upload-avatar`, formData);
+//  修改會員資料用 (含頭像，不含密碼)
+export const updateProfile = async (memberId = 0, formData) => {
+  return await axiosInstance.put(`/member/profile/${memberId}`, formData);
 };
 
 // 取得會員所有訂單 (不含訂單商品)
