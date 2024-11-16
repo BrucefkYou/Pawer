@@ -1,8 +1,15 @@
 import React from 'react';
 import CityData from './city-data';
 
-
-export default function AreaSelect({ city, township, location, setCity, setTownship, setLocation }) {
+export default function AreaSelect({
+  city,
+  township,
+  location,
+  setCity,
+  setTownship,
+  setLocation,
+  required,
+}) {
   const handleCityChange = (e) => {
     setCity(e.target.value);
     setTownship('');
@@ -19,7 +26,10 @@ export default function AreaSelect({ city, township, location, setCity, setTowns
   return (
     <>
       <div id="join-address" className="mb-3">
-        <label htmlFor="joinAddress" className="form-label required">
+        <label
+          htmlFor="joinAddress"
+          className={`form-label ${required ? 'required' : ''}`}
+        >
           活動地點
         </label>
         <div className="row g-3">

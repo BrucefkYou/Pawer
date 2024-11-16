@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
 import MemberNav from '@/components/memberNav';
@@ -16,6 +17,9 @@ export default function OrderDetail() {
   const { auth } = useAuth();
   const uid = auth.memberData.id;
   // console.log(uid);
+  const [url, setUrl] = useState(
+    'http://localhost:3005/api/blog/mem-favorite?memberId=${uid}'
+  );
 
   const {
     chooseFilter,
@@ -29,10 +33,21 @@ export default function OrderDetail() {
     next,
     prev,
   } = usePagination({
-    url: `http://localhost:3005/api/blog/mem-favorite?memberId=${uid}`,
+    url: url,
     needSort: [{ way: 'desc-UpdateDate', name: '最新發佈' }],
     needFilter: [{ id: 1, label: '已收藏' }],
   });
+
+  // 取消收藏後從收藏頁上消失
+  useEffect(() => {
+    if (newdata) {
+      // 利用時間戳產生新的url>>避免快取結果導致無法更新頁面
+      setUrl(
+        `http://localhost:3005/api/blog/mem-favorite?memberId=${uid}&timestamp=${new Date().getTime()}`
+      );
+    }
+  }, [newdata]);
+
   return (
     <>
       <Head>
@@ -54,8 +69,8 @@ export default function OrderDetail() {
             />
           </ul>
         </div>
-        <div className="mb-card d-flex flex-column justify-content-center align-items-center gap-4 p-0">
-          <div className="card-section d-flex flex-wrap justify-content-center gap-3 ">
+        <div className="mb-card d-flex flex-column justify-content-center pt-5 px-4">
+          <div className="card-section d-flex flex-wrap justify-content-center gap-3  ">
             {nowPageItems && nowPageItems.length > 0 ? (
               nowPageItems.map((blog) => {
                 return (
@@ -73,16 +88,27 @@ export default function OrderDetail() {
                 );
               })
             ) : (
-              <p>去收藏喜歡的文章</p>
+              <div className="d-flex w-100 align-items-center">
+                <Link
+                  href={'http://localhost:3000/blog/'}
+                  style={{ textDecoration: 'none' }}
+                >
+                  去收藏喜歡的文章吧!
+                </Link>
+              </div>
             )}
           </div>
-          <div>
-            <PageNav
-              nowPage={nowPage}
-              totalPage={totalPage}
-              next={next}
-              prev={prev}
-            />
+          <div className="pt-5 justify-content-center ">
+            {nowPageItems && nowPageItems.length > 0 && (
+              <div>
+                <PageNav
+                  nowPage={nowPage}
+                  totalPage={totalPage}
+                  next={next}
+                  prev={prev}
+                />
+              </div>
+            )}
           </div>
         </div>
       </article>

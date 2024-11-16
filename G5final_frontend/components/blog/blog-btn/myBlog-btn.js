@@ -24,7 +24,7 @@ export default function BlogBtn() {
         },
       });
 
-      router.push('member/login');
+      router.push('http://localhost:3000/member/login');
     }
   };
   return (

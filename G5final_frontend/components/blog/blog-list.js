@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import LatestCard from '@/components/sidebar/latest-post/latest-post';
+import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import SortedCard from '@/components/sidebar/sorted-card/sorted-card';
 import TagCard from '@/components/sidebar/tags/tags';
 import SearchBar from '@/components/sidebar/search/search-bar';
-import POPCard from '@/components/blog/pop-post/pop-post';
 import BlogCard from '@/components/blog/blog-card/blog-card';
-import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import CreateBtn from '@/components/blog/blog-btn/create-btn/create-btn';
 import BlogBtn from './blog-btn/myBlog-btn';
 
@@ -14,6 +13,8 @@ import { usePagination } from '@/hooks/usePagination';
 import { PerPageDom } from '@/components/PerPageDom';
 import { SortDom } from '@/components/SortDom';
 import { PageNav } from '@/components/PageNav';
+
+import { BsHeartFill } from 'react-icons/bs';
 
 export default function BlogList() {
   const router = useRouter();
@@ -67,10 +68,34 @@ export default function BlogList() {
           </div>
 
           <div className="m-none">
-            <LatestCard />
+            <SortedCard
+              title="熱門文章"
+              id="ID"
+              api="http://localhost:3005/api/blog"
+              link="http://localhost:3000/blog"
+              img="blogImg"
+              content="Title"
+              date="UpdateDate"
+              count="likeCount"
+              IconComponent={BsHeartFill}
+              sorted="count"
+              limit={5}
+            />
           </div>
           <div className="m-none">
-            <POPCard />
+            <SortedCard
+              title="最新發佈"
+              id="ID"
+              api="http://localhost:3005/api/blog"
+              link="http://localhost:3000/blog"
+              img="blogImg"
+              content="Title"
+              date="UpdateDate"
+              count="likeCount"
+              IconComponent={BsHeartFill}
+              sorted="date"
+              limit={5}
+            />
           </div>
         </div>
         <div className="blog-list">
@@ -108,7 +133,7 @@ export default function BlogList() {
                       updateDate={blog.UpdateDate}
                       likeCount={blog.likeCount}
                       favoriteCount={blog.favoriteCount}
-                      avatar={blog.MemberAvatar|| 'avatar-default.png'}
+                      avatar={blog.MemberAvatar || 'avatar-default.png'}
                       name={blog.Nickname}
                     />
                   );
@@ -118,12 +143,16 @@ export default function BlogList() {
             )}
           </div>
           <div className="d-flex justify-content-center">
-            <PageNav
-              nowPage={nowPage}
-              totalPage={totalPage}
-              next={next}
-              prev={prev}
-            />
+            {nowPageItems && nowPageItems.length > 0 && (
+              <div>
+                <PageNav
+                  nowPage={nowPage}
+                  totalPage={totalPage}
+                  next={next}
+                  prev={prev}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

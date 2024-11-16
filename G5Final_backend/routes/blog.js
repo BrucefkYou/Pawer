@@ -3,6 +3,7 @@ import db2 from '../configs/mysql.js'
 import path from 'path'
 import moment from 'moment'
 import multer from 'multer'
+import { v4 as uuidv4 } from 'uuid'
 
 const router = express.Router()
 
@@ -11,8 +12,8 @@ const storage = multer.diskStorage({
     callback(null, 'public/blog')
   },
   filename: function (req, file, callback) {
-    const originalFilename = file.originalname
-    callback(null, originalFilename)
+    const newFilename = uuidv4() + path.extname(file.originalname)
+    callback(null, newFilename)
   },
 })
 const upload = multer({ storage: storage })
@@ -296,6 +297,7 @@ router.get('/:id', async function (req, res) {
     (SELECT COUNT(*) FROM MemberFavoriteMapping WHERE MemberFavoriteMapping.BlogID = Blog.ID) AS favoriteCount,
       GROUP_CONCAT(tag.Name) AS tags,
         Image.ImageUrl AS blogImg,
+        Image.ImageName AS imageName,
           Member.Nickname AS Nickname,
             Member.Avatar AS MemberAvatar
 

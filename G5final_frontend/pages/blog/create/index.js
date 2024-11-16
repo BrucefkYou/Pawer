@@ -90,43 +90,35 @@ export default function BlogCreate() {
     }
   };
 
-  // 預覽
+  // localstorage版
   const handlePreview = () => {
-    // 暫存
     const previewData = {
       title,
-      content: encodeURIComponent(data), //編碼 URI
+      content: data,
       tags: tags.join(','),
       imageName,
       previewImage: uploadedImageUrl || previewImage,
       memberId: uid,
     };
-    // console.log(previewData);
-    router.push({
-      pathname: 'http://localhost:3000/blog/preview',
-      query: previewData,
-    });
+    localStorage.setItem('blogPreviewData', JSON.stringify(previewData));
+    router.push('/blog/preview');
   };
-
-  // 從預覽返回的資料
   useEffect(() => {
-    if (router.query.title) setTitle(router.query.title);
-    if (router.query.content) {
-      const decodedContent = decodeURIComponent(router.query.content); //解碼
-      setData(decodedContent);
-    }
-    if (router.query.tags) {
-      const tagsArray = router.query.tags.split(',');
-      setTags(tagsArray);
-    }
-    if (router.query.imageName) {
-      setImageName(router.query.imageName);
-    }
+    const saveBlogData = localStorage.getItem('blogTemData');
+    if (saveBlogData) {
+      const { title, content, tags, imageName, previewImage } =
+        JSON.parse(saveBlogData);
 
-    if (router.query.previewImage) {
-      setUploadedImageUrl(router.query.previewImage);
+      if (title) setTitle(title);
+      if (content) setData(decodeURIComponent(content));
+      if (tags) {
+        const tagsArray = tags.split(',');
+        setTags(tagsArray);
+      }
+      if (imageName) setImageName(imageName);
+      if (previewImage) setUploadedImageUrl(previewImage);
     }
-  }, [router.query]);
+  }, []);
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -298,9 +290,6 @@ export default function BlogCreate() {
             <FaTrashAlt className="icon" />
             捨棄
           </Link>
-          {/* <button type="button" className="col btn-mobile">
-                </button> */}
-
           <button className="col btn-mobile" onClick={handlePreview}>
             <FaEye className="icon" />
             預覽

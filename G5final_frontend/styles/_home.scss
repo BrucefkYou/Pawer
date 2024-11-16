@@ -260,27 +260,6 @@
     font-weight: 700;
     line-height: 40px;
   }
-  /* 卡片區 */
-  .sec4-card-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: calc(100% / 10);
-    margin-top: 100px;
-  }
-  .sec4-event-card {
-    border: 1px solid #e0e0e0;
-    padding: 16px;
-    max-width: 320px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  .sec4-event {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-self: stretch;
-  }
 
   .sec4-event-title {
     margin-bottom: 0px;
@@ -290,51 +269,6 @@
     line-height: 30px;
   }
 
-  .sec4-event-status {
-    display: inline-block;
-    background-color: #22355c;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  .sec4-event-time {
-    margin-bottom: 0.75rem;
-    color: #646464;
-    font-family: Inter;
-    font-size: 14px;
-    font-weight: 400;
-  }
-
-  .sec4-event-details {
-    font-family: Inter;
-    font-weight: 400;
-    line-height: normal;
-    margin: 12px 0;
-    font-size: 14px;
-    color: #646464;
-  }
-
-  .sec4-event-location {
-    margin-bottom: 35px;
-  }
-
-  .sec4-event-image {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    object-fit: cover;
-    height: auto;
-    border-radius: 50%;
-    margin-bottom: 8px;
-  }
-
-  .sec4-event-imgtext {
-    color: #22355c;
-    font-family: 'Open Sans';
-    font-size: 16px;
-    font-weight: bold;
-  }
 
   /* section five */
   .sec5-banner {

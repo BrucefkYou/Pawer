@@ -66,7 +66,8 @@ export default function SignStatusCard({
         setIsJoined(true);
 
         if (response.ok) {
-          toast.success('報名成功', {
+          toast('報名成功', {
+            // icon: '',
             duration: 1800,
             style: {
               borderRadius: '10px',

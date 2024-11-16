@@ -47,7 +47,7 @@
         align-items: center;
         padding-inline: 0px;
       }
-      
+
       /* 結帳金額區塊 */
       .price-block {
         width: 100%;
@@ -61,7 +61,7 @@
         padding-inline: 50px;
         margin-bottom: 30px;
       }
-     
+
       /* !元件設定 */
       .hr-marginB-20 {
         margin-block: 20px;
@@ -75,7 +75,7 @@
         position: relative;
         margin-bottom: 20px;
       }
-      
+
       .input-wrapper input {
         padding: 8px 12px;
         font-size: 16px;
@@ -83,7 +83,7 @@
         box-sizing: border-box;
         border-radius: 25px 2px 2px 2px;
       }
-      
+
       /* 為 required 的 input-wrapper 添加紅色星號 */
       .input-wrapper.required::after {
         content: '*';
@@ -124,7 +124,7 @@
         font-weight: 500;
         line-height: 24px; /* 150% */
       }
-      .cartInfo-title{
+      .cartInfo-title {
         font-size: 20px;
         color: $primary;
       }
@@ -135,6 +135,22 @@
         font-size: 18px;
         font-weight: 400;
       }
+      // .convenienceInput {
+      //   display: inline-block;
+      //   width: 100px;
+      //   border: none;
+      //   background: none; 
+      //   padding: 0; 
+      //   margin: 0; 
+      //   outline: none; 
+      //   caret-color: transparent;
+      // }
+      // .convenienceInput:focus{
+      //   outline: none; 
+      // }
+      // .convenienceInput:hover{
+      //   cursor: pointer;
+      // }
       /* 優惠券結帳小圖示 */
       .discount-icon {
         background-color: var(--second-color);
@@ -254,7 +270,7 @@
         font-weight: 400;
         color: #646464;
       }
-      .cartInfo-title{
+      .cartInfo-title {
         font-size: 20px;
         color: $primary;
       }
