@@ -81,6 +81,15 @@ router.post('/login', async (req, res) => {
     return res.json({ status: 'error', message: '此信箱尚未註冊' })
   }
   const dbMember = results[0]
+  // console.log(`dbMember`, dbMember)
+
+  if (dbMember.Password === null) {
+    return res.json({
+      status: 'error',
+      message:
+        '此帳號原為Google快速登入，若欲使用傳統登入，請透過「忘記密碼」功能來設定一次您的密碼。',
+    })
+  }
 
   // 比對密碼hash是否相同
   const isValid = await compareHash(loginMember.password, dbMember.Password)
