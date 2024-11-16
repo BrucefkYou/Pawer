@@ -50,6 +50,8 @@ export function AuthProvider({ children }) {
 
         // 將登入成功與取回的會員資料設定到全域狀態auth，其他頁面可以直接取用
         // 使用 ?? 可以 接受false與0的值  null undefined都會被排除
+        console.log('login:', res.data.memberData);
+        
         setAuth({
           isAuth: true,
           memberData: {
@@ -66,9 +68,9 @@ export function AuthProvider({ children }) {
         // 導向到會員中心
         router.push('/member');
         // 顯示登入成功訊息
-        toast.success('登入成功');
+        toast.success(res.data.message);
       } else {
-        toast.error('帳號或密碼錯誤');
+        toast.error(res.data.message);
       }
     } catch (error) {
       console.error('Error fetching member data:', error);
