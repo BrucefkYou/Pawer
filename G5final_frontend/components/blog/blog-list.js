@@ -143,12 +143,16 @@ export default function BlogList() {
             )}
           </div>
           <div className="d-flex justify-content-center">
-            <PageNav
-              nowPage={nowPage}
-              totalPage={totalPage}
-              next={next}
-              prev={prev}
-            />
+            {nowPageItems && nowPageItems.length > 0 && (
+              <div>
+                <PageNav
+                  nowPage={nowPage}
+                  totalPage={totalPage}
+                  next={next}
+                  prev={prev}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -16,61 +16,68 @@ export default function BlogPreview() {
   const { auth } = useAuth();
   const uid = auth.memberData.id;
   const router = useRouter();
-  const { title, content, tags, imageName, previewImage, memberId } =
-    router.query;
   const [userData, setUserData] = useState(null);
   const [currentDate, setCurrentDate] = useState('');
   const [avatarLoaded, setAvatarLoaded] = useState(false);
+  const [previewData, setPreviewData] = useState({}); //localStorage
+
   const updateImageTags = (htmlContent) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
     const images = doc.querySelectorAll('img');
-
     images.forEach((img) => {
       img.classList.add('img-fluid');
     });
-
     return doc.body.innerHTML;
   };
 
+  // 讀存在localStorage的資料
+  useEffect(() => {
+    const savedData = localStorage.getItem('blogPreviewData');
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      setPreviewData(data);
+      console.log(data);
+    }
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const formattedDate = moment().format('YYYY/MM/DD');
-        setCurrentDate(formattedDate);
+      const formattedDate = moment().format('YYYY/MM/DD');
+      setCurrentDate(formattedDate);
 
-        if (memberId) {
+      // 從localStorage抓memberId
+      if (previewData.memberId) {
+        try {
           const response = await fetch(
-            `http://localhost:3005/api/blog/member/${memberId}`
+            `http://localhost:3005/api/blog/member/${previewData.memberId}`
           );
           const data = await response.json();
           const updatedData = {
             ...data[0],
             __html: updateImageTags(data[0].__html),
           };
-
           setUserData(updatedData);
           setAvatarLoaded(true);
+        } catch (error) {
+          console.error('Error', error);
         }
-      } catch (error) {
-        console.error('error:', error);
       }
     };
 
     fetchData();
-  }, [memberId, previewImage]);
+  }, [previewData]);
 
   const handleBack = () => {
-    router.push({
-      pathname: '/blog/create',
-      query: {
-        title,
-        content,
-        tags,
-        imageName,
-        previewImage,
-      },
-    });
+    const blogData = {
+      title: previewData.title,
+      content: previewData.content,
+      tags: previewData.tags,
+      imageName: previewData.imageName,
+      previewImage: previewData.previewImage,
+    };
+    localStorage.setItem('blogTemData', JSON.stringify(blogData));
+    router.push('/blog/create');
   };
 
   const user = userData;
@@ -89,7 +96,7 @@ export default function BlogPreview() {
           <div className="blog-post">
             <div id="image-preview-wrapper" className="image-preview-wrapper ">
               <Image
-                src={previewImage || '/blog/cover.svg'}
+                src={previewData.previewImage || '/blog/cover.svg'}
                 alt="圖片預覽"
                 fill
                 priority
@@ -105,20 +112,20 @@ export default function BlogPreview() {
                 <p className="text blog-date">{currentDate}</p>
               </div>
             </div>
-            <h2 className="blog-title">{title}</h2>
+            <h2 className="blog-title">{previewData.title}</h2>
             <div className="blog-content">
               <div
                 dangerouslySetInnerHTML={{
-                  __html: content
-                    ? updateImageTags(decodeURIComponent(content))
+                  __html: previewData.content
+                    ? updateImageTags(previewData.content)
                     : '',
                 }}
               ></div>
             </div>
             <div className="tag-section">
               <div>標籤：</div>
-              {tags &&
-                tags.split(',').map((tag, index) => (
+              {previewData.tags &&
+                previewData.tags.split(',').map((tag, index) => (
                   <div key={index} className="tag" type="button">
                     {tag}
                   </div>
@@ -139,10 +146,10 @@ export default function BlogPreview() {
                 handleSaveDraft(
                   e,
                   uid,
-                  title,
-                  decodeURIComponent(content),
-                  tags,
-                  imageName,
+                  previewData.title,
+                  previewData.content,
+                  previewData.tags,
+                  previewData.imageName,
                   router
                 )
               }
@@ -156,12 +163,12 @@ export default function BlogPreview() {
                 handleSubmit(
                   e,
                   uid,
-                  title,
-                  decodeURIComponent(content),
-                  tags,
-                  imageName,
+                  previewData.title,
+                  previewData.content,
+                  previewData.tags,
+                  previewData.imageName,
                   router,
-                  previewImage
+                  previewData.previewImage
                 )
               }
             >
@@ -185,12 +192,12 @@ export default function BlogPreview() {
               handleSaveDraft(
                 e,
                 uid,
-                title,
-                decodeURIComponent(content),
-                tags,
-                imageName,
+                previewData.title,
+                previewData.content,
+                previewData.tags,
+                previewData.imageName,
                 router,
-                previewImage
+                previewData.previewImage
               )
             }
           />
@@ -203,12 +210,12 @@ export default function BlogPreview() {
             handleSubmit(
               e,
               uid,
-              title,
-              decodeURIComponent(content),
-              tags,
-              imageName,
+              previewData.title,
+              previewData.content,
+              previewData.tags,
+              previewData.imageName,
               router,
-              previewImage
+              previewData.previewImage
             )
           }
         >
