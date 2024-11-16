@@ -117,21 +117,21 @@ export default function Member() {
     try {
       const res = await updateProfile(auth.memberData.id, formData);
 
-    if (res.data.status === 'success') {
-      setAuth({
+      if (res.data.status === 'success') {
+        setAuth({
           ...auth,
-        memberData: {
-          ...auth.memberData,
+          memberData: {
+            ...auth.memberData,
             name: res.data.memberData.Name ?? '',
             email: res.data.memberData.eMail ?? '',
             nickname: res.data.memberData.Nickname ?? '',
             avatar: res.data.memberData.Avatar ?? '',
             google_uid: res.data.memberData.google_uid ?? '',
             google_avatar: res.data.memberData.google_avatar ?? '',
-        },
-      });
+          },
+        });
         toast.success('會員資料與頭像修改成功');
-    } else {
+      } else {
         toast.error(`修改失敗，${res.data.message}`);
       }
     } catch (error) {
@@ -254,7 +254,7 @@ export default function Member() {
                 <input
                   type="text"
                   className="form-control"
-                  name="account"
+                  name="phone"
                   value={userProfile.phone}
                   onChange={handleFieldChange}
                 />
