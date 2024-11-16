@@ -3,7 +3,11 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import style from '@/components/join/banner/banner.module.scss';
 
-export default function Banner({ bgImgUrl = '', imgCover = 'cover', url = '' }) {
+export default function Banner({
+  bgImgUrl = '',
+  imgCover = 'cover',
+  url = '',
+}) {
   const router = useRouter();
   const menuItems = [
     { id: 1, title: '商品', href: '/product' },
@@ -23,7 +27,8 @@ export default function Banner({ bgImgUrl = '', imgCover = 'cover', url = '' }) 
     }
   }, [router.isReady, router.query.id, url]);
 
-  const currentTitle = menuItems.find((item) => item.href === router.pathname)?.title || '';
+  const currentTitle =
+    menuItems.find((item) => item.href === router.pathname)?.title || '';
 
   const getTitle = async (id) => {
     const apiUrl = `${url}/${id}`;
@@ -34,7 +39,7 @@ export default function Banner({ bgImgUrl = '', imgCover = 'cover', url = '' }) 
       if (Array.isArray(resData) && resData.length > 0) {
         const blogData = resData[0];
         setData(blogData);
-        console.log('取得的文章標題:', blogData.Title);
+        // console.log('取得的文章標題:', blogData.Title);
       } else {
         console.log('資料格式錯誤');
       }

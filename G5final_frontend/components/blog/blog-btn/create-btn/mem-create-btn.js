@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import styles from './create-btn.module.scss';
 
-export default function MemCreateBtn({  url = '/', children }) {
+export default function MemCreateBtn({ url = '/', children }) {
   const router = useRouter();
 
   const handleClick = () => {
@@ -9,13 +9,12 @@ export default function MemCreateBtn({  url = '/', children }) {
   };
 
   return (
-    
-    <div
+    <button
       className={`btn btn-warning ${styles['mem-create-btn']}`}
       type="button"
       onClick={handleClick}
     >
       {children}
-    </div>
+    </button>
   );
 }
