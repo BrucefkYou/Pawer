@@ -19,6 +19,7 @@ export function AuthProvider({ children }) {
     avatar: '',
     google_uid: '',
     google_avatar: '',
+    isPetCom: false,
   };
 
   //定義登入狀態與會員資料(可從此取得會員資料id, name, email, nickname, avatar，若需要更多就撈出id自行去撈db)
@@ -61,6 +62,7 @@ export function AuthProvider({ children }) {
             avatar: res.data.memberData.Avatar ?? '',
             google_uid: res.data.memberData.google_uid ?? '',
             google_avatar: res.data.memberData.google_avatar ?? '',
+            isPetCom: res.data.memberData.isPetCom ?? '',
           },
         });
         // 導向到會員中心
@@ -151,6 +153,7 @@ export function AuthProvider({ children }) {
             avatar: res.data.memberData.Avatar ?? '',
             google_uid: res.data.memberData.google_uid ?? '',
             google_avatar: res.data.memberData.google_avatar ?? '',
+            isPetCom: res.data.memberData.isPetCom ?? '',
           },
         };
         setAuth(nextAuth);
