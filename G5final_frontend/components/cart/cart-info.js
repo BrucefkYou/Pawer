@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import InfoList from '@/components/cart/info-list';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
@@ -18,6 +18,7 @@ export default function CartInfo(props) {
   const { auth } = useAuth();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmittingRef = useRef(false);
   const { items } = useCart();
   // 選擇便利商店
   const { store711, openWindow, closeWindow } = useShip711StoreOpener(
@@ -50,12 +51,12 @@ export default function CartInfo(props) {
     checked: true,
   }); // 優惠券數據
   // 導向至ECPay付款頁面
-  const goECPay = () => {
-    window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${orderID}`;
+  const goECPay = (ID) => {
+    window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${ID}`;
   };
 
-  const goLinepay = async () => {
-    window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${orderID}`;
+  const goLinepay = (ID) => {
+    window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${ID}`;
   };
 
   const handleLinepayConfirm = async (transactionId) => {
@@ -97,7 +98,8 @@ export default function CartInfo(props) {
           JSON.stringify(items.filter((item) => !item.checked))
         );
       }
-      setOrderID(resData.orderId);
+      console.log(resData.orderId);
+      return resData.orderId;
 
       // 導頁的行為在後端處理
     } catch (error) {
@@ -176,7 +178,12 @@ export default function CartInfo(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (isSubmitting) return;
+    console.log('handleSubmit called');
+
+    if (isSubmittingRef.current) {
+      console.log('Already submitting, aborting');
+      return;
+    }
 
     if (store711.storename === '' && selectedDelivery === 'convenience') {
       toast.error('請選擇便利商店', {
@@ -193,6 +200,8 @@ export default function CartInfo(props) {
     }
     setLoading(true);
     setIsSubmitting(true);
+    isSubmittingRef.current = true;
+    console.log('Set isSubmitting to true');
 
     try {
       const orderData = {
@@ -221,9 +230,27 @@ export default function CartInfo(props) {
           })),
       };
 
-      await createOrder(orderData);
+      const createOrderID = await createOrder(orderData);
 
       toast.success('訂單已成功提交！');
+      console.log('orderID: ' + createOrderID);
+
+      if (
+        selectedPayment === 'credit-card' &&
+        createOrderID &&
+        createOrderID != 0
+      ) {
+        console.log('goECPay');
+        goECPay(createOrderID);
+      } else if (
+        selectedPayment === 'LinePay' &&
+        createOrderID &&
+        createOrderID != 0
+      ) {
+        console.log('goLinepay');
+        goLinepay(createOrderID);
+      }
+
       // 重置表單或執行其他操作
     } catch (error) {
       toast.error('提交訂單時出錯，請稍後再試。');
@@ -231,6 +258,8 @@ export default function CartInfo(props) {
     } finally {
       setLoading(false);
       setIsSubmitting(false);
+      isSubmittingRef.current = false;
+      console.log('Reset isSubmitting to false');
     }
   };
 
@@ -262,14 +291,9 @@ export default function CartInfo(props) {
     calculateDiscountPrice();
   }, [discount, checkedPrice]);
 
-  useEffect(() => {
-    console.log('orderID:', orderID);
-    if (selectedPayment === 'credit-card') {
-      goECPay();
-    } else if (selectedPayment === 'LinePay' && orderID != 0) {
-      goLinepay();
-    }
-  }, [orderID]);
+  // useEffect(() => {
+  //   console.log('orderID:', orderID);
+  // }, [orderID]);
 
   useEffect(() => {
     if (router.isReady) {
@@ -755,7 +779,13 @@ export default function CartInfo(props) {
                 </Link>
               </div>
               <div>
-                <button type="submit" id="check-btn" className="btn check-btn">
+                <button
+                  type="submit"
+                  id="check-btn"
+                  className="btn check-btn"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
                   確認付款
                 </button>
               </div>

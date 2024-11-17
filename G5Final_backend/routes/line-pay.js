@@ -88,7 +88,7 @@ router.post('/LinePayOrder', authenticate, async (req, res) => {
 // 重新導向到line-pay，進行交易(純導向不回應前端)
 // 資料格式參考 https://enylin.github.io/line-pay-merchant/api-reference/request.html#example
 router.get('/reserve', authenticate, async (req, res) => {
-  if (!req.query.orderId || req.query.orderId === 0) {
+  if (!req.query.orderId || req.query.orderId == 0) {
     return res.json({ status: 'error', message: 'order id不存在' })
   }
 
