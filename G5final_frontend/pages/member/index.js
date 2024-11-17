@@ -40,6 +40,7 @@ export default function Member() {
   const [userProfile, setUserProfile] = useState(initUserProfile);
   const [selectedFile, setSelectedFile] = useState(null);
 
+  if (auth.isAuth) {
   // 初始化會員資料
   const getUserData = async () => {
     const res = await getMember();
@@ -67,6 +68,8 @@ export default function Member() {
   useEffect(() => {
     getUserData();
   }, []);
+  }
+
 
   // 處理input輸入的共用函式，設定回userProfile狀態
   const handleFieldChange = (e) => {
