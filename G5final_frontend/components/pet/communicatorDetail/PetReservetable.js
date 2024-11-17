@@ -93,20 +93,24 @@ export default function PetReservetable({ fetchOne, memberID }) {
           }
         );
         // 發送信件
-        // emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-        //     from_name: "PAWER",
-        //     to_name: from.ReserveName,
-        //     to_email: memberEmail,
-        //     message:
-        //         `預約溝通師：${fetchOne.Name}
-        // 預約者姓名：${from.ReserveName}
-        // 聯繫電話：${from.Phone}
-        // 寵物類型：${from.PetType}
-        // 寵物名稱：${from.PetName}
-        // 進行方式：${from.Approach}
-        // 備註：${from.Remark}
-        // 預約時段：${formattedDateTime}`
-        // }, PUBLIC_ID);
+        emailjs.send(
+          SERVICE_ID,
+          TEMPLATE_ID,
+          {
+            from_name: 'PAWER',
+            to_name: from.ReserveName,
+            to_email: memberEmail,
+            message: `預約溝通師：${fetchOne.Name}
+        預約者姓名：${from.ReserveName}
+        聯繫電話：${from.Phone}
+        寵物類型：${from.PetType}
+        寵物名稱：${from.PetName}
+        進行方式：${from.Approach}
+        備註：${from.Remark}
+        預約時段：${formattedDateTime}`,
+          },
+          PUBLIC_ID
+        );
         //轉頁
         setTimeout(() => {
           router.push('/member/communicator/memReserve');
