@@ -36,7 +36,7 @@ export default function MemListButton({ v, setMessage }) {
   return (
     <>
       <div className="col d-flex btnn-group-position align-items-center">
-        <div className="btnn-group me-3">
+        <div className="btnn-group mx-3">
           <button
             className={`btnn btnn-1 m-0 ${
               v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'

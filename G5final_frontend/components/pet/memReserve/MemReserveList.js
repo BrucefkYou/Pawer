@@ -40,7 +40,7 @@ export default function MemReserveList({ nowPageItems, setMessage }) {
             <div className="col">{v.Time.split(' ')[0]}</div>
             <div className="col">{v.Time.split(' ')[1]}</div>
             {/* 下拉按鈕 */}
-            <div className="col-1 PT-myicon">
+            <div className="col-1 PT-myicon d-flex justify-content-center">
               <button
                 onClick={() => handleClick(i)}
                 style={{
@@ -78,8 +78,8 @@ export default function MemReserveList({ nowPageItems, setMessage }) {
                 </div>
               </div>
               {/* 內容 */}
-              <div className="col-6 col-md-9 py-2 px-0 d-flex main-1">
-                <div className="col d-flex flex-column justify-content-center align-items-start">
+              <div className="col-8 col-md-9 py-2 px-0 d-flex main-1">
+                <div className="col d-flex flex-column justify-content-center align-items-start p-3">
                   <h5 className="text text-1 m-1">{v.Name}</h5>
                   <p className="m-1 text-2 PT-sp-none-rwd">{v.Approach}</p>
                   <p className="text text-3 m-1 PT-sp-none-rwd">
@@ -93,7 +93,7 @@ export default function MemReserveList({ nowPageItems, setMessage }) {
                 <MemListButton v={v} setMessage={setMessage} />
               </div>
               {/* 手機版狀態 */}
-              <div className="col status d-block d-md-none py-2 px-0 text-end">
+              <div className="col status d-block d-md-none p-3 m-2 px-0 text-end">
                 <p>{v.Status == 0 ? '已結束' : ''}</p>
                 <p className="PT-sp-4">{v.Approach}</p>
               </div>

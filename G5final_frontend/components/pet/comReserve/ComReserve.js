@@ -72,14 +72,18 @@ export default function ComReserve(props) {
     <>
       <div className="PT-reserve-card p-4 shadow">
         <div className="d-flex justify-content-between">
-          {/* 標題 */}
-          <PageTitle title={'師資專區 ｜ 預約清單'} subTitle={'Reserve'} />
-          {/* 頁籤 */}
-          <MemberNav
-            newdata={newdata}
-            chooseFilter={chooseFilter}
-            needFilter={needFilter}
-          />
+          <div className="col-6">
+            {/* 標題 */}
+            <PageTitle title={'師資專區 ｜ 預約清單'} subTitle={'Reserve'} />
+          </div>
+          <div className="col-5">
+            {/* 頁籤 */}
+            <MemberNav
+              newdata={newdata}
+              chooseFilter={chooseFilter}
+              needFilter={needFilter}
+            />
+          </div>
         </div>
         {/* 清單明細 */}
         {nowPageItems.length < 1 ? (

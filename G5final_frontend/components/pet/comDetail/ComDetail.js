@@ -82,10 +82,10 @@ export default function ComDetail(props) {
             {/* 標題 */}
             <div className="d-flex justify-content-between">
               <PageTitle title={'溝通師資料'} subTitle={'Communicator'} />
-              <div>
+              <div className="d-flex flex-wrap justify-content-center">
                 {/* 上架開關按鈕 */}
                 <button
-                  className={`btn mx-3 ${
+                  className={`btn mx-3 mb-3 mb-md-0 ${
                     isPublished ? 'btn-warning' : 'btn-primary'
                   }`}
                   onClick={togglePublish}

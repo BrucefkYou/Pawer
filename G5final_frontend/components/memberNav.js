@@ -23,9 +23,9 @@ export default function MemberNav({ chooseFilter, needFilter, newdata }) {
       <ul className="nav nav-tabs member-nav-tabs" id="myTab" role="tablist">
         {needFilter.map((button, index) => {
           return (
-            <li key={button.id} className="nav-item" role="presentation">
+            <li key={button.id} className="nav-item m-auto" role="presentation">
               <button
-                className={`nav-link my-0 ${index === 0 ? 'active' : ''}`}
+                className={`nav-link m-1 ${index === 0 ? 'active' : ''}`}
                 data-bs-toggle="tab"
                 onClick={() => {
                   chooseFilter(button.filterName, button.filterRule);
