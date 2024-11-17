@@ -24,7 +24,7 @@ router.get('/', async function (req, res, next) {
     res.status(500).send(err)
   }
 })
-// 已上架
+// 已刊登列表
 router.get('/list', async function (req, res, next) {
   try {
     const [rows] = await db2.query(
@@ -67,6 +67,7 @@ router.get('/memreserve', async function (req, res, next) {
       SET Status = '0'
       WHERE Time < NOW();
     `)
+    // 再執行查詢
     const [rows] = await db2.query(`SELECT 
     PetCommunicatorReserve.*,PetCommunicator.Name,PetCommunicator.Img,Member.Avatar
     FROM 
