@@ -173,7 +173,11 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     console.log('orderID: ' + orderId)
     // 這裡的result.insertId是插入的訂單的ID
     // 只要該欄位事設定為自動遞增，就可以透過result.insertId取得
-    res.status(201).json({ message: '訂單已成功創建', orderId: orderId })
+    res.status(201).json({
+      message: '訂單已成功創建',
+      orderId: orderId,
+      OrderNumber: OrderNumber,
+    })
   } catch (error) {
     // 如果有錯誤，則回滾。回滾會撤銷所有的操作
     await connection.rollback()

@@ -12,6 +12,7 @@ import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import { useLoader } from '@/hooks/use-loader';
 import toast from 'react-hot-toast';
 import logo from '@/public/LOGO.svg';
+import { create } from 'lodash';
 
 export default function CartInfo(props) {
   const { loading, setLoading } = useLoader();
@@ -99,7 +100,7 @@ export default function CartInfo(props) {
         );
       }
       console.log(resData.orderId);
-      return resData.orderId;
+      return resData;
 
       // 導頁的行為在後端處理
     } catch (error) {
@@ -230,7 +231,9 @@ export default function CartInfo(props) {
           })),
       };
 
-      const createOrderID = await createOrder(orderData);
+      const createOrderData = await createOrder(orderData);
+      const createOrderID = createOrderData.orderId;
+      const createOrderNum = createOrderData.OrderNumber;
 
       toast.success('訂單已成功提交！');
       console.log('orderID: ' + createOrderID);
@@ -249,6 +252,8 @@ export default function CartInfo(props) {
       ) {
         console.log('goLinepay');
         goLinepay(createOrderID);
+      } else if (selectedPayment === 'store') {
+        router.push(`/cart/success?orderID=${createOrderNum}`);
       }
 
       // 重置表單或執行其他操作
