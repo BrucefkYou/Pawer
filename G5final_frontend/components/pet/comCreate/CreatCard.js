@@ -12,11 +12,16 @@ export default function CreatCard(props) {
   });
   // 提示頁面狀態
   const [message, setMessage] = useState('');
+  const [valid, setValid] = useState(1);
   useEffect(() => {
-    if (oldData) {
-      const isCom = oldData.some((v) => v.MemberID === memberID);
-      if (isCom) {
-        setMessage('warn'); // 當無匹配時設置提示
+    if (!oldData || !memberID) return;
+    const isCom = oldData.filter((v) => v.MemberID === memberID);
+    if (isCom.length > 0) {
+      const userValid = isCom[0].valid;
+      if (userValid === 3) {
+        setMessage('warn');
+      } else if (userValid === 1) {
+        setMessage('no');
       }
     }
   }, [oldData, memberID]);
@@ -42,7 +47,13 @@ export default function CreatCard(props) {
         />
       )}
       {message === 'no' && (
-        <Message status="no" title="錯誤" content="" button="返回" url="/" />
+        <Message
+          status="no"
+          title="您已經是溝通師"
+          content="若註冊未刊登達90天將移除身份需重新申請"
+          button="返回"
+          url="/"
+        />
       )}
       {!message && (
         <>

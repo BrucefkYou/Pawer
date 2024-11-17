@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { usePagination } from '@/hooks/usePagination';
 import { useAuth } from '@/hooks/use-auth';
 import Link from 'next/link';
+import logo from 'public/LOGO.svg';
+import toast, { Toaster } from 'react-hot-toast';
 export default function ComDetail(props) {
   const { auth } = useAuth();
   const id = auth?.memberData?.id;
@@ -15,15 +17,39 @@ export default function ComDetail(props) {
     url: 'http://localhost:3005/api/pet',
     processData,
   });
-  useEffect(() => {
-    if (nowPageItems >= 1) {
-      console.log(nowPageItems[0].Status);
-    }
-  }, [nowPageItems]);
-
   // 一鍵刊登功能
   const [isPublished, setIsPublished] = useState(false);
+  useEffect(() => {
+    if (nowPageItems.length >= 1) {
+      if (nowPageItems[0].Status == '已刊登') {
+        setIsPublished(true);
+      }
+    }
+    console.log(nowPageItems);
+  }, [nowPageItems]);
+
   function togglePublish() {
+    if (
+      !nowPageItems[0].Name ||
+      !nowPageItems[0].Approach ||
+      !nowPageItems[0].Email ||
+      !nowPageItems[0].Fee ||
+      !nowPageItems[0].Service ||
+      !nowPageItems[0].Introduction ||
+      !nowPageItems[0].Img
+    ) {
+      toast('資料不完整請進行編輯', {
+        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          background: 'rgba(34, 53, 92, 1)',
+          color: '#fff',
+          marginTop: '80px',
+        },
+      });
+      return;
+    }
     // 更新狀態
     const newStatus = !isPublished;
     setIsPublished(newStatus);
@@ -56,15 +82,15 @@ export default function ComDetail(props) {
             {/* 標題 */}
             <div className="d-flex justify-content-between">
               <PageTitle title={'溝通師資料'} subTitle={'Communicator'} />
-              <div>
+              <div className="d-flex flex-wrap justify-content-center">
                 {/* 上架開關按鈕 */}
                 <button
-                  className={`btn mx-3 ${
-                    isPublished ? 'btn-success' : 'btn-secondary'
+                  className={`btn mx-3 mb-3 mb-md-0 ${
+                    isPublished ? 'btn-warning' : 'btn-primary'
                   }`}
                   onClick={togglePublish}
                 >
-                  {isPublished ? '已刊登' : '未刊登'}
+                  {isPublished ? '刊登中' : '未刊登'}
                 </button>
                 <Link
                   href={'/member/communicator/edit'}
