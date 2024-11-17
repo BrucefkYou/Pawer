@@ -37,13 +37,18 @@ const upload = multer({ storage: storage })
 // 定義安全的私鑰字串
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
 
+// 會員資料查詢統一管理函數
+function getMemberQuery(condition = '') {
+  return `SELECT *, EXISTS (SELECT 1 FROM PetCommunicator WHERE PetCommunicator.MemberID = Member.ID) AS isPetCom FROM Member ${condition}`
+}
+
 // GET - 得到單筆資料(注意，有動態參數時要寫在GET區段最後面)
 router.get('/', authenticate, async function (req, res) {
   // id可以用jwt的存取令牌(accessToken)從authenticate中得到
   const id = req.user.id
 
-  const [results] = await db.execute('SELECT * FROM Member WHERE ID= ?', [id])
-  // console.log('取得會員資料:', results)
+  const [results] = await db.execute(getMemberQuery('WHERE ID = ?'), [id])
+  console.log('取得會員資料:', results)
 
   if (results.length === 0) {
     return res.json({ status: 'error', message: '沒有找到會員資料' })
@@ -61,7 +66,7 @@ router.post('/login', async (req, res) => {
   const loginMember = req.body
   // { email: '123', password: '456' }
 
-  const [results] = await db.execute('SELECT * FROM Member WHERE eMail = ?', [
+  const [results] = await db.execute(getMemberQuery('WHERE eMail = ?'), [
     loginMember.email,
   ])
   if (results.length === 0) {
@@ -248,10 +253,9 @@ router.put(
     }
 
     //傳回最新會員資料
-    const [updatedMember] = await db.execute(
-      'SELECT * FROM Member WHERE ID= ?',
-      [id]
-    )
+    const [updatedMember] = await db.execute(getMemberQuery('WHERE ID = ?'), [
+      id,
+    ])
     const dbMember = updatedMember[0]
 
     return res.json({

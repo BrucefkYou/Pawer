@@ -8,6 +8,7 @@ export default async function (sequelize) {
         type: DataTypes.INTEGER(5),
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
       },
       Name: {
         type: DataTypes.STRING(100),

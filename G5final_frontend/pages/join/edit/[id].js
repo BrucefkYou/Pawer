@@ -247,6 +247,24 @@ export default function JiEdit(props) {
   const { auth } = useAuth();
 
   const saveUpdate = async () => {
+    const joinTitle = document.getElementById('join-title');
+    if (!title) {
+      toast('請輸入活動標題', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      joinTitle.focus();
+      joinTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     try {
       const response = await fetch(
         `http://localhost:3005/api/join-in/update/${router.query.id}`,
@@ -272,18 +290,21 @@ export default function JiEdit(props) {
           }),
         }
       );
-      const result = await Swal.fire({
-        title: '確認提交修改？',
-        // text: '這個操作無法撤銷！',
-        // icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '確認',
-        cancelButtonText: '取消',
-      });
+      const result = await response.json();
       if (response.ok) {
-        router.push('/join');
+        toast('已儲存草稿', {
+          duration: 1800,
+          style: {
+            borderRadius: '10px',
+            borderTop: '15px #646464 solid',
+            background: '#F5F5F5',
+            color: '#646464',
+            marginTop: '80px',
+            width: '220px',
+            height: '70px',
+          },
+        });
+        router.push('http://localhost:3000/member/join/release');
       } else {
         alert(`寫入失敗: ${result.message}`);
       }
@@ -295,6 +316,108 @@ export default function JiEdit(props) {
 
   // 發佈活動
   const savePublish = async () => {
+    console.log(join.ImageName);
+    if (!imageName && data.ImageName) {
+      toast.error('請上傳封面', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      window.scrollTo(0, 150);
+      return;
+    }
+    const joinTitle = document.getElementById('join-title');
+    if (!title) {
+      // 標題必填
+      toast.error('請輸入活動標題', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      joinTitle.focus();
+      joinTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (!data) {
+      // 內容必填
+      toast.error('請輸入活動內容', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      window.scrollTo(0, 900);
+      return;
+    }
+    if (startTime > endTime) {
+      // 開始時間不得早於結束時間
+      toast.error('開始時間不得早於結束時間', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      window.scrollTo(0, 1100);
+      return;
+    }
+    if (count < 1) {
+      toast.error('人數上限不得小於1', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      window.scrollTo(0, 1200);
+      return;
+    }
+    if (city === '' || township === '' || location === '') {
+      toast.error('請輸入活動地點', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      window.scrollTo(0, 1400);
+      return;
+    }
     try {
       const response = await fetch(
         `http://localhost:3005/api/join-in/update/${router.query.id}`,
@@ -320,15 +443,17 @@ export default function JiEdit(props) {
           }),
         }
       );
-      const result = await Swal.fire({
-        title: '確認提交修改？',
-        // text: '這個操作無法撤銷！',
-        // icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '確認',
-        cancelButtonText: '取消',
+      const result = toast('已發佈活動', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
       });
       if (response.ok) {
         router.push('/join');
@@ -361,7 +486,7 @@ export default function JiEdit(props) {
             <div className="card-body">
               <div className="mb-3">
                 <label
-                  htmlFor="EventTitle"
+                  htmlFor="join-title"
                   className="form-label col-3 required"
                 >
                   活動標題
@@ -370,8 +495,8 @@ export default function JiEdit(props) {
                   <input
                     type="text"
                     className="form-control mb-3"
-                    id="EventTitle"
-                    name="EventTitle"
+                    id="join-title"
+                    name="join-title"
                     placeholder="輸入活動標題"
                     defaultValue={join.Title}
                     onChange={(e) => setTitle(e.target.value)}

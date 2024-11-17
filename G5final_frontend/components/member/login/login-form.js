@@ -61,6 +61,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
               avatar: res.data.memberData.Avatar ?? '',
               google_uid: res.data.memberData.google_uid ?? '',
               google_avatar: res.data.memberData.google_avatar ?? '',
+              isPetCom: res.data.memberData.isPetCom ?? '',
             },
           };
           setAuth(nextAuth);
@@ -147,7 +148,8 @@ export default function LoginForm({ Formtype, setFormtype }) {
                 height={30}
                 className={`${styles['btn-google']}`}
               />
-              Google帳號登入
+              <span className={`${styles['span-google']}`}>Google帳號登入</span>
+              
             </button>
           </div>
           <div className="d-flex justify-content-between">
