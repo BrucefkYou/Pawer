@@ -5,9 +5,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/use-auth';
 
-export default function MbSideBar(props) {
+export default function MbSideBar({activeMenu, toggleMenu,handleCloseOffcanvas}) {
   const router = useRouter();
-  const [activeMenu, setActiveMenu] = useState(1); // 控制目前選單狀態
   const { auth } = useAuth();
   const isPetCom = auth.memberData.isPetCom;
 
@@ -86,11 +85,6 @@ export default function MbSideBar(props) {
     },
   ];
   console.log(menuItems);
-  
-
-  const toggleMenu = (id) => {
-    setActiveMenu(activeMenu === id ? null : id);
-  };
 
   return (
     <div className="mb-sidebar">
@@ -108,7 +102,10 @@ export default function MbSideBar(props) {
             <Link
               className={`nav-link ${activeMenu === v.id ? 'active' : ''} `}
               href={v.href}
-              onClick={() => toggleMenu(v.id)}
+              onClick={() => {
+                toggleMenu(v.id);
+                {v.subMenu.length === 0 && handleCloseOffcanvas()}
+              }}
             >
               {v.subMenu.length > 0 && activeMenu === v.id ? (
                 <IoIosArrowDown className="me-1" />
@@ -128,6 +125,7 @@ export default function MbSideBar(props) {
                       className={`nav-link ms-1 ${router.pathname === sub.href ? 'text-warning' : ''
                         }`}
                       href={sub.href}
+                      onClick={()=>{handleCloseOffcanvas()}}
                     >
                       {sub.title}
                     </Link>
