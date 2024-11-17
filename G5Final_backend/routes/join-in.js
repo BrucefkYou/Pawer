@@ -9,6 +9,12 @@ import { v4 as uuidv4 } from 'uuid'
 // import { createRouter } from 'next-connect';
 import authenticate from '#middlewares/authenticate.js'
 import multer from 'multer'
+// 電子信箱文字訊息樣版
+import { generateJoinMailHtml } from '../emails/joinMail.js'
+// 寄送email
+import { sendMail } from '../emails/emailService.js'
+// 環境變數
+import 'dotenv/config.js'
 
 const router = express.Router()
 
@@ -145,6 +151,52 @@ router.post('/joined', async (req, res) => {
       [memberId, joininId, createTime]
     )
     res.json(rows)
+
+    // 取得報名會員資料
+    const [member] = await db2.query(
+      `SELECT 
+        Member.Name AS name,
+        Member.eMail AS email
+      FROM 
+        Member
+      WHERE 
+        Member.ID = ?`,
+      [memberId]
+    )
+    const memberData = member[0]
+
+    // 取得報名活動資料
+    const [joinin] = await db2.query(
+      `SELECT 
+        Joinin.Title AS title, 
+        Joinin.StartTime AS startTime, 
+        Joinin.EndTime AS endTime,
+        Joinin.City,
+        Joinin.Township,
+        Joinin.Location
+      FROM 
+        Joinin
+      WHERE 
+        Joinin.ID = ?`,
+      [joininId]
+    )
+    const joinData = joinin[0]
+    const address = `${joinData.City}${joinData.Township}${joinData.Location}`
+    const url = `http://localhost:3000/join/${joininId}`
+
+    // 寄送email
+    const mailHTML = generateJoinMailHtml(
+      memberData.name,
+      joinData.title,
+      joinData.startTime,
+      joinData.endTime,
+      address,
+      url
+    )
+    const mailSubject = 'Pawer寶沃 - 活動報名成功通知'
+
+    // 寄送email
+    const result = await sendMail(memberData.email, mailSubject, mailHTML)
   } catch (err) {
     console.error('新增報名時發生錯誤：', err)
     res.status(500).send(err)
