@@ -8,10 +8,12 @@
 import React, { useState, useEffect } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/router';
 import style from '@/components/product/productcomment/productcomment.module.scss';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
+
 
 const StarToggle = ({ filled }) => (filled ? <FaStar /> : <FaRegStar />);
 
@@ -21,7 +23,8 @@ export default function Productcomment({ fetchOne }) {
   const [finalRating, setFinalRating] = useState(1); // 最終星星狀態
   const [commentsList, setCommentsList] = useState([]); // 輸入評論後的顯示
   const [showmore, setShowMore] = useState(3); // 看更多
-  const { auth } = useAuth();
+  const { auth, setNextRoute } = useAuth();
+  const router = useRouter();
   const id = auth.memberData.id;
   const nickname = auth.memberData.nickname;
   const mail = auth.memberData.email;
@@ -51,20 +54,12 @@ export default function Productcomment({ fetchOne }) {
     }
   };
 
-  // 進到這個頁面就先撈有沒有人評論過
-  useEffect(() => {
-    if (productId) {
-      fetchComments(productId);
-    } else {
-      console.log('此商品沒人評論過');
-    }
-  }, [productId]);
-
-  const comSubmit = async () => {
+  // 登入後 導回
+  const goLoginBackCmt = () => {
     if (!id) {
-      toast('您需要登入才能送出評論', {
+      toast('前往登入頁面', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-        duration: 1800,
+        duration: 1500,
         style: {
           borderRadius: '10px',
           background: 'rgba(34, 53, 92, 1)',
@@ -72,13 +67,21 @@ export default function Productcomment({ fetchOne }) {
           marginTop: '80px',
         },
       });
-      return;
+      setTimeout(() => {
+        router.push('/member/login');
+      }, 1000);
+      setNextRoute(`/product/${productId}`);
+    } else {
+      router.push(`/product/${productId}`);
     }
-  
+  };
+
+  // 評論
+  const comSubmit = async () => {
     if (!comment.trim()) {
       toast('請您輸入評論內容', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-        duration: 1800,
+        duration: 1500,
         style: {
           borderRadius: '10px',
           background: 'rgba(193, 69, 69, 1)',
@@ -88,12 +91,10 @@ export default function Productcomment({ fetchOne }) {
       });
       return;
     }
-  
     if (!fetchOne || !fetchOne.ID) {
       toast('商品ID無效', { duration: 1800 });
       return;
     }
-  
     // 檢查會員是否已經購買過該商品
     const alreadyBuy = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${productId}`);
     if (!alreadyBuy.ok) {
@@ -102,34 +103,13 @@ export default function Productcomment({ fetchOne }) {
     }
     const neverBuy = await alreadyBuy.json();
     if (neverBuy.length === 0) {
-      toast('您尚未購買過此商品，無法評論。', {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          background: 'rgba(193, 69, 69, 1)',
-          color: '#fff',
-          marginTop: '80px',
-        },
-      });
-      return;
-    }
-  
-    // 檢查會員是否已經對該商品評論過
-    const alreadyComment = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${productId}`);
-    if (!alreadyComment.ok) {
-      toast.error('檢查評論記錄時發生錯誤');
-      return;
-    }
-    const commentData = await alreadyComment.json();
-    if (commentData.length > 0) {
       toast(<>
-      您已經對此商品評論過，
-      <br />
-      再次購買此商品即可評論。
-      </>, {
+        您尚未購買此商品，
+        <br />
+        購買後即可評論。
+        </>, {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-        duration: 1800,
+        duration: 1500,
         style: {
           borderRadius: '10px',
           background: 'rgba(193, 69, 69, 1)',
@@ -139,7 +119,30 @@ export default function Productcomment({ fetchOne }) {
       });
       return;
     }
-  
+    // 檢查會員是否已經對該商品評論過
+    // const alreadyComment = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${productId}`);
+    // if (!alreadyComment.ok) {
+    //   toast.error('檢查評論記錄時發生錯誤');
+    //   return;
+    // }
+    // const commentData = await alreadyComment.json();
+    // if (commentData.length > 0) {
+    //   toast(<>
+    //   您已經對此商品評論過，
+    //   <br />
+    //   再次購買此商品即可評論。
+    //   </>, {
+    //     icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+    //     duration: 1500,
+    //     style: {
+    //       borderRadius: '10px',
+    //       background: 'rgba(193, 69, 69, 1)',
+    //       color: '#fff',
+    //       marginTop: '80px',
+    //     },
+    //   });
+    //   return;
+    // }
     // 新增評論
     const newComment = {
       ProductID: fetchOne.ID,
@@ -152,7 +155,6 @@ export default function Productcomment({ fetchOne }) {
       MemberAvatar: Img,
       id: Date.now(), // 讓剛評論完的內容當下顯示在最上面
     };
-  
     try {
       const response = await fetch(
         'http://localhost:3005/api/product/productcomment',
@@ -166,16 +168,14 @@ export default function Productcomment({ fetchOne }) {
       );
       if (!response.ok) throw new Error('新增評論失敗');
       await response.json();
-  
       // 將新評論添加到 commentsList 的開頭
       setCommentsList((prevComments) => [newComment, ...prevComments]);
       setComment('');
       setRating(1);
       setFinalRating(1);
-  
       toast.success('您的評論已成功送出！', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-        duration: 1800,
+        duration: 1500,
         style: {
           borderRadius: '10px',
           background: 'rgba(84, 124, 215, 1)',
@@ -188,13 +188,14 @@ export default function Productcomment({ fetchOne }) {
       toast.error('新增評論時發生錯誤');
     }
   };
-  
-
-  // useEffect(() => {
-  //   if (auth && auth.memberData) {
-  //     console.log(auth.memberData.eMail);
-  //   }
-  // }, [auth]);
+  // 進到這個頁面就先撈有沒有人評論過
+  useEffect(() => {
+    if (productId) {
+      fetchComments(productId);
+    } else {
+      console.log('此商品沒人評論過');
+    }
+  }, [productId]);
 
   return (
     <>
@@ -267,7 +268,7 @@ export default function Productcomment({ fetchOne }) {
           ) : (
             <div className="d-flex justify-content-center mt-5">
               <b>
-                <span className='pd-dl-login-text'>登入會員即可評論，</span><a className='pd-dl-login' href="http://localhost:3000/member/login">點此登入</a>
+                <span className='pd-dl-login-text'>登入會員即可評論，</span><a className='pd-dl-login' onClick={goLoginBackCmt}>點此登入</a>
               </b>
             </div>
           )}
