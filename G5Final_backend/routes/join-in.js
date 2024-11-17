@@ -125,7 +125,7 @@ router.get('/joined', async (req, res) => {
   const { memberId, joininId } = req.query
   try {
     const [rows] = await db2.query(
-      `SELECT * FROM Joined WHERE MemberID = ? AND JoininID = ?`,
+      `SELECT * FROM Joined WHERE MemberID = ? AND JoininID = ? AND Status = 1`,
       [memberId, joininId]
     )
     res.json(rows)
@@ -151,6 +151,26 @@ router.post('/joined', async (req, res) => {
   }
 })
 
+// 會員取消報名活動
+router.put('/joined', async (req, res) => {
+  const { memberId, joininId } = req.body
+  const cancelTime = moment().format('YYYY-MM-DD HH:mm')
+  const status = 0
+  try {
+    const [rows] = await db2.query(
+      `UPDATE Joined 
+       SET CancelTime = ?, 
+           Status = ?
+       WHERE MemberID = ? 
+         AND JoininID = ?`,
+      [cancelTime, status, memberId, joininId]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('取消報名時發生錯誤：', err)
+    res.status(500).send(err)
+  }
+})
 // 會員頁撈報名的活動
 router.get('/member/joined', async function (req, res, next) {
   try {
@@ -186,7 +206,8 @@ router.get('/member/joined', async function (req, res, next) {
         Image ON Image.JoininID = Joinin.ID 
       WHERE 
         Joined.MemberID = ? AND
-        Joinin.Valid = 1
+        Joinin.Valid = 1 AND
+        Joined.Status = 1
       `,
       [memberId]
     )
@@ -306,12 +327,11 @@ router.get('/:id', async function (req, res, next) {
     (SELECT COUNT(*) 
      FROM Joined 
      WHERE Joined.JoininID = Joinin.ID AND Status = 1) AS SignCount,
-    CASE
-        WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) = Joinin.ParticipantLimit THEN '已成團'
+   CASE
+        WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) >= Joinin.ParticipantLimit THEN '已成團'
         WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) + 5 >= Joinin.ParticipantLimit THEN '即將成團'
-        WHEN (SELECT COUNT(*) FROM Joined WHERE Joined.JoininID = Joinin.ID AND Status = 1) >= Joinin.ParticipantLimit THEN '已額滿'
         WHEN CURRENT_TIMESTAMP > Joinin.SignEndTime THEN '開團截止'
-        WHEN CURRENT_TIMESTAMP BETWEEN Joinin.CreateDate AND Joinin.SignEndTime THEN '報名中'
+        WHEN CURRENT_TIMESTAMP BETWEEN Joinin.CreateDate AND Joinin.SignEndTime THEN '開團中'
         ELSE '未開放'
     END AS newStatus,
     GROUP_CONCAT(Tag.Name) AS Tags
@@ -535,92 +555,6 @@ router.post('/draft', upload.single('joinImage'), async (req, res) => {
 })
 
 // 草稿內容修改
-// router.put('/draft/:id', upload.single('joinImage'), async (req, res) => {
-//   const {
-//     imageName,
-//     memberId,
-//     title,
-//     info,
-//     startTime,
-//     endTime,
-//     count,
-//     signEndDate,
-//     city,
-//     township,
-//     location,
-//     tags,
-//   } = req.body
-//   const updateTime = moment().format('YYYY-MM-DD HH:mm')
-//   try {
-//     // 將資料寫入 joinin 表
-//     const [result] = await db2.execute(
-//       `UPDATE Joinin SET MemberID = ?,Title = ?, Info = ?, StartTime = ?, EndTime = ?,SignEndTime = ?, ParticipantLimit = ?, City = ?, Township = ?, Location = ?, UpdateDate = ? WHERE ID = ?`,
-//       [
-//         memberId,
-//         title,
-//         info,
-//         startTime,
-//         endTime,
-//         signEndDate,
-//         count,
-//         city,
-//         township,
-//         location,
-//         updateTime,
-//         req.params.id,
-//       ]
-//     )
-
-//     const joininId = req.params.id
-//     const imgurl = `/join/${imageName}`
-//     const imageUploadDate = moment().format('YYYY-MM-DD HH:mm')
-//     //抓取附檔名 slice(1)是為了去掉.
-//     const imgType = path.extname(imageName).slice(1)
-//     // const imgType = imageName.split('.').pop()
-//     if (imageName) {
-//       await db2.execute(
-//         `UPDATE Image SET ImageName = ?,ImageUrl = ?,ImageUploadDate = ?,ImageType = ? WHERE JoininId = ?`,
-//         [imageName, imgurl, imageUploadDate, imgType, joininId]
-//       )
-//     }
-
-//     // 將 tags 傳進 tag 表，tags是一個陣列，用for 迴圈將拆解的 tag 一個一個寫入
-//     const createDate = moment().format('YYYY-MM-DD HH:mm')
-//     for (const tag of tags) {
-//       const [existingTag] = await db2.execute(
-//         `SELECT Name FROM Tag WHERE Name = ?`,
-//         [tag]
-//       )
-
-//       // 如果不存在 (existingTag 為空陣列) 才���增
-//       if (existingTag.length === 0) {
-//         await db2.execute(
-//           `INSERT INTO Tag (Name, CreateDate, CreateUserID) VALUES (?, ?, ?)`,
-//           [tag, createDate, memberId]
-//         )
-//       }
-//     }
-
-//     // 刪除此 JoininId 的所有現有標籤對應
-//     await db2.execute(`DELETE FROM Tagmappings WHERE JoininId = ?`, [joininId])
-//     // 將 tags 傳進 tagmappings 表中
-//     for (const tag of tags) {
-//       const [tagId] = await db2.execute(`SELECT ID FROM Tag WHERE Name = ?`, [
-//         tag,
-//       ])
-//       //  tagId[0].ID 是因為 tagId 是一個陣列，取第一個元素的 ID
-//       await db2.execute(
-//         `INSERT INTO Tagmappings (JoininId, TagId) VALUES (?, ?)`,
-//         [joininId, tagId[0].ID]
-//       )
-//     }
-
-//     res.status(200).json({ message: '寫入成功' })
-//   } catch (error) {
-//     console.error('處理過程中發生錯誤:', error)
-//     res.status(500).json({ message: '伺服器錯誤', error })
-//   }
-// })
 
 // 表單內容修改
 router.put('/update/:id', upload.single('joinImage'), async (req, res) => {

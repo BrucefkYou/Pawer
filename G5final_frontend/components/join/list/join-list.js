@@ -4,11 +4,13 @@ import Head from 'next/head';
 import JoinListCard from './item/join-list-card';
 import Banner from '@/components/join/banner/banner';
 import SearchBar from '@/components/sidebar/search/search-bar';
-import LatestCard from '@/components/sidebar/latest-post/latest-post';
+// import LatestCard from '@/components/sidebar/latest-post/latest-post';
+import SortedCard from '@/components/sidebar/sorted-card/sorted-card';
 import StatusCard from '@/components/sidebar/status/status';
 import JiCreateCta from '@/components/join/ji-create-cta/ji-create-cta';
 import SelectDate from '@/components/sidebar/select-date/select-date';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import { BsBookFill } from 'react-icons/bs';
 
 // page
 import { usePagination } from '@/hooks/usePagination';
@@ -118,7 +120,19 @@ export default function JoinList() {
                 <StatusCard oldData={oldData} updateData={updateData} />
               </div>
               <div className="mb-4 d-none d-md-block">
-                <LatestCard />
+                {/* <SortedCard
+                  title="熱門活動"
+                  id="ID"
+                  api="http://localhost:3005/api/join-in"
+                  link="http://localhost:3000/join"
+                  img="ImageName"
+                  content="Title"
+                  date="UpdateDate"
+                  count="joinFavCount"
+                  IconComponent={BsBookFill}
+                  sorted="date"
+                  limit={5}
+                /> */}
               </div>
             </aside>
             <div className="col-md-8 flex-shrink-1">

@@ -33,6 +33,7 @@ export default function Member() {
     gender: '',
     birth: '',
     google_avatar: '',
+    isPetCom: false,
   };
 
   const { auth, setAuth, getMember } = useAuth();
@@ -45,7 +46,7 @@ export default function Member() {
 
     if (res.data.status === 'success') {
       const dbMember = res.data.memberData;
-      // console.log('dbMember:', dbMember);
+      console.log('dbMember:', dbMember);
 
       setUserProfile({
         avatar: dbMember.Avatar ?? '',
@@ -57,6 +58,7 @@ export default function Member() {
         gender: dbMember.Gender ?? '',
         birth: dbMember.Birth ?? '',
         google_avatar: dbMember.google_avatar ?? '',
+        isPetCom: dbMember.isPetCom ?? '',
       });
     }
   };
@@ -128,6 +130,7 @@ export default function Member() {
             avatar: res.data.memberData.Avatar ?? '',
             google_uid: res.data.memberData.google_uid ?? '',
             google_avatar: res.data.memberData.google_avatar ?? '',
+            isPetCom: res.data.memberData.isPetCom ?? '',
           },
         });
         toast.success('會員資料與頭像修改成功');

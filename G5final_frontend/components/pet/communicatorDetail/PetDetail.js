@@ -9,8 +9,9 @@ export default function PetDetail(props) {
   // 抓取當前動態路由參數
   const myId = router.query.id;
   // 抓取單筆物件存放容器
-  const [fetchOne, setFetchOne] = useState([]);
+  const [fetchOne, setFetchOne] = useState(null);
   useEffect(() => {
+    if (!router.isReady || !myId) return;
     const fetchData = async () => {
       try {
         const response = await fetch('http://localhost:3005/api/pet');
@@ -26,11 +27,8 @@ export default function PetDetail(props) {
         console.log(err);
       }
     };
-    // 確保外部有抓取到當前路由id
-    if (myId) {
-      fetchData();
-    }
-  }, [myId]);
+    fetchData();
+  }, [router.isReady, myId]);
   // 先確保有資料在解構
   if (!fetchOne) {
     return <p>Loading...</p>;
@@ -42,12 +40,12 @@ export default function PetDetail(props) {
         {/* 刊登照片 */}
         <div className="col-lg-4 d-flex avatar-wrapper">
           <div className="avatar">
-              <Image
+            <Image
               src={`http://localhost:3005/pet/${fetchOne.Img}`}
-                alt="1"
-                width={300}
-                height={300}
-              />
+              alt="1"
+              width={300}
+              height={300}
+            />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={201}

@@ -9,6 +9,7 @@ import Myeditor from '@/components/join/CKEditorTest';
 import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
+import saveToDo from '@/pages/join/create/savetodo';
 
 import { useAuth } from '@/hooks/use-auth';
 
@@ -104,9 +105,110 @@ const Publish = () => {
       setSignEndDate(newTime(date));
     }
   };
+  let joinTitle = document.querySelector('#join-title');
 
-  // 執行送出表單
+  // 執行送出表單;
   const saveToDo = async () => {
+    if (!imageName) {
+      toast.error('請上傳封面', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      window.scrollTo(0, 150);
+      return;
+    }
+    if (!title) {
+      // 標題必填
+      toast.error('請輸入活動標題', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      joinTitle.focus();
+      joinTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (!data) {
+      // 內容必填
+      toast.error('請輸入活動內容', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      window.scrollTo(0, 900);
+      return;
+    }
+    if (startTime > endTime) {
+      // 開始時間不得早於結束時間
+      toast.error('開始時間不得早於結束時間', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      window.scrollTo(0, 1100);
+      return;
+    }
+    if (count < 1) {
+      toast.error('人數上限不得小於1', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      window.scrollTo(0, 1200);
+      return;
+    }
+    if (city === '' || township === '' || location === '') {
+      toast.error('請輸入活動地點', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      window.scrollTo(0, 1400);
+      return;
+    }
     try {
       const response = await fetch('http://localhost:3005/api/join-in/create', {
         method: 'POST',
@@ -131,12 +233,12 @@ const Publish = () => {
       const result = await response.json();
       if (response.ok) {
         toast('發佈成功', {
-          duration: 1000,
+          duration: 1800,
           style: {
             borderRadius: '10px',
             borderTop: '15px #22355C solid',
             background: '#F5F5F5',
-            color: '#646464',
+            color: '#22355c',
             marginTop: '80px',
             width: '220px',
             height: '70px',
@@ -157,6 +259,24 @@ const Publish = () => {
   }, []);
 
   const saveDraft = async () => {
+    if (!title) {
+      // 草稿需要標題
+      toast.error('請輸入活動標題', {
+        duration: 1800,
+        style: {
+          borderRadius: '10px',
+          borderTop: '15px #646464 solid',
+          background: '#F5F5F5',
+          color: '#646464',
+          marginTop: '80px',
+          width: '220px',
+          height: '70px',
+        },
+      });
+      joinTitle.focus();
+      joinTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     try {
       const response = await fetch('http://localhost:3005/api/join-in/draft', {
         method: 'POST',
@@ -181,13 +301,13 @@ const Publish = () => {
       });
       const result = await response.json();
       if (response.ok) {
-        toast('發佈成功', {
-          duration: 1000,
+        toast('已儲存為草稿', {
+          duration: 1800,
           style: {
             borderRadius: '10px',
             borderTop: '15px #22355C solid',
             background: '#F5F5F5',
-            color: '#646464',
+            color: '#22355c',
             marginTop: '80px',
             width: '220px',
             height: '70px',
@@ -217,14 +337,14 @@ const Publish = () => {
           method="POST"
           encType="multipart/form-data"
         >
-          <div className="ji-create-title">
+          <div className="ji-title" id="ji-title">
             <h3 className="h3 text-primary">創建你的活動</h3>
             <Image src={titlebottomLine} />
           </div>
 
           <div className="card mb-3">
             <div className="card-body">
-              <ImgPutArea onImageChange={handleImageChange} />
+              <ImgPutArea id={'join-img'} onImageChange={handleImageChange} />
             </div>
           </div>
 
@@ -232,7 +352,7 @@ const Publish = () => {
             <div className="card-body">
               <div className="mb-3">
                 <label
-                  htmlFor="EventTitle"
+                  htmlFor="join-title"
                   className="form-label col-3 required"
                 >
                   活動標題
@@ -241,8 +361,8 @@ const Publish = () => {
                   <input
                     type="text"
                     className="form-control mb-3"
-                    id="EventTitle"
-                    name="EventTitle"
+                    id="join-title"
+                    name="join-title"
                     placeholder="輸入活動標題"
                     required
                     onChange={(e) => setTitle(e.target.value)}
@@ -257,9 +377,14 @@ const Publish = () => {
                   活動內容
                 </label>
                 <div id="full"></div>
-                <input type="hidden" name="joinInfo" defaultValue="?" />
+                <input
+                  type="hidden"
+                  name="joinInfo"
+                  defaultValue="?"
+                  id="join-info"
+                />
                 <Myeditor
-                  name="article"
+                  name="join-info"
                   onChange={(data) => {
                     setData(data);
                   }}
@@ -270,8 +395,11 @@ const Publish = () => {
               <div className="mb-3">
                 <div className="row">
                   <div className="col">
-                    <label htmlFor="StartTime" className="form-label col-3">
-                      活動開始時間
+                    <label
+                      htmlFor="StartTime"
+                      className="form-label col-3 required"
+                    >
+                      開始時間
                     </label>
                     <DatePicker
                       showIcon
@@ -286,8 +414,11 @@ const Publish = () => {
                   </div>
 
                   <div className=" col">
-                    <label htmlFor="EndTime" className="form-label col-3">
-                      活動結束時間
+                    <label
+                      htmlFor="EndTime"
+                      className="form-label col-3 required"
+                    >
+                      結束時間
                     </label>
                     <DatePicker
                       showIcon
@@ -305,7 +436,10 @@ const Publish = () => {
               <div className="mb-3">
                 <div className="row">
                   <div className="col">
-                    <label htmlFor="ParticipantLimit" className="form-label">
+                    <label
+                      htmlFor="ParticipantLimit"
+                      className="form-label required"
+                    >
                       人數上限
                     </label>
                     <div className="input-group">
@@ -337,7 +471,10 @@ const Publish = () => {
                     </div>
                   </div>
                   <div className=" col">
-                    <label htmlFor="SignEndTime" className="form-label col-3">
+                    <label
+                      htmlFor="SignEndTime"
+                      className="form-label col-3 required"
+                    >
                       截團時間
                     </label>
                     <DatePicker

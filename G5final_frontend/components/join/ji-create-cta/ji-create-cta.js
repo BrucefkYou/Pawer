@@ -12,7 +12,7 @@ import { useAuth } from '@/hooks/use-auth';
 
 export default function JiCreateCta() {
   const router = useRouter();
-  const { auth } = useAuth();
+  const { auth, setNextRoute } = useAuth();
 
   // const islogin = () => {
   //   if (auth.isAuth) {
@@ -39,6 +39,7 @@ export default function JiCreateCta() {
       setTimeout(() => {
         router.push('/member/login');
       }, 1000);
+      setNextRoute('/join/create');
     } else {
       router.push('/join/create');
     }

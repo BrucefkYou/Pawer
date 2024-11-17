@@ -18,9 +18,9 @@ export default function HomeJoinCard(props) {
         }
         const data = await response.json();
         const sortJoin = data
-          .filter((v) => v.Status === 1 || v.Status === '即將成團')
-          .sort((a, b) => b.SignCount - a.SignCount)
-          .slice(0, 7);
+          .filter((v) => v.Status === 1)
+          .sort((a, b) => b.StartTime - a.StartTime)
+          .slice(0, 6);
 
         console.log(sortJoin);
         setJoinin(sortJoin);
@@ -35,9 +35,9 @@ export default function HomeJoinCard(props) {
     dots: true,
     infinite: true,
     autoplay: true,
-    speed: 1000,
+    speed: 900,
     slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToScroll: 2,
     accessibility: true,
     arrows: false,
 
@@ -54,7 +54,7 @@ export default function HomeJoinCard(props) {
 
   return (
     <>
-      <section className="container sec4-con">
+      <section className="container sec4-con ">
         <div className="sec4-event-text">
           <p className="sec4-newtext">
             最新的<span className="sec4-pet">寵物聚會</span>
