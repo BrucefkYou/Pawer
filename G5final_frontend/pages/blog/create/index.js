@@ -147,6 +147,9 @@ export default function BlogCreate() {
                   src={uploadedImageUrl || previewImage}
                   alt="圖片預覽"
                   fill
+                  style={{
+                    objectFit: uploadedImageUrl ? 'cover' : 'scale-down',
+                  }}
                 />
               </div>
 

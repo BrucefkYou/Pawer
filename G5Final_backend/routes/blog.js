@@ -163,12 +163,7 @@ router.get('/mem-favorite', async function (req, res) {
     const [rows] = await db2.query(
       `
       SELECT 
-        Blog.ID,
-        Blog.Title,
-        Blog.Content,
-        Blog.UpdateDate,
-        Blog.Status,
-        Blog.Valid,
+        Blog.*,
         (SELECT COUNT(*) FROM BlogLike WHERE BlogLike.ID = Blog.ID) AS likeCount,
         (SELECT COUNT(*) FROM MemberFavoriteMapping WHERE MemberFavoriteMapping.BlogID = Blog.ID) AS favoriteCount,
         GROUP_CONCAT(Tag.Name) AS tags,
@@ -379,6 +374,7 @@ router.post('/create-comment', async (req, res) => {
 
 // 圖片上傳
 router.post('/upload', upload.single('imageFile'), (req, res) => {
+  // console.log(req.file)
   try {
     const file = req.file
     if (!file) {
@@ -459,8 +455,8 @@ router.put('/edit/:id', upload.single('imageFile'), async (req, res) => {
     tags,
     imageName,
   })
-  console.log('提交的表單:', req.body)
-  console.log('上傳的文件', req.file)
+  // console.log('提交的表單:', req.body)
+  // console.log('上傳的文件', req.file)
 
   const createDate = moment().format('YYYY-MM-DD HH:mm:ss')
   const updateDate = moment().format('YYYY-MM-DD HH:mm:ss')
@@ -468,8 +464,8 @@ router.put('/edit/:id', upload.single('imageFile'), async (req, res) => {
   try {
     // 更新 Blog 資料
     await db2.execute(
-      `UPDATE blog SET Status = ?, Title = ?, Content = ?, CreateDate = ?, MemberID = ?, UpdateDate = ?, Valid = ? WHERE id = ?`,
-      [status, title, content, createDate, memberId, updateDate, 1, blogId]
+      `UPDATE blog SET Status = ?, Title = ?, Content = ?,  MemberID = ?, UpdateDate = ?, Valid = ? WHERE id = ?`,
+      [status, title, content, memberId, updateDate, 1, blogId]
     )
 
     console.log('Blog 更新成功:', blogId)
@@ -501,27 +497,20 @@ router.put('/edit/:id', upload.single('imageFile'), async (req, res) => {
     await handleTags(tagsArray, createDate, memberId, blogId)
 
     // 更新圖
-    if (imageName && req.file) {
-      const imgurl = `http://localhost:3005/blog/${imageName}`
-      const imgType = path.extname(imageName).slice(1)
-      const imgUploadDate = moment().format('YYYY-MM-DD HH:mm:ss')
+    // if (imageName && req.file) {
+    const imgurl = `http://localhost:3005/blog/${imageName}`
+    const imgType = path.extname(imageName).slice(1)
+    const imgUploadDate = moment().format('YYYY-MM-DD HH:mm:ss')
+    // console.log(imgurl)
+    // console.log(imgType)
+    // console.log(imgUploadDate)
 
-      const [existingImage] = await db2.execute(
-        `SELECT ID FROM Image WHERE BlogID = ?`,
-        [blogId]
+    if (imageName) {
+      await db2.execute(
+        `UPDATE Image SET ImageName = ?, ImageUrl = ?, ImageUploadDate = ?, ImageType = ? WHERE BlogID = ?`,
+        [imageName, imgurl, imgUploadDate, imgType, blogId]
       )
-
-      if (existingImage.length > 0) {
-        await db2.execute(
-          `UPDATE Image SET ImageName = ?, ImageUrl = ?, ImageUploadDate = ?, ImageType = ? WHERE BlogID = ?`,
-          [imageName, imgurl, imgUploadDate, imgType, blogId]
-        )
-        console.log(`圖片已更新: ${imageName}`)
-      }
-    } else {
-      console.log('沒有圖片更新')
     }
-
     res.status(200).json({ message: '文章更新成功', blogId })
   } catch (error) {
     console.error('Database error:', error)

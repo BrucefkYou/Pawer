@@ -40,9 +40,9 @@ export default function BlogList() {
     url,
     needFilter: [],
     needSort: [
-      { way: 'dsc-likeCount', name: '熱門文章' },
+      { way: 'desc-likeCount', name: '熱門文章' },
       { way: 'desc-favoriteCount', name: '最多收藏' },
-      { way: 'desc-UpdateDate', name: '最新發佈' },
+      { way: 'desc-CreateDate', name: '最新發佈' },
     ],
   });
 
@@ -75,7 +75,7 @@ export default function BlogList() {
               link="http://localhost:3000/blog"
               img="blogImg"
               content="Title"
-              date="UpdateDate"
+              date="CreateDate"
               count="likeCount"
               IconComponent={BsHeartFill}
               sorted="count"
@@ -90,7 +90,7 @@ export default function BlogList() {
               link="http://localhost:3000/blog"
               img="blogImg"
               content="Title"
-              date="UpdateDate"
+              date="CreateDate"
               count="likeCount"
               IconComponent={BsHeartFill}
               sorted="date"
@@ -99,14 +99,14 @@ export default function BlogList() {
           </div>
         </div>
         <div className="blog-list">
-          <div className="col-12 d-flex justify-content-end gap-3">
-            <div className="col-md-3">
+          <div className="col-12 d-flex justify-content-end gap-3 bl-sort">
+            <div className="col-12 col-lg-3">
               <PerPageDom
                 itemsperPage={itemsperPage}
                 choosePerpage={choosePerpage}
               />
             </div>
-            <div className="col-12 col-md-3">
+            <div className="col-12 col-lg-3">
               <SortDom
                 sortWay={sortWay}
                 chooseSort={chooseSort}
@@ -130,7 +130,7 @@ export default function BlogList() {
                       id={blog.ID}
                       title={blog.Title}
                       blogImg={blog.blogImg}
-                      updateDate={blog.UpdateDate}
+                      createDate={blog.CreateDate}
                       likeCount={blog.likeCount}
                       favoriteCount={blog.favoriteCount}
                       avatar={blog.MemberAvatar || 'avatar-default.png'}
