@@ -14,7 +14,6 @@ const upload = multer({
       cb(null, `${Date.now()}${extname(file.originalname)}`),
   }),
 })
-
 // 全部資料抓取
 router.get('/', async function (req, res, next) {
   try {
@@ -25,7 +24,7 @@ router.get('/', async function (req, res, next) {
     res.status(500).send(err)
   }
 })
-// 已上架
+// 已刊登列表
 router.get('/list', async function (req, res, next) {
   try {
     const [rows] = await db2.query(
@@ -40,9 +39,19 @@ router.get('/list', async function (req, res, next) {
 // 溝通師受預約列表
 router.get('/comreserve', async function (req, res, next) {
   try {
-    const [rows] = await db2.query(
-      'SELECT PetCommunicatorReserve.*, Member.Avatar FROM PetCommunicatorReserve LEFT JOIN Member ON PetCommunicatorReserve.MemberID = Member.ID;'
-    )
+    // 先執行比照當前時間更新狀態是否過期
+    await db2.query(`
+      UPDATE PetCommunicatorReserve
+      SET Status = '0'
+      WHERE Time < NOW();
+    `)
+
+    // 再執行查詢
+    const [rows] = await db2.query(`
+      SELECT PetCommunicatorReserve.*, Member.Avatar 
+      FROM PetCommunicatorReserve 
+      LEFT JOIN Member ON PetCommunicatorReserve.MemberID = Member.ID;
+    `)
     res.json(rows)
   } catch (err) {
     console.error('查詢錯誤：', err)
@@ -52,6 +61,13 @@ router.get('/comreserve', async function (req, res, next) {
 // 會員預約列表
 router.get('/memreserve', async function (req, res, next) {
   try {
+    // 先執行比照當前時間更新狀態是否過期
+    await db2.query(`
+      UPDATE PetCommunicatorReserve
+      SET Status = '0'
+      WHERE Time < NOW();
+    `)
+    // 再執行查詢
     const [rows] = await db2.query(`SELECT 
     PetCommunicatorReserve.*,PetCommunicator.Name,PetCommunicator.Img,Member.Avatar
     FROM 
@@ -144,6 +160,30 @@ router.post(
     }
   }
 )
+// 師資刊登狀態修改
+router.post('/setStatus', async function (req, res, next) {
+  //解構
+  const { ID, status } = req.body
+  let Status
+  if (status) {
+    Status = '已刊登'
+  } else {
+    Status = '未刊登'
+  }
+  try {
+    const [rows] = await db2.query(
+      `UPDATE PetCommunicator
+     SET
+        Status = ?
+     WHERE MemberID = ?`,
+      [Status, ID]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
 // 註冊成爲溝通師
 router.post(
   '/communicatorCreate',
@@ -157,9 +197,9 @@ router.post(
     try {
       const [rows] = await db2.query(
         `INSERT INTO PetCommunicator
-      (MemberID, RealName, Certificateid, CertificateDate, Status,PetCommCertificateImg)
-      VALUES (?, ?, ?, ?, ?,?)`,
-        [MemberID, RealName, Certificateid, CertificateDate, '未刊登', Img]
+      (MemberID, RealName, Certificateid, CertificateDate, Status, PetCommCertificateImg, valid)
+      VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [MemberID, RealName, Certificateid, CertificateDate, '未刊登', Img, 3]
       )
       res.json([rows])
       console.log('資料上傳成功')

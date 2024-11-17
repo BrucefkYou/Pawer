@@ -15,11 +15,10 @@ import ProductList from '@/components/product/list/productList';
 import Clean from '@/components/product/clean/clean';
 import CategoryOther from '@/components/product/category/other/categoryOther';
 import CategoryCat from '@/components/product/category/cat/categoryCat';
-import CategoryDog from '@/components/product/category/dog/categoryDog';
 import useCategory from '@/hooks/useCategory';
-import TagCat from '@/components/product/tag/tagCat/tagCat';
-import TagDog from '@/components/product/tag/tagDog/tagDog';
-import TagOther from '@/components/product/tag/tagOther/tagOther';
+import Cat from '@/components/product/tag/cat/cat';
+import List from '@/components/product/tag/all/list';
+import OtherCat from '@/components/product/tag/other/otherCat';
 
 export default function Tagcat(props) {
   const [url, setUrl] = useState('http://localhost:3005/api/product/tagcat');
@@ -95,9 +94,15 @@ export default function Tagcat(props) {
           </div>
           <div className="row rwd-select">
             <div className="ms-5 howmaney howmaney-rwd col mt-3 d-flex justify-content-between">
-              顯示第{nowPageFirstItems + 1}-
-              {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
-              {filterData.length} 筆
+              {filterData.length === 0 ? (
+                <div></div>
+              ) : (
+                <p>
+                  顯示第{nowPageFirstItems + 1}-
+                  {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
+                  {filterData.length} 筆
+                </p>
+              )}
               <div className="filtericon" onClick={toggleFilters}>
                 <BsFilterSquareFill />
               </div>
@@ -117,26 +122,24 @@ export default function Tagcat(props) {
                         <p className="searchcategory">種類</p>
                         <p className="line" />
                         <div className="d-flex pet-choose">
-                          <TagCat
+                          <Cat
                             setUrl={setUrl}
                             activeIndex={
                               active?.c === 'tagcat' ? active.v : null
                             }
                             onActiveChange={(v) => ActiveChange('tagcat', v)}
                           />
-                          <TagDog
-                            setUrl={setUrl}
-                            activeIndex={
-                              active?.c === 'tagdog' ? active.v : null
-                            }
-                            onActiveChange={(v) => ActiveChange('tagdog', v)}
-                          />
-                          <TagOther
+                          <OtherCat
                             setUrl={setUrl}
                             activeIndex={
                               active?.c === 'tagother' ? active.v : null
                             }
                             onActiveChange={(v) => ActiveChange('tagother', v)}
+                          />
+                          <List
+                            setUrl={setUrl}
+                            activeIndex={active?.c === 'list' ? active.v : null}
+                            onActiveChange={(v) => ActiveChange('list', v)}
                           />
                         </div>
                       </div>
@@ -150,11 +153,6 @@ export default function Tagcat(props) {
                           setUrl={setUrl}
                           activeIndex={active?.c === 'cat' ? active.v : null}
                           onActiveChange={(v) => ActiveChange('cat', v)}
-                        />
-                        <CategoryDog
-                          setUrl={setUrl}
-                          activeIndex={active?.c === 'dog' ? active.v : null}
-                          onActiveChange={(v) => ActiveChange('dog', v)}
                         />
                         <CategoryOther
                           setUrl={setUrl}
@@ -198,20 +196,20 @@ export default function Tagcat(props) {
                     <p className="line" />
                     {/* 狗貓標籤預設 false 灰色 點選後true橘色 */}
                     <div className="d-flex pet-choose">
-                      <TagCat
+                      <Cat
                         setUrl={setUrl}
                         activeIndex={active?.c === 'tagcat' ? active.v : null}
                         onActiveChange={(v) => ActiveChange('tagcat', v)}
                       />
-                      <TagDog
-                        setUrl={setUrl}
-                        activeIndex={active?.c === 'tagdog' ? active.v : null}
-                        onActiveChange={(v) => ActiveChange('tagdog', v)}
-                      />
-                      <TagOther
+                      <OtherCat
                         setUrl={setUrl}
                         activeIndex={active?.c === 'tagother' ? active.v : null}
                         onActiveChange={(v) => ActiveChange('tagother', v)}
+                      />
+                      <List
+                        setUrl={setUrl}
+                        activeIndex={active?.c === 'list' ? active.v : null}
+                        onActiveChange={(v) => ActiveChange('list', v)}
                       />
                     </div>
                   </div>
@@ -228,12 +226,6 @@ export default function Tagcat(props) {
                       setUrl={setUrl}
                       activeIndex={active?.c === 'cat' ? active.v : null}
                       onActiveChange={(v) => ActiveChange('cat', v)}
-                    />
-                    {/* 狗狗專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
-                    <CategoryDog
-                      setUrl={setUrl}
-                      activeIndex={active?.c === 'dog' ? active.v : null}
-                      onActiveChange={(v) => ActiveChange('dog', v)}
                     />
                     {/* 其他專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
                     <CategoryOther
@@ -255,11 +247,15 @@ export default function Tagcat(props) {
             <div className="row">
               {/* 顯示數量 每頁幾筆 排序 內容 */}
               <div className="row choose-page">
-                <p className="howmaney col mt-3">
-                  顯示第{nowPageFirstItems + 1}-
-                  {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
-                  {filterData.length} 筆
-                </p>
+                {filterData.length === 0 ? (
+                  <div></div>
+                ) : (
+                  <p className="howmaney col mt-3">
+                    顯示第{nowPageFirstItems + 1}-
+                    {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
+                    {filterData.length} 筆
+                  </p>
+                )}
                 <div className="col selectpd rwd-none px-0">
                   <PerPageDom
                     itemsperPage={itemsperPage}
@@ -289,12 +285,16 @@ export default function Tagcat(props) {
               {/* 頁籤 */}
               <div className="d-flex justify-content-center align-items-center mb-5 mt-5">
                 <div className="rwd-block">
-                  <PageNav
-                    nowPage={nowPage}
-                    totalPage={totalPage}
-                    next={next}
-                    prev={prev}
-                  />
+                  {filterData.length === 0 ? (
+                    <div></div>
+                  ) : (
+                    <PageNav
+                      nowPage={nowPage}
+                      totalPage={totalPage}
+                      next={next}
+                      prev={prev}
+                    />
+                  )}
                 </div>
               </div>
             </div>
