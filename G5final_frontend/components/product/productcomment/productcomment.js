@@ -120,29 +120,29 @@ export default function Productcomment({ fetchOne }) {
       return;
     }
     // 檢查會員是否已經對該商品評論過
-    const alreadyComment = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${productId}`);
-    if (!alreadyComment.ok) {
-      toast.error('檢查評論記錄時發生錯誤');
-      return;
-    }
-    const commentData = await alreadyComment.json();
-    if (commentData.length > 0) {
-      toast(<>
-      您已經對此商品評論過，
-      <br />
-      再次購買此商品即可評論。
-      </>, {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-        duration: 1500,
-        style: {
-          borderRadius: '10px',
-          background: 'rgba(193, 69, 69, 1)',
-          color: '#fff',
-          marginTop: '80px',
-        },
-      });
-      return;
-    }
+    // const alreadyComment = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${productId}`);
+    // if (!alreadyComment.ok) {
+    //   toast.error('檢查評論記錄時發生錯誤');
+    //   return;
+    // }
+    // const commentData = await alreadyComment.json();
+    // if (commentData.length > 0) {
+    //   toast(<>
+    //   您已經對此商品評論過，
+    //   <br />
+    //   再次購買此商品即可評論。
+    //   </>, {
+    //     icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+    //     duration: 1500,
+    //     style: {
+    //       borderRadius: '10px',
+    //       background: 'rgba(193, 69, 69, 1)',
+    //       color: '#fff',
+    //       marginTop: '80px',
+    //     },
+    //   });
+    //   return;
+    // }
     // 新增評論
     const newComment = {
       ProductID: fetchOne.ID,
