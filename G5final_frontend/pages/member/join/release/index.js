@@ -7,6 +7,8 @@ import { usePagination } from '@/hooks/usePagination';
 import { PageNav } from '@/components/PageNav';
 import { useAuth } from '@/hooks/use-auth';
 import JoinListCard from '@/components/join/list/item/join-list-card';
+import JoinCCBtn from '@/components/join/join-circle-btn/join-c-c-btn';
+import { v4 as uuidv4 } from 'uuid';
 import Link from 'next/link';
 
 Index.getLayout = function getLayout(page) {
@@ -16,7 +18,6 @@ Index.getLayout = function getLayout(page) {
 export default function Index(props) {
   const { auth } = useAuth();
   const uid = auth.memberData.id;
-  // console.log(id);
 
   // const [url, setUrl] = useState(
   //   `http://localhost:3005/api/join-in/status?memberId=${id}`
@@ -48,6 +49,7 @@ export default function Index(props) {
       { id: 2, label: '草稿', filterRule: '0', filterName: 'Status' },
     ],
   });
+  console.log('nowPageItems:', nowPageItems);
 
   return (
     <>
@@ -64,14 +66,14 @@ export default function Index(props) {
             needFilter={needFilter}
           />
         </div>
-
-        <div className="mb-card d-flex flex-wrap gap-4 my-3">
+        <div className="mb-card ji-mb-card d-flex flex-wrap gap-4 my-3">
           {nowPageItems.length > 0 ? (
             <>
-              <div className="d-flex flex-wrap gap-5">
+              {/* d-flex flex-wrap justify-content-evenly */}
+              <div className="d-flex flex-wrap justify-content-evenly gap-4">
                 {nowPageItems.map((data) => (
                   <JoinListCard
-                    key={data.id}
+                    key={uuidv4()}
                     data={data}
                     linkTo={`http://Localhost:3000/join/${data.id}`}
                   />
@@ -86,6 +88,7 @@ export default function Index(props) {
               </Link>
             </p>
           )}
+          <JoinCCBtn />
           {/* 頁碼 */}
           <div className=" mt-2 w-100">
             {nowPageItems.length === 0 ? (

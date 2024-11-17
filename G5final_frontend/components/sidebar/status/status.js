@@ -9,27 +9,32 @@ export default function StatusCard({ oldData, updateData }) {
   if (oldData) {
     tagfilter = tags.map((e) => {
       return oldData.filter((v) => {
-        return v.newStatus == e
-      })
-    })
+        return v.newStatus == e;
+      });
+    });
   }
   function choosetag(e) {
     console.log(e.target.textContent);
     if (e.target.textContent !== '查詢全部') {
-      updateData(tagfilter[tags.indexOf(e.target.textContent)])
+      updateData(tagfilter[tags.indexOf(e.target.textContent)]);
     } else {
-      updateData(oldData)
+      updateData(oldData);
     }
   }
   return (
     <div className={`${styles['tag-card']}`}>
       <SideBarCard
-        title="標籤"
+        title="活動狀態"
         img={pawButton}
         content={
           <div className={`d-flex flex-wrap ${styles['tag-section']}`}>
             {tags.map((tag, index) => (
-              <div key={index} className={styles.tag} type="button" onClick={choosetag}>
+              <div
+                key={index}
+                className={styles.tag}
+                type="button"
+                onClick={choosetag}
+              >
                 {tag}
               </div>
             ))}

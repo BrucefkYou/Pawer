@@ -146,19 +146,19 @@ export default function JiDetail(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3005/api/join-in');
+        const response = await fetch('http://localhost:3005/api/join-in/');
         if (!response.ok) {
           throw new Error('網路回應不成功：' + response.status);
         }
         const data = await response.json();
         const sortJoin = data
-          .filter((v) => v.Status === 1 || v.Status === '即將成團')
+          .filter((v, i) => v.Status === 1)
           .sort((a, b) => b.SignCount - a.SignCount)
           .slice(0, 7);
 
         console.log(sortJoin);
         setJoinin(sortJoin);
-        console.log(joinin);
+        console.log(data);
       } catch (err) {
         console.error('錯誤：', err);
       }
