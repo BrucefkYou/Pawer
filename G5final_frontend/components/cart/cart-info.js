@@ -178,7 +178,7 @@ export default function CartInfo(props) {
 
     if (isSubmitting) return;
 
-    if (store711.storename === '') {
+    if (store711.storename === '' && selectedDelivery === 'convenience') {
       toast.error('請選擇便利商店', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1800,
