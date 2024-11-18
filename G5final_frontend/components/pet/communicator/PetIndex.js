@@ -63,7 +63,7 @@ export default function PetIndex(props) {
         </div>
         {/* 分頁 */}
         {nowPageItems && nowPageItems.length >= 1 ? (
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center my-5">
             <PageNav
               nowPage={nowPage}
               totalPage={totalPage}

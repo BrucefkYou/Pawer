@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 export default function ComListButton({ v, setMessage }) {
-  const router = useRouter();
+  
+  //取消預約
   async function cancelReserve(event) {
     try {
       await fetch('http://localhost:3005/api/pet/cancelReserve', {
@@ -61,7 +61,7 @@ export default function ComListButton({ v, setMessage }) {
             </div>
           )}
           <Link
-            href={`/websocket?call=${v.MemberID}`}
+            href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`}
             className={`btnn btnn-2 m-0 text-decoration-none ${
               v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'
             }`}
@@ -69,7 +69,7 @@ export default function ComListButton({ v, setMessage }) {
             聯繫毛孩爸媽
           </Link>
           <Link
-            href={`/websocket?call=${v.MemberID}`}
+            href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`}
             className={`btnn btnn-3 m-0 text-decoration-none ${
               v.Status == 1 ? 'PT-sp-none' : 'PT-sp-block'
             } PT-sp-none-rwd`}

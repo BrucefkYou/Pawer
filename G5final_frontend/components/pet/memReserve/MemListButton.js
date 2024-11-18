@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 
 export default function MemListButton({ v, setMessage }) {
-  const router = useRouter();
+  console.log(v);
+  
+  // 取消視窗
   async function cancelReserve(event) {
     try {
       await fetch('http://localhost:3005/api/pet/cancelReserve', {
@@ -61,7 +62,7 @@ export default function MemListButton({ v, setMessage }) {
             </div>
           )}
           <Link
-            href={`/websocket?call=${v.PetCommID}`}
+            href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`}
             className={`btnn btnn-2 m-0 text-decoration-none ${
               v.Status == 1 ? 'PT-sp-block' : 'PT-sp-none'
             }`}
@@ -69,7 +70,7 @@ export default function MemListButton({ v, setMessage }) {
             聯繫溝通師
           </Link>
           <Link
-            href={`/websocket?call=${v.PetCommID}`}
+            href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`}
             className={`btnn btnn-3 m-0 text-decoration-none ${
               v.Status == 1 ? 'PT-sp-none' : 'PT-sp-block'
             } PT-sp-none-rwd`}
