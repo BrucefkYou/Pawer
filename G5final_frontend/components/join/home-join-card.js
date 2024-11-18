@@ -43,7 +43,14 @@ export default function HomeJoinCard(props) {
 
     responsive: [
       {
-        breakpoint: 1320,
+        breakpoint: 1140,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -54,7 +61,7 @@ export default function HomeJoinCard(props) {
 
   return (
     <>
-      <section className="container sec4-con ">
+      <section className="sec4-con ">
         <div className="sec4-event-text">
           <p className="sec4-newtext">
             最新的<span className="sec4-pet">寵物聚會</span>

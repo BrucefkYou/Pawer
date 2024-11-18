@@ -2,7 +2,7 @@ import transporter from '#configs/mail.js'
 
 export const sendMail = async (to, subject, html) => {
   const mailOptions = {
-    from: `"Pawer寶沃寵物保健"<${process.env.SMTP_TO_EMAIL}>`,
+    from: `"Pawer寶沃"<${process.env.SMTP_TO_EMAIL}>`,
     to,
     subject,
     html,

@@ -43,8 +43,8 @@ export default function Index() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="ji-member">
-        <div className="card-favorite d-flex justify-content-between">
-          <PageTitle title={'收藏活動'} subTitle={'Favorite'} />
+        <div className="card-favorite d-flex justify-content-between rounded-2">
+          <PageTitle title={'已收藏活動'} subTitle={'Favorite'} />
           <MemberNav
             newdata={newdata}
             chooseFilter={chooseFilter}

@@ -76,7 +76,7 @@ export default function JoinListCard({
   };
   return (
     <>
-      <div className={`card shadow ${styles['ji-card']}`}>
+      <div className={`card col-6 shadow ${styles['ji-card']}`}>
         <Image
           className={`${styles['card-image']}`}
           width={367}

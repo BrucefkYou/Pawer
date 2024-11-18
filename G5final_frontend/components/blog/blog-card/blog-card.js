@@ -20,23 +20,23 @@ export default function BlogCard({
   id,
   title,
   blogImg,
-  updateDate,
+  createDate,
   likeCount,
   favoriteCount,
   avatar,
   name,
 }) {
-  // 暫時換一下，之後會改上傳圖片的路徑
-  const imagePath = blogImg ? blogImg.replace('../', '/') : '';
+  // // 暫時換一下，之後會改上傳圖片的路徑
+  // const imagePath = blogImg ? blogImg.replace('../', '/') : '';
 
-  const avatarPath =  `http://localhost:3005/member/${avatar}`;
+  const avatarPath = `http://localhost:3005/member/${avatar}`;
   return (
     <div className={`card shadow ${styles['blog-card']}`}>
       <Image
         className={`${styles['card-image']}`}
         width={367}
         height={321}
-        src={imagePath}
+        src={blogImg}
         alt={title}
       />
 
@@ -50,7 +50,7 @@ export default function BlogCard({
               className={`text-secondary d-flex flex-column row-gap-2 ${styles.status}`}
             >
               <Account avatar={avatarPath} name={name} w={18} h={18} />
-              <BlogDate updateDate={updateDate} />
+              <BlogDate updateDate={createDate} />
             </div>
             {/* 按讚儲存 */}
             <div className="text-body-tertiary d-flex column-gap-2">

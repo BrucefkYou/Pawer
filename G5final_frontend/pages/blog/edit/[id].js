@@ -28,6 +28,8 @@ export default function BlogEdit() {
   const [title, setTitle] = useState('');
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [data, setData] = useState('');
+  const [updateDate, setUpdateDate] = useState('');
+
   // 標籤
   const [tags, setTags] = useState([]);
   const handleTagsChange = (newTags) => {
@@ -54,6 +56,7 @@ export default function BlogEdit() {
           setUploadedImageUrl(blog.blogImg);
           setPreviewImage(blog.blogImg);
           setImageName(blog.imageName || '尚未選擇封面');
+          setUpdateDate(blog.UpdateDate);
         } else {
           throw new Error('無法取得文章資料');
         }
@@ -81,7 +84,9 @@ export default function BlogEdit() {
 
     const formData = new FormData();
     formData.append('imageFile', file);
-
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
     try {
       const response = await fetch('http://localhost:3005/api/blog/upload', {
         method: 'POST',
@@ -235,6 +240,9 @@ export default function BlogEdit() {
                 src={uploadedImageUrl || previewImage}
                 alt="圖片預覽"
                 fill
+                style={{
+                  objectFit: uploadedImageUrl ? 'cover' : 'scale-down',
+                }}
               />
             </div>
 
@@ -310,6 +318,10 @@ export default function BlogEdit() {
               tags={tags}
               setTags={handleTagsChange}
             />
+            <div className="d-flex" style={{ color: '#646464' }}>
+              上次更新時間：
+              <p style={{ color: '#646464' }}>{updateDate}</p>
+            </div>
           </div>
 
           {/* 底部按鈕 */}
