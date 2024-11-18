@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
-  width: '700px',
+  width: '100%',
   height: '500px',
 };
 
@@ -12,7 +12,11 @@ const defaultCenter = {
   lng: 121.562321,
 };
 
-const GoogleMapComponent = ({ markers, userLocation, onUserLocationChange }) => {
+const GoogleMapComponent = ({
+  markers,
+  userLocation,
+  onUserLocationChange,
+}) => {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   // 1. 在元件的頂層調用 Hook
@@ -39,7 +43,7 @@ const GoogleMapComponent = ({ markers, userLocation, onUserLocationChange }) => 
       strokeOpacity: 0.0,
       strokeWeight: 0,
       rotation: 0,
-      scale: 2,
+      scale: 1.5,
       anchor: { x: 12, y: 24 },
     }),
     []

@@ -24,7 +24,7 @@ import { zhCN } from 'date-fns/locale';
 import toast from 'react-hot-toast';
 registerLocale('zhCN', zhCN);
 
-const Publish = () => {
+const TestCreate = () => {
   const router = useRouter();
   // 要先解構出來，才能使用
   const { auth } = useAuth();
@@ -590,4 +590,4 @@ const Publish = () => {
     </>
   );
 };
-export default Publish;
+export default TestCreate;
