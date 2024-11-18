@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/use-auth';
 
-export default function MbSideBar({activeMenu,setActiveMenu, toggleMenu,handleCloseOffcanvas}) {
+export default function MbSideBar({activeMenu,setActiveMenu,handleCloseOffcanvas}) {
   const router = useRouter();
   const { auth } = useAuth();
   const isPetCom = auth.memberData.isPetCom;
@@ -115,7 +115,7 @@ export default function MbSideBar({activeMenu,setActiveMenu, toggleMenu,handleCl
               className={`nav-link ${activeMenu === v.id ? 'active' : ''} `}
               href={v.href}
               onClick={() => {
-                toggleMenu(v.id);
+                setActiveMenu(v.id);
                 {v.subMenu.length === 0 && handleCloseOffcanvas()}
               }}
             >

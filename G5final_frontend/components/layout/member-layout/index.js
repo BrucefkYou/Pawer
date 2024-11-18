@@ -18,9 +18,6 @@ export default function MemberLayout({ children }) {
   const handleCloseOffcanvas = () => setShowOffcanvas(false);
   // activeMenu 同步兩個sidebar的選單狀態
   const [activeMenu, setActiveMenu] = useState(1);
-  const toggleMenu = (id) => {
-    setActiveMenu(activeMenu === id ? null : id);
-  };
 
   if (!auth.isAuth) {
     return <div></div>;
@@ -38,7 +35,6 @@ export default function MemberLayout({ children }) {
             <MbSideBar
                 activeMenu={activeMenu}
                 setActiveMenu={setActiveMenu}
-                toggleMenu={toggleMenu}
                 handleCloseOffcanvas={handleCloseOffcanvas}
               />
             </aside>
@@ -58,7 +54,6 @@ export default function MemberLayout({ children }) {
               <MbSideBar
                 activeMenu={activeMenu}
                 setActiveMenu={setActiveMenu}
-                toggleMenu={toggleMenu}
                 handleCloseOffcanvas={handleCloseOffcanvas}
               />
               </Offcanvas.Body>
