@@ -24,13 +24,13 @@ export default function OrderDetail() {
       const dborder = res.data.order;
       setOrder(dborder);
       setOrderProducts(dborder.OrderDetail);
-      console.log(order);
     }
   };
   // 每次刷新頁面時，取得訂單資料
   useEffect(() => {
     if (router.isReady && memberId && orderId) getOrderData();
   }, [router.isReady, memberId, orderId]);
+  console.log(`order`,order);
 
   return (
     <>
@@ -102,14 +102,6 @@ export default function OrderDetail() {
         </div>
         <div className="row">
           <div className="col-md-2 col-4">
-            <span>配送方式</span>
-          </div>
-          <div className="col-md-10 col-8">
-            <span>{order['PaymentMethod']}</span>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-2 col-4">
             <span>收貨人</span>
           </div>
           <div className="col-md-10 col-8">
@@ -126,10 +118,10 @@ export default function OrderDetail() {
         </div>
         <div className="row">
           <div className="col-md-2 col-4">
-            <span>物流狀態</span>
+            <span>配送方式</span>
           </div>
           <div className="col-md-10 col-8">
-            <span>{order['DeliveryStatus']}</span>
+            <span>{order['DeliveryWay']}</span>
           </div>
         </div>
         <div className="row">
@@ -140,6 +132,15 @@ export default function OrderDetail() {
             <span>{order['DeliveryAddress']}</span>
           </div>
         </div>
+        {/* <div className="row">
+          <div className="col-md-2 col-4">
+            <span>物流狀態</span>
+          </div>
+          <div className="col-md-10 col-8">
+            <span>{order['DeliveryStatus']}</span>
+          </div>
+        </div> */}
+     
       </div>
       <div className="mb-card">
         <div className="row">

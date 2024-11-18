@@ -9,6 +9,9 @@ import logo from 'public/LOGO.svg';
 export default function PetDetailButton({ fetchOne }) {
   const { auth } = useAuth();
   const memberID = auth.memberData.id;
+  const memberEmail = auth.memberData.email;
+  console.log(memberEmail);
+  
   const router = useRouter();
   const [window, setWindow] = useState(false);
   const goBack = () => {
@@ -67,7 +70,7 @@ export default function PetDetailButton({ fetchOne }) {
                 />
               </div>
               {/* 欄位 */}
-              <PetReservetable fetchOne={fetchOne} memberID={memberID} />
+              <PetReservetable fetchOne={fetchOne} memberID={memberID} memberEmail={memberEmail} />
             </div>
           </div>
         </div>

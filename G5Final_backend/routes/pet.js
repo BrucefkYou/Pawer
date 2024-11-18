@@ -24,6 +24,16 @@ router.get('/', async function (req, res, next) {
     res.status(500).send(err)
   }
 })
+// 會員資料
+router.get('/member', async function (req, res, next) {
+  try {
+    const [rows] = await db2.query(`SELECT * FROM Member`)
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
 // 已刊登列表
 router.get('/list', async function (req, res, next) {
   try {
@@ -51,6 +61,34 @@ router.get('/comreserve', async function (req, res, next) {
       SELECT PetCommunicatorReserve.*, Member.Avatar 
       FROM PetCommunicatorReserve 
       LEFT JOIN Member ON PetCommunicatorReserve.MemberID = Member.ID;
+    `)
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+// 全部預約表
+router.get('/allreserve', async function (req, res, next) {
+  try {
+    const [rows] = await db2.query(`
+    SELECT 
+    PetCommunicatorReserve.*, 
+    Member.Avatar, 
+    PetCommunicator.Img, 
+    PetCommunicator.Name 
+    FROM 
+    PetCommunicatorReserve 
+    JOIN 
+    Member 
+    ON 
+    PetCommunicatorReserve.MemberID = Member.ID 
+    JOIN 
+    PetCommunicator 
+    ON 
+    PetCommunicatorReserve.PetCommID = PetCommunicator.ID 
+    ORDER BY 
+    PetCommunicatorReserve.Time DESC;
     `)
     res.json(rows)
   } catch (err) {

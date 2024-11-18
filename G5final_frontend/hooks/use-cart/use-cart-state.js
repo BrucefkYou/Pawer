@@ -15,6 +15,7 @@ import {
   incrementOne,
   decrementOne,
   generateCartState,
+  updateAll,
 } from './use-cart-basic';
 import useLocalStorage from './use-localstorage';
 
@@ -132,6 +133,11 @@ export const CartProvider = ({
     setCartItems([]);
   };
 
+  // 根據輸入的條件修改購物車裡面items全部的內容
+  const updateCartItems = (condition) => {
+    setCartItems(updateAll(cartItems, condition));
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -146,6 +152,7 @@ export const CartProvider = ({
         increment,
         decrement,
         initCart,
+        updateCartItems,
       }}
     >
       {children}

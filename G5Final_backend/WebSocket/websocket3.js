@@ -13,36 +13,66 @@ export default function testwss3() {
       console.log('收到的訊息:', data)
       // 處理註冊訊息
       if (data.type === 'register') {
-        clients.set(data.userID, ws)
-        console.log(`User ${data.userID} registered`)
+        clients.set(data.myID, ws)
+        console.log(`User ${data.myID} registered`)
+        console.log('已註冊的用戶:', [...clients.keys()])
         return // 註冊完成後直接返回，不進行後續操作
       }
       // 確認 targetUserID 是否存在
-      const targetUser = clients.get(data.targetUserID)
-      const senderUser = clients.get(data.userID)
-
-      if (targetUser && targetUser.readyState === WebSocket.OPEN) {
-        // 將訊息發送給指定的 targetUserID
-        targetUser.send(
+      const toID = clients.get(data.toID)
+      const myID = clients.get(data.myID)
+      if (!toID || !myID) {
+        console.error('Invalid WebSocket connection for toID or myID')
+        return
+      }
+      if (data.type === 'toast') {
+        toID.send(
           JSON.stringify({
-            from: data.userID,
+            type: 'toast',
+            from: data.myID,
+            content: data.content,
+          })
+        )
+        myID.send(
+          JSON.stringify({
+            type: 'toast',
+            from: data.myID,
+            content: data.content,
+          })
+        )
+      }
+      // 將訊息發送給指定的 toID
+      if (
+        data.type === 'message' &&
+        toID &&
+        toID.readyState === WebSocket.OPEN
+      ) {
+        toID.send(
+          JSON.stringify({
+            type: 'message',
+            from: data.myID,
             content: data.content,
           })
         )
       } else {
-        console.log(`User ${data.targetUserID} 不存在或連線已關閉`)
+        console.log(`User ${data.toID} 不存在或連線已關閉`)
       }
       // 發送訊息給自己
-      if (senderUser && senderUser.readyState === WebSocket.OPEN) {
-        senderUser.send(
+      if (
+        data.type === 'message' &&
+        myID &&
+        myID.readyState === WebSocket.OPEN
+      ) {
+        myID.send(
           JSON.stringify({
-            from: data.userID,
+            type: 'message',
+            from: 'self',
             content: data.content,
           })
         )
       }
     })
-    console.log('已註冊的用戶:', [...clients.keys()])
+
     // 處理 WebSocket 錯誤
     ws.on('error', console.error)
     // 當 WebSocket 關閉時，從 `clients` Map 中移除用戶

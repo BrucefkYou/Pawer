@@ -26,8 +26,6 @@ export default function BlogCard({
   avatar,
   name,
 }) {
-  // // 暫時換一下，之後會改上傳圖片的路徑
-  // const imagePath = blogImg ? blogImg.replace('../', '/') : '';
 
   const avatarPath = `http://localhost:3005/member/${avatar}`;
   return (
@@ -71,7 +69,7 @@ export default function BlogCard({
           {/* 標題 */}
           <Link
             href={`http://localhost:3000/blog/${id}`}
-            className="btn text-warning p-0 text-decoration-none"
+            className="btn text-warning p-0 text-decoration-none text-start"
           >
             <h4
               className={`card-title text-primary mb-3 ${styles['card-title']}`}

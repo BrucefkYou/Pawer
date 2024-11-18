@@ -47,7 +47,7 @@ export default function OrderDetail() {
         <title>會員中心 - 我的部落格</title> {/* 設置當前頁面的標題 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <article className="col-md-10">
+      <article className="col-md-10 text-end">
         <div className="mb-content d-flex justify-content-between">
           <PageTitle title={'我的部落格'} subTitle={'Blog'} />
           <ul
@@ -89,9 +89,7 @@ export default function OrderDetail() {
                 開始建立文章
               </Link>
             )}
-            <MemCreateBtn url="http://localhost:3000/blog/create">
-              <BsPencilFill />
-            </MemCreateBtn>
+
           </div>
           <div className="pt-5 justify-content-center ">
             {nowPageItems && nowPageItems.length > 0 && (
@@ -106,6 +104,9 @@ export default function OrderDetail() {
             )}
           </div>
         </div>
+        <MemCreateBtn url="http://localhost:3000/blog/create">
+          <BsPencilFill />
+        </MemCreateBtn>
       </article>
     </>
   );

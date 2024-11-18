@@ -3,6 +3,8 @@ import express from 'express'
 import db from '##/configs/mysql.js'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
+import { sendMail } from '../emails/emailService.js'
+import { generateOrderMailHtml } from '../emails/orderMail.js'
 const router = express.Router()
 
 /* GET home page. */
@@ -183,6 +185,52 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     await connection.rollback()
     console.error('插入訂單時出錯：', error)
     res.status(500).json({ error: '伺服器錯誤，無法創建訂單' })
+  }
+})
+
+// 寄送Email
+router.post('/orderEmail', async (req, res, next) => {
+  const { orderNum, name, email } = req.body
+  console.log('naem: ' + name)
+  console.log('email:' + email)
+  console.log('orderNum: ' + orderNum)
+  const orderInfoSql = 'SELECT * FROM `Order` WHERE OrderNumber = ?'
+  const orderValue = orderNum
+  const [rows, fields] = await db.query(orderInfoSql, [orderValue])
+  console.log('orderInfo' + rows[0])
+
+  // 檢查是否有訂單
+  if (rows.length === 0) {
+    console.error('No order found with OrderNumber:', orderNum)
+    return res.status(404).json({ status: 'fail', message: 'Order not found' })
+  }
+
+  const orderData = rows[0]
+  console.log('orderData' + orderData.Receiver)
+
+  const orderNumber = orderNum
+  const receiver = orderData.Receiver
+  const deliveryAddress = orderData.DeliveryAddress
+  const totalPrice = orderData.TotalPrice
+  const paymentMethod = orderData.PaymentMethod
+  const url = '/member/order'
+  const mailHTML = generateOrderMailHtml(
+    name,
+    orderNumber,
+    receiver,
+    deliveryAddress,
+    totalPrice,
+    paymentMethod,
+    url
+  )
+
+  const mailSubject = 'Pawer 訂單成立通知'
+  const result = await sendMail(email, mailSubject, mailHTML)
+
+  if (result.status === 'success') {
+    return res.json({ status: 'success', message: '訂單通知信已寄出' })
+  } else if (result.status === 'error') {
+    return res.json({ status: 'error', message: result.message })
   }
 })
 

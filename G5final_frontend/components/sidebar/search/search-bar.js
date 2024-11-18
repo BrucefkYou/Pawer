@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import styles from './searchbar.module.scss';
 import SideBarCard from '@/components/sidebar/sidebar-card/sidebar-card';
+
 import { BsSearch } from 'react-icons/bs';
-import { useRouter } from 'next/router';
+import { RiCloseCircleLine } from 'react-icons/ri';
 
 export default function SearchBar() {
   const router = useRouter();
@@ -27,6 +29,14 @@ export default function SearchBar() {
     }
   };
 
+  const handleClear = () => {
+    setKeyword('');
+    router.push({
+      pathname: router.pathname,
+      query: { keyword: '', tag: '' },
+    });
+  };
+
   return (
     <div className={`${styles.searchBar}`}>
       <SideBarCard
@@ -40,6 +50,7 @@ export default function SearchBar() {
               onChange={(e) => setKeyword(e.target.value)}
               onKeyDown={handleKeyDown}
             />
+
             <div
               className={`btn btn-primary ${styles.search} rounded-2`}
               type="button"
@@ -47,9 +58,17 @@ export default function SearchBar() {
             >
               <BsSearch />
             </div>
+
+            {keyword && (
+              <RiCloseCircleLine
+                className={styles['clear-icon']}
+                onClick={handleClear}
+              />
+            )}
           </div>
         }
       />
     </div>
   );
 }
+

@@ -49,11 +49,12 @@ export default function CreateBtn({ btnName }) {
       }
 
       setBottomOffset(newBottomOffset);
+      // console.log(newBottomOffset);
     };
-
-    window.addEventListener('scroll', handleScroll);
     handleScroll();
 
+    window.addEventListener('scroll', handleScroll);
+    setTimeout(handleScroll, 500); 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -88,6 +89,7 @@ export default function CreateBtn({ btnName }) {
     const resize = () => setIsMobile(window.innerWidth < 770);
     resize();
     window.addEventListener('resize', resize);
+
     return () => window.removeEventListener('resize', resize);
   }, []);
 
