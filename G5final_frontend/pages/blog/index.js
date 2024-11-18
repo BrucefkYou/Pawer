@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 
 // Components
-import Banner from '@/components/join/banner/banner';
+import Banner from '@/components/blog/banner';
 import BlogList from '@/components/blog/blog-list';
 
 export default function Blogindex() {
