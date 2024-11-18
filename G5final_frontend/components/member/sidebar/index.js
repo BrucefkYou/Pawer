@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { IoIosArrowForward, IoIosArrowDown } from 'react-icons/io';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/use-auth';
 
-export default function MbSideBar({activeMenu, toggleMenu,handleCloseOffcanvas}) {
+export default function MbSideBar({activeMenu,setActiveMenu,handleCloseOffcanvas}) {
   const router = useRouter();
   const { auth } = useAuth();
   const isPetCom = auth.memberData.isPetCom;
-
+  useEffect(() => {
+    // 初始化 activeMenu
+    const currentMenu = menuItems.find(
+      (menu) =>
+        router.pathname === menu.href ||
+        menu.subMenu.some((sub) => router.pathname.includes(sub.href))
+    );
+    // console.log(`currentMenu`,currentMenu);
+    
+    if (currentMenu) {
+      setActiveMenu(currentMenu.id);
+    }
+  }, []); 
   const menuItems = [
     {
       id: 1,
@@ -38,7 +50,7 @@ export default function MbSideBar({activeMenu, toggleMenu,handleCloseOffcanvas})
     {
       id: 5,
       title: '我的活動',
-      href: '',
+      href: '#',
       subMenu: [
         { id: 1, title: '已報名活動', href: '/member/join' },
         { id: 2, title: '已收藏活動', href: '/member/join/favorite' },
@@ -48,7 +60,7 @@ export default function MbSideBar({activeMenu, toggleMenu,handleCloseOffcanvas})
     {
       id: 6,
       title: '我的部落格',
-      href: '',
+      href: '#',
       subMenu: [
         { id: 1, title: '部落格紀錄', href: '/member/blog' },
         { id: 2, title: '收藏部落格', href: '/member/blog/favorite' },
@@ -57,7 +69,7 @@ export default function MbSideBar({activeMenu, toggleMenu,handleCloseOffcanvas})
     {
       id: 7,
       title: '寵物溝通師',
-      href: '',
+      href: '#',
       subMenu: [
         {
           id: 1,
@@ -84,7 +96,7 @@ export default function MbSideBar({activeMenu, toggleMenu,handleCloseOffcanvas})
       ],
     },
   ];
-  console.log(menuItems);
+  // console.log(menuItems);
 
   return (
     <div className="mb-sidebar">
@@ -103,7 +115,7 @@ export default function MbSideBar({activeMenu, toggleMenu,handleCloseOffcanvas})
               className={`nav-link ${activeMenu === v.id ? 'active' : ''} `}
               href={v.href}
               onClick={() => {
-                toggleMenu(v.id);
+                setActiveMenu(v.id);
                 {v.subMenu.length === 0 && handleCloseOffcanvas()}
               }}
             >

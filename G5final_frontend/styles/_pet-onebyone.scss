@@ -1,6 +1,9 @@
 .pet-onebyone {
   position: relative; /* 確保可以使用絕對定位的元素 */
-  background: url('/pet/images/chatbg.jpg') no-repeat center center;
+  background: url('/pet/images/chatbg3.jpg') no-repeat center center ;
+  @media (max-width:576px) {
+    background: url('/pet/images/chatbg1.jpg') no-repeat center center ;
+  }
   background-size: cover;
   width: 100%;
   height: 100vh; /* 設置為視口高度 */

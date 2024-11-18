@@ -44,7 +44,7 @@ export default function MemReserve(props) {
         title="取消預約成功"
         content="期待下次光臨"
         button="返回"
-        url="/member/communicator/comReserve"
+        url="/member/communicator/memReserve"
       />
     );
   } else if (message == 'warn') {
@@ -54,7 +54,7 @@ export default function MemReserve(props) {
         title="錯誤"
         content=""
         button="返回"
-        url="/member/communicator/comReserve"
+        url="/member/communicator/memReserve"
       />
     );
   } else if (message == 'no') {
@@ -64,7 +64,7 @@ export default function MemReserve(props) {
         title="執行失敗"
         content=""
         button="返回"
-        url="/member/communicator/comReserve"
+        url="/member/communicator/memReserve"
       />
     );
   }
@@ -72,18 +72,14 @@ export default function MemReserve(props) {
   return (
     <>
       <div className="d-flex justify-content-between">
-        <div className="col-6">
           {/* 標題 */}
-          <PageTitle title={`會員預約清單`} subTitle={'Reserve'} />
-        </div>
-        <div className="col-5">
+          <PageTitle title={`會員｜預約清單`} subTitle={'Reserve'} />
           {/* 頁籤 */}
           <MemberNav
             newdata={newdata}
             chooseFilter={chooseFilter}
             needFilter={needFilter}
           />
-        </div>
       </div>
       {/* 清單明細 */}
       {nowPageItems.length < 1 ? (
@@ -93,8 +89,8 @@ export default function MemReserve(props) {
       ) : (
         <>
           <div className="row none title text-center mt-3 py-2">
-            <div className="col-1">序號</div>
-            <div className="col-2">溝通師</div>
+              <div className="col-1 d-none d-lg-block">序號</div>
+              <div className="col-3 col-md-2">溝通師</div>
             <div className="col-2 d-none d-lg-block">寵物名稱</div>
             <div className="col d-none d-lg-block">狀態</div>
             <div className="col">預約日期</div>

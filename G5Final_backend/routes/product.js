@@ -16,7 +16,7 @@ router.get('/', async function (req, res, next) {
   }
 })
 
-// tag貓咪
+// tag貓貓
 router.get('/tagcat', async function (req, res, next) {
   try {
     const [rows] = await db2.query(

@@ -29,8 +29,8 @@ export default function MemReserveList({ nowPageItems, setMessage }) {
       {nowPageItems.map((v, i) => (
         <React.Fragment key={v.ID || i}>
           <div className="row none text-center justify-content-center align-items-center my-3 pb-3 border-bottom">
-            <div className="col-1">{i + 1}</div>
-            <div className="col-2">{v.Name}</div>
+            <div className="col-1 d-none d-lg-block">{i + 1}</div>
+            <div className="col-2 col-3 col-md-2">{v.Name}</div>
             <div className="col-2 d-none d-lg-block">{v.PetName}</div>
             <div className="col d-none d-lg-block">
               <span className={`${v.Status == 1 ? 'PT-sp-1' : 'PT-sp-2'}`}>
