@@ -49,7 +49,7 @@ export default function Index() {
           />
         </div>
 
-        <div className="card mt-3 p-2">
+        <div className="card mt-3 p-4">
           {nowPageItems.length === 0 ? (
             <>
               <p className="mt-2">您沒有收藏的商品</p>
