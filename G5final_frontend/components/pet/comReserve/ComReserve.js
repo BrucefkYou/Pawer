@@ -41,7 +41,7 @@ export default function ComReserve(props) {
     return (
       <Message
         status="ok"
-        title="hi"
+        title="取消預約完成"
         content=""
         button="返回"
         url="/member/communicator/comReserve"
@@ -51,7 +51,7 @@ export default function ComReserve(props) {
     return (
       <Message
         status="warn"
-        title="hi"
+        title=""
         content=""
         button="返回"
         url="/member/communicator/comReserve"
@@ -61,7 +61,7 @@ export default function ComReserve(props) {
     return (
       <Message
         status="no"
-        title="hi"
+        title="失敗"
         content=""
         button="返回"
         url="/member/communicator/comReserve"
@@ -72,18 +72,14 @@ export default function ComReserve(props) {
     <>
       <div className="PT-reserve-card p-4 shadow">
         <div className="d-flex justify-content-between">
-          <div className="col-6">
             {/* 標題 */}
-            <PageTitle title={'師資專區 ｜ 預約清單'} subTitle={'Reserve'} />
-          </div>
-          <div className="col-5">
+            <PageTitle title={'師資 ｜ 預約清單'} subTitle={'Reserve'} />
             {/* 頁籤 */}
             <MemberNav
               newdata={newdata}
               chooseFilter={chooseFilter}
               needFilter={needFilter}
             />
-          </div>
         </div>
         {/* 清單明細 */}
         {nowPageItems.length < 1 ? (
@@ -93,8 +89,8 @@ export default function ComReserve(props) {
         ) : (
           <>
             <div className="row none title text-center mt-3 py-2">
-              <div className="col-1">序號</div>
-              <div className="col-2">會員暱稱</div>
+                <div className="col-1 d-none d-lg-block">序號</div>
+              <div className="col-3 col-md-2">暱稱</div>
               <div className="col-2 d-none d-lg-block">寵物名稱</div>
               <div className="col d-none d-lg-block">狀態</div>
               <div className="col">預約日期</div>
