@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import titlebottomLine from '@/assets/titleBottomLine.svg';
 import AreaSelect from '@/components/join/form/area-select';
+import GoogleMapComponent from '@/components/join/googleMap/GoogleMapComponent.js';
 import Tag from '@/components/join/form/tag';
 import Myeditor from '@/components/join/CKEditorTest';
 import { useState, useEffect, use } from 'react';
@@ -24,6 +25,7 @@ import toast from 'react-hot-toast';
 registerLocale('zhCN', zhCN);
 
 const Publish = () => {
+  const router = useRouter();
   // 要先解構出來，才能使用
   const { auth } = useAuth();
   // console.log(auth.memberData.id);
@@ -65,7 +67,34 @@ const Publish = () => {
   const [city, setCity] = useState('');
   const [township, setTownship] = useState('');
   const [location, setLocation] = useState('');
-  const router = useRouter();
+  const [userLocation, setUserLocation] = useState({
+    lat: 25.033964,
+    lng: 121.562321,
+  });
+  const markers = []; // 根據需要設置標記數據
+
+  const handleUserLocationChange = (newLocation) => {
+    console.log('User location changed:', newLocation);
+    setUserLocation(newLocation);
+  };
+
+  useEffect(() => {
+    if (city && township && location) {
+      const address = `${city}${township}${location}`;
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.results && data.results.length > 0) {
+            const { lat, lng } = data.results[0].geometry.location;
+            setUserLocation({ lat, lng });
+            console.log('新的座標:', { lat, lng });
+          }
+        })
+        .catch((error) => console.error('獲取座標失敗', error));
+    }
+  }, [city, township, location]);
 
   // 只需要上傳圖片名字，不需要圖片本身，也不用imgUrl
   const handleImageChange = (imgUrl, imageName) => {
@@ -105,7 +134,6 @@ const Publish = () => {
       setSignEndDate(newTime(date));
     }
   };
-  let joinTitle = document.querySelector('#join-title');
 
   // 執行送出表單;
   const saveToDo = async () => {
@@ -125,6 +153,7 @@ const Publish = () => {
       window.scrollTo(0, 150);
       return;
     }
+    const joinTitle = document.querySelector('#join-title');
     if (!title) {
       // 標題必填
       toast.error('請輸入活動標題', {
@@ -209,6 +238,8 @@ const Publish = () => {
       window.scrollTo(0, 1400);
       return;
     }
+
+    const { lat, lng } = userLocation;
     try {
       const response = await fetch('http://localhost:3005/api/join-in/create', {
         method: 'POST',
@@ -228,6 +259,8 @@ const Publish = () => {
           township,
           location,
           tags,
+          lat,
+          lng,
         }),
       });
       const result = await response.json();
@@ -259,6 +292,7 @@ const Publish = () => {
   }, []);
 
   const saveDraft = async () => {
+    const joinTitle = document.querySelector('#join-title');
     if (!title) {
       // 草稿需要標題
       toast.error('請輸入活動標題', {
@@ -500,7 +534,11 @@ const Publish = () => {
                   setLocation={setLocation}
                   required
                 />
-                {/* <MySelect data={addressData} setData={setAddressData} /> */}
+                <GoogleMapComponent
+                  markers={markers}
+                  userLocation={userLocation}
+                  onUserLocationChange={handleUserLocationChange}
+                />
               </div>
               <div className="mb-2">
                 <Tag

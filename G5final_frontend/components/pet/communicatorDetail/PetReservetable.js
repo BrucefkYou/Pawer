@@ -8,9 +8,10 @@ import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
 import Image from 'next/image';
 import 'react-datepicker/dist/react-datepicker.css';
-export default function PetReservetable({ fetchOne, memberID }) {
+export default function PetReservetable({ fetchOne, memberID, memberEmail }) {
   const router = useRouter();
   const petCommID = router.query.id;
+  
   const [from, setFrom] = useState({
     ReserveName: '',
     Phone: '',
@@ -57,7 +58,7 @@ export default function PetReservetable({ fetchOne, memberID }) {
         if (response.ok) {
           return response.json();
         }
-        toast('失敗請重新再試', {
+        toast('網路回應不成功', {
           icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
           duration: 1800,
           style: {
@@ -72,6 +73,25 @@ export default function PetReservetable({ fetchOne, memberID }) {
       .then((data) => {
         //確認成功後
         console.log('提交成功：', data);
+        // 發送信件
+        emailjs.send(
+          SERVICE_ID,
+          TEMPLATE_ID,
+          {
+            from_name: 'PAWER',
+            to_name: from.ReserveName,
+            to_email: memberEmail,
+            message: `預約溝通師：${fetchOne.Name}
+        預約者姓名：${from.ReserveName}
+        聯繫電話：${from.Phone}
+        寵物類型：${from.PetType}
+        寵物名稱：${from.PetName}
+        進行方式：${from.Approach}
+        備註：${from.Remark}
+        預約時段：${formattedDateTime}`,
+          },
+          PUBLIC_ID
+        );
         //提示成功訊息
         toast(
           <>
@@ -91,25 +111,6 @@ export default function PetReservetable({ fetchOne, memberID }) {
               marginTop: '80px',
             },
           }
-        );
-        // 發送信件
-        emailjs.send(
-          SERVICE_ID,
-          TEMPLATE_ID,
-          {
-            from_name: 'PAWER',
-            to_name: from.ReserveName,
-            to_email: memberEmail,
-            message: `預約溝通師：${fetchOne.Name}
-        預約者姓名：${from.ReserveName}
-        聯繫電話：${from.Phone}
-        寵物類型：${from.PetType}
-        寵物名稱：${from.PetName}
-        進行方式：${from.Approach}
-        備註：${from.Remark}
-        預約時段：${formattedDateTime}`,
-          },
-          PUBLIC_ID
         );
         //轉頁
         setTimeout(() => {

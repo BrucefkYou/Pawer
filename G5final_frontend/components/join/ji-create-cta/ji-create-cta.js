@@ -25,7 +25,7 @@ export default function JiCreateCta() {
   const handleCreate = () => {
     if (!auth.isAuth) {
       toast('您需要登入才能創建', {
-        duration: 1800,
+        duration: 1000,
         style: {
           borderRadius: '10px',
           borderTop: '15px #22355C solid',

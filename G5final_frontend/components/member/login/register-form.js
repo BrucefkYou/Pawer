@@ -89,10 +89,10 @@ export default function RegisterForm({ Formtype, setFormtype }) {
     }
     if (user.confirmPassword === '') {
       return toast.error('請輸入確認密碼');
-      }
-      if (user.password !== user.confirmPassword) {
+    }
+    if (user.password !== user.confirmPassword) {
       return toast.error('密碼與確認密碼不相同');
-      }
+    }
     // 表單驗證 - END
 
     const res = await register(

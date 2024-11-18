@@ -71,7 +71,7 @@ export default function BlogDraftCard({
           </div>
           {/* 標題 */}
           <h4
-            className={`card-title text-primary mb-3 ${styles['card-title']}`}
+            className={`card-title text-primary mb-3 text-start ${styles['card-title']}`}
           >
             {title}
           </h4>

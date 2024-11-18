@@ -12,7 +12,6 @@ export default function CreatCard(props) {
   });
   // 提示頁面狀態
   const [message, setMessage] = useState('');
-  const [valid, setValid] = useState(1);
   useEffect(() => {
     if (!oldData || !memberID) return;
     const isCom = oldData.filter((v) => v.MemberID === memberID);
@@ -40,7 +39,7 @@ export default function CreatCard(props) {
       {message === 'warn' && (
         <Message
           status="warn"
-          title="您已經註冊過"
+          title="您已註冊,審核中"
           content="註冊審核時間約7至10工作天"
           button="返回首頁"
           url="/"

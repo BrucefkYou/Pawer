@@ -11,9 +11,6 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 export default function MemberLayout({ children }) {
   const { auth } = useAuth();
-  if (!auth.isAuth) {
-    return <></>;
-  }
 
   // 定義會員中心側邊欄offcanvas開關狀態
   const [showOffcanvas, setShowOffcanvas] = useState(false);
@@ -21,9 +18,10 @@ export default function MemberLayout({ children }) {
   const handleCloseOffcanvas = () => setShowOffcanvas(false);
   // activeMenu 同步兩個sidebar的選單狀態
   const [activeMenu, setActiveMenu] = useState(1);
-  const toggleMenu = (id) => {
-    setActiveMenu(activeMenu === id ? null : id);
-  };
+
+  if (!auth.isAuth) {
+    return <div></div>;
+  }
 
   return (
     <>
@@ -36,7 +34,7 @@ export default function MemberLayout({ children }) {
             <aside className="col-lg-3 d-none d-lg-block">
             <MbSideBar
                 activeMenu={activeMenu}
-                toggleMenu={toggleMenu}
+                setActiveMenu={setActiveMenu}
                 handleCloseOffcanvas={handleCloseOffcanvas}
               />
             </aside>
@@ -55,7 +53,7 @@ export default function MemberLayout({ children }) {
               <Offcanvas.Body onHide={handleCloseOffcanvas}>
               <MbSideBar
                 activeMenu={activeMenu}
-                toggleMenu={toggleMenu}
+                setActiveMenu={setActiveMenu}
                 handleCloseOffcanvas={handleCloseOffcanvas}
               />
               </Offcanvas.Body>

@@ -90,7 +90,7 @@ export default function BlogCreate() {
     }
   };
 
-  // localstorage版
+
   const handlePreview = () => {
     const previewData = {
       title,
@@ -119,6 +119,11 @@ export default function BlogCreate() {
       if (previewImage) setUploadedImageUrl(previewImage);
     }
   }, []);
+
+  // 發布、存草稿、捨棄時 移除localstorage
+  const handleRemoveData = () => {
+    localStorage.removeItem('blogTemData');
+  };
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -232,7 +237,8 @@ export default function BlogCreate() {
                 href={`http://localhost:3000/member/blog`}
                 className="btn btn-danger text-decoration-none"
                 type="button"
-              >
+                onClick={handleRemoveData()}
+                >
                 捨棄
               </Link>
               <div className="btn-group">
@@ -246,7 +252,7 @@ export default function BlogCreate() {
                 <button
                   type="button"
                   className="btn btn-outline-primary"
-                  onClick={(e) =>
+                  onClick={(e) => {
                     handleSaveDraft(
                       e,
                       uid,
@@ -255,8 +261,10 @@ export default function BlogCreate() {
                       tags,
                       imageName,
                       router,
-                      uploadedImageUrl
-                    )
+                      uploadedImageUrl,
+                    );
+                    handleRemoveData();
+                  }
                   }
                 >
                   儲存草稿
@@ -264,7 +272,7 @@ export default function BlogCreate() {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={(e) =>
+                  onClick={(e) => {
                     handleSubmit(
                       e,
                       uid,
@@ -274,7 +282,9 @@ export default function BlogCreate() {
                       imageName,
                       router,
                       uploadedImageUrl
-                    )
+                    );
+                    handleRemoveData();
+                  }
                   }
                 >
                   發佈文章
@@ -289,6 +299,7 @@ export default function BlogCreate() {
             href={`http://localhost:3000/member/blog`}
             className="col btn-mobile text-decoration-none"
             type="button"
+            onClick={handleRemoveData()}
           >
             <FaTrashAlt className="icon" />
             捨棄
@@ -301,7 +312,7 @@ export default function BlogCreate() {
           <button className="col btn-mobile">
             <BsBookmarkFill
               className="icon "
-              onClick={(e) =>
+              onClick={(e) => {
                 handleSaveDraft(
                   e,
                   uid,
@@ -311,7 +322,8 @@ export default function BlogCreate() {
                   imageName,
                   router,
                   uploadedImageUrl
-                )
+                ); handleRemoveData()
+              }
               }
             />
             儲存草稿
@@ -320,7 +332,7 @@ export default function BlogCreate() {
           <button
             className="col btn-mobile"
             onClick={(e) =>
-              handleSubmit(
+{              handleSubmit(
                 e,
                 uid,
                 title,
@@ -329,8 +341,8 @@ export default function BlogCreate() {
                 imageName,
                 router,
                 uploadedImageUrl
-              )
-            }
+              ); handleRemoveData()
+}            }
           >
             <FaUpload className="icon" />
             發佈文章

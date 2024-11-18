@@ -1,0 +1,21 @@
+.catClick{
+    cursor: pointer;
+    svg{
+      margin-bottom: 8px;
+    }
+}
+.category-detail {
+    max-height: 0; 
+    overflow: hidden;
+    transition: max-height 0.8s ease; 
+  }
+  
+  .category-detail.open {
+    max-height: 140px; 
+  }
+
+  .category-detail.open:last-child{
+    margin-bottom: 1rem;
+  }
+  
+  
