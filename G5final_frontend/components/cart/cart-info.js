@@ -12,7 +12,7 @@ import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import { useLoader } from '@/hooks/use-loader';
 import toast from 'react-hot-toast';
 import logo from '@/public/LOGO.svg';
-import { create } from 'lodash';
+import { create, remove } from 'lodash';
 
 export default function CartInfo(props) {
   const { loading, setLoading } = useLoader();
@@ -20,7 +20,7 @@ export default function CartInfo(props) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isSubmittingRef = useRef(false);
-  const { items } = useCart();
+  const { items, updateCartItems } = useCart();
   // 選擇便利商店
   const { store711, openWindow, closeWindow } = useShip711StoreOpener(
     'http://localhost:3005/api/shipment/711',
@@ -94,10 +94,7 @@ export default function CartInfo(props) {
       });
       const resData = await res.json();
       if (res.status === 201) {
-        window.localStorage.setItem(
-          'cart',
-          JSON.stringify(items.filter((item) => !item.checked))
-        );
+        console.log('訂單建立成功');
       }
       console.log(resData.orderId);
       return resData;
@@ -266,9 +263,16 @@ export default function CartInfo(props) {
     }
   };
 
+  // 一進頁面就要讀取localStorage的優惠券資料
+  useEffect(() => {
+    if (items.length === 0) {
+      router.push('/cart');
+    }
+    getDiscount();
+  }, []);
+
   // 當離開頁面的時候，將 localStorage 裡面的 discount 移除
   useEffect(() => {
-    // 清理函數會在組件卸載時執行
     return () => {
       localStorage.removeItem('discount');
       localStorage.removeItem('store711');
@@ -284,19 +288,10 @@ export default function CartInfo(props) {
     );
   }, [items]);
 
-  // 一進頁面就要讀取localStorage的優惠券資料
-  useEffect(() => {
-    getDiscount();
-  }, []);
-
   // localStorage中的優惠券或是金額有變化時就重新計算折扣金額
   useEffect(() => {
     calculateDiscountPrice();
   }, [discount, checkedPrice]);
-
-  // useEffect(() => {
-  //   console.log('orderID:', orderID);
-  // }, [orderID]);
 
   useEffect(() => {
     if (router.isReady) {
@@ -323,9 +318,7 @@ export default function CartInfo(props) {
 
   useEffect(() => {
     isSubmittingRef.current = false;
-    console.log('Reset isSubmitting to false');
   }, [router.isReady]);
-  console.log('isSubmittingRef.current: ' + isSubmittingRef.current);
   return (
     <>
       <Head>
