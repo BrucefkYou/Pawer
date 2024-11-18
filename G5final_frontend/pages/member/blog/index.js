@@ -62,8 +62,8 @@ export default function OrderDetail() {
             />
           </ul>
         </div>
-        <div className="mb-card d-flex flex-column justify-content-center align-items-center gap-4 p-0">
-          <div className="card-section d-flex flex-wrap justify-content-center gap-3 ">
+        <div className="mb-card d-flex flex-column justify-content-center pt-5 px-4">
+          <div className="card-section d-flex flex-wrap justify-content-center gap-3  ">
             {nowPageItems && nowPageItems.length > 0 ? (
               nowPageItems.map((blog) => {
                 return (
@@ -72,10 +72,10 @@ export default function OrderDetail() {
                     id={blog.ID}
                     title={blog.Title}
                     blogImg={blog.blogImg}
-                    updateDate={blog.UpdateDate}
+                    createDate={blog.CreateDate}
                     likeCount={blog.likeCount}
                     favoriteCount={blog.favoriteCount}
-                    avatar={blog.MemberAvatar || 'avatar-default.png'}
+                    avatar={blog.MemberAvatar}
                     name={blog.Nickname}
                     status={blog.Status}
                   />
@@ -93,16 +93,18 @@ export default function OrderDetail() {
               <BsPencilFill />
             </MemCreateBtn>
           </div>
-          {nowPageItems && nowPageItems.length > 0 && (
-            <div>
-              <PageNav
-                nowPage={nowPage}
-                totalPage={totalPage}
-                next={next}
-                prev={prev}
-              />
-            </div>
-          )}
+          <div className="pt-5 justify-content-center ">
+            {nowPageItems && nowPageItems.length > 0 && (
+              <div>
+                <PageNav
+                  nowPage={nowPage}
+                  totalPage={totalPage}
+                  next={next}
+                  prev={prev}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </article>
     </>
