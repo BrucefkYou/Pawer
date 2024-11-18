@@ -16,10 +16,12 @@ OrderDetail.getLayout = function getLayout(page) {
 export default function OrderDetail() {
   const { auth } = useAuth();
   const uid = auth.memberData.id;
+
   // console.log(uid);
-  const [url, setUrl] = useState(
-    'http://localhost:3005/api/blog/mem-favorite?memberId=${uid}'
-  );
+  // const [url, setUrl] = useState(
+  //   'http://localhost:3005/api/blog/mem-favorite?memberId=${uid}'
+  // );
+  const [url, setUrl] = useState('');
 
   const {
     chooseFilter,
@@ -37,16 +39,20 @@ export default function OrderDetail() {
     needSort: [{ way: 'desc-UpdateDate', name: '最新發佈' }],
     needFilter: [{ id: 1, label: '已收藏' }],
   });
-
-  // 取消收藏後從收藏頁上消失
   useEffect(() => {
-    if (newdata) {
-      // 利用時間戳產生新的url>>避免快取結果導致無法更新頁面
-      setUrl(
-        `http://localhost:3005/api/blog/mem-favorite?memberId=${uid}&timestamp=${new Date().getTime()}`
-      );
+    if (uid) {
+      setUrl(`http://localhost:3005/api/blog/mem-favorite?memberId=${uid}`);
     }
-  }, [newdata]);
+  }, [uid]);
+
+  // useEffect(() => {
+  //   if (newdata) {
+  //     // 利用時間戳產生新的url>>避免快取結果導致無法更新頁面
+  //     setUrl(
+  //       `http://localhost:3005/api/blog/mem-favorite?memberId=${uid}&timestamp=${new Date().getTime()}`
+  //     );
+  //   }
+  // }, [newdata, uid]);
 
   return (
     <>
@@ -79,7 +85,7 @@ export default function OrderDetail() {
                     id={blog.ID}
                     title={blog.Title}
                     blogImg={blog.blogImg}
-                    updateDate={blog.UpdateDate}
+                    createDate={blog.CreateDate}
                     likeCount={blog.likeCount}
                     favoriteCount={blog.favoriteCount}
                     avatar={blog.MemberAvatar}
@@ -90,7 +96,7 @@ export default function OrderDetail() {
             ) : (
               <div className="d-flex w-100 align-items-center">
                 <Link
-                  href={'http://localhost:3000/blog/'}
+                  href={'http://localhost:3000/blog'}
                   style={{ textDecoration: 'none' }}
                 >
                   去收藏喜歡的文章吧!

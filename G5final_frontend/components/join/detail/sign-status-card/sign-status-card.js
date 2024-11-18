@@ -66,7 +66,7 @@ export default function SignStatusCard({
         setIsJoined(true);
 
         if (response.ok) {
-          toast('報名成功', {
+          toast('報名成功，已發送報名成功通知至您的信箱，請確認。', {
             // icon: '',
             duration: 1800,
             style: {

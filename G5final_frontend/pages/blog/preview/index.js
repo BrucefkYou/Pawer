@@ -37,7 +37,7 @@ export default function BlogPreview() {
     if (savedData) {
       const data = JSON.parse(savedData);
       setPreviewData(data);
-      console.log(data);
+      // console.log(data);
     }
   }, []);
 
@@ -66,7 +66,7 @@ export default function BlogPreview() {
     };
 
     fetchData();
-  }, [previewData]);
+  }, [previewData, previewData.previewImage]);
 
   const handleBack = () => {
     const blogData = {

@@ -11,7 +11,7 @@ export default function CreateCardTwo({ setMessage }) {
   const submitForm = (event) => {
     event.preventDefault();
     if (!imagePreview) {
-      toast('請上傳頭像', {
+      toast('請上傳證照', {
         icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1800,
         style: {
@@ -88,9 +88,9 @@ export default function CreateCardTwo({ setMessage }) {
                     <Image
                       src={imagePreview}
                       alt="上傳圖片"
+                      width={200}
+                      height={200}
                       style={{
-                        width: '100%',
-                        height: '100%',
                         objectFit: 'cover',
                       }}
                     />

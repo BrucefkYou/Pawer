@@ -1,6 +1,9 @@
 .pet-onebyone {
   position: relative; /* 確保可以使用絕對定位的元素 */
-  background: url('/pet/images/chatbg.jpg') no-repeat center center;
+  background: url('/pet/images/chatbg3.jpg') no-repeat center center ;
+  @media (max-width:765px) {
+    background: url('/pet/images/chatbg1.jpg') no-repeat center center ;
+  }
   background-size: cover;
   width: 100%;
   height: 100vh; /* 設置為視口高度 */
@@ -13,7 +16,7 @@
     background: rgba(0, 0, 0, 0.4);
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.7);
     height: 500px;
-    width: 400px;
+    width: 350px;
     overflow: auto;
     border-radius: 20px;
   }
@@ -63,4 +66,9 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.1);
   z-index: 1;
+}
+.testsend,
+.testfrom {
+  word-break: break-word; /* 或使用 break-all 根據需要選擇 */
+  white-space: pre-wrap; /* 保留換行符號並自動換行 */
 }

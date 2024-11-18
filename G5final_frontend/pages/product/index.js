@@ -96,9 +96,15 @@ export default function Index(props) {
           </div>
           <div className="row rwd-select">
             <div className="ms-5 howmaney howmaney-rwd col mt-3 d-flex justify-content-between">
-              顯示第{nowPageFirstItems + 1}-
-              {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
-              {filterData.length} 筆
+              {filterData.length === 0 ? (
+                <div></div>
+              ) : (
+                <p>
+                  顯示第{nowPageFirstItems + 1}-
+                  {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
+                  {filterData.length} 筆
+                </p>
+              )}
               <div className="filtericon" onClick={toggleFilters}>
                 <BsFilterSquareFill />
               </div>
@@ -260,11 +266,15 @@ export default function Index(props) {
             <div className="row">
               {/* 顯示數量 每頁幾筆 排序 內容 */}
               <div className="row choose-page">
-                <p className="howmaney col mt-3">
-                  顯示第{nowPageFirstItems + 1}-
-                  {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
-                  {filterData.length} 筆
-                </p>
+                {filterData.length === 0 ? (
+                  <div></div>
+                ) : (
+                  <p className="howmaney col mt-3">
+                    顯示第{nowPageFirstItems + 1}-
+                    {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
+                    {filterData.length} 筆
+                  </p>
+                )}
                 <div className="col selectpd rwd-none px-0">
                   <PerPageDom
                     itemsperPage={itemsperPage}
@@ -283,7 +293,7 @@ export default function Index(props) {
               <div className="row ms-4 d-flex justify-content-start">
                 {/* 若 filterData 為空，顯示提示文字 */}
                 {filterData.length === 0 ? (
-                  <p className="no-results">沒有商品</p>
+                  <p className="no-results">沒有符合關鍵字的搜尋結果</p>
                 ) : (
                   // 若有結果，顯示 ProductList
                   nowPageItems.map((pd) => {
@@ -294,12 +304,16 @@ export default function Index(props) {
               {/* 頁籤 */}
               <div className="d-flex justify-content-center align-items-center mb-5 mt-5">
                 <div className="rwd-block">
-                  <PageNav
-                    nowPage={nowPage}
-                    totalPage={totalPage}
-                    next={next}
-                    prev={prev}
-                  />
+                  {filterData.length === 0 ? (
+                    <div></div>
+                  ) : (
+                    <PageNav
+                      nowPage={nowPage}
+                      totalPage={totalPage}
+                      next={next}
+                      prev={prev}
+                    />
+                  )}
                 </div>
               </div>
             </div>

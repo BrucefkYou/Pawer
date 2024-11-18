@@ -93,7 +93,7 @@ export function AuthProvider({ children }) {
   const checkState = async () => {
     try {
       const res = await axiosInstance.get(`/member`);
-      // console.log('check:', res);
+      // console.log('checkstate:', res);
 
       if (res.data.status === 'success') {
         const nextAuth = {
@@ -121,6 +121,7 @@ export function AuthProvider({ children }) {
           //   alert('無進入權限，請先登入!');
           //   router.push(loginRoute);
           // }, 1500);
+          return;
         }
       }
     } catch (e) {
