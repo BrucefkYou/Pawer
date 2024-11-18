@@ -24,6 +24,7 @@ export default function PetList({ nowPageItems }) {
               className="imgg"
               src={`http://localhost:3005/pet/${v.Img}`}
               alt="1"
+              layout="responsive"
               width={400}
               height={400}
             />
