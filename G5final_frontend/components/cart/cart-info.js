@@ -263,8 +263,6 @@ export default function CartInfo(props) {
     } finally {
       setLoading(false);
       setIsSubmitting(false);
-      isSubmittingRef.current = false;
-      console.log('Reset isSubmitting to false');
     }
   };
 
@@ -323,7 +321,11 @@ export default function CartInfo(props) {
     // eslint-disable-next-line
   }, [router.isReady])
 
-
+  useEffect(() => {
+    isSubmittingRef.current = false;
+    console.log('Reset isSubmitting to false');
+  }, [router.isReady]);
+  console.log('isSubmittingRef.current: ' + isSubmittingRef.current);
   return (
     <>
       <Head>
@@ -789,9 +791,9 @@ export default function CartInfo(props) {
                   id="check-btn"
                   className="btn check-btn"
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  disabled={isSubmittingRef.current}
                 >
-                  確認付款
+                  {isSubmittingRef.current ? '提交中...' : '確認付款'}
                 </button>
               </div>
             </section>

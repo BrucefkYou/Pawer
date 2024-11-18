@@ -140,8 +140,36 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{ auth, setAuth, logout, getMember, initMemberData, nextRoute, setNextRoute }}
     >
-      <Toaster />
       {children}
+      <Toaster
+              // position="top-left"
+              toastOptions={
+                {
+                  duration: 5000,
+                  style: {
+                    border: '1px solid #4269b9',
+                    background : '#fff',
+                    color: '#5B5B5B',
+                  },
+                  success: {
+                    style: {
+                      border: '1px solid #a8d7a8',
+                      background: '#ECF7EC',
+                    },
+                  },
+                  error: {
+                    style: {
+                      border: '1px solid #f2926a',
+                      background: '#FEF2ED',
+                    },
+                  },
+                }
+              }
+              containerStyle={{
+                top: 94,
+                left: 20,
+              }}
+            />
     </AuthContext.Provider>
   );
 }

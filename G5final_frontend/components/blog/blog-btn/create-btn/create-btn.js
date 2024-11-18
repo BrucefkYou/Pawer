@@ -1,58 +1,3 @@
-// import { BsPencilFill } from 'react-icons/bs'
-// import { useState, useEffect } from 'react'
-// import styles from './create-btn.module.scss'
-// import Link from 'next/link'
-// import { useAuth } from '@/hooks/use-auth';
-// import { useRouter } from 'next/router';
-// import toast from 'react-hot-toast';
-// // import logo from '@/assets/logo.png';
-
-// export default function CreateBtn({ btnName }) {
-//   const router = useRouter();
-//   const { auth } = useAuth();
-
-//   const islogin = () => {
-//     if (auth.isAuth) {
-//       router.push('/blog/create');
-//     } else {
-//       toast('請先登入會員', {
-//         // icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-//         duration: 1800,
-//         style: {
-//           borderRadius: '10px',
-//           borderTop: '15px #22355C solid',
-//           background: '#F5F5F5',
-//           color: '#646464',
-//           marginTop: '80px',
-//           width:'300px',
-//           height:'100px',
-//         },
-//       });
-//       router.push('member/login');
-//     }
-//   }
-
-//   const [isMobile, setIsMobile] = useState(false)
-
-//   useEffect(() => {
-//     const resize = () => setIsMobile(window.innerWidth < 768)
-//     resize()
-//     window.addEventListener('resize', resize)
-//     return () => window.removeEventListener('resize', resize)
-//   }, [])
-
-//   return (
-//     <div
-//       // href={`http://localhost:3000/blog/create`}
-//       className={`btn btn-warning ${styles['create-btn']}`}
-//       type="button"
-//       onClick={islogin}
-//     >
-//       {isMobile ? <BsPencilFill size={20} color="white" /> : btnName}
-//     </div>
-//   )
-// }
-
 import { BsPencilFill } from 'react-icons/bs';
 import { useState, useEffect } from 'react';
 import styles from './create-btn.module.scss';
@@ -66,6 +11,7 @@ export default function CreateBtn({ btnName }) {
   const { auth } = useAuth();
   const [ownerId, setOwnerId] = useState(null); //存作者ID
   const uid = auth.memberData.id;
+  const [bottomOffset, setBottomOffset] = useState(20);
 
   useEffect(() => {
     if (id) {
@@ -87,6 +33,31 @@ export default function CreateBtn({ btnName }) {
       fetchArticle();
     }
   }, [id, uid]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const footerHeight = document.querySelector('footer')?.offsetHeight || 0;
+      const windowHeight = window.innerHeight;
+      const buttonHeight = 50;
+
+      const scrollBottom =
+        document.documentElement.scrollHeight - window.scrollY - windowHeight;
+
+      let newBottomOffset = 20;
+      if (scrollBottom < footerHeight + buttonHeight) {
+        newBottomOffset = footerHeight + buttonHeight - scrollBottom;
+      }
+
+      setBottomOffset(newBottomOffset);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const isOwner = uid === ownerId;
 
@@ -125,6 +96,7 @@ export default function CreateBtn({ btnName }) {
       className={`btn btn-warning ${styles['create-btn']}`}
       type="button"
       onClick={islogin}
+      style={{ bottom: `${bottomOffset}px` }}
     >
       {isMobile ? (
         <BsPencilFill size={20} color="white" />
