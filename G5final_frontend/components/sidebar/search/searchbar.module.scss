@@ -3,6 +3,7 @@
     align-items: stretch;
     width: 100%;
     gap:1em;
+    position: relative;
     input{
         border:1px solid #EAEAEA;
         border-radius: 4px;
@@ -18,9 +19,14 @@
         letter-spacing: 0.2em;
         font-size: 16px;
     }
-
-
+    .clear-icon{
+        position: absolute;
+        right: 80px;
+        font-size: 1.2rem;
+        color: #ccc;
+        bottom: 15px;
+    }
 
 }
 
-    
+ 
