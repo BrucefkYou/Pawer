@@ -63,8 +63,16 @@ export default function ProductDetail(props) {
     setProductQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-  // 導航到購物車
+  // 將商品加入購物車後導航到購物車
   const cartLink = () => {
+    addItem({
+      id: myId,
+      name: Name,
+      price: SalePrice,
+      img: Img,
+      quantity: productQuantity,
+      checked: true,
+    });
     router.push('/cart');
   };
 

@@ -129,7 +129,7 @@ export default function Index(props) {
             <input
               type="text"
               className="form-control"
-              placeholder="請輸入文字..."
+              placeholder="請輸入訊息..."
               value={input}
               onChange={onchange}
               onKeyDown={handleKeyDown}

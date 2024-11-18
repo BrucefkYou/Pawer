@@ -74,7 +74,7 @@ export default function MemListButton({ v, setMessage }) {
               v.Status == 1 ? 'PT-sp-none' : 'PT-sp-block'
             } PT-sp-none-rwd`}
           >
-            聯繫毛孩爸媽
+            聯繫溝通師
           </Link>
         </div>
       </div>
