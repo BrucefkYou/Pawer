@@ -16,15 +16,6 @@ const SideBarCard = ({ title, img, content, filterData }) => {
         </div>
       )}
       <div className={styles['content']}>{content}</div>
-      {/* {tags && (
-        <div className={styles['tag-section']}>
-          {tags.map((tag, index) => (
-            <div key={index} className={styles.tag} type="button">
-              {tag}
-            </div>
-          ))}
-        </div>
-      )} */}
     </div>
   );
 };
