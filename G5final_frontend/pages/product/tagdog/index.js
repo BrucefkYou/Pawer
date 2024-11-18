@@ -13,8 +13,8 @@ import Head from 'next/head';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import ProductList from '@/components/product/list/productList';
 import Clean from '@/components/product/clean/clean';
-import CategoryOther from '@/components/product/category/other/categoryOther';
-import CategoryDog from '@/components/product/category/dog/categoryDog';
+import CategoryTagDogOther from '@/components/product/category/categoryTag/other/categoryTagDogOther';
+import CategoryTagDog from '@/components/product/category/categoryTag/categoryTagDog';
 import useCategory from '@/hooks/useCategory';
 import List from '@/components/product/tag/all/list';
 import Dog from '@/components/product/tag/dog/dog';
@@ -150,12 +150,12 @@ export default function Tagdog(props) {
                         <p className="searchpro col">類別</p>
                       </div>
                       <div className="row category-detail d-flex flex-column mx-0">
-                        <CategoryDog
+                        <CategoryTagDog
                           setUrl={setUrl}
                           activeIndex={active?.c === 'dog' ? active.v : null}
                           onActiveChange={(v) => ActiveChange('dog', v)}
                         />
-                        <CategoryOther
+                        <CategoryTagDogOther
                           setUrl={setUrl}
                           activeIndex={active?.c === 'other' ? active.v : null}
                           onActiveChange={(v) => ActiveChange('other', v)}
@@ -223,13 +223,13 @@ export default function Tagdog(props) {
                   {/* 類別細節 */}
                   <div className="row category-detail d-flex flex-column mx-0">
                     {/* 狗狗專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
-                    <CategoryDog
+                    <CategoryTagDog
                       setUrl={setUrl}
                       activeIndex={active?.c === 'dog' ? active.v : null}
                       onActiveChange={(v) => ActiveChange('dog', v)}
                     />
                     {/* 其他專區 + 點開會顯示下列細節再次點選會收起 預設false收起 */}
-                    <CategoryOther
+                    <CategoryTagDogOther
                       setUrl={setUrl}
                       activeIndex={active?.c === 'other' ? active.v : null}
                       onActiveChange={(v) => ActiveChange('other', v)}
