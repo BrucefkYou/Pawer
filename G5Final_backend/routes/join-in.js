@@ -434,7 +434,7 @@ router.use((err, req, res, next) => {
   res.status(500).json({ message: '伺服器錯誤' })
 })
 
-// 表單內容新增
+// 活動創建新增
 router.post('/create', upload.single('joinImage'), async (req, res) => {
   const {
     imageName,
@@ -449,13 +449,15 @@ router.post('/create', upload.single('joinImage'), async (req, res) => {
     township,
     location,
     tags,
+    lat,
+    lng,
   } = req.body
   const createTime = moment().format('YYYY-MM-DD HH:mm')
   const updateTime = moment().format('YYYY-MM-DD HH:mm')
   try {
     // 將資料寫入 joinin 表
     const [result] = await db2.execute(
-      `INSERT INTO Joinin (MemberID,Title, Info, StartTime, EndTime,SignEndTime, ParticipantLimit, City, Township, Location, Status,CreateDate,UpdateDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,1, ?, ?)`,
+      `INSERT INTO Joinin (MemberID,Title, Info, StartTime, EndTime,SignEndTime, ParticipantLimit, City, Township, Location,PositionX,PositionY, Status,CreateDate,UpdateDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , 1 , ?, ?)`,
       [
         memberId,
         title,
@@ -467,6 +469,8 @@ router.post('/create', upload.single('joinImage'), async (req, res) => {
         city,
         township,
         location,
+        lat,
+        lng,
         createTime,
         updateTime,
       ]

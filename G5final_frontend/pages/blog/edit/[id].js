@@ -7,7 +7,6 @@ import Link from 'next/link';
 
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import Myeditor from '@/components/join/CKEditorTest';
-import { handleSaveDraft } from '@/components/blog/utils/handleSaveDraft';
 import { useBlogDel } from '@/components/blog/utils/handleDel';
 import Tag from '@/components/join/form/tag';
 
@@ -106,58 +105,61 @@ export default function BlogEdit() {
     }
   };
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
+  const handleUpdate = async (e, action) => {
+if(action === 'upload'){
+  if (!uploadedImageUrl) {
+    toast.error('請上傳封面', {
+      duration: 1800,
+      style: {
+        borderRadius: '10px',
+        borderTop: '15px #22355C solid',
+        background: '#F5F5F5',
+        color: '#646464',
+        marginTop: '80px',
+        width: '300px',
+        height: '100px',
+      },
+    });
+    return;
+  }
+  if (!title) {
+    toast.error('標題是必填欄位', {
+      duration: 1800,
+      style: {
+        borderRadius: '10px',
+        borderTop: '15px #22355C solid',
+        background: '#F5F5F5',
+        color: '#646464',
+        marginTop: '80px',
+        width: '300px',
+        height: '100px',
+      },
+    });
+    return;
+  }
 
-    if (!uploadedImageUrl) {
-      toast.error('請上傳封面', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
-      });
-      return;
-    }
-    if (!title) {
-      toast.error('標題是必填欄位', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
-      });
-      return;
-    }
+  if (!data) {
+    toast.error('內容是必填欄位', {
+      duration: 1800,
+      style: {
+        borderRadius: '10px',
+        borderTop: '15px #22355C solid',
+        background: '#F5F5F5',
+        color: '#646464',
+        marginTop: '80px',
+        width: '300px',
+        height: '100px',
+      },
+    });
+    return;
+  }
+}
 
-    if (!data) {
-      toast.error('內容是必填欄位', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
-      });
-      return;
-    }
 
+    const status = action === 'upload' ? '1' : '0';
+  
     const updatedData = {
-      status: '1',
+      status, 
       title,
       content: data,
       memberId: uid,
@@ -165,7 +167,7 @@ export default function BlogEdit() {
       imageName: imageName === '尚未選擇封面' ? '' : imageName,
       blogId: id,
     };
-
+  
     try {
       const response = await fetch(
         `http://localhost:3005/api/blog/edit/${id}`,
@@ -177,10 +179,9 @@ export default function BlogEdit() {
           body: JSON.stringify(updatedData),
         }
       );
-
+  
       if (response.ok) {
         const result = await response.json();
-        // console.log('更新成功:', result);
         toast('文章更新成功!', {
           duration: 1800,
           style: {
@@ -215,6 +216,8 @@ export default function BlogEdit() {
       toast.error('發生錯誤');
     }
   };
+  
+
   // 刪除文章
   const delBlogt = useBlogDel(id);
 
@@ -340,25 +343,14 @@ export default function BlogEdit() {
               <button
                 type="button"
                 className="btn btn-outline-primary"
-                onClick={(e) =>
-                  handleSaveDraft(
-                    e,
-                    uid,
-                    title,
-                    data,
-                    tags,
-                    imageName,
-                    router,
-                    uploadedImageUrl
-                  )
-                }
+                onClick={(e) => handleUpdate(e, 'draft')}
               >
                 儲存草稿
               </button>
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={handleUpdate}
+                onClick={(e) => handleUpdate(e, 'upload')}
               >
                 發佈文章
               </button>
@@ -377,8 +369,6 @@ export default function BlogEdit() {
           <FaTrashAlt className="icon" />
           刪除
         </button>
-        {/* <button type="button" className="col btn-mobile">
-                </button> */}
         <Link
           href={`/member/blog`}
           type="button"
@@ -392,23 +382,13 @@ export default function BlogEdit() {
         <button className="col btn-mobile">
           <BsBookmarkFill
             className="icon "
-            onClick={(e) =>
-              handleSaveDraft(
-                e,
-                uid,
-                title,
-                data,
-                tags,
-                imageName,
-                router,
-                uploadedImageUrl
-              )
-            }
+            onClick={(e) => handleUpdate(e, 'draft')}
           />
           儲存草稿
         </button>
-
-        <button className="col btn-mobile" onClick={handleUpdate}>
+        <button className="col btn-mobile"
+         onClick={(e)=> handleUpdate(e,'upload')}
+         >
           <FaUpload className="icon" />
           發佈文章
         </button>

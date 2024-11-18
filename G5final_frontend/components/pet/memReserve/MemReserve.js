@@ -44,7 +44,7 @@ export default function MemReserve(props) {
         title="取消預約成功"
         content="期待下次光臨"
         button="返回"
-        url="/member/communicator/comReserve"
+        url="/member/communicator/memReserve"
       />
     );
   } else if (message == 'warn') {
@@ -54,7 +54,7 @@ export default function MemReserve(props) {
         title="錯誤"
         content=""
         button="返回"
-        url="/member/communicator/comReserve"
+        url="/member/communicator/memReserve"
       />
     );
   } else if (message == 'no') {
@@ -64,7 +64,7 @@ export default function MemReserve(props) {
         title="執行失敗"
         content=""
         button="返回"
-        url="/member/communicator/comReserve"
+        url="/member/communicator/memReserve"
       />
     );
   }

@@ -14,10 +14,19 @@ const upload = multer({
       cb(null, `${Date.now()}${extname(file.originalname)}`),
   }),
 })
-// 全部資料抓取
+// 全部會員資料抓取
 router.get('/', async function (req, res, next) {
   try {
     const [rows] = await db2.query(`SELECT * FROM PetCommunicator `)
+    res.json(rows)
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+router.get('/member', async function (req, res, next) {
+  try {
+    const [rows] = await db2.query(`SELECT * FROM Member`)
     res.json(rows)
   } catch (err) {
     console.error('查詢錯誤：', err)
