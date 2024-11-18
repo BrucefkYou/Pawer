@@ -10,7 +10,7 @@ const CategoryTagCatOther = ({ activeIndex, onActiveChange, setUrl }) => {
   const [Open, setOpen] = useState(false);
   const [products, setProducts] = useState([]); // 儲存篩選分類結果
 
-  const categories = ['沐浴', '清潔', '基礎保養'];
+  const categories = ['沐浴', '清潔', '免疫力', '基礎保養'];
 
   const open = () => {
     setOpen(!Open);
