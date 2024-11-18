@@ -49,10 +49,11 @@ export default function CreateBtn({ btnName }) {
       }
 
       setBottomOffset(newBottomOffset);
+      // console.log(newBottomOffset);
     };
+    handleScroll();
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);

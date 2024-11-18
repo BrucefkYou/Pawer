@@ -10,10 +10,7 @@ export default function Banner({
 }) {
   const router = useRouter();
   const menuItems = [
-    { id: 1, title: '商品', href: '/product' },
-    { id: 2, title: '萌寵揪團活動', href: '/join' },
     { id: 3, title: '部落格專區', href: '/blog' },
-    { id: 4, title: '寵物溝通師', href: '/communicator' },
   ];
 
   const [data, setData] = useState({ ID: 0, Title: '' });
