@@ -4,11 +4,14 @@ import Head from 'next/head';
 import JoinListCard from './item/join-list-card';
 import Banner from '@/components/join/banner/banner';
 import SearchBar from '@/components/sidebar/search/search-bar';
-import LatestCard from '@/components/sidebar/latest-post/latest-post';
+// import LatestCard from '@/components/sidebar/latest-post/latest-post';
+import SortedCard from '@/components/sidebar/sorted-card/sorted-card';
 import StatusCard from '@/components/sidebar/status/status';
 import JiCreateCta from '@/components/join/ji-create-cta/ji-create-cta';
 import SelectDate from '@/components/sidebar/select-date/select-date';
+import JoinCCBtn from '../join-circle-btn/join-c-c-btn';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
+import { BsBookmark } from 'react-icons/bs';
 
 // page
 import { usePagination } from '@/hooks/usePagination';
@@ -43,7 +46,8 @@ export default function JoinList() {
     url: `http://localhost:3005/api/join-in?keyword=${keyword || ''}`,
     needFilter: [],
     needSort: [
-      // { way: 'asc-ID', name: ' 最舊上架' },
+      { way: 'desc-SignCount', name: '熱門活動' },
+      { way: 'asc-StartTime', name: '最近活動' },
       { way: 'desc-ID', name: ' 最新上架' },
       // { way: 'asc-S`http://localhost:3005/api/join-in?keyword=${keyword || ''}`,Price', name: '價格 低 > 高' },
       // { way: 'desc-SalePrice', name: '價格 高 > 低' },
@@ -104,7 +108,7 @@ export default function JoinList() {
         <Breadcrumbs />
         <div className="d-flex justify-content-center align-items-center mt-5 mb-5">
           <div className={`d-md-flex gap-3`}>
-            <aside className="col-md-4 px-md-0 ji-aside">
+            <aside className="col-md-4 px-md-0 ji-aside mx-auto">
               <div className="mb-4">
                 <SearchBar />
               </div>
@@ -117,13 +121,25 @@ export default function JoinList() {
               <div className=" mb-4 d-none d-md-block">
                 <StatusCard oldData={oldData} updateData={updateData} />
               </div>
-              <div className="mb-4 d-none d-md-block">
-                <LatestCard />
-              </div>
+              {/* <div className="mb-4 d-none d-md-block">
+                <SortedCard
+                  title="最新發佈"
+                  id="ID"
+                  api="http://localhost:3005/api/join-in"
+                  link="http://localhost:3000/join"
+                  img="ImageUrl"
+                  content="Title"
+                  date="StartTime"
+                  count="joinFavCount"
+                  IconComponent={BsBookmark}
+                  sorted="date"
+                  limit={5}
+                />
+              </div> */}
             </aside>
             <div className="col-md-8 flex-shrink-1">
               <div className="row choose-page">
-                <div className="join-sort d-flex align-items-center justify-content-lg-end justify-content-md-center text-body-tertiary mb-4">
+                <div className="join-sort d-flex align-items-center justify-content-lg-end justify-content-center text-body-tertiary mb-4">
                   <span className="d-none d-md-block">
                     顯示第{nowPageFirstItems + 1}-
                     {filterData.length < nowPageLastItems
@@ -131,13 +147,13 @@ export default function JoinList() {
                       : nowPageLastItems}
                     筆 / 共{filterData.length}筆
                   </span>
-                  <div className="col-3 text-body-tertiary d-none d-md-block mx-3">
+                  <div className="col-md-3 text-body-tertiary d-none d-md-block mx-3">
                     <PerPageDom
                       itemsperPage={itemsperPage}
                       choosePerpage={choosePerpage}
                     />
                   </div>
-                  <div className="col-3 text-body-tertiary">
+                  <div className="col-12 col-md-3 text-body-tertiary ji-sort-col">
                     <SortDom
                       sortWay={sortWay}
                       chooseSort={chooseSort}
@@ -145,7 +161,7 @@ export default function JoinList() {
                     />
                   </div>
                 </div>
-                <div className="d-flex flex-wrap justify-content-lg-end justify-content-md-center gap-4">
+                <div className="d-flex flex-wrap justify-content-lg-end justify-content-center gap-4">
                   {nowPageItems.map((data) => {
                     return (
                       <JoinListCard
@@ -169,6 +185,7 @@ export default function JoinList() {
             </div>
           </div>
         </div>
+        <JoinCCBtn />
       </div>
     </>
   );

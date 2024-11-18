@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Head from 'next/head';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import { useRouter } from 'next/router';
 
@@ -10,7 +10,6 @@ export default function Success(props) {
   const router = useRouter();
 
   useEffect(() => {
-    clearCart();
     localStorage.removeItem('store7-11');
     localStorage.removeItem('discount');
     if (router.query.CustomField4) {

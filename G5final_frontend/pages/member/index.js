@@ -5,7 +5,7 @@ import PageTitle from '@/components/member/page-title/page-title';
 import toast from 'react-hot-toast';
 // 更新會員資料
 import { updateProfile, updateProfileAvatar } from '@/services/member';
-// 修改密碼
+// 修改密碼modal
 import ResetPasswordModal from '@/components/member/update-password';
 // 頭像上傳元件
 import PreviewUploadImage from '@/components/member/avatar-preview/preview-upload-image';
@@ -33,38 +33,42 @@ export default function Member() {
     gender: '',
     birth: '',
     google_avatar: '',
+    isPetCom: false,
   };
 
   const { auth, setAuth, getMember } = useAuth();
   const [userProfile, setUserProfile] = useState(initUserProfile);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  // 初始化會員資料
-  const getUserData = async () => {
-    const res = await getMember();
+  if (auth.isAuth) {
+    // 初始化會員資料
+    const getUserData = async () => {
+      const res = await getMember();
 
-    if (res.data.status === 'success') {
-      const dbMember = res.data.memberData;
-      // console.log('dbMember:', dbMember);
+      if (res.data.status === 'success') {
+        const dbMember = res.data.memberData;
+        console.log('dbMember:', dbMember);
 
-      setUserProfile({
-        avatar: dbMember.Avatar ?? '',
-        account: dbMember.Account ?? '',
-        name: dbMember.Name ?? '',
-        nickname: dbMember.Nickname ?? '',
-        email: dbMember.eMail ?? '',
-        phone: dbMember.Phone ?? '',
-        gender: dbMember.Gender ?? '',
-        birth: dbMember.Birth ?? '',
-        google_avatar: dbMember.google_avatar ?? '',
-      });
-    }
-  };
+        setUserProfile({
+          avatar: dbMember.Avatar ?? '',
+          account: dbMember.Account ?? '',
+          name: dbMember.Name ?? '',
+          nickname: dbMember.Nickname ?? '',
+          email: dbMember.eMail ?? '',
+          phone: dbMember.Phone ?? '',
+          gender: dbMember.Gender ?? '',
+          birth: dbMember.Birth ?? '',
+          google_avatar: dbMember.google_avatar ?? '',
+          isPetCom: dbMember.isPetCom ?? '',
+        });
+      }
+    };
 
-  // 本頁一開始render後就會設定到會員資料
-  useEffect(() => {
-    getUserData();
-  }, []);
+    // 本頁一開始render後就會設定到會員資料
+    useEffect(() => {
+      getUserData();
+    }, []);
+  }
 
   // 處理input輸入的共用函式，設定回userProfile狀態
   const handleFieldChange = (e) => {
@@ -100,37 +104,44 @@ export default function Member() {
 
     // 這裡可以作表單驗証
 
-    // 更新會員資料用，排除avatar
-    const { avatar, ...user } = userProfile;
-    const res = await updateProfile(auth.memberData.id, user);
-    // console.log(res.data)
-
-    // 如果有選擇照片才執行上傳
-    if (selectedFile) {
-      const formData = new FormData();
-      // 對照server上的檔案名稱 req.files.avatar
-      formData.append('avatar', selectedFile);
-
-      const updateAvatarRes = await updateProfileAvatar(formData);
-
-      // console.log(res2.data)
-      if (updateAvatarRes.data.status === 'success') {
-        toast.success('會員頭像修改成功');
+    // 更新會員資料用
+    // 構建 FormData 將所有資料打包
+    const formData = new FormData();
+    // 添加會員資料到 FormData
+    for (const key in userProfile) {
+      if (userProfile[key] !== null && userProfile[key] !== undefined) {
+        formData.append(key, userProfile[key]);
       }
     }
+    // 如果有選擇頭像文件，將文件添加到 FormData
+    if (selectedFile) {
+      formData.append('avatar', selectedFile);
+    }
 
-    if (res.data.status === 'success') {
-      setAuth({
-        memberData: {
-          ...auth.memberData,
-          name: userProfile.name ?? '',
-          nickname: userProfile.nickname ?? '',
-        },
-      });
-      toast.success('會員資料修改成功');
-    } else {
-      console.log(res.data);
-      toast.error(`會員資料修改失敗，${res.data.message}`);
+    try {
+      const res = await updateProfile(auth.memberData.id, formData);
+
+      if (res.data.status === 'success') {
+        setAuth({
+          ...auth,
+          memberData: {
+            ...auth.memberData,
+            name: res.data.memberData.Name ?? '',
+            email: res.data.memberData.eMail ?? '',
+            nickname: res.data.memberData.Nickname ?? '',
+            avatar: res.data.memberData.Avatar ?? '',
+            google_uid: res.data.memberData.google_uid ?? '',
+            google_avatar: res.data.memberData.google_avatar ?? '',
+            isPetCom: res.data.memberData.isPetCom ?? '',
+          },
+        });
+        toast.success('會員資料與頭像修改成功');
+      } else {
+        toast.error(`修改失敗，${res.data.message}`);
+      }
+    } catch (error) {
+      console.error('更新失敗:', error);
+      toast.error('更新失敗，請稍後再試');
     }
   };
   // 定義修改密碼的modal開關狀態
@@ -248,7 +259,7 @@ export default function Member() {
                 <input
                   type="text"
                   className="form-control"
-                  name="account"
+                  name="phone"
                   value={userProfile.phone}
                   onChange={handleFieldChange}
                 />

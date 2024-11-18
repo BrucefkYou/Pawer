@@ -43,7 +43,7 @@ export default function OrderDetail() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="ji-member">
-        <div className="card-favorite d-flex justify-content-between">
+        <div className="card-favorite d-flex justify-content-between rounded-2">
           <PageTitle title={'已報名活動'} subTitle={'Joined'} />
           <MemberNav
             newdata={newdata}
@@ -57,14 +57,14 @@ export default function OrderDetail() {
             <>
               <div className=" d-flex flex-wrap justify-content-evenly gap-4">
                 {nowPageItems.map((data) => (
-                  <JoinListCard key={data.id} data={data} />
+                  <JoinListCard key={data.id} data={data} cancelBtn />
                 ))}
               </div>
             </>
           ) : (
             <>
               <p className="m-0">
-                沒有收藏活動？
+                沒有參加的活動？
                 <Link href="/join" className="">
                   去逛逛
                 </Link>

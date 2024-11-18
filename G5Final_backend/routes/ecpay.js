@@ -41,7 +41,9 @@ let CouponID = 0
 // 前端發送訂單id給後端，後端再發送要送到綠界的表單
 // http://localhost:3005/ecpay?orderId=123123
 router.get('/payment', authenticate, async (req, res, next) => {
-  console.log('1')
+  if (req.query.orderId == 0 || !req.query.orderId) {
+    return res.status(400).json({ error: '請輸入正確的訂單編號' })
+  }
   // 從資料庫得到order資料
   const orderId = req.query.orderId
 

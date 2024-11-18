@@ -15,6 +15,18 @@ export default function Navbar() {
   const { logoutFirebase } = useFirebase();
   const router = useRouter();
   const [cartItemNum, setCartItemNum] = useState(0);
+  // 會員頭像狀態
+  const [avatarUrl, setAvatarUrl] = useState('');
+  useEffect(() => {
+    if (auth.memberData.avatar) {
+      setAvatarUrl(`http://localhost:3005/member/${auth.memberData.avatar}`);
+    } else if (auth.memberData.google_avatar) {
+      setAvatarUrl(auth.memberData.google_avatar);
+    } else {
+      setAvatarUrl(`http://localhost:3005/member/avatar-default.png`);
+    }
+  }, [auth.memberData]);
+
 
   // 判斷是否登入導向不同頁面
   const islogin = () => {
@@ -184,13 +196,7 @@ export default function Navbar() {
                   width={24}
                   height={24}
                   className="navbar-login-img"
-                  src={
-                    auth.memberData.avatar
-                      ? `http://localhost:3005/member/${auth.memberData.avatar}`
-                      : auth.memberData.google_avatar
-                      ? auth.memberData.google_avatar
-                      : `http://localhost:3005/member/avatar-default.png`
-                  }
+                  src={avatarUrl}
                   alt="使用者頭像"
                 />
               </button>

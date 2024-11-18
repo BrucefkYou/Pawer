@@ -58,9 +58,18 @@
 }
 
 .btn-google {
-    position: absolute;
-    top: 7px;
-    left: 17px;
+    @media screen and (min-width: 430px) {
+        position: absolute;
+        top: 7px;
+        left: 17px;
+        
+    }
+}
+.span-google {
+    display: none;
+    @media screen and (min-width: 430px) {
+        display: block;
+    }
 }
 
 .eye-btn {

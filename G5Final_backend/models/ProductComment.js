@@ -28,7 +28,11 @@ export default async function (sequelize) {
       },
       Nickname: {
         type: DataTypes.STRING(50),
-        allowNull: false,
+        allowNull: true,
+      },
+      eMail: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
       },
       MemberAvatar: {
         type: DataTypes.STRING(255),

@@ -115,6 +115,8 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
     ]
     const [orderResult] = await connection.query(orderSql, orderValues)
 
+    console.log(orderResult)
+
     // 執行訂單明細插入
     // 資料庫驅動的佔位符
     // 當我們傳遞一個包含多組值的二維數組時，? 會自動展開為多組 (?, ?, ..., ?)。
@@ -168,9 +170,14 @@ router.post('/createOrder', authenticate, async function (req, res, next) {
 
     await connection.commit()
 
+    console.log('orderID: ' + orderId)
     // 這裡的result.insertId是插入的訂單的ID
     // 只要該欄位事設定為自動遞增，就可以透過result.insertId取得
-    res.status(201).json({ message: '訂單已成功創建', orderId: orderId })
+    res.status(201).json({
+      message: '訂單已成功創建',
+      orderId: orderId,
+      OrderNumber: OrderNumber,
+    })
   } catch (error) {
     // 如果有錯誤，則回滾。回滾會撤銷所有的操作
     await connection.rollback()

@@ -1,6 +1,7 @@
 
 .ji-card{
-    width: 367px;
+    max-width: 367px;
+    min-width: 326px;
     overflow: hidden;
     border-bottom: 4px solid #ccc;
     &:hover{
@@ -12,6 +13,7 @@
     margin-top: 0.25rem;
 }
 .card-image{
+    max-width: 100%;
     overflow: hidden;
     object-fit: cover;
 }
@@ -27,4 +29,9 @@
         border-radius: 2px;
         line-height: 26px;
     }
+}
+.cancelBtn{
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
 }

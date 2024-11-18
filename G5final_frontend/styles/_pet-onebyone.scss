@@ -13,7 +13,7 @@
     background: rgba(0, 0, 0, 0.4);
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.7);
     height: 500px;
-    width: 400px;
+    width: 350px;
     overflow: auto;
     border-radius: 20px;
   }
@@ -63,4 +63,9 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.1);
   z-index: 1;
+}
+.testsend,
+.testfrom {
+  word-break: break-word; /* 或使用 break-all 根據需要選擇 */
+  white-space: pre-wrap; /* 保留換行符號並自動換行 */
 }

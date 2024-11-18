@@ -237,19 +237,22 @@ router.put('/productcomment', async function (req, res) {
     ProductName,
     ProductContent,
     StarLevel,
+    eMail,
     Nickname,
     MemberAvatar,
   } = req.body
+
   try {
     const [rows] = await db2.query(
-      `INSERT INTO productcomment (ProductID, MemberID, ProductName, ProductContent, StarLevel, Nickname, MemberAvatar) 
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO productcomment (ProductID, MemberID, ProductName, ProductContent, StarLevel, eMail, Nickname, MemberAvatar) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         ProductID,
         MemberID,
         ProductName,
         ProductContent,
         StarLevel,
+        eMail,
         Nickname,
         MemberAvatar,
       ]

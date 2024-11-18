@@ -66,7 +66,7 @@ export default function SignStatusCard({
         setIsJoined(true);
 
         if (response.ok) {
-          toast('報名成功', {
+          toast('報名成功，已發送報名成功通知至您的信箱，請確認。', {
             // icon: '',
             duration: 1800,
             style: {
@@ -74,6 +74,9 @@ export default function SignStatusCard({
               borderTop: '15px #22355C solid',
               background: '#F5F5F5',
               color: '#646464',
+              marginTop: '80px',
+              width: '240px',
+              height: '80px',
             },
           });
         } else {
@@ -111,25 +114,30 @@ export default function SignStatusCard({
   return (
     <div className="card ji-detail-side-card shadow ms-auto">
       <div className="card-body">
-        <div className=" d-flex align-items-center gap-2 ">
-          <div className="rounded-circle">
-            <Image
-              className="rounded-circle"
-              width={50}
-              height={50}
-              src={
-                data.Avatar
-                  ? `/member/${data.Avatar}`
-                  : '/member/member-avatar/member-profile.png'
-              }
-              alt="1"
-            />
+        <div className="d-flex align-items-center justify-content-between">
+          <div className=" d-flex align-items-center gap-2 ">
+            <div className="rounded-circle">
+              <Image
+                className="rounded-circle"
+                width={50}
+                height={50}
+                src={
+                  data.Avatar
+                    ? `http://localhost:3005/member/${data.Avatar}`
+                    : '/member/member-avatar/member-profile.png'
+                }
+                alt="1"
+              />
+            </div>
+            <p className="my-auto text-primary">
+              {data.Nickname ? `${data.Nickname}` : `${data.Account}`}
+            </p>
           </div>
-          <p className="my-auto text-primary">
-            {data.Nickname ? `${data.Nickname}` : `${data.Account}`}
-          </p>
+          <span className="btn bg-primary text-white p-1 mb-2 rounded-2">
+            {data.newStatus}
+          </span>
         </div>
-        <div className="row py-3 text-secondary-emphasis">
+        <div className="row py-2 text-secondary-emphasis">
           <h5 className="col-9 card-title">{data.Title}</h5>
           <div className="col-3 ps-0 mt-1 ">
             <FavoriteIcon
@@ -156,6 +164,7 @@ export default function SignStatusCard({
             </p>
           </div>
         </div>
+        {/* eslint-disable-next-line */}
         <div
           className={`w-100 btn ${
             canSign <= 0 || disabled || isJoined

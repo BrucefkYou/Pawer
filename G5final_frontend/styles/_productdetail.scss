@@ -94,9 +94,8 @@
   }
   /* 商品簡介文字 */
   .detail-text-layout {
-    height: 255px;
     margin-top: 2rem;
-    padding: 16px 0px;
+    padding: 10px 0px;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
   }
@@ -110,7 +109,7 @@
   }
   /* 加入購物車間距 */
   .add-card {
-    margin-top: 3rem;
+    margin-top: 0rem;
   }
   /* 商品價格 */
   .detail-nt {
@@ -229,6 +228,7 @@
   // 登入後評論
   .pd-dl-login{
     text-decoration: none;
+    cursor: pointer;
   }
   .pd-dl-login-text{
     font-size: 16px;
@@ -417,9 +417,8 @@
       margin: 0;
     }
     .detail-text-layout {
-      height: 320px;
       margin-top: 2rem;
-      padding: 16px 0px;
+      padding: 10px 0px;
       border-top: 1px solid #ccc;
       border-bottom: 1px solid #ccc;
     }
