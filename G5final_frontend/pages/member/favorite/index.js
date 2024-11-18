@@ -42,11 +42,13 @@ export default function Index() {
       <div className="productList">
         <div className="card-favorite d-flex justify-content-between">
           <PageTitle title={'收藏商品'} subTitle={'Favorite'} />
-          <MemberNav
-            newdata={newdata}
-            chooseFilter={chooseFilter}
-            needFilter={needFilter}
-          />
+          <div className="mb-pd-card-favorite">
+            <MemberNav
+              newdata={newdata}
+              chooseFilter={chooseFilter}
+              needFilter={needFilter}
+            />
+          </div>
         </div>
 
         <div className="card mt-3 p-4">
