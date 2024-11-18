@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import titlebottomLine from '@/assets/titleBottomLine.svg';
 import AreaSelect from '@/components/join/form/area-select';
-import GoogleMapComponent from '@/components/join/googleMap/GoogleMapComponent.js';
+import GoogleMapComponent from '@/components/join/googleMap/GoogleMapComponent';
 import Tag from '@/components/join/form/tag';
 import Myeditor from '@/components/join/CKEditorTest';
 import { useState, useEffect, use } from 'react';
@@ -311,6 +311,7 @@ const Publish = () => {
       joinTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
+    const { lat, lng } = userLocation;
     try {
       const response = await fetch('http://localhost:3005/api/join-in/draft', {
         method: 'POST',
@@ -331,6 +332,8 @@ const Publish = () => {
           township,
           location,
           tags,
+          lat,
+          lng,
         }),
       });
       const result = await response.json();
