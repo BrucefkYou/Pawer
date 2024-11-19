@@ -4,8 +4,6 @@ import Image from 'next/image';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
-import logo from 'public/LOGO.svg';
-import Link from 'next/link';
 
 Index.getLayout = function getLayout(page) {
   return <ChatLayout>{page}</ChatLayout>;
@@ -54,7 +52,6 @@ export default function Index(props) {
       return v.PetCommID == PetCommID
     })
   }
-
   // 連線狀態管理
   const host = 'ws://127.0.0.1:3005/ws3';
   const [ws, setWs] = useState(null);
@@ -105,6 +102,8 @@ export default function Index(props) {
     // 連線開啟時
     ws.onopen = (res) => {
       console.log('WebSocket3連線成功');
+      // 切換新的連線時清空訊息
+      setMessage([]);
       if (MemberID) {
         ws.send(
           JSON.stringify({
@@ -127,7 +126,7 @@ export default function Index(props) {
       if (fetchMem && loginID && fetchCom) {
         const data = {
           type: 'message',
-          content: `${loginID == fetchMem.ID ? fetchMem.Name : fetchCom.Name} 歡迎加入聊天室`,
+          content: `${loginID == fetchMem.ID ? fetchMem.Name : fetchCom.Name} 加入聊天室`,
           myID: loginID.toString(),
           toID: loginID == PetCommID ? MemberID : PetCommID,
         };
@@ -138,16 +137,7 @@ export default function Index(props) {
     ws.onmessage = (res) => {
       const getmessage = JSON.parse(res.data);
       if (getmessage.type === 'toast') {
-        toast(getmessage.content, {
-          icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-          duration: 1800,
-          style: {
-            borderRadius: '10px',
-            background: 'rgba(84, 124, 215, 1)',
-            color: '#fff',
-            marginTop: '80px',
-          },
-        });
+        toast(getmessage.content)
       }
       if (getmessage.type === 'message') {
         setMessage((prevMessages) => [
@@ -156,7 +146,7 @@ export default function Index(props) {
         ]);
       }
     };
-    //發生錯誤時
+    // 發生錯誤時
     ws.onerror = (error) => {
       console.error('WebSocket error:', error);
     };
@@ -214,31 +204,39 @@ export default function Index(props) {
   }, [message]);
   return (
     <>
-      <div className="pet-onebyone d-flex justify-content-center align-items-center ">
+      
+      <div className="pet-onebyone d-flex justify-content-center">
         <div className="z-2 container d-flex justify-content-center">
-          <div className='d-md-flex col-md-3 '>
-            {/* 列表 */}
+          {/* 左側列表 */}
+          <div className='d-md-flex col-md-3 mt-5'>
             <div className="chat-list p-3">
               <ul>
-                {loginID == PetCommID && fetchCommReserve && fetchCommReserve.map((v,i) => (
-                  <>
-                    <Link key={i} href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`} className='text-decoration-none'>
+                {loginID == PetCommID && fetchCommReserve && fetchCommReserve.map((v, i) => (
+                  <React.Fragment key={ i}>
+                    <Link href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`} className='text-decoration-none d-flex align-items-center'>
                       <li className={`my-3 p-2 d-flex align-items-center ${MemberID == v.MemberID ? 'active' : ''}`}>
-                        <Image alt='avatar' src={`http://localhost:3005/member/${v.Avatar ? v.Avatar : 'avatar-default.png'}`} width={50} height={50} className='avatar' />
-                      <div className='d-flex flex-column'>
-                      <div className='m-2'>{v.ReserveName}</div>
-                        <div className='m-2 little-time'>{v.Time}</div>
-                      </div>
+                        <Image
+                          alt="avatar"
+                          width={50}
+                          height={50}
+                          src={`http://localhost:3005/member/${v.Avatar ? v.Avatar : 'avatar-default.png'}`}
+                          className="avatar"
+                        />
+                        <div className='d-flex flex-column'>
+                          <div className='m-2'>{v.ReserveName}</div>
+                          <div className='m-2 little-time'>{v.Time}</div>
+                        </div>
                       </li>
                     </Link>
-                  </>
+                  </React.Fragment>
                 ))
                 }
                 {loginID == MemberID && fetchMemReserve && fetchMemReserve.map((v, i) => (
                   <>
                     <Link key={i} href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`} className='text-decoration-none'>
                       <li className={`my-3 p-2 d-flex align-items-center ${PetCommID == v.PetCommID ? 'active' : ''}`}>
-                        <Image alt='avatar' src={`http://localhost:3005/pet/${v.Img ? v.Img : 'avatar-default.png'}`} width={50} height={50} className='avatar' />
+                        <Image alt='avatar' width={50} height={50} src={`http://localhost:3005/pet/${v.Img ? v.Img : 'avatar-default.png'}`} 
+                          className='avatar' />
                         <div className='d-flex flex-column'>
                           <div className='m-2'>{v.Name}</div>
                           <div className='m-2 little-time'>{v.Time}</div>
@@ -251,7 +249,8 @@ export default function Index(props) {
               </ul>
             </div>
           </div>
-          <div className='col-12 col-md-9 d-flex flex-column align-items-center justify-content-center'>
+          {/* 右側 */}
+          <div className='col-12 col-md-9 d-flex flex-column align-items-center mt-5'>
             {/* 標題 */}
             <h3 className="title text-center"><span className='text-primary'>{fetchCom ? fetchCom.Name : ''}</span> <span className='text-black-50'>的寵物溝通聊天室</span></h3>
             {/* 顯示訊息框 */}
