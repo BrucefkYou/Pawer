@@ -45,15 +45,6 @@ export default function OrderDetail() {
     }
   }, [uid]);
 
-  // useEffect(() => {
-  //   if (newdata) {
-  //     // 利用時間戳產生新的url>>避免快取結果導致無法更新頁面
-  //     setUrl(
-  //       `http://localhost:3005/api/blog/mem-favorite?memberId=${uid}&timestamp=${new Date().getTime()}`
-  //     );
-  //   }
-  // }, [newdata, uid]);
-
   return (
     <>
       <Head>
@@ -76,7 +67,7 @@ export default function OrderDetail() {
           </ul>
         </div>
         <div className="mb-card d-flex flex-column justify-content-center pt-5 px-4">
-          <div className="card-section d-flex flex-wrap justify-content-center gap-3  ">
+          <div className="card-section d-flex flex-wrap gap-3  ">
             {nowPageItems && nowPageItems.length > 0 ? (
               nowPageItems.map((blog) => {
                 return (
@@ -95,12 +86,14 @@ export default function OrderDetail() {
               })
             ) : (
               <div className="d-flex w-100 align-items-center">
-                <Link
+              <p>
+              去收藏喜歡的文章吧！
+              <Link
                   href={'http://localhost:3000/blog'}
-                  style={{ textDecoration: 'none' }}
                 >
-                  去收藏喜歡的文章吧!
+                去逛逛
                 </Link>
+              </p>
               </div>
             )}
           </div>

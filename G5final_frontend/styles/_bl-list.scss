@@ -10,12 +10,6 @@
         margin: 0 auto;
         padding-bottom: 80px;
 
-        // // 麵包屑
-        // .breadcrumb {
-        //     margin-block: 20px 40px;
-        // }
-
-
         .main-section {
             display: flex;
             gap: 49px;
@@ -35,6 +29,9 @@
                     flex-wrap: wrap;
                     justify-content: space-between;
                     gap: 48px 10px;
+                    .ky-content{
+                        height: 30vh;
+                    }
 
                     @media (max-width: 1200px) {
                         flex-direction: column;
