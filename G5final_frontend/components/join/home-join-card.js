@@ -27,7 +27,7 @@ export default function HomeJoinCard(props) {
 
         setTimeout(() => {
           setLoading(false);
-        }, 2500);
+        }, 1000);
 
         console.log(sortJoin);
         setJoinin(sortJoin);
