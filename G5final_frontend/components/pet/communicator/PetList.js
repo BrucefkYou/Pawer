@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { BsFillChatFill } from 'react-icons/bs';
 export default function PetList({ nowPageItems }) {
   if (nowPageItems.length < 1) {
-    return <div className="m-5 text-center">查無資料...</div>;
+    return <div className="m-5 text-center text-body-tertiary">查無資料...</div>;
   }
   return (
     <>

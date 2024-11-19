@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axiosInstance from '@/services/axios-instance';
 import { useRouter } from 'next/router';
-// toast訊息套件
 import toast, { Toaster } from 'react-hot-toast';
+import Image from 'next/image';
 
 const AuthContext = createContext(null);
 AuthContext.displayName = 'AuthContext';
@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
 
   // 希望導向下一個頁面
   const [nextRoute, setNextRoute] = useState('/member');
-  const runRoute = () => {
+  const runRoute = async () => {
     // 導向下一個路由
     router.push(nextRoute);
     // 設定下一個路由回預設的會員資料頁
@@ -41,7 +41,10 @@ export function AuthProvider({ children }) {
   // 會員登入
   const login = async (email, password) => {
     try {
-      const res = await axiosInstance.post('/member/login', { email, password });
+      const res = await axiosInstance.post('/member/login', {
+        email,
+        password,
+      });
       // console.log(res);
       // 回傳資料
       // res.json({
@@ -195,34 +198,43 @@ export function AuthProvider({ children }) {
         initMemberData,
         nextRoute,
         setNextRoute,
+        runRoute,
       }}
     >
       {children}
       <Toaster
-        // position="top-left"
+        containerStyle={{
+          top: 94,
+          left: 20,
+        }}
         toastOptions={{
           duration: 5000,
+          icon: (
+            <img
+              src="/LOGO.svg"
+              alt="logo"
+              style={{ width: '95px', height: '53px' }}
+            />
+          ),
           style: {
-            border: '1px solid #4269b9',
-            background: '#fff',
-            color: '#5B5B5B',
+            borderRadius: '10px',
+            background: 'rgba(34, 53, 92, 1)',
+            color: '#fff',
           },
           success: {
             style: {
-              border: '1px solid #a8d7a8',
-              background: '#ECF7EC',
+              borderRadius: '10px',
+              background: 'rgba(84, 124, 215, 1)',
+              color: '#fff',
             },
           },
           error: {
             style: {
-              border: '1px solid #f2926a',
-              background: '#FEF2ED',
+              borderRadius: '10px',
+              background: 'rgba(193, 69, 69, 1)',
+              color: '#fff',
             },
           },
-        }}
-        containerStyle={{
-          top: 94,
-          left: 20,
         }}
       />
     </AuthContext.Provider>

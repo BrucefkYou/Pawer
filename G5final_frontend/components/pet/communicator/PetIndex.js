@@ -58,11 +58,10 @@ export default function PetIndex(props) {
           </div>
         </div>
         {/* 師資列表*/}
-        <div className="row d-flex justify-content-center">
+        <div className="row d-flex justify-content-center bgheight">
           <PetList nowPageItems={nowPageItems} />
         </div>
         {/* 分頁 */}
-        {nowPageItems && nowPageItems.length >= 1 ? (
           <div className="d-flex justify-content-center my-5">
             <PageNav
               nowPage={nowPage}
@@ -71,9 +70,6 @@ export default function PetIndex(props) {
               prev={prev}
             />
           </div>
-        ) : (
-          <></>
-        )}
       </div>
     </>
   );
