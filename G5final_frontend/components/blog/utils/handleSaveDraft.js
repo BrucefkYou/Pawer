@@ -21,34 +21,12 @@ export const handleSaveDraft = async (e, uid, title, data, tags, imageName, rout
             body: formData,
         });
         if (response.ok) {
-            toast('儲存草稿成功!', {
-                duration: 1800,
-                style: {
-                    borderRadius: '10px',
-                    borderTop: '15px #22355C solid',
-                    background: '#F5F5F5',
-                    color: '#646464',
-                    marginTop: '80px',
-                    width: '300px',
-                    height: '100px',
-                },
-            });
+            toast.success('儲存草稿成功!');
             router.push('http://localhost:3000/member/blog');
         } else {
             const errorData = await response.json();
             console.error('儲存草稿失敗:', errorData.message);
-            toast('儲存草稿失敗', {
-                duration: 1800,
-                style: {
-                    borderRadius: '10px',
-                    borderTop: '15px #22355C solid',
-                    background: '#F5F5F5',
-                    color: '#646464',
-                    marginTop: '80px',
-                    width: '300px',
-                    height: '100px',
-                },
-            });
+            toast.error('儲存草稿失敗');
         }
     } catch (error) {
         console.error('發生錯誤:', error);
