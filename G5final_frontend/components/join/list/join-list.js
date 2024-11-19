@@ -175,16 +175,25 @@ export default function JoinList() {
                   </div>
                 </div>
                 <div className="d-flex flex-wrap justify-content-lg-end justify-content-center gap-4">
-                  {nowPageItems.map((data) => {
-                    return (
-                      <JoinListCard
-                        key={uuidv4()}
-                        iconfillcolor="#FFD700"
-                        data={data}
-                        handleToggleFav={handleToggleFav}
-                      />
-                    );
-                  })}
+                  {filterData.length === 0 ? (
+                    <p
+                      className="mx-auto text-body-tertiary default-text
+                    "
+                    >
+                      沒有符合關鍵字的活動，請重新搜尋
+                    </p>
+                  ) : (
+                    nowPageItems.map((data) => {
+                      return (
+                        <JoinListCard
+                          key={uuidv4()}
+                          iconfillcolor="#FFD700"
+                          data={data}
+                          handleToggleFav={handleToggleFav}
+                        />
+                      );
+                    })
+                  )}
                 </div>
                 <div className="d-flex justify-content-center my-5">
                   <PageNav
