@@ -88,7 +88,7 @@ export default function Index(props) {
               </Link>
             </p>
           )}
-          <JoinCCBtn />
+          <JoinCCBtn show />
           {/* 頁碼 */}
           <div className=" mt-2 w-100">
             {nowPageItems.length === 0 ? (

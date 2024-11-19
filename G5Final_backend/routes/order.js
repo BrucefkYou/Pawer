@@ -194,43 +194,58 @@ router.post('/orderEmail', async (req, res, next) => {
   console.log('naem: ' + name)
   console.log('email:' + email)
   console.log('orderNum: ' + orderNum)
-  const orderInfoSql = 'SELECT * FROM `Order` WHERE OrderNumber = ?'
-  const orderValue = orderNum
-  const [rows, fields] = await db.query(orderInfoSql, [orderValue])
-  console.log('orderInfo' + rows[0])
 
-  // 檢查是否有訂單
-  if (rows.length === 0) {
-    console.error('No order found with OrderNumber:', orderNum)
-    return res.status(404).json({ status: 'fail', message: 'Order not found' })
-  }
+  try {
+    const orderInfoSql =
+      'SELECT * FROM `Order` WHERE OrderNumber = ? AND SendEmail = 0'
+    const orderValue = orderNum
+    const [rows, fields] = await db.query(orderInfoSql, [orderValue])
+    console.log('orderInfo' + rows[0])
 
-  const orderData = rows[0]
-  console.log('orderData' + orderData.Receiver)
+    // 檢查是否有訂單
+    if (rows.length === 0) {
+      console.error('No order found with OrderNumber:', orderNum)
+      return res
+        .status(404)
+        .json({ status: 'fail', message: 'Order not found' })
+    }
 
-  const orderNumber = orderNum
-  const receiver = orderData.Receiver
-  const deliveryAddress = orderData.DeliveryAddress
-  const totalPrice = orderData.TotalPrice
-  const paymentMethod = orderData.PaymentMethod
-  const url = '/member/order'
-  const mailHTML = generateOrderMailHtml(
-    name,
-    orderNumber,
-    receiver,
-    deliveryAddress,
-    totalPrice,
-    paymentMethod,
-    url
-  )
+    const orderData = rows[0]
+    console.log('orderData' + orderData.Receiver)
 
-  const mailSubject = 'Pawer 訂單成立通知'
-  const result = await sendMail(email, mailSubject, mailHTML)
+    const orderNumber = orderNum
+    const receiver = orderData.Receiver
+    const deliveryAddress = orderData.DeliveryAddress
+    const totalPrice = orderData.TotalPrice
+    const paymentMethod = orderData.PaymentMethod
+    const url = '/member/order'
+    const mailHTML = generateOrderMailHtml(
+      name,
+      orderNumber,
+      receiver,
+      deliveryAddress,
+      totalPrice,
+      paymentMethod,
+      url
+    )
 
-  if (result.status === 'success') {
-    return res.json({ status: 'success', message: '訂單通知信已寄出' })
-  } else if (result.status === 'error') {
-    return res.json({ status: 'error', message: result.message })
+    const mailSubject = 'Pawer 訂單成立通知'
+    const result = await sendMail(email, mailSubject, mailHTML)
+
+    // 更新訂單的寄送Email狀態
+    const updateEmailSql =
+      'UPDATE `Order` SET SendEmail = 1 WHERE OrderNumber = ?'
+    const updateEmailValues = [orderNum]
+    const [updateResult] = await db.query(updateEmailSql, updateEmailValues)
+
+    if (result.status === 'success') {
+      return res.json({ status: 'success', message: '訂單通知信已寄出' })
+    } else if (result.status === 'error') {
+      return res.json({ status: 'error', message: result.message })
+    }
+  } catch (e) {
+    console.error('Error sending order email:', e)
+    return res.json({ status: 'error', message: '無法寄出訂單通知信' })
   }
 })
 
