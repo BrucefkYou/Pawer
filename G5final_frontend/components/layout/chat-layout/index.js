@@ -3,7 +3,7 @@ export default function ChatLayout({ children }) {
     return (
         <>
             <Navbar />
-            <div>{children}</div>
+            <main>{children}</main>
         </>
     );
 }

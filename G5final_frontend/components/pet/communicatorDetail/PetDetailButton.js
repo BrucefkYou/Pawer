@@ -5,13 +5,10 @@ import { BsXLg } from 'react-icons/bs';
 import PetReservetable from './PetReservetable';
 import { useAuth } from '@/hooks/use-auth';
 import toast from 'react-hot-toast';
-import logo from 'public/LOGO.svg';
-export default function PetDetailButton({ fetchOne }) {
-  const { auth } = useAuth();
+export default function PetDetailButton({ fetchOne, myId }) {
+  const { auth,setNextRoute } = useAuth();
   const memberID = auth.memberData.id;
   const memberEmail = auth.memberData.email;
-  console.log(memberEmail);
-  
   const router = useRouter();
   const [window, setWindow] = useState(false);
   const goBack = () => {
@@ -21,16 +18,11 @@ export default function PetDetailButton({ fetchOne }) {
     if (auth.isAuth) {
       setWindow(true);
     } else {
-      toast('尚未登入會員無法預約', {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          background: 'rgba(193, 69, 69, 1)',
-          color: '#fff',
-          marginTop: '80px',
-        },
-      });
+      toast.error('您尚未登入請先進登入');
+      setTimeout(() => {
+        router.push('/member/login')
+      }, 1000);
+      setNextRoute(`/communicator/${myId}`)
     }
   };
   const closeWindow = () => {

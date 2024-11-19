@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { BsChevronRight } from "react-icons/bs";
 import { useAuth } from '@/hooks/use-auth';
 import toast from 'react-hot-toast';
-import logo from 'public/LOGO.svg';
 import { useRouter } from 'next/router';
 export default function PetAdvertise(props) {
     const router = useRouter()
@@ -12,18 +11,8 @@ export default function PetAdvertise(props) {
         if (auth.isAuth === true) {
             router.push('/member/communicator/create')
         } else {
-            toast('尚未登入會員無法申請', {
-                icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-                duration: 1800,
-                style: {
-                    borderRadius: '10px',
-                    background: 'rgba(193, 69, 69, 1)',
-                    color: '#fff',
-                    marginTop: '80px',
-                },
-            });
+            toast.error('尚未登入會員無法申請')
         }
-
     }
     return (
         <>

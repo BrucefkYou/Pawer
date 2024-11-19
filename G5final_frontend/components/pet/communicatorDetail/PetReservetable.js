@@ -5,8 +5,6 @@ import moment from 'moment';
 import { setHours, setMinutes, setSeconds } from 'date-fns';
 import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
-import logo from 'public/LOGO.svg';
-import Image from 'next/image';
 import 'react-datepicker/dist/react-datepicker.css';
 export default function PetReservetable({ fetchOne, memberID, memberEmail }) {
   const router = useRouter();
@@ -58,16 +56,6 @@ export default function PetReservetable({ fetchOne, memberID, memberEmail }) {
         if (response.ok) {
           return response.json();
         }
-        toast('網路回應不成功', {
-          icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-          duration: 1800,
-          style: {
-            borderRadius: '10px',
-            background: 'rgba(34, 53, 92, 1)',
-            color: '#fff',
-            marginTop: '80px',
-          },
-        });
         throw new Error('網路回應不成功');
       })
       .then((data) => {
@@ -93,25 +81,7 @@ export default function PetReservetable({ fetchOne, memberID, memberEmail }) {
           PUBLIC_ID
         );
         //提示成功訊息
-        toast(
-          <>
-            預約成功,已寄發mail
-            <br />
-            即將跳轉至會員預約表單頁...'
-          </>,
-          {
-            icon: (
-              <Image width={95} height={53} src={logo} alt="logo" priority />
-            ),
-            duration: 2500,
-            style: {
-              borderRadius: '10px',
-              background: 'rgba(84, 124, 215, 1)',
-              color: '#fff',
-              marginTop: '80px',
-            },
-          }
-        );
+        toast('已寄發Email,即將跳轉至預約列表頁...')
         //轉頁
         setTimeout(() => {
           router.push('/member/communicator/memReserve');
@@ -119,16 +89,6 @@ export default function PetReservetable({ fetchOne, memberID, memberEmail }) {
       })
       .catch((error) => {
         console.error('提交失敗：', error);
-        toast('失敗請重新再試', {
-          icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-          duration: 1800,
-          style: {
-            borderRadius: '10px',
-            background: 'rgba(34, 53, 92, 1)',
-            color: '#fff',
-            marginTop: '80px',
-          },
-        });
       });
   }
   return (
