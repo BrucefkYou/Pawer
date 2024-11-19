@@ -46,7 +46,7 @@ router.post('/forget-password-mail', async (req, res, next) => {
   // 寄送email
   const mailFor = '重設密碼'
   const mailHTML = generateOtpMailHtml(otp.token, mailFor)
-  const mailSubject = 'Pawer 重設密碼要求的電子信箱驗証碼'
+  const mailSubject = 'Pawer 重設密碼要求的電子信箱驗證碼'
 
   // 寄送email
   const result = await sendMail(email, mailSubject, mailHTML)
@@ -142,7 +142,7 @@ router.post('/register-mail', async (req, res, next) => {
   // 寄送email
   const mailFor = '註冊帳號'
   const mailHTML = generateOtpMailHtml(otp.token, mailFor)
-  const mailSubject = 'Pawer 註冊帳號要求的電子信箱驗証碼'
+  const mailSubject = 'Pawer 註冊帳號要求的電子信箱驗證碼'
 
   // 寄送email
   const result = await sendMail(email, mailSubject, mailHTML)
