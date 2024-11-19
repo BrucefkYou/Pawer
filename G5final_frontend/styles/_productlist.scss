@@ -252,7 +252,7 @@
   }
   // 卡片會員收藏title大小
   .card-favorite {
-    padding: 15px 36px;
+    padding: 30px 36px;
     background-color: #fff;
     border-radius: 4px;
   }
@@ -336,7 +336,12 @@
     justify-content: center;
     align-items: center;
     margin-top: 1.5rem;
+    color: #888;
   }
+  .no-results-minheight{
+    min-height: 57vh;
+  }
+
 
   /* RWD */
   @media (max-width: 576px) {
@@ -458,6 +463,9 @@
     /* 頁籤 */
     .tab-rwd {
       margin-left: 60px;
+    }
+    .no-results-minheight{
+      min-height: 17vh;
     }
     // 收藏會員卡片
     .card-favorite-list {

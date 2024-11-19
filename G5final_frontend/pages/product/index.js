@@ -97,7 +97,7 @@ export default function Index(props) {
           <div className="row rwd-select">
             <div className="ms-5 howmaney howmaney-rwd col mt-3 d-flex justify-content-between">
               {filterData.length === 0 ? (
-                <div></div>
+                <p>沒有可顯示的資料 / 共0筆</p>
               ) : (
                 <p>
                   顯示第{nowPageFirstItems + 1}-
@@ -267,7 +267,7 @@ export default function Index(props) {
               {/* 顯示數量 每頁幾筆 排序 內容 */}
               <div className="row choose-page">
                 {filterData.length === 0 ? (
-                  <div></div>
+                  <p className="howmaney col mt-3">沒有可顯示的資料 / 共0筆</p>
                 ) : (
                   <p className="howmaney col mt-3">
                     顯示第{nowPageFirstItems + 1}-
@@ -293,7 +293,7 @@ export default function Index(props) {
               <div className="row ms-4 d-flex justify-content-start">
                 {/* 若 filterData 為空，顯示提示文字 */}
                 {filterData.length === 0 ? (
-                  <p className="no-results">沒有符合關鍵字的搜尋結果</p>
+                  <p className="no-results">查無資料</p>
                 ) : (
                   // 若有結果，顯示 ProductList
                   nowPageItems.map((pd) => {
@@ -302,20 +302,29 @@ export default function Index(props) {
                 )}
               </div>
               {/* 頁籤 */}
-              <div className="d-flex justify-content-center align-items-center mb-5 mt-5">
-                <div className="rwd-block">
-                  {filterData.length === 0 ? (
-                    <div></div>
-                  ) : (
+              {filterData.length === 0 ? (
+                <div className="d-flex justify-content-center align-items-center mb-5 mt-5 no-results-minheight">
+                  <div className="rwd-block">
                     <PageNav
                       nowPage={nowPage}
                       totalPage={totalPage}
                       next={next}
                       prev={prev}
                     />
-                  )}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="d-flex justify-content-center align-items-center mb-5 mt-5 ms-4">
+                  <div className="rwd-block">
+                    <PageNav
+                      nowPage={nowPage}
+                      totalPage={totalPage}
+                      next={next}
+                      prev={prev}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
