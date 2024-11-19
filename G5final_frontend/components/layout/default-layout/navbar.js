@@ -27,7 +27,6 @@ export default function Navbar() {
     }
   }, [auth.memberData]);
 
-
   // 判斷是否登入導向不同頁面
   const islogin = () => {
     if (auth.isAuth) {
@@ -192,13 +191,15 @@ export default function Navbar() {
             {/* 判斷有沒有登入 */}
             {auth.isAuth ? (
               <button className="navbar-member" onClick={islogin}>
-                <Image
-                  width={24}
-                  height={24}
-                  className="navbar-login-img"
-                  src={avatarUrl}
-                  alt="使用者頭像"
-                />
+                {avatarUrl && (
+                  <Image
+                    width={24}
+                    height={24}
+                    className="navbar-login-img"
+                    src={avatarUrl}
+                    alt="使用者頭像"
+                  />
+                )}
               </button>
             ) : (
               <button className="navbar-member" onClick={islogin}>

@@ -19,7 +19,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
   const handleFieldChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-  const { login, auth, setAuth } = useAuth();
+  const { login, auth, setAuth, nextRoute, runRoute } = useAuth();
 
   const handleLogin = async () => {
     // 表單驗證 - START
@@ -31,28 +31,29 @@ export default function LoginForm({ Formtype, setFormtype }) {
     }
     // 表單驗證 - END
 
-    console.log('登入資料', user);
+    // console.log('登入資料', user);
 
     // 傳統登入
     login(user.email, user.password);
   };
-  const { loginGoogle } = useFirebase();
 
+  //google登入
   // 處理google登入後，要向伺服器進行登入動作
+  const { loginGoogle } = useFirebase();
   const callbackGoogleLoginPopup = async (providerData) => {
-    console.log(providerData);
+    // console.log(providerData);
 
     // 如果目前react(next)已經登入中，不需要再作登入動作
     if (auth.isAuth) return;
 
     // 向伺服器進行登入動作
     const res = await googleLogin(providerData);
-    console.log('callback', res);
+    // console.log('callback', res);
 
     if (res.data.status === 'success') {
       try {
         const res = await axiosInstance.get(`/member`);
-        console.log('google登入後', res.data);
+        // console.log('google登入後', res.data);
 
         if (res.data.status === 'success') {
           const nextAuth = {
@@ -154,7 +155,6 @@ export default function LoginForm({ Formtype, setFormtype }) {
                 className={`${styles['btn-google']}`}
               />
               <span className={`${styles['span-google']}`}>Google帳號登入</span>
-
             </button>
           </div>
           <div className="d-flex justify-content-between">
