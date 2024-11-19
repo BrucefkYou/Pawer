@@ -99,15 +99,22 @@ export default function JiDetail(props) {
 
   // 刪除活動
   const handleDeletClick = async () => {
-    const result = await Swal.fire({
-      title: '確定要刪除這個活動嗎？',
-      text: '這個操作無法撤銷！',
-      icon: 'warning',
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-danger mx-1 text-white',
+        cancelButton: 'btn btn-secondary text-secondary-emphasis mx-1',
+      },
+      buttonsStyling: false,
+    });
+
+    const result = await await swalWithBootstrapButtons.fire({
+      // title: '確定要取消報名這個活動嗎？',
+      text: '確定要刪除此項活動嗎？',
+      // icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
       confirmButtonText: '刪除',
       cancelButtonText: '取消',
+      reverseButtons: true,
     });
     if (result.isConfirmed) {
       setLoading(true);
