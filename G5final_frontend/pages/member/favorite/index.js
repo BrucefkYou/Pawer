@@ -54,15 +54,9 @@ export default function Index() {
         <div className="card mt-3 p-4">
           {nowPageItems.length === 0 ? (
             <>
-              <p className="mt-2">您沒有收藏的商品</p>
-              <div>
-                <Link
-                  href="/product"
-                  className="pet-choose-status no-underline"
-                >
-                  去逛逛
-                </Link>
-              </div>
+              <p className="mt-2 ms-3">
+                您沒有收藏的商品！ <Link href="/product">去逛逛</Link>
+              </p>
             </>
           ) : (
             <div className="row ms-4 d-flex justify-content-start card-favorite-list">

@@ -4,11 +4,11 @@
 /* eslint-disable no-undef */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
-import Router, { useRouter } from 'next/router';
-import Image from 'next/image';
-import { BsPersonPlusFill, BsBookmarkFill, BsBookmark } from 'react-icons/bs';
-import FavoriteIcon from '@/components/product/favorite/FavoriteIcon/FavoriteIcon';
+import { useRouter } from 'next/router';
+import { BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
+import Image from 'next/image';
+import FavoriteIcon from '@/components/product/favorite/FavoriteIcon/FavoriteIcon';
 import style from '@/components/product/detail/productDetail.module.scss';
 import toast from 'react-hot-toast';
 import logo from 'public/LOGO.svg';
@@ -99,10 +99,6 @@ export default function ProductDetail(props) {
               {/* 星級 與 售出 收藏 */}
               <div className="d-flex mt-4">
                 <div className="col d-flex align-items-center">
-                  {/* 星級文字 */}
-                  {/* <div>
-                    <p className="star-text">5&nbsp;&nbsp;</p>
-                  </div> */}
                   {/* 星級圖示 */}
                   <div className="star-rwd">
                     <img src="../product/star=1.png" alt="1" />
@@ -183,11 +179,6 @@ export default function ProductDetail(props) {
                           +
                         </button>
                       </div>
-                      {/* <div>
-                        <p className="detail-p detail-rwd-none">
-                          還剩{Stock}件
-                        </p>
-                      </div> */}
                     </div>
                     <div className="d-flex mt-5 detail-brt-gap">
                       <button
@@ -202,23 +193,8 @@ export default function ProductDetail(props) {
                             quantity: productQuantity,
                             checked: '',
                           });
-                          toast('加入購物車成功', {
-                            icon: (
-                              <Image
-                                width={95}
-                                height={53}
-                                src={logo}
-                                alt="logo"
-                                priority
-                              />
-                            ),
+                          toast.success('加入購物車成功', {
                             duration: 1800,
-                            style: {
-                              borderRadius: '10px',
-                              background: 'rgba(84, 124, 215, 1)',
-                              color: '#fff',
-                              marginTop: '80px',
-                            },
                           });
                         }}
                       >
@@ -240,7 +216,7 @@ export default function ProductDetail(props) {
         </div>
       </div>
       <div className="bg-secondary comment-detail-shadow">
-        <div className="d-flex justify-content-center align-items-center mt-5">
+        <div className="fixed d-flex justify-content-center align-items-center mt-5">
           <a
             onClick={() =>
               document
@@ -275,6 +251,16 @@ export default function ProductDetail(props) {
               height={175}
             />
           )}
+        </div>
+      </div>
+      <div className="bg-secondary comment-detail-shadow">
+        <div className="fixed d-flex justify-content-center align-items-center mt-5">
+          <a
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="no-underline"
+          >
+            回到頂部
+          </a>
         </div>
       </div>
       {/* 評論 */}
