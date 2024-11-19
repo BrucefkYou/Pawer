@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 export default function CreateBtn({ btnName }) {
   const router = useRouter();
   const { id } = router.query; //文章ID
-  const { auth } = useAuth();
+  const { auth, setNextRoute } = useAuth();
   const [ownerId, setOwnerId] = useState(null); //存作者ID
   const uid = auth.memberData.id;
   const [bottomOffset, setBottomOffset] = useState(20);
@@ -65,6 +65,7 @@ export default function CreateBtn({ btnName }) {
   const islogin = () => {
     // console.log('目前登入的會員 ID:', uid);
     if (auth.isAuth) {
+      
       router.push(isOwner ? `/blog/edit/${id}` : '/blog/create');
     } else {
       toast('請先登入會員', {
@@ -79,8 +80,9 @@ export default function CreateBtn({ btnName }) {
           height: '100px',
         },
       });
-      router.push('http://localhost:3000/member/login');
+      router.push('/member/login');
     }
+    setNextRoute('/blog/create');
   };
 
   const [isMobile, setIsMobile] = useState(false);

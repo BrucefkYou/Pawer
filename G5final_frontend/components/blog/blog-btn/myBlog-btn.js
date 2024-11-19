@@ -5,9 +5,9 @@ import { useAuth } from '@/hooks/use-auth';
 
 export default function BlogBtn() {
   const router = useRouter();
-  const { auth } = useAuth();
+  const { auth ,setNextRoute} = useAuth();
 
-  const islogin = () => {
+  const isLogin = () => {
     if (auth.isAuth) {
       router.push('http://localhost:3000/member/blog');
     } else {
@@ -24,11 +24,12 @@ export default function BlogBtn() {
         },
       });
 
-      router.push('http://localhost:3000/member/login');
+      router.push('/member/login');
     }
+    setNextRoute('/member/blog');
   };
   return (
-    <button className="btn btn-primary my-blog m-none" onClick={islogin}>
+    <button className="btn btn-primary my-blog m-none" onClick={isLogin}>
       我的部落格
     </button>
   );
