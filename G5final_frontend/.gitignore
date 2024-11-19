@@ -42,3 +42,5 @@ yarn.lock
 
 .DS_Store
 join-test
+.env.local
+.env

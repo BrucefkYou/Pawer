@@ -6,6 +6,7 @@ import moment from 'moment';
 import ImgPutArea from '@/components/join/img-put-area/img-put-area';
 import Tag from '@/components/join/form/tag';
 import AreaSelect from '@/components/join/form/area-select';
+import GoogleMapComponent from '@/components/join/googleMap/GoogleMapComponent';
 import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import Myeditor from '@/components/join/CKEditorTest';
@@ -32,6 +33,17 @@ export default function JiEdit(props) {
     setIsEditing(false);
   };
 
+  const [userLocation, setUserLocation] = useState({
+    lat: 25.033964,
+    lng: 121.562321,
+  });
+  const markers = []; // 根據需要設置標記數據
+
+  const handleUserLocationChange = (newLocation) => {
+    console.log('User location changed:', newLocation);
+    setUserLocation(newLocation);
+  };
+
   const handleCancelClick = async () => {
     const result = await Swal.fire({
       title: '取消將不會保留您的修改',
@@ -52,44 +64,6 @@ export default function JiEdit(props) {
       }
     }
   };
-
-  // 刪除活動
-  // const handleDeletClick = async () => {
-  //   const result = await Swal.fire({
-  //     title: '確定要刪除這個活動嗎？',
-  //     text: '這個操作無法撤銷！',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: '確認刪除',
-  //     cancelButtonText: '取消',
-  //   });
-
-  //   if (result.isConfirmed) {
-  //     setLoading(true);
-
-  //     try {
-  //       const response = await fetch(
-  //         `http://localhost:3005/api/join-in/${router.query.id}`,
-  //         {
-  //           method: 'PUT',
-  //         }
-  //       );
-  //       if (response.ok) {
-  //         console.log('活動已刪除');
-  //         // 跳轉回到活動列表頁
-  //         router.push('/join');
-  //       } else {
-  //         console.log('刪除失敗');
-  //       }
-  //     } catch (error) {
-  //       console.error('刪除活動時發生錯誤', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  // };
 
   const updateImageTags = (htmlContent) => {
     const parser = new DOMParser();
@@ -145,6 +119,14 @@ export default function JiEdit(props) {
 
     fetchImageUrl();
   }, [join.ImageName]);
+  useEffect(() => {
+    if (join.PositionX && join.PositionY) {
+      setUserLocation({
+        lat: parseFloat(join.PositionX),
+        lng: parseFloat(join.PositionY),
+      });
+    }
+  }, [join.PositionX, join.PositionY]);
 
   //------------- 編輯表單內容----------------//
 
@@ -244,6 +226,24 @@ export default function JiEdit(props) {
       .catch((error) => console.error('Error:', error));
   }, [router.query.id]);
 
+  useEffect(() => {
+    if (city && township && location) {
+      const address = `${city}${township}${location}`;
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.results && data.results.length > 0) {
+            const { lat, lng } = data.results[0].geometry.location;
+            setUserLocation({ lat, lng });
+            console.log('新的座標:', { lat, lng });
+          }
+        })
+        .catch((error) => console.error('獲取座標失敗', error));
+    }
+  }, [city, township, location]);
+
   const { auth } = useAuth();
 
   const saveUpdate = async () => {
@@ -265,6 +265,7 @@ export default function JiEdit(props) {
       joinTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
+    const { lat, lng } = userLocation;
     try {
       const response = await fetch(
         `http://localhost:3005/api/join-in/update/${router.query.id}`,
@@ -287,6 +288,8 @@ export default function JiEdit(props) {
             township,
             location,
             tags,
+            lat,
+            lng,
           }),
         }
       );
@@ -419,6 +422,7 @@ export default function JiEdit(props) {
       return;
     }
     try {
+      const { lat, lng } = userLocation;
       const response = await fetch(
         `http://localhost:3005/api/join-in/update/${router.query.id}`,
         {
@@ -440,6 +444,8 @@ export default function JiEdit(props) {
             township,
             location,
             tags,
+            lat,
+            lng,
           }),
         }
       );
@@ -615,7 +621,11 @@ export default function JiEdit(props) {
                   setTownship={setTownship}
                   setLocation={setLocation}
                 />
-                {/* <MySelect data={addressData} setData={setAddressData} /> */}
+                <GoogleMapComponent
+                  markers={markers}
+                  userLocation={userLocation}
+                  onUserLocationChange={handleUserLocationChange}
+                />
               </div>
               <div className="mb-2">
                 <Tag
