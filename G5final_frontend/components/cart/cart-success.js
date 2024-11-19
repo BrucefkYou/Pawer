@@ -1,23 +1,71 @@
 import Link from 'next/link';
 import Head from 'next/head';
-import React, { useState, useEffect, use } from 'react';
-import { useCart } from '@/hooks/use-cart/use-cart-state';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/hooks/use-auth';
+import { useCart } from '@/hooks/use-cart/use-cart-state';
 
 export default function Success(props) {
-  const { cart, clearCart } = useCart();
   const [orderNumber, setOrderNumber] = useState('');
+  const { auth } = useAuth();
+  const { updateCartItems } = useCart();
+  const emailSentRef = useRef(false);
   const router = useRouter();
 
-  useEffect(() => {
-    localStorage.removeItem('store7-11');
-    localStorage.removeItem('discount');
-    if (router.query.CustomField4) {
-      setOrderNumber(router.query.CustomField4);
-    } else {
-      setOrderNumber(router.query.orderID);
+  const memberEmail = auth.memberData.email;
+  const name = auth.memberData.name;
+  const sendOrderConfirmEmail = async (num, name, email) => {
+    if (emailSentRef.current) return; // 如果已經寄送過，則直接返回
+
+    try {
+      const res = await fetch('http://localhost:3005/api/order/orderEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          orderNum: num,
+          name: name,
+          email: email,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.status === 'success') {
+        console.log('訂單確認信寄送成功');
+      } else {
+        console.log('訂單確認信寄送失敗:', data.message);
+      }
+
+      emailSentRef.current = true; // 標記郵件已經被寄送
+    } catch (error) {
+      console.error('發送訂單確認信時出錯:', error);
     }
-  }, [router.isReady]);
+  };
+  useEffect(() => {
+    updateCartItems('removeChecked');
+    return () => {
+      localStorage.removeItem('discount');
+      localStorage.removeItem('store711');
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    const orderID = router.query.orderID || router.query.CustomField4;
+    if (orderID && name && memberEmail) {
+      setOrderNumber(orderID);
+      sendOrderConfirmEmail(orderID, name, memberEmail);
+    }
+  }, [
+    router.isReady,
+    router.query.orderID,
+    router.query.CustomField4,
+    name,
+    memberEmail,
+  ]);
 
   return (
     <>

@@ -66,7 +66,7 @@ const GoogleMapComponent = ({
 
   // 5. 渲染地圖
   return (
-    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
+    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={16}>
       {/* 使用者位置標記 */}
       {userLocation && (
         <Marker

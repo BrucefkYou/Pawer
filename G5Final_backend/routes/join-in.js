@@ -539,13 +539,15 @@ router.post('/draft', upload.single('joinImage'), async (req, res) => {
     township,
     location,
     tags,
+    lat,
+    lng,
   } = req.body
   const createTime = moment().format('YYYY-MM-DD HH:mm')
   const updateTime = moment().format('YYYY-MM-DD HH:mm')
   try {
     // 將資料寫入 joinin 表
     const [result] = await db2.execute(
-      `INSERT INTO Joinin (MemberID,Title, Info, StartTime, EndTime,SignEndTime, ParticipantLimit, City, Township, Location,Status, CreateDate,UpdateDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO Joinin (MemberID,Title, Info, StartTime, EndTime,SignEndTime, ParticipantLimit, City, Township, Location,PositionX,PositionY,Status, CreateDate,UpdateDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         memberId,
         title,
@@ -557,6 +559,8 @@ router.post('/draft', upload.single('joinImage'), async (req, res) => {
         city,
         township,
         location,
+        lat,
+        lng,
         status,
         createTime,
         updateTime,
@@ -628,12 +632,14 @@ router.put('/update/:id', upload.single('joinImage'), async (req, res) => {
     township,
     location,
     tags,
+    lat,
+    lng,
   } = req.body
   const updateTime = moment().format('YYYY-MM-DD HH:mm')
   try {
     // 將資料寫入 joinin 表
     const [result] = await db2.execute(
-      `UPDATE Joinin SET MemberID = ?,Title = ?, Info = ?, StartTime = ?, EndTime = ?,SignEndTime = ?, ParticipantLimit = ?, City = ?, Township = ?, Location = ?,Status= ?, UpdateDate = ? WHERE ID = ?`,
+      `UPDATE Joinin SET MemberID = ?,Title = ?, Info = ?, StartTime = ?, EndTime = ?,SignEndTime = ?, ParticipantLimit = ?, City = ?, Township = ?, Location = ?,PositionX = ?,PositionY = ?,Status = ?, UpdateDate = ? WHERE ID = ?`,
       [
         memberId,
         title,
@@ -645,6 +651,8 @@ router.put('/update/:id', upload.single('joinImage'), async (req, res) => {
         city,
         township,
         location,
+        lat,
+        lng,
         status,
         updateTime,
         req.params.id,

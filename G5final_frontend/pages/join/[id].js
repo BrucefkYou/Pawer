@@ -8,6 +8,7 @@ import Banner from '@/components/join/banner/banner';
 import { v4 as uuidv4 } from 'uuid';
 import AroundJoinCard from '@/components/join/detail/around-join-card/around-join-card';
 import ClickIcon from '@/components/icons/click-icon/click-icon';
+import GoogleMapComponent from '@/components/join/googleMap/GoogleMapComponent';
 import { useAuth } from '@/hooks/use-auth';
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import SignStatusCard from '@/components/join/detail/sign-status-card/sign-status-card';
@@ -186,6 +187,13 @@ export default function JiDetail(props) {
       },
     ],
   };
+  const markers = [
+    {
+      PositionX: data.PositionX,
+      PositionY: data.PositionY,
+      FullLocation: address,
+    },
+  ];
 
   const display = (
     <div className="container ji-detail-container">
@@ -257,15 +265,16 @@ export default function JiDetail(props) {
       </div>
       <div className="detail-section3">
         <h5 className="h5">活動地點</h5>
-        <iframe
-     title="join-map"
-    src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8966.073942951458!2d${data.PositionX}!3d${data.PositionY}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34681f04c6c50adb%3A0xbfb45e5968b03888!2z5qGD5ZyS5biC5pS_5bqc!5e0!3m2!1szh-TW!2stw!4v1730031675652!5m2!1szh-TW!2stw`}
-    className="join-map"
-   allowFullScreen
-    loading="lazy"
-    referrerPolicy="no-referrer-when-downgrade"
-/>
-        <p className="py-1 text-center">{address}{data.PositionX}{data.PositionY}</p>
+        <GoogleMapComponent markers={markers} />
+        {/* <iframe
+          title="join-map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28941.87892033457!2d121.500000!3d25.033964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346823ccc336fff7%3A0x45dbb0e69cc4a953!2z5pel5pel5pyd6aOfKOW5s-mOruW6lyk!5e0!3m2!1szh-TW!2stw!4v1731913967222!5m2!1szh-TW!2stw"
+          className="join-map"
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade" 
+        /> */}
+        <p className="py-1 text-center">{address} X座標{data.PositionX} Y座標{data.PositionY}</p>
       </div>
     </form>
     {/* join活動內頁下方的附近活動 */}

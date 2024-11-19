@@ -21,11 +21,35 @@ export default function testwss3() {
       // 確認 targetUserID 是否存在
       const toID = clients.get(data.toID)
       const myID = clients.get(data.myID)
-
-      // 將訊息發送給指定的 toID
-      if (toID && toID.readyState === WebSocket.OPEN) {
+      if (!toID || !myID) {
+        console.error('Invalid WebSocket connection for toID or myID')
+        return
+      }
+      if (data.type === 'toast') {
         toID.send(
           JSON.stringify({
+            type: 'toast',
+            from: data.myID,
+            content: data.content,
+          })
+        )
+        myID.send(
+          JSON.stringify({
+            type: 'toast',
+            from: data.myID,
+            content: data.content,
+          })
+        )
+      }
+      // 將訊息發送給指定的 toID
+      if (
+        data.type === 'message' &&
+        toID &&
+        toID.readyState === WebSocket.OPEN
+      ) {
+        toID.send(
+          JSON.stringify({
+            type: 'message',
             from: data.myID,
             content: data.content,
           })
@@ -34,9 +58,14 @@ export default function testwss3() {
         console.log(`User ${data.toID} 不存在或連線已關閉`)
       }
       // 發送訊息給自己
-      if (myID && myID.readyState === WebSocket.OPEN) {
+      if (
+        data.type === 'message' &&
+        myID &&
+        myID.readyState === WebSocket.OPEN
+      ) {
         myID.send(
           JSON.stringify({
+            type: 'message',
             from: 'self',
             content: data.content,
           })

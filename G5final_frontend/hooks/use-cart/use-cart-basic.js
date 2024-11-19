@@ -115,6 +115,17 @@ export const totalPrice = (items) =>
 export const totalItems = (items) =>
   items.reduce((sum, item) => sum + item.quantity, 0);
 
+// 根據傳入條件更新整個購物車
+export const updateAll = (items, condition) => {
+  return items.filter((item) => {
+    if (condition === 'removeChecked') {
+      return !item.checked; // 保留未勾選的項目
+    }
+    // 可以根據需要添加更多條件
+    return true; // 默認保留所有項目
+  });
+};
+
 // 最後將更新後的state，與initialState整理成新的state
 export const generateCartState = (state, items) => {
   // isEmpty為布林值

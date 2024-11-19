@@ -90,12 +90,25 @@ export default function JoinList() {
     setJoinin(nextJoin);
   };
 
-  // 排除重複的資料
-  // const newJoinin = joinin.filter(
-  //   (v, i, t) => i === t.findIndex((p) => p.ID === v.ID)
-  // );
-  // console.log(joinin);
-  // console.log(newJoinin);
+  // 顯示手機版按鈕
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setShow(true);
+      } else {
+        setShow(false);
+      }
+    };
+    // 初始化檢查視窗大小
+    handleResize();
+    // 監聽視窗大小變化
+    window.addEventListener('resize', handleResize);
+    // 清除事件監聽器
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -118,7 +131,7 @@ export default function JoinList() {
               <div className="mb-4">
                 <SelectDate oldData={oldData} updateData={updateData} />
               </div>
-              <div className=" mb-4 d-none d-md-block">
+              <div className=" mb-4">
                 <StatusCard oldData={oldData} updateData={updateData} />
               </div>
               {/* <div className="mb-4 d-none d-md-block">
@@ -185,7 +198,7 @@ export default function JoinList() {
             </div>
           </div>
         </div>
-        <JoinCCBtn />
+        <JoinCCBtn show={show} />
       </div>
     </>
   );
