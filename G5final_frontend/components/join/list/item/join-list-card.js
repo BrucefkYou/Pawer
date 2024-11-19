@@ -13,6 +13,8 @@ import Link from 'next/link';
 import FavoriteIcon from '@/components/join/list/item/favorite/FavoriteIcon/FavoriteIcon';
 import { useAuth } from '@/hooks/use-auth';
 import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
+import { ro } from 'date-fns/locale';
 
 export default function JoinListCard({
   cancelBtn = false,
@@ -46,31 +48,30 @@ export default function JoinListCard({
   }, [data.ImageName]);
 
   const handleCancel = async () => {
-    if (auth.isAuth) {
-      const response = await fetch(`http://localhost:3005/api/join-in/joined`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ joininId: data.ID, memberId: uid }),
-      });
+    const result = await Swal.fire({
+      title: '確定要取消報名這個活動嗎？',
+      text: '這個操作無法撤銷！',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '取消報名',
+      cancelButtonText: '再想想',
+    });
 
-      if (response.ok) {
-        toast('您已取消報名', {
-          // icon: '',
-          duration: 1800,
-          style: {
-            borderRadius: '10px',
-            borderTop: '15px #22355C solid',
-            background: '#F5F5F5',
-            color: '#646464',
-            marginTop: '80px',
-            width: '240px',
-            height: '80px',
-          },
-        });
-      } else {
-        toast.error('取消報名失敗');
+    if (result.isConfirmed) {
+      if (auth.isAuth) {
+        const response = await fetch(
+          `http://localhost:3005/api/join-in/joined`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ joininId: data.ID, memberId: uid }),
+          }
+        );
+        window.location.reload();
       }
     }
   };

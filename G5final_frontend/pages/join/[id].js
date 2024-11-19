@@ -274,7 +274,7 @@ export default function JiDetail(props) {
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade" 
         /> */}
-        <p className="py-1 text-center">{address} X座標{data.PositionX} Y座標{data.PositionY}</p>
+        <p className="py-1 text-center">{address}</p>
       </div>
     </form>
     {/* join活動內頁下方的附近活動 */}
