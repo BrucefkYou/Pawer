@@ -48,17 +48,23 @@ export default function JoinListCard({
   }, [data.ImageName]);
 
   const handleCancel = async () => {
-    const result = await Swal.fire({
-      title: '確定要取消報名這個活動嗎？',
-      text: '這個操作無法撤銷！',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: '取消報名',
-      cancelButtonText: '再想想',
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-danger mx-1 text-white',
+        cancelButton: 'btn btn-secondary text-secondary-emphasis mx-1',
+      },
+      buttonsStyling: false,
     });
 
+    const result = await swalWithBootstrapButtons.fire({
+      // title: '確定要取消報名這個活動嗎？',
+      text: '確定要取消報名這個活動嗎？',
+      // icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '確定',
+      cancelButtonText: '返回',
+      reverseButtons: true,
+    });
     if (result.isConfirmed) {
       if (auth.isAuth) {
         const response = await fetch(
@@ -77,7 +83,10 @@ export default function JoinListCard({
   };
   return (
     <>
-      <div className={`card col-6 shadow ${styles['ji-card']}`}>
+      <div
+        className={`card col-6
+         shadow ${styles['ji-card']}`}
+      >
         <Image
           className={`${styles['card-image']}`}
           width={367}

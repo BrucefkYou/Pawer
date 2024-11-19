@@ -52,10 +52,10 @@ export default function OrderDetail() {
           />
         </div>
 
-        <div className=" mb-card d-flex flex-wrap justify-content-evenly">
+        <div className="  mb-card d-flex flex-column">
           {nowPageItems.length > 0 ? (
             <>
-              <div className=" d-flex  gap-4">
+              <div className=" d-flex flex-wrap gap-4">
                 {nowPageItems.map((data) => (
                   <JoinListCard key={data.id} data={data} cancelBtn />
                 ))}
@@ -63,7 +63,7 @@ export default function OrderDetail() {
             </>
           ) : (
             <>
-              <p className="m-0">
+              <p className="m-0 me-auto">
                 沒有參加的活動？
                 <Link href="/join" className="">
                   去逛逛
