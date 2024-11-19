@@ -93,6 +93,11 @@ export default async function (sequelize) {
         allowNull: true,
         comment: '只有選擇手機載具時才需要填寫',
       },
+      SendEmail: {
+        type: DataTypes.TINYINT,
+        allowNull: false,
+        comment: '0未寄出1已寄出',
+      },
       Note: {
         type: DataTypes.TEXT,
         allowNull: true,
