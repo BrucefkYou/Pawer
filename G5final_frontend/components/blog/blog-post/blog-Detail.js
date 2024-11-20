@@ -85,7 +85,7 @@ export default function BlogDetail({
           count={favoriteCount}
           id={id}
         />
-
+        {/* 刪除 */}
         <DelBtn />
       </div>
 

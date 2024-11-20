@@ -108,7 +108,7 @@ export default function BlogList() {
                   顯示第{nowPageFirstItems + 1}-
                   {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
                   {filterData.length} 筆</p>):
-                  ("")
+                  (<p className='text-body-tertiary  m-0  align-self-center'>沒有可顯示的資料/共0筆</p>)
                 }
             <div className="col-12 col-lg-3 d-none d-md-block">
               <PerPageDom
@@ -149,7 +149,7 @@ export default function BlogList() {
                   );
                 })
             ) : (
-              <p className='text-body-tertiary ky-content'>沒有符合關鍵字的搜尋結果</p>
+              <p className='text-body-tertiary ky-content'>查無資料</p>
             )}
           </div>
           <div className="d-flex justify-content-center">

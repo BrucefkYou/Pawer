@@ -30,14 +30,18 @@ export default function BlogCard({
   const avatarPath = `http://localhost:3005/member/${avatar}`;
   return (
     <div className={`card shadow ${styles['blog-card']}`}>
-      <Image
-        className={`${styles['card-image']}`}
-        width={367}
-        height={321}
-        src={blogImg}
-        alt={title}
-      />
-
+      <Link
+        href={`http://localhost:3000/blog/${id}`}
+        className="btn text-warning p-0 text-decoration-none text-start"
+      >
+        <Image
+          className={`${styles['card-image']}`}
+          width={367}
+          height={321}
+          src={blogImg}
+          alt={title}
+        />
+      </Link>
       <div
         className={`card-body d-flex flex-column justify-content-between ${styles['card-body']}`}
       >

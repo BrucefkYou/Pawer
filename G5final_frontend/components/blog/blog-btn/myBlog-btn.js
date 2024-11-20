@@ -9,21 +9,9 @@ export default function BlogBtn() {
 
   const isLogin = () => {
     if (auth.isAuth) {
-      router.push('http://localhost:3000/member/blog');
+      router.push('/member/blog');
     } else {
-      toast('請先登入會員', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
-      });
-
+      toast('請先登入會員');
       router.push('/member/login');
     }
     setNextRoute('/member/blog');

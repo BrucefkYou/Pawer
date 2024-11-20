@@ -68,18 +68,7 @@ export default function CreateBtn({ btnName }) {
       
       router.push(isOwner ? `/blog/edit/${id}` : '/blog/create');
     } else {
-      toast('請先登入會員', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
-      });
+      toast('請先登入會員');
       router.push('/member/login');
     }
     setNextRoute('/blog/create');
