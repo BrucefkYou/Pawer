@@ -1,5 +1,8 @@
 import { WebSocketServer, WebSocket } from 'ws'
+import express from 'express'
+import db from '##/configs/mysql.js'
 export default function testwss3() {
+  const router = express.Router()
   // 設置 WebSocket 伺服器並配置 noServer 模式
   const wss3 = new WebSocketServer({ noServer: true })
   const clients = new Map()
@@ -8,7 +11,7 @@ export default function testwss3() {
     console.log('WebSocket3 連線成功')
 
     // 接收來自客戶端的訊息
-    ws.on('message', (message) => {
+    ws.on('message', async (message) => {
       const data = JSON.parse(message)
       console.log('收到的訊息:', data)
       // 處理註冊訊息
