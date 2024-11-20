@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { BsCircleFill } from "react-icons/bs";
 Index.getLayout = function getLayout(page) {
   return <ChatLayout>{page}</ChatLayout>;
 };
@@ -53,6 +54,7 @@ export default function Index(props) {
   }
   // 在線狀態管理
   const [onlineUsers, setOnlineUsers] = useState([]);
+
   // 連線狀態管理
   const host = 'ws://127.0.0.1:3005/ws3';
   const [ws, setWs] = useState(null);
@@ -196,7 +198,7 @@ export default function Index(props) {
       }
       ws.close(); // 確保連線關閉
     };
-  }, [MemberID, PetCommID, loginID]);
+  }, [MemberID, PetCommID, loginID, router.query, router.isReady]);
   // 抓溝通師資料
   useEffect(() => {
     const fetchData = async () => {
@@ -262,8 +264,6 @@ export default function Index(props) {
             return { ...item, from: PetCommID };
           }
         });
-        console.log(updatedStoryData);
-
         setMessage(updatedStoryData);
       } catch (err) {
         console.error('Fetch Error:', err);
@@ -278,33 +278,35 @@ export default function Index(props) {
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
   }, [message]);
-
   const readyToRender = useMemo(() => {
     return fetchCom && fetchMem && PetCommID && MemberID && message.length > 0;
-  }, [fetchCom, fetchMem, PetCommID, MemberID, message]);
+  }, [fetchCom, fetchMem, PetCommID, MemberID, message, onlineUsers]);
   return (
     <>
       <div className="pet-onebyone d-flex justify-content-center">
         <div className="z-2 container d-flex justify-content-center">
           {/* 左側列表 */}
-          <div className='d-md-flex col-md-3 mt-5'>
+          <div className='d-flex col-md-3 mt-5'>
             <div className="chat-list p-3">
               <ul>
                 {loginID == PetCommID && fetchCommReserve && fetchCommReserve.map((v, i) => (
                   <React.Fragment key={i}>
                     <Link href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`} className='text-decoration-none d-flex align-items-center'>
-                      <li className={`my-3 p-2 d-flex align-items-center ${MemberID == v.MemberID ? 'active' : ''}`}>
-                        <Image
-                          alt="avatar"
-                          width={50}
-                          height={50}
-                          src={`http://localhost:3005/member/${v.Avatar ? v.Avatar : 'avatar-default.png'}`}
-                          className="avatar"
-                        />
-                        <div className='d-flex flex-column'>
-                          <div className='m-2'>{v.ReserveName}</div>
-                          <div className='m-2 little-time'>{v.Time}</div>
+                      <li className={`m-3 p-2 d-flex align-items-center justify-content-center flex-column position-relative ${MemberID == v.MemberID ? 'active' : ''}`}>
+                        <div className='mx-5 d-flex align-items-center '>
+                          <Image
+                            alt="avatar"
+                            width={50}
+                            height={50}
+                            src={`http://localhost:3005/member/${v.Avatar ? v.Avatar : 'avatar-default.png'}`}
+                            className="avatar mx-2"
+                          />
+                          <div className='d-flex flex-column'>
+                            <div className={`position-absolute online-status ${onlineUsers.includes(String(v.MemberID)) ? 'text-success':'text-danger' }`}><BsCircleFill/></div>
+                            <div className='m-2'>{v.ReserveName}</div>
+                          </div>
                         </div>
+                        <div className='m-2 little-time'>{v.Time}</div>
                       </li>
                     </Link>
                   </React.Fragment>
@@ -313,13 +315,16 @@ export default function Index(props) {
                 {loginID == MemberID && fetchMemReserve && fetchMemReserve.map((v, i) => (
                   <>
                     <Link key={i} href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`} className='text-decoration-none'>
-                      <li className={`my-3 p-2 d-flex align-items-center ${PetCommID == v.PetCommID ? 'active' : ''}`}>
+                      <li className={`my-3 p-2 d-flex align-items-center justify-content-center flex-column position-relative ${PetCommID == v.PetCommID ? 'active' : ''}`}>
+                        <div className='mx-5 d-flex align-items-center '>
                         <Image alt='avatar' width={50} height={50} src={`http://localhost:3005/pet/${v.Img ? v.Img : 'avatar-default.png'}`}
-                          className='avatar' />
-                        <div className='d-flex flex-column'>
+                          className='avatar mx-2' />
+                          <div className='d-flex flex-column'>
+                            <div className={`position-absolute online-status ${onlineUsers.includes(String(v.PetCommID)) ? 'text-success' : 'text-danger'}`}><BsCircleFill /></div>
                           <div className='m-2'>{v.Name}</div>
-                          <div className='m-2 little-time'>{v.Time}</div>
+                          </div>
                         </div>
+                        <div className='m-2 little-time'>{v.Time}</div>
                       </li>
                     </Link>
                   </>
@@ -399,20 +404,22 @@ export default function Index(props) {
               </ul>
             </div>
             {/* 發送訊息 */}
-            <div className="row d-flex justify-content-center mt-3 ">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="請輸入訊息..."
-                value={input}
-                onChange={onchange}
-                onKeyDown={handleKeyDown}
-                onCompositionStart={handleCompositionStart}
-                onCompositionEnd={handleCompositionEnd}
-              />
-              <button className="btn btn-primary mt-1 col-4" onClick={onSubmit}>
-                發送
-              </button>
+            <div className=" d-flex justify-content-center mt-3 ">
+              <div className='col-12 d-flex justify-content-center'>
+                <input
+                  type="text"
+                  className="form-control col-12 me-5"
+                  placeholder="請輸入訊息..."
+                  value={input}
+                  onChange={onchange}
+                  onKeyDown={handleKeyDown}
+                  onCompositionStart={handleCompositionStart}
+                  onCompositionEnd={handleCompositionEnd}
+                />
+                <button className=" btn btn-primary mt-1 col-4" onClick={onSubmit}>
+                  發送
+                </button>
+              </div>
             </div>
           </div>
         </div>

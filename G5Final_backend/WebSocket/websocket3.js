@@ -1,12 +1,22 @@
 import { WebSocketServer, WebSocket } from 'ws'
-import express from 'express'
-import db from '##/configs/mysql.js'
 export default function testwss3() {
-  const router = express.Router()
   // 設置 WebSocket 伺服器並配置 noServer 模式
   const wss3 = new WebSocketServer({ noServer: true })
   const clients = new Map()
-
+  // 廣播已註冊用戶清單給所有連線用戶
+  function broadcastRegisteredUsers() {
+    const registeredUsers = [...clients.keys()] // 取得所有已註冊用戶的 ID
+    for (const ws of clients.values()) {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(
+          JSON.stringify({
+            type: 'onlineUsers',
+            users: registeredUsers,
+          })
+        )
+      }
+    }
+  }
   wss3.on('connection', (ws) => {
     console.log('WebSocket3 連線成功')
 
@@ -19,6 +29,7 @@ export default function testwss3() {
         clients.set(data.myID, ws)
         console.log(`User ${data.myID} registered`)
         console.log('已註冊的用戶:', [...clients.keys()])
+        broadcastRegisteredUsers()
         return // 註冊完成後直接返回，不進行後續操作
       }
       // 確認 targetUserID 是否存在
@@ -84,6 +95,7 @@ export default function testwss3() {
         if (clientWs === ws) {
           clients.delete(userID)
           console.log(`User ${userID} disconnected`)
+          broadcastRegisteredUsers() // 廣播更新的用戶清單
           break
         }
       }
