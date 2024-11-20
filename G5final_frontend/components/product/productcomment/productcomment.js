@@ -125,8 +125,8 @@ export default function Productcomment({ fetchOne }) {
       // 將新評論添加到 commentsList 的開頭
       setCommentsList((prevComments) => [newComment, ...prevComments]);
       setComment('');
-      setRating(1);
-      setFinalRating(1);
+      setRating(5);
+      setFinalRating(5);
       toast.success('您的評論已成功送出！', {
         duration: 1500,
       });
