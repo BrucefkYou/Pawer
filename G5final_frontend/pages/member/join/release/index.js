@@ -66,11 +66,11 @@ export default function Index(props) {
             needFilter={needFilter}
           />
         </div>
-        <div className="mb-card ji-mb-card d-flex flex-wrap gap-4 my-3">
+        <div className="mb-card d-flex flex-column">
           {nowPageItems.length > 0 ? (
             <>
               {/* d-flex flex-wrap justify-content-evenly */}
-              <div className="d-flex flex-wrap justify-content-evenly gap-4">
+              <div className="ji-mb-content d-flex flex-wrap justify-content-evenly gap-4">
                 {nowPageItems.map((data) => (
                   <JoinListCard
                     key={uuidv4()}

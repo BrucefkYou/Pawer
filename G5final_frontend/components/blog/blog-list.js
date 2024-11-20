@@ -29,6 +29,9 @@ export default function BlogList() {
     nowPageItems,
     nowPage,
     totalPage,
+    nowPageLastItems,
+    nowPageFirstItems,
+    filterData,
     itemsperPage,
     sortWay,
     needSort,
@@ -67,7 +70,7 @@ export default function BlogList() {
             <TagCard />
           </div>
 
-          <div className="m-none">
+          <div className="m-none">    
             <SortedCard
               title="熱門文章"
               id="ID"
@@ -100,7 +103,14 @@ export default function BlogList() {
         </div>
         <div className="blog-list">
           <div className="col-12 d-flex justify-content-end gap-3 bl-sort">
-            <div className="col-12 col-lg-3">
+          {filterData && filterData.length > 0 ? (
+          <p className='text-body-tertiary d-none d-md-block m-0  align-self-center'>
+                  顯示第{nowPageFirstItems + 1}-
+                  {Math.min(nowPageLastItems, filterData.length)} 筆 / 共{' '}
+                  {filterData.length} 筆</p>):
+                  (<p className='text-body-tertiary  m-0  align-self-center'>沒有可顯示的資料/共0筆</p>)
+                }
+            <div className="col-12 col-lg-3 d-none d-md-block">
               <PerPageDom
                 itemsperPage={itemsperPage}
                 choosePerpage={choosePerpage}
@@ -139,11 +149,10 @@ export default function BlogList() {
                   );
                 })
             ) : (
-              <p>沒有符合關鍵字的搜尋結果</p>
+              <p className='text-body-tertiary ky-content'>查無資料</p>
             )}
           </div>
           <div className="d-flex justify-content-center">
-            {nowPageItems && nowPageItems.length > 0 && (
               <div>
                 <PageNav
                   nowPage={nowPage}
@@ -152,7 +161,6 @@ export default function BlogList() {
                   prev={prev}
                 />
               </div>
-            )}
           </div>
         </div>
       </div>

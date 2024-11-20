@@ -70,11 +70,17 @@ export default function BlogDraftCard({
             )}
           </div>
           {/* 標題 */}
+          <Link
+            href={`http://localhost:3000/blog/${id} `}
+            className="text-decoration-none"
+          >
           <h4
             className={`card-title text-primary mb-3 text-start ${styles['card-title']}`}
           >
             {title}
           </h4>
+          </Link>
+
         </div>
 
         <div className="text-end">

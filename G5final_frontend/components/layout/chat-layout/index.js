@@ -90,7 +90,7 @@ export default function ChatLayout({ children }) {
   ) : (
     <>
       <Navbar />
-      <div>{children}</div>
+      <main>{children}</main>
     </>
   );
 }

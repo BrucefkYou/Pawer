@@ -71,7 +71,7 @@ export default function HomeBlCard() {
                     id={blog.ID}
                     title={blog.Title}
                     blogImg={blog.blogImg}
-                    updateDate={blog.UpdateDate}
+                    createDate={blog.CreateDate}
                     likeCount={blog.likeCount}
                     favoriteCount={blog.favoriteCount}
                     avatar={blog.MemberAvatar || 'avatar-default.png'}
