@@ -20,7 +20,11 @@ export default function MemberNav({ chooseFilter, needFilter, newdata }) {
   }, [needFilter, newdata]);
   return (
     <>
-      <ul className="nav nav-tabs member-nav-tabs" id="myTab" role="tablist">
+      <ul
+        className="nav nav-tabs member-nav-tabs justify-content-center"
+        id="myTab"
+        role="tablist"
+      >
         {needFilter.map((button, index) => {
           return (
             <li key={button.id} className="nav-item m-auto" role="presentation">

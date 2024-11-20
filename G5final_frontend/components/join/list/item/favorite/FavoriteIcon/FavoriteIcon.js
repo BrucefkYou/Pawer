@@ -21,7 +21,7 @@ export default function FavoriteIcon({
   setUrl,
 }) {
   const { auth } = useAuth();
-  const id = auth.memberData.id;
+  const uid = auth.memberData.id;
   const [iconStatus, setIconStatus] = useState(false);
   const [currentCount, setCurrentCount] = useState(count);
   const router = useRouter();
@@ -35,65 +35,53 @@ export default function FavoriteIcon({
   };
 
   const CountIcon = () => {
-    if (!id) {
-      toast('您需要登入才能收藏', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '240px',
-          height: '80px',
-        },
+    if (!uid) {
+      toast('請先登入後再收藏', {
+        duration: 1500,
       });
       return;
     }
 
     const addFv = async () => {
-      console.log({ joininId: data, memberId: id });
+      // console.log({ joininId: data, memberId: uid });
       try {
         const response = await fetch(
           'http://localhost:3005/api/join-in/favorite',
           {
             method: 'PUT',
             headers: {
-              'Content-Type': 'application/json', // 變字串
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ joininId: data, memberId: id }),
+            body: JSON.stringify({ joininId: data, memberId: uid }),
           }
         );
+
         if (!response.ok) throw new Error('加入收藏失敗');
         const result = await response.json();
-        console.log('加入收藏成功', result);
-        setCurrentCount((prevCount) => prevCount + 1); // 更新計數
+        setCurrentCount((prevCount) => prevCount + 1); // 前一個數值＋1
       } catch (error) {
         console.error(error);
-        toast.error('新增收藏時發生錯誤');
       }
     };
 
     const delFv = async () => {
-      console.log({ joininId: data, memberId: id });
+      console.log({ joininId: data, memberId: uid });
       try {
         const response = await fetch(
           'http://localhost:3005/api/join-in/favorite',
           {
             method: 'DELETE',
             headers: {
-              'Content-Type': 'application/json', // 設置 Content-Type
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ joininId: data, memberId: id }),
+            body: JSON.stringify({ joininId: data, memberId: uid }),
           }
         );
         if (!response.ok) throw new Error('取消收藏失敗');
         const result = await response.json();
-        console.log('取消收藏成功', result);
-        setCurrentCount((prevCount) => prevCount - 1); // 更新計數
+        setCurrentCount((prevCount) => prevCount - 1); // 前一個數字-1
       } catch (error) {
         console.error(error);
-        toast.error('刪除收藏時發生錯誤');
       }
     };
 
@@ -104,30 +92,12 @@ export default function FavoriteIcon({
         toast('收藏成功', {
           // icon: "",
           duration: 1800,
-          style: {
-            borderRadius: '10px',
-            borderTop: '15px #22355C solid',
-            background: '#F5F5F5',
-            color: '#646464',
-            marginTop: '80px',
-            width: '220px',
-            height: '70px',
-          },
         });
       } else {
         delFv();
-        toast('取消收藏', {
+        toast.error('取消收藏', {
           // icon: '',
           duration: 1800,
-          style: {
-            borderRadius: '10px',
-            borderTop: '15px #646464 solid',
-            background: '#F5F5F5',
-            color: '#646464',
-            marginTop: '80px',
-            width: '220px',
-            height: '70px',
-          },
         });
       }
 
@@ -144,7 +114,7 @@ export default function FavoriteIcon({
     const checkFavoriteStatus = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3005/api/join-in/favorite?memberId=${id}&joininId=${data}`
+          `http://localhost:3005/api/join-in/favorite?memberId=${uid}&joininId=${data}`
         );
         if (!response.ok) throw new Error('無法確認收藏狀態');
         const result = await response.json();
@@ -154,10 +124,10 @@ export default function FavoriteIcon({
       }
     };
 
-    if (id) {
+    if (uid) {
       checkFavoriteStatus();
     }
-  }, [id, data]); // 當 id 或商品 ID 發生變化時重新檢查
+  }, [uid, data]); // 當 id 或商品 ID 發生變化時重新檢查
 
   return (
     <div className={styles['click-icon']}>

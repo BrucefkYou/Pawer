@@ -25,9 +25,17 @@ import {
   BsBookmark,
 } from 'react-icons/bs';
 import { join } from 'lodash';
+import { da } from 'date-fns/locale';
 
 export default function JiDetail(props) {
   const router = useRouter();
+  // 抓取登入會員id
+  const { auth } = useAuth();
+  const uid = auth.memberData.id;
+  const [data, setData] = useState({});
+  const [joinin, setJoinin] = useState([]);
+  const [imageUrl, setImageUrl] = useState('');
+  const [currentCity, setCurrentCity] = useState(data.City);
 
   // 參考範例
   const [loading, setLoading] = useState(false);
@@ -46,11 +54,6 @@ export default function JiDetail(props) {
     return doc.body.innerHTML;
   };
 
-  // 抓取登入會員id
-  const { auth } = useAuth();
-  const uid = auth.memberData.id;
-
-  const [data, setData] = useState({});
   const getTitle = async () => {
     const url = `http://localhost:3005/api/join-in/${router.query.id}`;
     try {
@@ -60,9 +63,10 @@ export default function JiDetail(props) {
       if (typeof resData === 'object') {
         const updatedData = {
           ...resData,
-          Info: updateImageTags(resData.Info), // Update the <img> tags before setting the state
+          Info: updateImageTags(resData.Info),
         };
         setData(updatedData);
+        setCurrentCity(resData.City); // 設定 currentCity
         setError(null);
       } else {
         console.log('資料格式錯誤');
@@ -81,7 +85,6 @@ export default function JiDetail(props) {
     // eslint-disable-next-line
   }, [router.isReady]);
 
-  const [imageUrl, setImageUrl] = useState('');
   useEffect(() => {
     const fetchImageUrl = () => {
       if (data.ImageName) {
@@ -150,30 +153,6 @@ export default function JiDetail(props) {
   const address = data.City + data.Township + data.Location;
   const tag = data.Tags ? data.Tags.split(',') : [];
 
-  const [joinin, setJoinin] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:3005/api/join-in/');
-        if (!response.ok) {
-          throw new Error('網路回應不成功：' + response.status);
-        }
-        const data = await response.json();
-        const sortJoin = data
-          .filter((v, i) => v.Status === 1)
-          .sort((a, b) => b.SignCount - a.SignCount)
-          .slice(0, 7);
-
-        console.log(sortJoin);
-        setJoinin(sortJoin);
-        console.log(data);
-      } catch (err) {
-        console.error('錯誤：', err);
-      }
-    };
-    fetchData();
-  }, []);
-
   const settings = {
     dots: true,
     infinite: true,
@@ -186,7 +165,14 @@ export default function JiDetail(props) {
 
     responsive: [
       {
-        breakpoint: 1320,
+        breakpoint: 1140,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -202,6 +188,33 @@ export default function JiDetail(props) {
     },
   ];
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3005/api/join-in/');
+        if (!response.ok) {
+          throw new Error('網路回應不成功：' + response.status);
+        }
+        const data = await response.json();
+        if (currentCity) {
+          const filteredData = data.filter(
+            (v) => v.Status === 1 && v.City === currentCity
+          );
+          setJoinin(filteredData);
+        }
+        // console.log(data);
+      } catch (err) {
+        console.error('錯誤：', err);
+      }
+    };
+    fetchData();
+  }, [currentCity]);
+
+  // const sortJoin = data.filter((v) => v.Status === 1 && v.City == data.City);
+  // // .slice(0, 7);
+  // console.log(sortJoin);
+  // setJoinin(sortJoin);
+  // console.log(data.City);
   const display = (
     <div className="container ji-detail-container">
       <Breadcrumbs />
@@ -229,8 +242,7 @@ export default function JiDetail(props) {
           <></>
         )}
 
-        <div className="ji-image">
-          {/* eslint-disable  */}
+        {/* eslint-disable  */}
         <Image
           className="ji-img1"
           width={1176}
@@ -238,7 +250,7 @@ export default function JiDetail(props) {
           src={imageUrl}
           alt={`${data.Title}首圖`}
         />
-      </div>
+      
       <div className="detail-section1 px-3">
         <div className="d-flex flex-wrap flex-sm-nowrap py-4">
           <div className="w-100">
