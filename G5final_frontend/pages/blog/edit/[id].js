@@ -76,6 +76,12 @@ export default function BlogEdit() {
       console.error('沒有選擇任何檔案');
       return;
     }
+    // 檢視圖檔類型
+    const imageTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'image/jfif',];
+    if (!imageTypes.includes(file.type)) {
+      toast('請選擇有效的圖片檔案 (.jpg, .jpeg, .png, .webp, .svg, .jfif)');
+      return;
+    }
 
     const reader = new FileReader();
     reader.onloadend = () => setPreviewImage(reader.result);
