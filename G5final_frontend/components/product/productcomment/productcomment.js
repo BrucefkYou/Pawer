@@ -12,15 +12,14 @@ import { useRouter } from 'next/router';
 import style from '@/components/product/productcomment/productcomment.module.scss';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
-import logo from 'public/LOGO.svg';
 
 
 const StarToggle = ({ filled }) => (filled ? <FaStar /> : <FaRegStar />);
 
 export default function Productcomment({ fetchOne }) {
   const [comment, setComment] = useState(''); // 評論input輸入
-  const [rating, setRating] = useState(1); // 預覽星星狀態
-  const [finalRating, setFinalRating] = useState(1); // 最終星星狀態
+  const [rating, setRating] = useState(5); // 預覽星星狀態
+  const [finalRating, setFinalRating] = useState(5); // 最終星星狀態
   const [commentsList, setCommentsList] = useState([]); // 輸入評論後的顯示
   const [showmore, setShowMore] = useState(3); // 看更多
   const { auth, setNextRoute } = useAuth();
@@ -58,14 +57,7 @@ export default function Productcomment({ fetchOne }) {
   const goLoginBackCmt = () => {
     if (!id) {
       toast('前往登入頁面', {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1500,
-        style: {
-          borderRadius: '10px',
-          background: 'rgba(34, 53, 92, 1)',
-          color: '#fff',
-          marginTop: '80px',
-        },
       });
       setTimeout(() => {
         router.push('/member/login');
@@ -79,15 +71,8 @@ export default function Productcomment({ fetchOne }) {
   // 評論
   const comSubmit = async () => {
     if (!comment.trim()) {
-      toast('請您輸入評論內容', {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
+      toast.error('請您輸入評論內容', {
         duration: 1500,
-        style: {
-          borderRadius: '10px',
-          background: 'rgba(193, 69, 69, 1)',
-          color: '#fff',
-          marginTop: '80px',
-        },
       });
       return;
     }
@@ -103,46 +88,15 @@ export default function Productcomment({ fetchOne }) {
     }
     const neverBuy = await alreadyBuy.json();
     if (neverBuy.length === 0) {
-      toast(<>
+      toast.error(<>
         您尚未購買此商品，
         <br />
         購買後即可評論。
         </>, {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1500,
-        style: {
-          borderRadius: '10px',
-          background: 'rgba(193, 69, 69, 1)',
-          color: '#fff',
-          marginTop: '80px',
-        },
       });
       return;
     }
-    // 檢查會員是否已經對該商品評論過
-    // const alreadyComment = await fetch(`http://localhost:3005/api/product/check-productcomment?memberId=${id}&productId=${productId}`);
-    // if (!alreadyComment.ok) {
-    //   toast.error('檢查評論記錄時發生錯誤');
-    //   return;
-    // }
-    // const commentData = await alreadyComment.json();
-    // if (commentData.length > 0) {
-    //   toast(<>
-    //   您已經對此商品評論過，
-    //   <br />
-    //   再次購買此商品即可評論。
-    //   </>, {
-    //     icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-    //     duration: 1500,
-    //     style: {
-    //       borderRadius: '10px',
-    //       background: 'rgba(193, 69, 69, 1)',
-    //       color: '#fff',
-    //       marginTop: '80px',
-    //     },
-    //   });
-    //   return;
-    // }
     // 新增評論
     const newComment = {
       ProductID: fetchOne.ID,
@@ -174,14 +128,7 @@ export default function Productcomment({ fetchOne }) {
       setRating(1);
       setFinalRating(1);
       toast.success('您的評論已成功送出！', {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
         duration: 1500,
-        style: {
-          borderRadius: '10px',
-          background: 'rgba(84, 124, 215, 1)',
-          color: '#fff',
-          marginTop: '80px',
-        },
       });
     } catch (error) {
       console.error(error);
@@ -192,9 +139,7 @@ export default function Productcomment({ fetchOne }) {
   useEffect(() => {
     if (productId) {
       fetchComments(productId);
-    } else {
-      console.log('此商品沒人評論過');
-    }
+    } 
   }, [productId]);
 
   return (

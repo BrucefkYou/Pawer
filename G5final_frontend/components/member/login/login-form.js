@@ -148,7 +148,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
               onClick={() => loginGoogle(callbackGoogleLoginPopup)}
             >
               <Image
-                src="/member/google-icon.png"
+                src="/member/Google-icon.png"
                 alt=""
                 width={30}
                 height={30}

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import AroundJoinCard from './detail/around-join-card/around-join-card';
-import { useLoader } from '@/hooks/use-loader';
-import Loader2 from '../loader/loader2';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import Slider from 'react-slick';
@@ -10,7 +8,6 @@ import 'slick-carousel/slick/slick-theme.css';
 
 export default function HomeJoinCard(props) {
   const [joinin, setJoinin] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,10 +21,6 @@ export default function HomeJoinCard(props) {
           .filter((v) => v.Status === 1)
           .sort((a, b) => b.StartTime - a.StartTime)
           .slice(0, 6);
-
-        setTimeout(() => {
-          setLoading(false);
-        }, 2500);
 
         console.log(sortJoin);
         setJoinin(sortJoin);
@@ -65,7 +58,8 @@ export default function HomeJoinCard(props) {
       },
     ],
   };
-  const display = (
+
+  return (
     <>
       <section className="sec4-con ">
         <div className="sec4-event-text">
@@ -88,6 +82,4 @@ export default function HomeJoinCard(props) {
       </section>
     </>
   );
-
-  return <>{loading ? <Loader2 /> : display}</>;
 }

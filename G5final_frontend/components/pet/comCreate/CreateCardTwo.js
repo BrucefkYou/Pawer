@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/use-auth';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { BsImage } from 'react-icons/bs';
-import logo from 'public/LOGO.svg';
 import Image from 'next/image';
 export default function CreateCardTwo({ setMessage }) {
   const { auth } = useAuth();
@@ -11,16 +10,7 @@ export default function CreateCardTwo({ setMessage }) {
   const submitForm = (event) => {
     event.preventDefault();
     if (!imagePreview) {
-      toast('請上傳證照', {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          background: 'rgba(34, 53, 92, 1)',
-          color: '#fff',
-          marginTop: '80px',
-        },
-      });
+      toast.error('請上傳證照')
       return;
     }
     const form = document.querySelector('#create');
@@ -30,31 +20,13 @@ export default function CreateCardTwo({ setMessage }) {
         method: 'POST',
         body: formData,
       });
-      toast('註冊成功,待工作人員審核', {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          background: 'rgba(84, 124, 215, 1)',
-          color: '#fff',
-          marginTop: '80px',
-        },
-      });
+      toast('註冊成功,待工作人員審核')
       setTimeout(() => {
         setMessage('ok');
       }, 2000);
     } catch (err) {
       console.log(err);
-      toast('失敗請重新再試', {
-        icon: <Image width={95} height={53} src={logo} alt="logo" priority />,
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          background: 'rgba(34, 53, 92, 1)',
-          color: '#fff',
-          marginTop: '80px',
-        },
-      });
+      toast.error('失敗請重新再試')
     }
   };
   // 前端照片處理預覽
