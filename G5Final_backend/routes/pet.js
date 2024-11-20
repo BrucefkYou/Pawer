@@ -279,9 +279,18 @@ VALUES (?, ?, ?)`,
 })
 // 聊天室歷史讀取
 router.get('/chatstory', async function (req, res, next) {
+  const myID = req.query.myID
+  const toID = req.query.toID
+  console.log('toID:', toID)
+  console.log('myID:', myID)
+
   try {
     const [rows] = await db2.query(
-      `SELECT * FROM chat ORDER BY chat.creat_at ASC`
+      `SELECT * FROM chat 
+      WHERE (toID = ? AND myID = ?) 
+      OR (toID = ? AND myID = ?) 
+      ORDER BY creat_at ASC`,
+      [toID, myID, myID, toID]
     )
     res.json(rows)
     console.log('資料上傳成功')
