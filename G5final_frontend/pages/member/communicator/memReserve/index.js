@@ -12,9 +12,7 @@ export default function MemReserveIndex(props) {
         <title>寵物溝通師 - 會員預約清單</title> {/* 設置當前頁面的標題 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="PT-reserve-card p-4 shadow">
-        <MemReserve />
-      </div>
+      <MemReserve />
     </>
   );
 }
