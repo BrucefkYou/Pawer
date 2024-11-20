@@ -41,7 +41,7 @@ export default function FavoriteIcon({
             headers: {
               'Content-Type': 'application/json', // 變字串
             },
-            body: JSON.stringify({ pid: pd, uid: id }),
+            body: JSON.stringify({ ProductID: pd, MemberID: id }),
           }
         );
         if (!response.ok) throw new Error('加入收藏失敗');
@@ -55,7 +55,6 @@ export default function FavoriteIcon({
     };
 
     const delFv = async () => {
-      console.log({ pid: pd, uid: id });
       try {
         const response = await fetch(
           'http://localhost:3005/api/product/favorite',
@@ -64,7 +63,7 @@ export default function FavoriteIcon({
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ pid: pd, uid: id }),
+            body: JSON.stringify({ ProductID: pd, MemberID: id }),
           }
         );
         if (!response.ok) throw new Error('取消收藏失敗');
@@ -103,7 +102,7 @@ export default function FavoriteIcon({
     const checkFavoriteStatus = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3005/api/product/check-favorite?pid=${pd}&uid=${id}`
+          `http://localhost:3005/api/product/check-favorite?ProductID=${pd}&MemberID=${id}`
         );
         if (!response.ok) throw new Error('無法確認收藏狀態');
         const result = await response.json();
