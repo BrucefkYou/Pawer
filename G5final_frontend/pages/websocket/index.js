@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
-
+import Link from 'next/link';
 Index.getLayout = function getLayout(page) {
   return <ChatLayout>{page}</ChatLayout>;
 };
@@ -17,7 +17,7 @@ export default function Index(props) {
   const router = useRouter();
   const MemberID = router.query.MemberID;
   const PetCommID = router.query.PetCommID;
-  //存放溝通師所有資料
+  // 存放溝通師所有資料
   const [comData, setComData] = useState([]);
   // 抓取當前溝通師
   let fetchCom
@@ -43,7 +43,6 @@ export default function Index(props) {
     fetchMemReserve = reserveData.filter((v) => {
       return v.MemberID == MemberID
     })
-    // console.log(fetchMemReserve);
   }
   // 抓取當前師資預約表
   let fetchCommReserve
@@ -60,7 +59,7 @@ export default function Index(props) {
   function onchange(e) {
     setInput(e.target.value);
   }
-  // 累加訊息
+  // 累加全域訊息
   const [message, setMessage] = useState([]);
   // 發送訊息
   function onSubmit() {
@@ -71,6 +70,22 @@ export default function Index(props) {
       toID: loginID == PetCommID ? MemberID : PetCommID,
     };
     ws.send(JSON.stringify(data));
+    // 寫入資料庫
+    const writeMessage = async () => {
+      try {
+        const res = await fetch('http://localhost:3005/api/pet/chatupdate', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+      } catch (err) {
+        console.error('Fetch Error:', err);
+      }
+    };
+    writeMessage();
+    // 清空狀態
     setInput('');
   }
   // 發送按鈕
@@ -92,8 +107,8 @@ export default function Index(props) {
   }
   // 建立連線
   useEffect(() => {
-    if (!router.isReady || !MemberID || !PetCommID || !loginID) {
-      return; // 等待路由與必要資料準備完成
+    if (!router.isReady || !MemberID || !PetCommID || !loginID || !fetchCom || !fetchMem) {
+      return;
     }
     // 初次進入畫面時建立連線並於後端綁定ＩＤ
     const ws = new WebSocket(host);
@@ -103,7 +118,6 @@ export default function Index(props) {
     ws.onopen = (res) => {
       console.log('WebSocket3連線成功');
       // 切換新的連線時清空訊息
-      setMessage([]);
       if (MemberID) {
         ws.send(
           JSON.stringify({
@@ -154,8 +168,8 @@ export default function Index(props) {
     ws.onclose = () => {
       console.log('WebSocket關閉連線');
     };
-  }, [MemberID, PetCommID, loginID, fetchMem, fetchCom]);
-  //抓溝通師資料
+  }, [MemberID, PetCommID, loginID]);
+  // 抓溝通師資料
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -168,8 +182,8 @@ export default function Index(props) {
     };
     // 呼叫內部非同步函式
     fetchData();
-  }, []);
-  //抓會員資料
+  }, [MemberID, PetCommID]);
+  // 抓會員資料
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -182,8 +196,8 @@ export default function Index(props) {
     };
     // 呼叫內部非同步函式
     fetchData();
-  }, []);
-  //抓預約資料
+  }, [MemberID, PetCommID]);
+  // 抓預約資料
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -197,14 +211,53 @@ export default function Index(props) {
     // 呼叫內部非同步函式
     fetchData();
   }, []);
+  // 抓所有歷史訊息
+  useEffect(() => {
+    if (!loginID, !PetCommID, !MemberID) { 
+      return
+    }
+    
+    const fetchStoryData = async () => {
+      try {
+        const res = await fetch('http://localhost:3005/api/pet/chatstory');
+        const storyData = await res.json();
+        const updatedStoryData = await storyData.map((item) => {
+          if (item.from) {
+            return item;
+          }
+          if (item.myID === loginID) {
+            return { ...item, from: 'self' };
+          } else if (item.toID == PetCommID) {
+            return { ...item, from: MemberID };
+          } else if (item.toID == MemberID) {
+            return { ...item, from: PetCommID };
+          }
+        });
+        console.log(updatedStoryData);
+        
+        setMessage(updatedStoryData);
+      } catch (err) {
+        console.error('Fetch Error:', err);
+      }
+    };
+    fetchStoryData();
+  }, [loginID, PetCommID, MemberID]);
   // 保持訊息置底
   useEffect(() => {
     const chatContainer = document.querySelector('.chat-card');
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
   }, [message]);
+
+  const readyToRender = useMemo(() => {
+    return fetchCom && fetchMem && PetCommID && MemberID && message.length > 0;
+  }, [fetchCom, fetchMem, PetCommID, MemberID, message]);
+  if (!readyToRender) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
-      
       <div className="pet-onebyone d-flex justify-content-center">
         <div className="z-2 container d-flex justify-content-center">
           {/* 左側列表 */}
@@ -212,7 +265,7 @@ export default function Index(props) {
             <div className="chat-list p-3">
               <ul>
                 {loginID == PetCommID && fetchCommReserve && fetchCommReserve.map((v, i) => (
-                  <React.Fragment key={ i}>
+                  <React.Fragment key={i}>
                     <Link href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`} className='text-decoration-none d-flex align-items-center'>
                       <li className={`my-3 p-2 d-flex align-items-center ${MemberID == v.MemberID ? 'active' : ''}`}>
                         <Image
@@ -235,7 +288,7 @@ export default function Index(props) {
                   <>
                     <Link key={i} href={`/websocket?MemberID=${v.MemberID}&PetCommID=${v.PetCommID}`} className='text-decoration-none'>
                       <li className={`my-3 p-2 d-flex align-items-center ${PetCommID == v.PetCommID ? 'active' : ''}`}>
-                        <Image alt='avatar' width={50} height={50} src={`http://localhost:3005/pet/${v.Img ? v.Img : 'avatar-default.png'}`} 
+                        <Image alt='avatar' width={50} height={50} src={`http://localhost:3005/pet/${v.Img ? v.Img : 'avatar-default.png'}`}
                           className='avatar' />
                         <div className='d-flex flex-column'>
                           <div className='m-2'>{v.Name}</div>
@@ -256,16 +309,20 @@ export default function Index(props) {
             {/* 顯示訊息框 */}
             <div className="chat-card p-4 ">
               <ul className="d-flex flex-column">
-                {message.map((v, i) =>
-                  v.from === 'self' ? (
-                    <li
+                {fetchCom && fetchMem && PetCommID && MemberID && message.length > 0 && message.map((v, i) => {
+                  if (!v || typeof v.from === 'undefined') {
+                    console.warn('Invalid message item:', v);
+                    return null; // 跳過無效項目
+                  }
+                  if (v.from == 'self') {
+                    return <li
                       key={i}
                       className="align-self-end m-3 position-relative testsend"
                     >
                       <Image
                         alt="avatar"
                         src={`http://localhost:3005/member/${!loginData.avatar ||
-                          loginData.avatar == '' ? 'default.png' : loginData.avatar
+                          loginData.avatar == '' ? 'avatar-default.png' : loginData.avatar
                           }`}
                         width={50}
                         height={50}
@@ -273,35 +330,46 @@ export default function Index(props) {
                       />
                       {v.content}
                     </li>
-                  ) : v.from === PetCommID ? (
-                    <li
+                  }
+                  if (String(v.from) == String(PetCommID)) {
+                    return <li
                       key={i}
                       className="text-start m-3 position-relative testfrom align-self-start"
                     >
                       <Image
                         alt="avatar"
-                        src={`http://localhost:3005/pet/${fetchCom.Img}`}
+                        src={
+                          fetchCom && fetchCom.Img
+                            ? `http://localhost:3005/pet/${fetchCom.Img}`
+                            : 'http://localhost:3005/pet/avatar-default.png'
+                        }
                         width={50}
                         height={50}
                         className="avatarfrom"
                       />
                       {v.content}
                     </li>
-                  ) : (<li
-                    key={i}
-                    className="text-start m-3 position-relative testfrom align-self-start"
-                  >
-                    <Image
-                      alt="avatar"
-                      src={`http://localhost:3005/member/${!fetchMem.Avatar || fetchMem.Avatar == '' ? 'default.png' : fetchMem.Avatar
-                        }`}
-                      width={50}
-                      height={50}
-                      className="avatarfrom"
-                    />
-                    {v.content}
-                  </li>)
-                )}
+                  }
+                  if (String(v.from) == String(MemberID)) {
+                    return <li
+                      key={i}
+                      className="text-start m-3 position-relative testfrom align-self-start"
+                    >
+                      <Image
+                        alt="avatar"
+                        src={
+                          fetchMem && fetchMem.Avatar
+                            ? `http://localhost:3005/member/${fetchMem.Avatar}`
+                            : 'http://localhost:3005/pet/avatar-default.png'
+                        }
+                        width={50}
+                        height={50}
+                        className="avatarfrom"
+                      />
+                      {v.content}
+                    </li>
+                  }
+                })}
               </ul>
             </div>
             {/* 發送訊息 */}

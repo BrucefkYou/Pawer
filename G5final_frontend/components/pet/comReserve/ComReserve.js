@@ -81,7 +81,6 @@ export default function ComReserve(props) {
               needFilter={needFilter}
             />
         </div>
-        
       </div>
       <div className="PT-reserve-card p-4 shadow mt-3">
         {/* 清單明細 */}
@@ -91,7 +90,7 @@ export default function ComReserve(props) {
           </>
         ) : (
           <>
-            <div className="row none title text-center mt-3 py-2">
+            <div className="row none title text-center py-2">
               <div className="col-1 d-none d-lg-block">序號</div>
               <div className="col-3 col-md-2">暱稱</div>
               <div className="col-2 d-none d-lg-block">寵物名稱</div>

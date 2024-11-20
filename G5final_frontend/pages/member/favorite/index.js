@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PageNav } from '@/components/PageNav';
 import { usePagination } from '@/hooks/usePagination';
+import { useAuth } from '@/hooks/use-auth';
 import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
 import ProductList from '@/components/product/list/productList';
@@ -14,8 +15,10 @@ Index.getLayout = function getLayout(page) {
 };
 
 export default function Index() {
+  const { auth } = useAuth();
+  const id = auth.memberData.id;
   const [url, setUrl] = useState(
-    'http://localhost:3005/api/product/member/favorite'
+    `http://localhost:3005/api/product/member/favorite?MemberID=${id}`
   );
 
   // setUrl 第一層在父層 帶下去商品卡片頁第二層子層
@@ -60,8 +63,8 @@ export default function Index() {
             </>
           ) : (
             <div className="row ms-4 d-flex justify-content-start card-favorite-list">
-              {nowPageItems.map((pd) => (
-                <ProductList key={pd.id} pd={pd} setUrl={setUrl} />
+              {nowPageItems.map((pd, index) => (
+                <ProductList key={`product-${index}`} pd={pd} setUrl={setUrl} />
               ))}
             </div>
           )}

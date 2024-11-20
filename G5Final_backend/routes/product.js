@@ -102,12 +102,12 @@ router.get('/other', async function (req, res, next) {
 
 // 加入收藏
 router.put('/favorite', async function (req, res) {
-  const { pid, uid } = req.body
+  const { ProductID, MemberID } = req.body
   console.log(req.body)
   try {
     const [rows] = await db2.query(
-      `INSERT INTO favorite (pid, uid) VALUES (?, ?)`,
-      [pid, uid]
+      `INSERT INTO MemberFavoriteMapping (ProductID, MemberID) VALUES (?, ?)`,
+      [ProductID, MemberID]
     )
     res.json(rows)
   } catch (err) {
@@ -118,11 +118,11 @@ router.put('/favorite', async function (req, res) {
 
 // 取消收藏
 router.delete('/favorite', async function (req, res) {
-  const { pid, uid } = req.body
+  const { ProductID, MemberID } = req.body
   try {
     const [rows] = await db2.query(
-      `DELETE FROM favorite WHERE pid = ? AND uid = ?`,
-      [pid, uid]
+      `DELETE FROM MemberFavoriteMapping WHERE ProductID = ? AND MemberID = ?`,
+      [ProductID, MemberID]
     )
     res.json(rows)
   } catch (err) {
@@ -133,11 +133,11 @@ router.delete('/favorite', async function (req, res) {
 
 // 檢查收藏狀態
 router.get('/check-favorite', async (req, res) => {
-  const { pid, uid } = req.query
+  const { ProductID, MemberID } = req.query
   try {
     const [rows] = await db2.query(
-      `SELECT * FROM favorite WHERE pid = ? AND uid = ?`,
-      [pid, uid]
+      `SELECT * FROM MemberFavoriteMapping WHERE ProductID = ? AND MemberID = ?`,
+      [ProductID, MemberID]
     )
     res.json({ isFavorite: rows.length > 0 })
   } catch (err) {
@@ -148,20 +148,22 @@ router.get('/check-favorite', async (req, res) => {
 
 // 會員頁撈收藏的商品
 router.get('/member/favorite', async function (req, res, next) {
+  const MemberID = req.query
   try {
     const [rows] = await db2.query(
-      `
-      SELECT 
-          Favorite.*, 
-          Member.ID AS ID, 
-          Product.* 
-      FROM 
-          Favorite 
-      LEFT JOIN 
-          Member ON Favorite.uid = Member.ID 
-      LEFT JOIN 
-          Product ON Favorite.pid = Product.ID
-      `
+      `SELECT 
+      MemberFavoriteMapping.*, 
+      Product.*
+    FROM 
+      MemberFavoriteMapping
+    LEFT JOIN 
+      Product ON MemberFavoriteMapping.ProductID = Product.ID
+    WHERE 
+      MemberFavoriteMapping.MemberID = ? 
+      AND MemberFavoriteMapping.ProductID IS NOT NULL 
+      AND MemberFavoriteMapping.ProductID <> 0
+    `,
+      [MemberID]
     )
     res.json(rows)
   } catch (err) {
