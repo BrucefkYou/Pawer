@@ -41,18 +41,7 @@ export default function BlogCom({ id }) {
   // 發送留言
   const handleCommentSubmit = async () => {
     if (!commentContent.trim()) {
-      toast('請輸入評論的內容', {
-        duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
-      });
+      toast('請輸入留言的內容');
       return;
     }
 
@@ -76,11 +65,14 @@ export default function BlogCom({ id }) {
 
       if (!response.ok) throw new Error('留言發送失敗');
       const result = await response.json();
+      toast('留言成功');
+
       // console.log('留言發送成功:', result);
 
       setCommentContent('');
       fetchComments();
     } catch (error) {
+      toast('無法發送留言');
       console.error('無法發送留言:', error);
     }
   };
@@ -116,7 +108,7 @@ export default function BlogCom({ id }) {
               </div>
               <textarea
                 className="comment-input"
-                placeholder="評論"
+                placeholder="留言"
                 rows="4"
                 value={commentContent}
                 onChange={(e) => setCommentContent(e.target.value)}
