@@ -22,7 +22,7 @@ export default function HomeJoinCard(props) {
           .sort((a, b) => b.StartTime - a.StartTime)
           .slice(0, 6);
 
-        console.log(sortJoin);
+        // console.log(sortJoin);
         setJoinin(sortJoin);
       } catch (err) {
         console.error('錯誤：', err);

@@ -119,19 +119,19 @@ export default function JoinList() {
       <Banner bgImgUrl="/join/banner-jism.jpg" ImgCover="cover" />
       <div className="container ji-list-container px-3">
         <Breadcrumbs />
-        <div className="d-flex justify-content-center align-items-center mt-5 mb-5">
+        <div className="my-5">
           <div className={`d-md-flex gap-3`}>
             <aside className="col-md-4 px-md-0 ji-aside mx-auto">
               <div className="mb-4">
                 <SearchBar />
               </div>
-              <div className="mb-4">
+              <div className="mb-4 d-none d-md-block">
                 <JiCreateCta />
               </div>
-              <div className="mb-4">
+              <div className="mb-4 d-none d-md-block">
                 <SelectDate oldData={oldData} updateData={updateData} />
               </div>
-              <div className=" mb-4">
+              <div className=" mb-4 d-none d-md-block">
                 <StatusCard oldData={oldData} updateData={updateData} />
               </div>
               {/* <div className="mb-4 d-none d-md-block">
@@ -154,11 +154,17 @@ export default function JoinList() {
               <div className="row choose-page">
                 <div className="join-sort d-flex align-items-center justify-content-lg-end justify-content-center text-body-tertiary mb-4">
                   <span className="d-none d-md-block">
-                    顯示第{nowPageFirstItems + 1}-
-                    {filterData.length < nowPageLastItems
-                      ? filterData.length
-                      : nowPageLastItems}
-                    筆 / 共{filterData.length}筆
+                    {filterData.length === 0 ? (
+                      <>沒有可顯示的資料</>
+                    ) : (
+                      <>
+                        顯示第{nowPageFirstItems + 1}-
+                        {filterData.length < nowPageLastItems
+                          ? filterData.length
+                          : nowPageLastItems}
+                        筆 / 共{filterData.length}筆
+                      </>
+                    )}
                   </span>
                   <div className="col-md-3 text-body-tertiary d-none d-md-block mx-3">
                     <PerPageDom
@@ -180,7 +186,7 @@ export default function JoinList() {
                       className="mx-auto text-body-tertiary default-text
                     "
                     >
-                      沒有符合關鍵字的活動，請重新搜尋
+                      查無資料
                     </p>
                   ) : (
                     nowPageItems.map((data) => {

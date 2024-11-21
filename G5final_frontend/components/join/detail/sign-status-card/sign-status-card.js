@@ -21,8 +21,8 @@ export default function SignStatusCard({
   const [isJoined, setIsJoined] = useState(false);
   const buttonText = canSign === 0 ? '報名已額滿' : '立即報名';
 
-  console.log(CanSignNum);
-  console.log(canSign);
+  // console.log(CanSignNum);
+  // console.log(canSign);
 
   useEffect(() => {
     // 檢查是否已報名
@@ -66,18 +66,9 @@ export default function SignStatusCard({
         setIsJoined(true);
 
         if (response.ok) {
-          toast('報名成功，已發送報名成功通知至您的信箱，請確認。', {
+          toast('報名成功!請至信箱確認報名成功通知', {
             // icon: '',
-            duration: 1800,
-            style: {
-              borderRadius: '10px',
-              borderTop: '15px #22355C solid',
-              background: '#F5F5F5',
-              color: '#646464',
-              marginTop: '80px',
-              width: '240px',
-              height: '80px',
-            },
+            duration: 2500,
           });
         } else {
           throw new Error('報名失敗');
