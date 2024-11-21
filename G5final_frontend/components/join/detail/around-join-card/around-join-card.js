@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function AroundJoinCard({ data = {} }) {
-  // const router = useRouter();
+  const router = useRouter();
   // const [data, setData] = useState({ ID: 0, Title: '' });
   // const getTitle = async (id) => {
   //   const url = `http://localhost:3005/api/join-in/${id}`;
@@ -40,6 +40,9 @@ export default function AroundJoinCard({ data = {} }) {
     ? data.StartTime.replace(/-/g, '/').slice(0, 16)
     : '';
   const address = data.City + data.Township + data.Location;
+  const handleJump = () => {
+    router.push(`http://localhost:3000/join/${data.ID}`);
+  };
   return (
     <>
       <div
@@ -48,6 +51,7 @@ export default function AroundJoinCard({ data = {} }) {
         <Link
           href={`http://localhost:3000/join/${data.ID}`}
           className="text-decoration-none"
+          onClick={handleJump}
         >
           <div className="card-body py-4 ">
             <div className="d-flex justify-content-between mb-3">
