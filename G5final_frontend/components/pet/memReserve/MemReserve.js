@@ -68,9 +68,9 @@ export default function MemReserve(props) {
       />
     );
   }
-
   return (
     <>
+      <div className="PT-reserve-card p-4 shadow">
       <div className="d-flex justify-content-between">
           {/* 標題 */}
           <PageTitle title={`會員｜預約清單`} subTitle={'Reserve'} />
@@ -81,33 +81,37 @@ export default function MemReserve(props) {
             needFilter={needFilter}
           />
       </div>
-      {/* 清單明細 */}
-      {nowPageItems.length < 1 ? (
-        <Link href={'/communicator'} className="btn btn-primary mt-3">
-          目前無紀錄 點擊前往預約 ＞
-        </Link>
-      ) : (
-        <>
-          <div className="row none title text-center mt-3 py-2">
+      </div>
+      <div className="PT-reserve-card p-4 shadow mt-3">
+        {/* 清單明細 */}
+        {nowPageItems.length < 1 ? (
+          <div>查無預約紀錄 <a href={'/communicator'}>去逛逛</a>
+          </div>
+
+        ) : (
+          <>
+            <div className="row none title text-center mt-3 py-2">
               <div className="col-1 d-none d-lg-block">序號</div>
               <div className="col-3 col-md-2">溝通師</div>
-            <div className="col-2 d-none d-lg-block">寵物名稱</div>
-            <div className="col d-none d-lg-block">狀態</div>
-            <div className="col">預約日期</div>
-            <div className="col">預約時段</div>
-            <div className="col-1" />
-          </div>
-          <MemReserveList nowPageItems={nowPageItems} setMessage={setMessage} />
-          <div className="d-flex justify-content-center">
-            <PageNav
-              nowPage={nowPage}
-              totalPage={totalPage}
-              next={next}
-              prev={prev}
-            />
-          </div>
-        </>
-      )}
+              <div className="col-2 d-none d-lg-block">寵物名稱</div>
+              <div className="col d-none d-lg-block">狀態</div>
+              <div className="col">預約日期</div>
+              <div className="col">預約時段</div>
+              <div className="col-1" />
+            </div>
+            <MemReserveList nowPageItems={nowPageItems} setMessage={setMessage} />
+            <div className="d-flex justify-content-center">
+              <PageNav
+                nowPage={nowPage}
+                totalPage={totalPage}
+                next={next}
+                prev={prev}
+              />
+            </div>
+          </>
+        )}
+      </div>
+      
     </>
   );
 }

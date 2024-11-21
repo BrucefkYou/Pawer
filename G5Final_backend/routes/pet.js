@@ -261,4 +261,42 @@ router.delete('/cancelReserve', upload.none(), async function (req, res, next) {
     res.status(500).send(err)
   }
 })
+// 聊天室紀錄寫入
+router.post('/chatupdate', async function (req, res, next) {
+  const { myID, toID, content } = req.body
+  try {
+    const [rows] = await db2.query(
+      `INSERT INTO Chat (myID, toID, content)
+VALUES (?, ?, ?)`,
+      [myID, toID, content]
+    )
+    res.json([rows])
+    console.log('資料上傳成功')
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
+// 聊天室歷史讀取
+router.get('/chatstory', async function (req, res, next) {
+  const myID = req.query.myID
+  const toID = req.query.toID
+  console.log('toID:', toID)
+  console.log('myID:', myID)
+
+  try {
+    const [rows] = await db2.query(
+      `SELECT * FROM chat 
+      WHERE (toID = ? AND myID = ?) 
+      OR (toID = ? AND myID = ?) 
+      ORDER BY creat_at ASC`,
+      [toID, myID, myID, toID]
+    )
+    res.json(rows)
+    console.log('資料上傳成功')
+  } catch (err) {
+    console.error('查詢錯誤：', err)
+    res.status(500).send(err)
+  }
+})
 export default router

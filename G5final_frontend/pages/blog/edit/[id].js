@@ -76,6 +76,12 @@ export default function BlogEdit() {
       console.error('沒有選擇任何檔案');
       return;
     }
+    // 檢視圖檔類型
+    const imageTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'image/jfif',];
+    if (!imageTypes.includes(file.type)) {
+      toast('請選擇有效的圖片檔案 (.jpg, .jpeg, .png, .webp, .svg, .jfif)');
+      return;
+    }
 
     const reader = new FileReader();
     reader.onloadend = () => setPreviewImage(reader.result);
@@ -108,49 +114,16 @@ export default function BlogEdit() {
   const handleUpdate = async (e, action) => {
 if(action === 'upload'){
   if (!uploadedImageUrl) {
-    toast.error('請上傳封面', {
-      duration: 1800,
-      style: {
-        borderRadius: '10px',
-        borderTop: '15px #22355C solid',
-        background: '#F5F5F5',
-        color: '#646464',
-        marginTop: '80px',
-        width: '300px',
-        height: '100px',
-      },
-    });
+    toast.error('請上傳封面');
     return;
   }
   if (!title) {
-    toast.error('標題是必填欄位', {
-      duration: 1800,
-      style: {
-        borderRadius: '10px',
-        borderTop: '15px #22355C solid',
-        background: '#F5F5F5',
-        color: '#646464',
-        marginTop: '80px',
-        width: '300px',
-        height: '100px',
-      },
-    });
+    toast.error('標題是必填欄位');
     return;
   }
 
   if (!data) {
-    toast.error('內容是必填欄位', {
-      duration: 1800,
-      style: {
-        borderRadius: '10px',
-        borderTop: '15px #22355C solid',
-        background: '#F5F5F5',
-        color: '#646464',
-        marginTop: '80px',
-        width: '300px',
-        height: '100px',
-      },
-    });
+    toast.error('內容是必填欄位');
     return;
   }
 }
@@ -182,34 +155,12 @@ if(action === 'upload'){
   
       if (response.ok) {
         const result = await response.json();
-        toast('文章更新成功!', {
-          duration: 1800,
-          style: {
-            borderRadius: '10px',
-            borderTop: '15px #22355C solid',
-            background: '#F5F5F5',
-            color: '#646464',
-            marginTop: '80px',
-            width: '300px',
-            height: '100px',
-          },
-        });
+        toast.success('文章更新成功!',);
         router.push('http://localhost:3000/member/blog');
       } else {
         const errorData = await response.json();
         console.error('更新失敗:', errorData.message);
-        toast('文章更新失敗', {
-          duration: 1800,
-          style: {
-            borderRadius: '10px',
-            borderTop: '15px #22355C solid',
-            background: '#F5F5F5',
-            color: '#646464',
-            marginTop: '80px',
-            width: '300px',
-            height: '100px',
-          },
-        });
+        toast.error('文章更新失敗');
       }
     } catch (error) {
       console.error('發生錯誤:', error);
@@ -217,7 +168,6 @@ if(action === 'upload'){
     }
   };
   
-
   // 刪除文章
   const delBlogt = useBlogDel(id);
 

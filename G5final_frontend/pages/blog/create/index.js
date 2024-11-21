@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
+import toast from 'react-hot-toast';
 
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import Myeditor from '@/components/join/CKEditorTest';
@@ -51,6 +52,11 @@ export default function BlogCreate() {
 
     // console.log('選擇的檔案:', file);
 
+    const imageTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'image/jfif',];
+    if (!imageTypes.includes(file.type)) {
+      toast('請選擇有效的圖片檔案 (.jpg, .jpeg, .png, .webp, .svg, .jfif)');
+      return;
+    }
     // 預覽圖片
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -118,7 +124,7 @@ export default function BlogCreate() {
       }
       if (imageName) setImageName(imageName);
       if (previewImage) setUploadedImageUrl(previewImage);
-      
+
       localStorage.removeItem('blogTemData')
 
     }

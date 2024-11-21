@@ -4,49 +4,16 @@ export const handleSubmit = async (e, uid, title, data, tags, imageName, router,
     e.preventDefault();
 
     if (!uploadedImageUrl) {
-        toast.error('請上傳封面', {
-            duration: 1800,
-            style: {
-                borderRadius: '10px',
-                borderTop: '15px #22355C solid',
-                background: '#F5F5F5',
-                color: '#646464',
-                marginTop: '80px',
-                width: '300px',
-                height: '100px',
-            },
-        });
+        toast.error('請上傳封面');
         return;
     }
     if (!title) {
-        toast.error('標題是必填欄位', {
-            duration: 1800,
-            style: {
-                borderRadius: '10px',
-                borderTop: '15px #22355C solid',
-                background: '#F5F5F5',
-                color: '#646464',
-                marginTop: '80px',
-                width: '300px',
-                height: '100px',
-            },
-        });
+        toast.error('標題是必填欄位');
         return;
     }
 
     if (!data) {
-        toast.error('內容是必填欄位', {
-            duration: 1800,
-            style: {
-                borderRadius: '10px',
-                borderTop: '15px #22355C solid',
-                background: '#F5F5F5',
-                color: '#646464',
-                marginTop: '80px',
-                width: '300px',
-                height: '100px',
-            },
-        });
+        toast.error('內容是必填欄位');
         return;
     }
 
@@ -66,34 +33,12 @@ export const handleSubmit = async (e, uid, title, data, tags, imageName, router,
         });
 
         if (response.ok) {
-            toast('文章發布成功!', {
-                duration: 1800,
-                style: {
-                    borderRadius: '10px',
-                    borderTop: '15px #22355C solid',
-                    background: '#F5F5F5',
-                    color: '#646464',
-                    marginTop: '80px',
-                    width: '300px',
-                    height: '100px',
-                },
-            });
+            toast.success('文章發布成功!');
             router.push('/blog');
         } else {
             const errorData = await response.json();
             console.error('文章發布失敗:', errorData.message);
-            toast('文章發布失敗', {
-                duration: 1800,
-                style: {
-                    borderRadius: '10px',
-                    borderTop: '15px #22355C solid',
-                    background: '#F5F5F5',
-                    color: '#646464',
-                    marginTop: '80px',
-                    width: '300px',
-                    height: '100px',
-                },
-            });
+            toast.error('文章發布失敗');
         }
     } catch (error) {
         console.error('發生錯誤:', error);
