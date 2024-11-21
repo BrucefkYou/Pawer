@@ -19,6 +19,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -41,6 +42,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -63,6 +65,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "紙本發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -85,6 +88,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "紙本發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -107,6 +111,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -129,6 +134,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -151,6 +157,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -173,6 +180,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -195,6 +203,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -217,6 +226,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -239,6 +249,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -261,6 +272,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -283,6 +295,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -305,6 +318,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -327,6 +341,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -349,6 +364,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -371,6 +387,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -393,6 +410,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -415,6 +433,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -437,6 +456,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -459,6 +479,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -481,6 +502,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "紙本發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -503,6 +525,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -525,6 +548,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -547,6 +571,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -569,6 +594,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -591,6 +617,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -613,6 +640,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -635,6 +663,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -657,6 +686,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -679,6 +709,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "紙本發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -701,6 +732,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -723,6 +755,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -745,6 +778,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -767,6 +801,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -789,6 +824,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -811,6 +847,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -833,6 +870,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -855,6 +893,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -877,6 +916,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -899,6 +939,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -921,6 +962,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -943,6 +985,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -965,6 +1008,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -987,6 +1031,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1009,6 +1054,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1031,6 +1077,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1053,6 +1100,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1075,6 +1123,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1097,6 +1146,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1119,6 +1169,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1141,6 +1192,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1163,6 +1215,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1185,6 +1238,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "紙本發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1207,6 +1261,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "紙本發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1229,6 +1284,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1251,6 +1307,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1273,6 +1330,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1295,6 +1353,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1317,6 +1376,7 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
 		"Note": null
 	},
 	{
@@ -1339,6 +1399,53 @@
 		"DeliveryStatus": "未出貨",
 		"ReceiptType": "捐贈發票",
 		"ReceiptCarrier": "",
+		"SendEmail": "0",
+		"Note": null
+	},
+	{
+		"ID": "148",
+		"OrderNumber": "EC1731935292355303",
+		"UUID": "8dcb8d30-40ac-49c6-a103-532a343bed9f",
+		"Date": "2024-11-18 21:08:12",
+		"MemberID": "101",
+		"ProductsAmount": "1",
+		"OriginPrice": "356",
+		"DiscountPrice": "0",
+		"TotalPrice": "356",
+		"CouponID": "0",
+		"PaymentMethod": "信用卡",
+		"PaymentStatus": "已付款",
+		"Receiver": "123",
+		"ReceiverPhone": "12345",
+		"DeliveryWay": "超商取貨",
+		"DeliveryAddress": "新北市八里區中山路一段143.145號1樓",
+		"DeliveryStatus": "未出貨",
+		"ReceiptType": "紙本發票",
+		"ReceiptCarrier": "",
+		"SendEmail": "0",
+		"Note": null
+	},
+	{
+		"ID": "149",
+		"OrderNumber": "EC1732000492540253",
+		"UUID": "a0b07677-ef6f-4455-a9d3-ea5d9a2f7f82",
+		"Date": "2024-11-19 15:14:52",
+		"MemberID": "101",
+		"ProductsAmount": "1",
+		"OriginPrice": "89",
+		"DiscountPrice": "0",
+		"TotalPrice": "89",
+		"CouponID": "0",
+		"PaymentMethod": "信用卡",
+		"PaymentStatus": "已付款",
+		"Receiver": "ㄉˇ",
+		"ReceiverPhone": "12321312312",
+		"DeliveryWay": "超商取貨",
+		"DeliveryAddress": "桃園市大溪區大鶯路1539-1號",
+		"DeliveryStatus": "未出貨",
+		"ReceiptType": "紙本發票",
+		"ReceiptCarrier": "",
+		"SendEmail": "1",
 		"Note": null
 	}
 ]
