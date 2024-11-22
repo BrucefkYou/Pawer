@@ -47,15 +47,15 @@ export default function OrderDetail() {
         <title>會員中心 - 我的部落格</title> {/* 設置當前頁面的標題 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <article className="col-md-10 text-end">
-        <div className="mb-content d-flex justify-content-between align-items-end">
+      <article className="col-md-10">
+        <div className="bl-mem-content
+ d-flex justify-content-between align-items-end">
           <PageTitle title={'我的部落格'} subTitle={'Blog'} />
-
-            <MemberNav
-              newdata={newdata}
-              chooseFilter={chooseFilter}
-              needFilter={needFilter}
-            />
+          <MemberNav
+            newdata={newdata}
+            chooseFilter={chooseFilter}
+            needFilter={needFilter}
+          />
         </div>
         <div className="mb-card d-flex flex-column justify-content-center pt-5 px-4">
           <div className="card-section d-flex flex-wrap gap-3  ">
@@ -78,12 +78,12 @@ export default function OrderDetail() {
               })
             ) : (
               <p className='m-0'>
-              開始建立文章！
-              <Link
-                href={'http://localhost:3000/blog/create'}
-              >
-                立即發布
-              </Link>
+                開始建立文章！
+                <Link
+                  href={'http://localhost:3000/blog/create'}
+                >
+                  立即發布
+                </Link>
               </p>
             )}
 
