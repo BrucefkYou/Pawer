@@ -24,17 +24,8 @@ export default function JiCreateCta() {
 
   const handleCreate = () => {
     if (!auth.isAuth) {
-      toast('您需要登入才能創建', {
-        duration: 1000,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '220px',
-          height: '70px',
-        },
+      toast('請先登入後創建', {
+        duration: 1500,
       });
       setTimeout(() => {
         router.push('/member/login');
