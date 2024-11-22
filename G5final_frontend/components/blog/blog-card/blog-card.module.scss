@@ -1,27 +1,39 @@
 .blog-card {
-    width: 367px;
-    height: 540px;
+  width: 367px;
+  height: 540px;
+  overflow: hidden;
+
+  .card-image {
     overflow: hidden;
+    object-fit: cover;
+    transition: all 0.5s ease;
+    width: 100%;
+  }
 
+  .card-body {
+    padding: 16px 30px 30px 30px;
+    font-size: 14px;
+    border-bottom: 4px solid #ccc;
+    transition: border-color 0.5s ease;
+  }
+
+  &:hover {
     .card-image {
-        overflow: hidden;
-        object-fit: cover;
+      transform: scale(1.1);
     }
-
     .card-body {
-        padding: 16px 30px 30px 30px;
-        font-size: 14px;
-
+      border-bottom: 4px solid #f4b13e;
     }
+  }
 
-    .card-title {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+  .card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-    p {
-        border-radius: 2px;
-        line-height: 26px;
-    }
+  p {
+    border-radius: 2px;
+    line-height: 26px;
+  }
 }
