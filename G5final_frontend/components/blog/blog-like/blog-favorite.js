@@ -68,10 +68,10 @@ export default function BlogFav({ IconFilled, IconOutline, count, id }) {
       const newStatus = !prevStatus;
       if (newStatus) {
         addLike();
-        toast('您已收藏');
+        toast.success('您已收藏');
       } else {
         delLike();
-        toast('您已取消收藏');
+        toast.error('您已取消收藏');
       }
       return newStatus;
     });

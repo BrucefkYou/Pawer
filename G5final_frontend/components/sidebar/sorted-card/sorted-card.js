@@ -58,7 +58,7 @@ export default function SortedCard({
               <Link
                 key={blog['id'] ?? index}
                 href={`${link}/${blog[id]}`}
-                className="text-decoration-none"
+               className ={`text-decoration-none ${styles['sorted-sec']}`}
               >
                 <div className={styles['sorted-content']}>
                   <div className={styles['sorted-cover-container']}>
