@@ -113,7 +113,7 @@ export default function Navbar() {
                         className="customDropdownItem"
                         href="/blog"
                       >
-                        部落格專
+                        部落格專區
                       </Link>
                     </li>
                     <li className="dropdownli">
