@@ -259,6 +259,9 @@
   .card-favorite-list {
     margin-top: -2rem;
   }
+  .card-favorite-layout{
+    margin-left: 1.5rem
+  }
   /* 卡片大小 */
   .card-size {
     width: 15.25rem;
@@ -470,6 +473,9 @@
     // 收藏會員卡片
     .card-favorite-list {
       margin-top: 1rem;
+    }
+    .card-favorite-layout{
+      margin-left: 0.25rem
     }
     .category-li li {
       margin-bottom: 0.75rem;

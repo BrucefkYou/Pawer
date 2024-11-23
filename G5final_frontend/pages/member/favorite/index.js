@@ -62,7 +62,7 @@ export default function Index() {
               </p>
             </>
           ) : (
-            <div className="row ms-4 d-flex justify-content-start card-favorite-list">
+            <div className="row card-favorite-layout d-flex justify-content-start card-favorite-list">
               {nowPageItems.map((pd, index) => (
                 <ProductList key={`product-${index}`} pd={pd} setUrl={setUrl} />
               ))}
