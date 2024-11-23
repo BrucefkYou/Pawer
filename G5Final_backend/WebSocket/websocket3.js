@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { WebSocketServer, WebSocket } from 'ws'
 export default function testwss3() {
   // 設置 WebSocket 伺服器並配置 noServer 模式
@@ -19,7 +20,6 @@ export default function testwss3() {
   }
   wss3.on('connection', (ws) => {
     console.log('WebSocket3 連線成功')
-
     // 接收來自客戶端的訊息
     ws.on('message', async (message) => {
       const data = JSON.parse(message)
@@ -66,6 +66,7 @@ export default function testwss3() {
             type: 'message',
             from: data.myID,
             content: data.content,
+            creat_at: moment().format('YYYY-MM-DD HH:mm:ss'),
           })
         )
       } else {
@@ -82,6 +83,7 @@ export default function testwss3() {
             type: 'message',
             from: 'self',
             content: data.content,
+            creat_at: moment().format('YYYY-MM-DD HH:mm:ss'),
           })
         )
       }

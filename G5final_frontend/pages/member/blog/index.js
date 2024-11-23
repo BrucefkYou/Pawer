@@ -48,7 +48,10 @@ export default function OrderDetail() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <article className="col-md-10">
-        <div className="mb-content d-flex justify-content-between align-items-end">
+        <div
+          className="bl-mem-content
+ d-flex justify-content-between "
+        >
           <PageTitle title={'我的部落格'} subTitle={'Blog'} />
 
           <MemberNav
@@ -96,7 +99,10 @@ export default function OrderDetail() {
             )}
           </div>
         </div>
-        <MemCreateBtn url="http://localhost:3000/blog/create">
+        <MemCreateBtn
+          url="http://localhost:3000/blog/create"
+          className="ms-auto"
+        >
           <BsPencilFill />
         </MemCreateBtn>
       </article>
