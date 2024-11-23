@@ -224,6 +224,7 @@ export default function RegisterForm({ Formtype, setFormtype }) {
             width={446}
             height={630}
             className={`${styles['pic']}`}
+            priority
           />
         </div>
       </div>

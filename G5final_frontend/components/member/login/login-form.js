@@ -103,6 +103,7 @@ export default function LoginForm({ Formtype, setFormtype }) {
             width={446}
             height={520}
             className={`${styles['pic']}`}
+            priority
           />
         </div>
         <div
