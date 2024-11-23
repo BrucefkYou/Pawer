@@ -16,7 +16,10 @@ export default function Success(props) {
   const name = auth.memberData.name;
   const sendOrderConfirmEmail = async (num, name, email) => {
     if (emailSentRef.current) return; // 如果已經寄送過，則直接返回
-
+    if (localStorage.getItem('emailSent')) return; // 如果已經寄送過，則直接返回
+    console.log('1');
+    localStorage.setItem('emailSent', 'true');
+    console.log('2');
     try {
       const res = await fetch('http://localhost:3005/api/order/orderEmail', {
         method: 'POST',
@@ -37,10 +40,12 @@ export default function Success(props) {
       } else {
         console.log('訂單確認信寄送失敗:', data.message);
       }
-
+      console.log('3');
       emailSentRef.current = true; // 標記郵件已經被寄送
     } catch (error) {
       console.error('發送訂單確認信時出錯:', error);
+    } finally {
+      localStorage.removeItem('emailSent');
     }
   };
   useEffect(() => {

@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/router';
 import { useCart } from '@/hooks/use-cart/use-cart-state';
 import useFirebase from '@/hooks/use-firebase';
+import { BsBoxArrowRight } from 'react-icons/bs';
 export default function Navbar() {
   const { items, initCart } = useCart();
   const { auth, logout } = useAuth();
@@ -193,8 +194,8 @@ export default function Navbar() {
               <button className="navbar-member" onClick={islogin}>
                 {avatarUrl && (
                   <Image
-                    width={24}
-                    height={24}
+                    width={29}
+                    height={29}
                     className="navbar-login-img"
                     src={avatarUrl}
                     alt="使用者頭像"
@@ -211,7 +212,7 @@ export default function Navbar() {
               {/* <img src="./images/icon/cart.svg" alt="1"> */}
               <Link href="/cart">
                 <div className="nav-cart-ItemNumber">{cartItemNum}</div>
-                <BsCart2 className="text-secondary  BsCart2" />
+                <BsCart2 className="text-secondary BsCart2" />
               </Link>
             </button>
             {auth.isAuth ? (
@@ -225,7 +226,8 @@ export default function Navbar() {
                   router.push('/');
                 }}
               >
-                <IoIosLogOut className="text-secondary" />
+                <BsBoxArrowRight className="text-secondary" />
+                {/* <IoIosLogOut className="text-secondary" /> */}
               </button>
             ) : null}
           </div>
