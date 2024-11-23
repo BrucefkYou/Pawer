@@ -237,7 +237,7 @@ router.post('/orderEmail', async (req, res, next) => {
       'UPDATE `Order` SET SendEmail = 1 WHERE OrderNumber = ?'
     const updateEmailValues = [orderNum]
     const [updateResult] = await db.query(updateEmailSql, updateEmailValues)
-
+    console.log(updateResult)
     if (result.status === 'success') {
       return res.json({ status: 'success', message: '訂單通知信已寄出' })
     } else if (result.status === 'error') {
