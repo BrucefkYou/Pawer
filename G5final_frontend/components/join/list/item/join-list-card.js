@@ -94,6 +94,7 @@ export default function JoinListCard({
           src={imageUrl || '/join/t7.jpg'}
           alt={data.Title}
         />
+
         {cancelBtn ? (
           <button
             type="button"

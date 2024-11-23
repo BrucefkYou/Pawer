@@ -140,15 +140,6 @@ const Publish = () => {
     if (!imageName) {
       toast.error('請上傳封面', {
         duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #646464 solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '220px',
-          height: '70px',
-        },
       });
       window.scrollTo(0, 150);
       return;
@@ -158,15 +149,6 @@ const Publish = () => {
       // 標題必填
       toast.error('請輸入活動標題', {
         duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #646464 solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '220px',
-          height: '70px',
-        },
       });
       joinTitle.focus();
       joinTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -176,15 +158,6 @@ const Publish = () => {
       // 內容必填
       toast.error('請輸入活動內容', {
         duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #646464 solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '220px',
-          height: '70px',
-        },
       });
       window.scrollTo(0, 900);
       return;
@@ -193,15 +166,6 @@ const Publish = () => {
       // 開始時間不得早於結束時間
       toast.error('開始時間不得早於結束時間', {
         duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #646464 solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '220px',
-          height: '70px',
-        },
       });
       window.scrollTo(0, 1100);
       return;
@@ -209,15 +173,6 @@ const Publish = () => {
     if (count < 1) {
       toast.error('人數上限不得小於1', {
         duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #646464 solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '220px',
-          height: '70px',
-        },
       });
       window.scrollTo(0, 1200);
       return;
@@ -225,15 +180,6 @@ const Publish = () => {
     if (city === '' || township === '' || location === '') {
       toast.error('請輸入活動地點', {
         duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #646464 solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '220px',
-          height: '70px',
-        },
       });
       window.scrollTo(0, 1400);
       return;
@@ -267,15 +213,6 @@ const Publish = () => {
       if (response.ok) {
         toast('發佈成功', {
           duration: 1800,
-          style: {
-            borderRadius: '10px',
-            borderTop: '15px #22355C solid',
-            background: '#F5F5F5',
-            color: '#22355c',
-            marginTop: '80px',
-            width: '220px',
-            height: '70px',
-          },
         });
         router.push('/join');
       } else {
@@ -297,15 +234,6 @@ const Publish = () => {
       // 草稿需要標題
       toast.error('請輸入活動標題', {
         duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #646464 solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '220px',
-          height: '70px',
-        },
       });
       joinTitle.focus();
       joinTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -340,15 +268,6 @@ const Publish = () => {
       if (response.ok) {
         toast('已儲存為草稿', {
           duration: 1800,
-          style: {
-            borderRadius: '10px',
-            borderTop: '15px #22355C solid',
-            background: '#F5F5F5',
-            color: '#22355c',
-            marginTop: '80px',
-            width: '220px',
-            height: '70px',
-          },
         });
         router.push('/join');
       } else {

@@ -5,6 +5,10 @@
     overflow: hidden;
     border-bottom: 4px solid #ccc;
     &:hover{
+        img{
+            scale: 1.025;
+            transition: ease 0.5s;
+        }
         border-bottom:4px solid #F4B434 ;
     }
 }
