@@ -194,8 +194,8 @@ export default function Navbar() {
               <button className="navbar-member" onClick={islogin}>
                 {avatarUrl && (
                   <Image
-                    width={24}
-                    height={24}
+                    width={29}
+                    height={29}
                     className="navbar-login-img"
                     src={avatarUrl}
                     alt="使用者頭像"
