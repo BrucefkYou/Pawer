@@ -49,7 +49,7 @@ export default function OrderDetail() {
       </Head>
       <article className="col-md-10">
         <div className="bl-mem-content
- d-flex justify-content-between align-items-end">
+ d-flex justify-content-between ">
           <PageTitle title={'我的部落格'} subTitle={'Blog'} />
           <MemberNav
             newdata={newdata}
@@ -101,7 +101,7 @@ export default function OrderDetail() {
             )}
           </div>
         </div>
-        <MemCreateBtn url="http://localhost:3000/blog/create">
+        <MemCreateBtn url="http://localhost:3000/blog/create"  className="ms-auto">
           <BsPencilFill />
         </MemCreateBtn>
       </article>
