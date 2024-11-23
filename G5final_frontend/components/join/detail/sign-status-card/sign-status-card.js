@@ -80,15 +80,6 @@ export default function SignStatusCard({
     } else {
       toast('請先登入會員', {
         duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '240px',
-          height: '80px',
-        },
       });
       router.push('/member/login');
     }

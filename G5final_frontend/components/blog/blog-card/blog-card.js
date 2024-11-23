@@ -32,7 +32,7 @@ export default function BlogCard({
     <div className={`card shadow ${styles['blog-card']}`}>
       <Link
         href={`http://localhost:3000/blog/${id}`}
-        className="btn text-warning p-0 text-decoration-none text-start"
+        className="text-warning p-0 text-decoration-none"
       >
         <Image
           className={`${styles['card-image']}`}

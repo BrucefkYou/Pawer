@@ -36,7 +36,7 @@
 .nav-cart-ItemNumber{
   position: absolute;
   color: $warning;
-  top: 3px;
+  top: -20px;
   left: -8px;
   width: 20px;
   height: 20px;
@@ -48,6 +48,7 @@
   font-size: 20px;
   line-height: 20px;
   transform: scaleX(-1);
+  z-index: 10;
 }
 .navbar-hamburger {
   background: none;
@@ -79,14 +80,21 @@
       color: $warning;
     }
   }
+  .navbar-logout{
+    margin-top: 2px;
+  }
   .navbar-member {
     svg {
-      margin-bottom: 2px;
-      vertical-align: bottom;
+      margin-bottom: -3px;
     }
   }
   .navbar-cart {
     transform: scaleX(-1);
+  }
+  .BsCart2{
+    position: fixed;
+    top: -15px;
+    left: 0;
   }
 }
 

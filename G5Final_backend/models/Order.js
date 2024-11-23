@@ -96,6 +96,7 @@ export default async function (sequelize) {
       SendEmail: {
         type: DataTypes.TINYINT,
         allowNull: false,
+        defaultValue: 0,
         comment: '0未寄出1已寄出',
       },
       Note: {
