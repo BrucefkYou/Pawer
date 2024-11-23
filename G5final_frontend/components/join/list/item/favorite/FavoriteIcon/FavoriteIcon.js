@@ -89,7 +89,7 @@ export default function FavoriteIcon({
       const newStatus = !prevStatus;
       if (newStatus) {
         addFv();
-        toast('收藏成功', {
+        toast.success('收藏成功', {
           // icon: "",
           duration: 1800,
         });
