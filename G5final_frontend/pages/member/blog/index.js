@@ -48,9 +48,12 @@ export default function OrderDetail() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <article className="col-md-10">
-        <div className="bl-mem-content
- d-flex justify-content-between ">
+        <div
+          className="bl-mem-content
+ d-flex justify-content-between "
+        >
           <PageTitle title={'我的部落格'} subTitle={'Blog'} />
+
           <MemberNav
             newdata={newdata}
             chooseFilter={chooseFilter}
@@ -77,16 +80,11 @@ export default function OrderDetail() {
                 );
               })
             ) : (
-              <p className='m-0'>
+              <p className="m-0">
                 開始建立文章！
-                <Link
-                  href={'http://localhost:3000/blog/create'}
-                >
-                  立即發布
-                </Link>
+                <Link href={'http://localhost:3000/blog/create'}>立即發布</Link>
               </p>
             )}
-
           </div>
           <div className="pt-5 justify-content-center ">
             {nowPageItems && nowPageItems.length > 0 && (
@@ -101,7 +99,10 @@ export default function OrderDetail() {
             )}
           </div>
         </div>
-        <MemCreateBtn url="http://localhost:3000/blog/create"  className="ms-auto">
+        <MemCreateBtn
+          url="http://localhost:3000/blog/create"
+          className="ms-auto"
+        >
           <BsPencilFill />
         </MemCreateBtn>
       </article>

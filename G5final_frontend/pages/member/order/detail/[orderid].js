@@ -6,6 +6,7 @@ import MemberLayout from '@/components/layout/member-layout';
 import PageTitle from '@/components/member/page-title/page-title';
 import { getOrder } from '@/services/member';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 OrderDetail.getLayout = function getLayout(page) {
   return <MemberLayout>{page}</MemberLayout>;
 };
@@ -24,13 +25,18 @@ export default function OrderDetail() {
       const dborder = res.data.order;
       setOrder(dborder);
       setOrderProducts(dborder.OrderDetail);
+    } else {
+      toast.error('無法取得該訂單資料，為您導回訂單列表頁');
+      setTimeout(() => {
+        router.push('/member/order');
+      }, 2000);
     }
   };
   // 每次刷新頁面時，取得訂單資料
   useEffect(() => {
     if (router.isReady && memberId && orderId) getOrderData();
   }, [router.isReady, memberId, orderId]);
-  console.log(`order`,order);
+  console.log(`order`, order);
 
   return (
     <>
@@ -46,7 +52,7 @@ export default function OrderDetail() {
           <div className="col-md-2 col-4">
             <span className="title">訂單編號</span>
           </div>
-          <div className="col-md-10 col-8 col-8">
+          <div className="col-md-10 col-8">
             <span className="title">{order['OrderNumber']}</span>
           </div>
         </div>
@@ -140,7 +146,6 @@ export default function OrderDetail() {
             <span>{order['DeliveryStatus']}</span>
           </div>
         </div> */}
-     
       </div>
       <div className="mb-card">
         <div className="row">
@@ -148,38 +153,78 @@ export default function OrderDetail() {
             <span className="title">商品資訊</span>
           </div>
         </div>
-        <div className="mb-order-product">
-          <div className="row header">
-            <div className="cell">商品</div>
-            <div className="cell">單價</div>
-            <div className="cell">數量</div>
-            <div className="cell">總價</div>
+        <div className="d-none d-md-block">
+          <div className="mb-order-product">
+            <div className="row header">
+              <div className="cell">商品</div>
+              <div className="cell">單價</div>
+              <div className="cell">數量</div>
+              <div className="cell">總價</div>
+            </div>
+            {orderProducts.map((product) => {
+              const price = Number(product.ProductOriginPrice);
+              const amount = product.ProductAmount;
+              return (
+                <div className="row" key={product.ID}>
+                  <div className="cell justify-content-start">
+                    <Image
+                      width={100}
+                      height={100}
+                      src={`/product/sqlimg/${product.ProductImg}`}
+                      alt="productimg"
+                      className="me-1"
+                    />
+                    {product.ProductName}
+                  </div>
+                  <div className="cell">${price.toLocaleString()}</div>
+                  <div className="cell">{amount}</div>
+                  <div className="cell text-warning">
+                    ${price * amount.toLocaleString()}
+                  </div>
+                </div>
+              );
+            })}
           </div>
+        </div>
+        <div className="d-md-none">
           {orderProducts.map((product) => {
             const price = Number(product.ProductOriginPrice);
             const amount = product.ProductAmount;
-
             return (
               <div className="row" key={product.ID}>
-                <div className="cell justify-content-start">
+                <div className="d-flex justify-content-center">
                   <Image
-                    width={100}
-                    height={100}
+                    width={200}
+                    height={200}
                     src={`/product/sqlimg/${product.ProductImg}`}
                     alt="productimg"
                     className="me-1"
                   />
-                  {product.ProductName}
                 </div>
-                <div className="cell">${price.toLocaleString()}</div>
-                <div className="cell">{amount}</div>
-                <div className="cell text-warning">
-                  ${price * amount.toLocaleString()}
+                <div className="row">
+                  <div className="col-4">商品名稱</div>
+                  <div className="col-8">{product.ProductName}</div>
+                </div>
+                <div className="row">
+                  <div className="col-4">單價</div>
+                  <div className="col-8">${price.toLocaleString()}</div>
+                </div>
+                <div className="row">
+                  <div className="col-4">數量</div>
+                  <div className="col-8">{amount}</div>
+                </div>
+                <div className="row">
+                  <div className="col-4">總價</div>
+                  <div className="col-8">
+                    ${price * amount.toLocaleString()}
+                  </div>
                 </div>
               </div>
             );
           })}
+          <hr />
         </div>
+
         <div className="d-flex justify-content-end mt-3">
           <div className="col-md-4 col-12">
             <div className="d-flex justify-content-between mt-3">
@@ -196,9 +241,9 @@ export default function OrderDetail() {
             </div>
             <div className="d-flex justify-content-between mt-3">
               <span>折抵金額</span>
-              <span>${Number(order.DiscountPrice).toLocaleString()}</span>
+              <span>- ${Number(order.DiscountPrice).toLocaleString()}</span>
             </div>
-            <hr />
+            <hr className="d-none d-md-block" />
             <div className="d-flex justify-content-between mt-3">
               <h5 className="title">訂單總計</h5>
               <span className="title">

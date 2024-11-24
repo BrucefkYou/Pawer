@@ -31,7 +31,7 @@ export default function MemReserve(props) {
       { id: 1, label: '預約中', filterRule: '1', filterName: 'Status' },
       { id: 2, label: '歷史', filterRule: '0', filterName: 'Status' },
     ],
-    needSort: [{ way: 'desc-ID', name: '' }],
+    needSort: [{ way: 'asc-Time', name: '' }],
     processData,
   });
 
