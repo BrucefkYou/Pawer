@@ -78,11 +78,6 @@ export default async function (sequelize) {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      valid: {
-        type: DataTypes.TINYINT,
-        allowNull: true,
-        defaultValue: 1,
-      },
       delreason: {
         type: DataTypes.TEXT,
         allowNull: true,
