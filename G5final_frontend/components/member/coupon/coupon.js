@@ -9,7 +9,7 @@ export default function Coupon({ coupon }) {
   const used = coupon.Used_Date !== null;
   const expired = endTime < now;
   // 計算出現即將到期的毫秒數
-  const notifyMillis = 60 * 24 * 60 * 60 * 1000;
+  const notifyMillis = 60 * 24 * 60 * 7 * 1000;
   // 計算現在到到期時間的毫秒差
   const timeDifferenceMillis = endTime - now;
   // 計算剩餘天數（毫秒轉為天數）
