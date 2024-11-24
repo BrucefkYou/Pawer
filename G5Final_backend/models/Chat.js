@@ -24,7 +24,7 @@ export default async function (sequelize) {
       creat_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
-        allowNull: false,
+        allowNull: true,
       },
     },
     {

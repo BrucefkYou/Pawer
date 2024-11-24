@@ -18,16 +18,18 @@ export default function PetList({ nowPageItems }) {
           <div
             className="pet-teachercard-yen shadow position-relative m-3"
             key={v.ID}
-          >
+          ><div className='p-4'>
             {/* 頭像 */}
             <Image
-              className="imgg"
-              src={`http://localhost:3005/pet/${v.Img}`}
-              alt="1"
-              layout="responsive"
-              width={400}
-              height={400}
-            />
+                className="imgg"
+                src={`http://localhost:3005/pet/${v.Img}`}
+                alt="1"
+                layout="responsive"
+                width={400}
+                height={400}
+                style={{borderRadius:'5px'}}
+              />
+            </div>
             {/* 外部 */}
             <div className="contain">
               <h4>{v.Name}</h4>
