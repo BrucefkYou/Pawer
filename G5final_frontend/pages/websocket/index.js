@@ -41,16 +41,20 @@ export default function Index(props) {
     // 抓取當前會員預約表
     let fetchMemReserve
     if (reserveData && reserveData.length > 0 && MemberID) {
-        fetchMemReserve = reserveData.filter((v) => {
-            return v.MemberID == MemberID
-        })
+        fetchMemReserve = reserveData
+            .filter((v) => v.MemberID == MemberID) // 先篩選符合 PetCommID 的資料
+            .filter((v, index, self) =>
+                index === self.findIndex((t) => t.PetCommID === v.PetCommID)
+            ); // 去除 MemberID 重複的資料
     }
     // 抓取當前師資預約表
     let fetchCommReserve
     if (reserveData && reserveData.length > 0 && PetCommID) {
-        fetchCommReserve = reserveData.filter((v) => {
-            return v.PetCommID == PetCommID
-        })
+        fetchCommReserve = reserveData
+            .filter((v) => v.PetCommID == PetCommID) // 先篩選符合 PetCommID 的資料
+            .filter((v, index, self) =>
+                index === self.findIndex((t) => t.MemberID === v.MemberID)
+            ); // 去除 MemberID 重複的資料
     }
     // 在線狀態管理
     const [onlineUsers, setOnlineUsers] = useState([]);
@@ -64,6 +68,8 @@ export default function Index(props) {
     }
     // 累加全域訊息
     const [message, setMessage] = useState([]);
+    // toast發送一次
+    const [toastSent, setToastSent] = useState(false);
     // 發送訊息
     function onSubmit() {
         const data = {
@@ -109,8 +115,8 @@ export default function Index(props) {
         }
     }
     // 手機版側邊欄顯示按鈕
-    const [showWindow , setShowWindow]=useState(false)
-    function handSideWindow() { 
+    const [showWindow, setShowWindow] = useState(false)
+    function handSideWindow() {
         setShowWindow(!showWindow)
     }
     // 建立連線
@@ -134,9 +140,9 @@ export default function Index(props) {
                         // 當前使用者的 ID
                         myID: loginID.toString(),
                     })
-                );
+                )
             }
-            if (fetchMem && loginID && fetchCom) {
+            if (!toastSent && fetchMem && loginID && fetchCom) {
                 const data = {
                     type: 'toast', // 添加消息類型
                     content: `${loginID == fetchMem.ID ? fetchMem.Name : fetchCom.Name} 已上線`,
@@ -144,6 +150,7 @@ export default function Index(props) {
                     toID: loginID == PetCommID ? MemberID : PetCommID,
                 };
                 ws.send(JSON.stringify(data));
+                setToastSent(true)
             }
             if (fetchMem && loginID && fetchCom) {
                 const data = {
@@ -189,6 +196,7 @@ export default function Index(props) {
                         toID: loginID == PetCommID ? MemberID : PetCommID,
                     };
                     ws.send(JSON.stringify(data));
+                    setToastSent(false)
                 }
                 if (fetchMem && loginID && fetchCom) {
                     const data = {
@@ -202,7 +210,7 @@ export default function Index(props) {
             }
             ws.close(); // 確保連線關閉
         };
-    }, [MemberID, PetCommID, loginID, router.query, router.isReady]);
+    }, [MemberID, PetCommID, loginID, router.query, router.isReady, fetchMem, fetchCom]);
     // 抓溝通師資料
     useEffect(() => {
         const fetchData = async () => {
@@ -297,7 +305,7 @@ export default function Index(props) {
                             <div className="text-primary fs-5 position-relative">
                                 <div>預約紀錄名單</div>
                                 <button className={`btn position-absolute btn-position d-md-none d-flex justify-content-center align-items-center`} onClick={handSideWindow}>
-                                    <span>{showWindow ? <BsChevronCompactLeft/> : <BsChevronCompactRight />}</span>
+                                    <span>{showWindow ? <BsChevronCompactLeft /> : <BsChevronCompactRight />}</span>
                                 </button>
                             </div>
                             {/* 兩個面向的列表 */}

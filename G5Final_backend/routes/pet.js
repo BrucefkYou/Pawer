@@ -55,12 +55,18 @@ router.get('/comreserve', async function (req, res, next) {
       SET Status = '0'
       WHERE Time < NOW();
     `)
+    await db2.query(`
+      UPDATE PetCommunicatorReserve
+      SET Status = '1'
+      WHERE Time > NOW();
+    `)
 
     // 再執行查詢
     const [rows] = await db2.query(`
       SELECT PetCommunicatorReserve.*, Member.Avatar 
       FROM PetCommunicatorReserve 
-      LEFT JOIN Member ON PetCommunicatorReserve.MemberID = Member.ID;
+      LEFT JOIN Member ON PetCommunicatorReserve.MemberID = Member.ID
+      ORDER BY Time ASC;
     `)
     res.json(rows)
   } catch (err) {
@@ -105,6 +111,11 @@ router.get('/memreserve', async function (req, res, next) {
       SET Status = '0'
       WHERE Time < NOW();
     `)
+    await db2.query(`
+      UPDATE PetCommunicatorReserve
+      SET Status = '1'
+      WHERE Time > NOW();
+    `)
     // 再執行查詢
     const [rows] = await db2.query(`SELECT 
     PetCommunicatorReserve.*,PetCommunicator.Name,PetCommunicator.Img,Member.Avatar
@@ -113,7 +124,8 @@ router.get('/memreserve', async function (req, res, next) {
     LEFT JOIN 
     PetCommunicator ON PetCommunicator.ID = PetCommunicatorReserve.PetCommID
     LEFT JOIN 
-    Member ON Member.ID = PetCommunicator.MemberID`)
+    Member ON Member.ID = PetCommunicator.MemberID
+    ORDER BY Time ASC;`)
     res.json(rows)
   } catch (err) {
     console.error('查詢錯誤：', err)
@@ -266,8 +278,8 @@ router.post('/chatupdate', async function (req, res, next) {
   const { myID, toID, content } = req.body
   try {
     const [rows] = await db2.query(
-      `INSERT INTO Chat (myID, toID, content)
-VALUES (?, ?, ?)`,
+      `INSERT INTO Chat (myID, toID, content, creat_at)
+VALUES (?, ?, ?,NOW())`,
       [myID, toID, content]
     )
     res.json([rows])
