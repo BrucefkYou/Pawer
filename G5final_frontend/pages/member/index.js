@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/use-auth';
 import PageTitle from '@/components/member/page-title/page-title';
 import toast from 'react-hot-toast';
 // 更新會員資料
-import { updateProfile, updateProfileAvatar } from '@/services/member';
+import { updateProfile } from '@/services/member';
 // 修改密碼modal
 import ResetPasswordModal from '@/components/member/update-password';
 // 頭像上傳元件
@@ -40,35 +40,34 @@ export default function Member() {
   const [userProfile, setUserProfile] = useState(initUserProfile);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  if (auth.isAuth) {
-    // 初始化會員資料
+  useEffect(() => {
     const getUserData = async () => {
-      const res = await getMember();
+      if (auth.isAuth) {
+        const res = await getMember();
 
-      if (res.data.status === 'success') {
-        const dbMember = res.data.memberData;
-        console.log('dbMember:', dbMember);
+        if (res.data.status === 'success') {
+          const dbMember = res.data.memberData;
+          // console.log('dbMember:', dbMember);
 
-        setUserProfile({
-          avatar: dbMember.Avatar ?? '',
-          account: dbMember.Account ?? '',
-          name: dbMember.Name ?? '',
-          nickname: dbMember.Nickname ?? '',
-          email: dbMember.eMail ?? '',
-          phone: dbMember.Phone ?? '',
-          gender: dbMember.Gender ?? '',
-          birth: dbMember.Birth ?? '',
-          google_avatar: dbMember.google_avatar ?? '',
-          isPetCom: dbMember.isPetCom ?? '',
-        });
+          setUserProfile({
+            avatar: dbMember.Avatar ?? '',
+            account: dbMember.Account ?? '',
+            name: dbMember.Name ?? '',
+            nickname: dbMember.Nickname ?? '',
+            email: dbMember.eMail ?? '',
+            phone: dbMember.Phone ?? '',
+            gender: dbMember.Gender ?? '',
+            birth: dbMember.Birth ?? '',
+            google_avatar: dbMember.google_avatar ?? '',
+            isPetCom: dbMember.isPetCom ?? '',
+          });
+        }
       }
     };
 
-    // 本頁一開始render後就會設定到會員資料
-    useEffect(() => {
-      getUserData();
-    }, []);
-  }
+    // 调用异步函数
+    getUserData();
+  }, [auth.isAuth, getMember]); // 依賴auth.isAuth變化時重新執行
 
   // 處理input輸入的共用函式，設定回userProfile狀態
   const handleFieldChange = (e) => {
@@ -102,7 +101,11 @@ export default function Member() {
     // 阻擋表單預設送出行為
     e.preventDefault();
 
-    // 這裡可以作表單驗証
+    // 表單驗證 - START
+    if (userProfile.name === '') {
+      return toast.error('請輸入姓名');
+    }
+    // 表單驗證 - END
 
     // 更新會員資料用
     // 構建 FormData 將所有資料打包

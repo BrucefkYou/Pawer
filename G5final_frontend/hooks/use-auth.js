@@ -224,14 +224,14 @@ export function AuthProvider({ children }) {
           success: {
             style: {
               borderRadius: '10px',
-              background: 'rgba(84, 124, 215, 1)',
+              background: 'rgba(78, 104, 162, 1)',
               color: '#fff',
             },
           },
           error: {
             style: {
               borderRadius: '10px',
-              background: 'rgba(193, 69, 69, 1)',
+              background: 'rgba(183, 183, 183, 1)',
               color: '#fff',
             },
           },

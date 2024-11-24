@@ -141,7 +141,7 @@ export default function JiEdit(props) {
   const handleCountChange = (e) => {
     const value = e.target.value;
     if (isNaN(value)) {
-      Swal.fire({ title: '請輸入數字', confirmButtonColor: '#22355c' });
+      toast.error('請輸入數字');
       setCount(1);
     } else {
       setCount(Number(value));
@@ -158,10 +158,7 @@ export default function JiEdit(props) {
   const handleStartTimeChange = (date) => {
     const currentTime = moment();
     if (moment(date).isBefore(currentTime)) {
-      Swal.fire({
-        title: '開始時間不得早於當前時間',
-        confirmButtonColor: '#22355c',
-      });
+      toast.error('開始時間不得早於當前時間');
       setStartTime(newTime(currentTime));
     } else {
       setStartTime(newTime(date));
@@ -170,7 +167,7 @@ export default function JiEdit(props) {
 
   const handleEndTimeChange = (date) => {
     if (moment(date).isBefore(startTime)) {
-      Swal.fire({ title: '不得早於開始時間', confirmButtonColor: '#22355c' });
+      toast.error('結束時間不得早於開始時間');
       setEndTime(startTime);
     } else {
       setEndTime(newTime(date));
@@ -179,7 +176,7 @@ export default function JiEdit(props) {
 
   const handleSignEndDateChange = (date) => {
     if (moment(date).isAfter(endTime)) {
-      Swal.fire({ title: '不得晚於結束時間', confirmButtonColor: '#22355c' });
+      toast.error('截止時間不得晚於結束時間');
       setSignEndDate(startTime);
     } else {
       setSignEndDate(newTime(date));
