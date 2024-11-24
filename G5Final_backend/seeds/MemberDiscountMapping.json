@@ -246,21 +246,5 @@
     "Received_Date": "2024-11-07 20:43:49",
     "Used_Date": "2024-11-11 11:20:04",
     "Status": "0"
-  },
-  {
-    "MemberDiscountMappingID": "33",
-    "DiscountID": "21",
-    "MemberID": "101",
-    "Received_Date": "2024-11-24 20:48:54",
-    "Used_Date": null,
-    "Status": "0"
-  },
-  {
-    "MemberDiscountMappingID": "34",
-    "DiscountID": "21",
-    "MemberID": "102",
-    "Received_Date": "2024-11-24 20:53:03",
-    "Used_Date": null,
-    "Status": "0"
   }
 ]
