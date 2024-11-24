@@ -50,8 +50,8 @@ export default function CreatCard(props) {
           status="no"
           title="您已經是溝通師"
           content="若註冊未刊登達90天將移除身份需重新申請"
-          button="返回"
-          url="/"
+          button="查看師資資料"
+          url="/member/communicator/detail"
         />
       )}
       {!message && (

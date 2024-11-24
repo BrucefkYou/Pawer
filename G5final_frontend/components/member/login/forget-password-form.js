@@ -44,7 +44,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
     // 表單驗證 - START
     if (user.email === '') {
       return toast.error('請輸入電子信箱');
-      }
+    }
     // 表單驗證 - END
     if (delay !== null) {
       toast.error('錯誤 - 60s內無法重新獲得驗証碼');
@@ -66,21 +66,21 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
   // 處理重設密碼用
   const handleResetPassword = async () => {
     // 表單驗證 - START
-    
+
     if (user.email === '') {
-    return toast.error('請輸入電子信箱');
+      return toast.error('請輸入電子信箱');
     }
     if (user.token === '') {
-    return toast.error('請輸入驗證碼');
+      return toast.error('請輸入驗證碼');
     }
     if (user.password === '') {
-    return toast.error('請輸入密碼');
+      return toast.error('請輸入密碼');
     }
     if (user.confirmPassword === '') {
-    return toast.error('請輸入確認密碼');
+      return toast.error('請輸入確認密碼');
     }
     if (user.password !== user.confirmPassword) {
-    return toast.error('密碼與確認密碼不相同');
+      return toast.error('密碼與確認密碼不相同');
     }
     // 表單驗證 - END
 
@@ -113,6 +113,7 @@ export default function ForgetPasswordForm({ Formtype, setFormtype }) {
             width={446}
             height={630}
             className={`${styles['pic']}`}
+            priority
           />
         </div>
         <div

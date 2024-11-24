@@ -35,6 +35,14 @@ export default function ComEdit(props) {
   // 處理表單寫入資料庫
   async function submitForm(event) {
     event.preventDefault();
+    const checkboxes = document.querySelectorAll('input[name="Approach"]');
+    const isChecked = Array.from(checkboxes).some((checkbox) => checkbox.checked);
+
+    if (!isChecked) {
+      event.preventDefault(); // 阻止表單提交
+      alert('請至少選擇一個溝通方式！');
+      return
+    }
     const form = document.querySelector('#edit');
     const formData = new FormData(form);
     // 移除圖片欄位
@@ -189,7 +197,6 @@ export default function ComEdit(props) {
                           defaultChecked={mydata.Approach === '遠距語音溝通'}
                           value="遠距語音溝通"
                           name="Approach"
-                          required
                         />
                         <label
                           className="form-check-label"

@@ -15,7 +15,7 @@
     border-radius: 15px;
     background: rgba(245, 245, 245, 0.65);
     @media (max-width: 762px) {
-       background: rgba(245, 245, 245, 0);
+      background: rgba(245, 245, 245, 0);
     }
   }
   .status {
@@ -28,7 +28,7 @@
     ul {
       min-height: 800px; /* 限制訊息列表的最低高度 */
       max-height: 650px; /* 限制訊息列表的最大高度 */
-      
+
       overflow-y: auto; /* 超出時顯示垂直滾動條 */
       list-style-type: none;
       padding-left: 0;
@@ -75,13 +75,12 @@
         right: -42px;
         background: rgba(240, 240, 240);
       }
-      
     }
   }
   .left-show {
     left: 0px;
   }
-  .left-close{
+  .left-close {
     left: -330px;
   }
   //右側欄
@@ -99,10 +98,10 @@
       margin-left: 0;
       @media (max-width: 762px) {
         min-height: 350px; /* 限制訊息列表的最低高度 */
-      max-height: 400px; /* 限制訊息列表的最大高度 */
+        max-height: 400px; /* 限制訊息列表的最大高度 */
       }
     }
-    li {
+    .my-message-content {
       background: white;
       border-radius: 15px;
       width: fit-content;

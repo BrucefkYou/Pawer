@@ -22,6 +22,11 @@ export default async function (sequelize) {
         type: DataTypes.STRING(30),
         allowNull: true,
       },
+      valid: {
+        type: DataTypes.TINYINT,
+        allowNull: true,
+        defaultValue: 1,
+      },
       Sex: {
         type: DataTypes.ENUM('Male', 'Female'),
         allowNull: true,
@@ -77,11 +82,6 @@ export default async function (sequelize) {
       UpdateDate: {
         type: DataTypes.DATE,
         allowNull: true,
-      },
-      valid: {
-        type: DataTypes.TINYINT,
-        allowNull: true,
-        defaultValue: 1,
       },
       delreason: {
         type: DataTypes.TEXT,
