@@ -429,22 +429,28 @@ export default function Index(props) {
                                         }
                                         {/* 發送者靠右 */ }
                                         if (v.from == 'self') {
-                                            return <li className="px-3 py-2 mt-2 my-message position-relative">
-                                                <div>{v.content}</div>
-                                                <span className='my-time position-absolute'>{v.creat_at && v.creat_at.slice(11, 16)}</span>
-                                            </li>
+                                            return <li className="px-3 py-2 mt-2 ">
+                                                <div className='my-message d-flex align-items-end'>
+                                                    <span className='my-time my-message'>{v.creat_at && v.creat_at.slice(11, 16)}</span>
+                                                    <div className=' ms-2 my-message-content p-2'>{v.content}</div>
+                                                </div>
+                                                </li>
                                         }
                                         {/* 接收者靠左 */ }
                                         if (String(v.from) == String(PetCommID)) {
-                                            return <li className="px-3 py-2 mt-2 position-relative">
-                                                <div>{v.content}</div>
-                                                <span className='to-time position-absolute'>{v.creat_at && v.creat_at.slice(11, 16)}</span>
+                                            return <li className="px-3 py-2 mt-2">
+                                                <div className='d-flex align-items-end'>
+                                                    <div className=' me-2 my-message-content p-2'>{v.content}</div>
+                                                    <span className='to-time'>{v.creat_at && v.creat_at.slice(11, 16)}</span>
+                                                </div>
                                             </li>
                                         }
                                         if (String(v.from) == String(MemberID)) {
-                                            return <li className="px-3 py-2 mt-2 position-relative">
-                                                <div>{v.content}</div>
-                                                <span className='to-time position-absolute'>{v.creat_at && v.creat_at.slice(11, 16)}</span>
+                                            return <li className="px-3 py-2 mt-2">
+                                                <div className='d-flex align-items-end'>
+                                                    <div className='me-2 my-message-content p-2'>{v.content}</div>
+                                                    <span className='to-time'>{v.creat_at && v.creat_at.slice(11, 16)}</span>
+                                                </div>
                                             </li>
                                         }
                                     })}
