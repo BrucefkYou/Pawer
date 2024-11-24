@@ -435,7 +435,7 @@
     "ID": "19",
     "Name": "冬季寵物保健特惠",
     "StartTime": "2024-12-01 00:00:00",
-    "EndTime": "2024-12-31 23:59:00",
+    "EndTime": "2024-11-30 23:59:00",
     "PromotionCondition": "2",
     "ConditionMinValue": "500",
     "CalculateType": "1",
