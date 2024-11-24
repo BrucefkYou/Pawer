@@ -101,7 +101,11 @@ export default function Member() {
     // 阻擋表單預設送出行為
     e.preventDefault();
 
-    // 這裡可以作表單驗証
+    // 表單驗證 - START
+    if (userProfile.name === '') {
+      return toast.error('請輸入姓名');
+    }
+    // 表單驗證 - END
 
     // 更新會員資料用
     // 構建 FormData 將所有資料打包

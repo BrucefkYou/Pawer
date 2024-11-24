@@ -73,6 +73,7 @@ export default function MyCoupon() {
               data-bs-toggle="tab"
               onClick={() => {
                 setNowCoupons(UnusedCoupons);
+                setPaginatedCoupons([]); // 清空分頁資料
               }}
             >
               未使用<span class="tab-count">{UnusedCoupons.length}</span>
@@ -84,6 +85,7 @@ export default function MyCoupon() {
               data-bs-toggle="tab"
               onClick={() => {
                 setNowCoupons(usedCoupons);
+                setPaginatedCoupons([]); // 清空分頁資料
               }}
             >
               已使用<span class="tab-count">{usedCoupons.length}</span>
@@ -95,6 +97,7 @@ export default function MyCoupon() {
               data-bs-toggle="tab"
               onClick={() => {
                 setNowCoupons(expiredCoupons);
+                setPaginatedCoupons([]); // 清空分頁資料
               }}
             >
               已過期<span class="tab-count">{expiredCoupons.length}</span>

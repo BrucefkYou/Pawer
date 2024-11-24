@@ -63,6 +63,7 @@ export default function Order() {
               data-bs-toggle="tab"
               onClick={() => {
                 setNowOrders(unpaidOrders);
+                setPaginatedOrders([]); // 清空分頁資料
               }}
             >
               未付款<span class="tab-count">{unpaidOrders.length}</span>
@@ -74,6 +75,7 @@ export default function Order() {
               data-bs-toggle="tab"
               onClick={() => {
                 setNowOrders(paidOrders);
+                setPaginatedOrders([]); // 清空分頁資料
               }}
             >
               已付款<span class="tab-count">{paidOrders.length}</span>
