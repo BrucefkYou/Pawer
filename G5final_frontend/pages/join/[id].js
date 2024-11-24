@@ -66,7 +66,6 @@ export default function JiDetail(props) {
           Info: updateImageTags(resData.Info),
         };
         setData(updatedData);
-        setCurrentCity(resData.City); // 設定 currentCity
         setError(null);
       } else {
         console.log('資料格式錯誤');
@@ -76,25 +75,7 @@ export default function JiDetail(props) {
     }
   };
   //   用useEffect監聽router.isReady變動，當true時代表query中可以獲得動態屬性值
-  useEffect(() => {
-    if (router.isReady) {
-      // 在這裡可以確保得到router.query
-      getTitle(router.query.id);
-      //   console.log('router.query', router.query);
-    }
-    // eslint-disable-next-line
-  }, [router.isReady]);
 
-  useEffect(() => {
-    const fetchImageUrl = () => {
-      if (data.ImageName) {
-        const url = `http://localhost:3005/join/${data.ImageName}`;
-        setImageUrl(url);
-      }
-    };
-
-    fetchImageUrl();
-  }, [data.ImageName]);
   // 編輯活動
   const handleEditClick = () => {
     router.push(`/join/edit/${router.query.id}`);
@@ -186,6 +167,8 @@ export default function JiDetail(props) {
       PositionX: data.PositionX,
       PositionY: data.PositionY,
       FullLocation: address,
+      type: 'main',
+      id: data.ID,
     },
   ];
 
@@ -211,11 +194,38 @@ export default function JiDetail(props) {
     fetchData();
   }, [currentCity]);
 
-  // const sortJoin = data.filter((v) => v.Status === 1 && v.City == data.City);
-  // // .slice(0, 7);
-  // console.log(sortJoin);
-  // setJoinin(sortJoin);
-  // console.log(data.City);
+  useEffect(() => {
+    if (router.isReady) {
+      // 在這裡可以確保得到router.query
+      getTitle(router.query.id);
+      //   console.log('router.query', router.query);
+    }
+    // eslint-disable-next-line
+  }, [router.query.id]);
+  useEffect(() => {
+    if (data && data.City) {
+      setCurrentCity(data.City);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    const fetchImageUrl = () => {
+      if (data.ImageName) {
+        const url = `http://localhost:3005/join/${data.ImageName}`;
+        setImageUrl(url);
+      }
+    };
+
+    fetchImageUrl();
+  }, [data.ImageName]);
+
+  const handleMarkerClick = (marker) => {
+    if (marker.type === 'nearby') {
+      router.push(`/join/${marker.id}`); // 假設每個活動都有唯一的 id
+    }
+  };
+  console.log(markers);
+
   const display = (
     <div className="container ji-detail-container">
       <Breadcrumbs />
@@ -274,7 +284,12 @@ export default function JiDetail(props) {
           </div>
           <div className="flex-shrink-1">
             {/* 側邊活動狀態小卡 */}
-            <SignStatusCard data={data} disabled={(uid===data.MemberID)?"disabled":"" } SignNum={data.ParticipantLimit-data.SignCount} btnText={(uid===data.MemberID)?"團主無法報名":""}/>
+            <SignStatusCard
+           data={data}
+           disabled={uid === data.MemberID}
+           SignNum={data.ParticipantLimit - data.SignCount}
+           btnText={uid === data.MemberID ? "團主無法報名" : ""}
+          />
           </div>
         </div>
       </div>
@@ -285,15 +300,26 @@ export default function JiDetail(props) {
       </div>
       <div className="detail-section3">
         <h5 className="h5">活動地點</h5>
-        <GoogleMapComponent markers={markers} />
-        {/* <iframe
-          title="join-map"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28941.87892033457!2d121.500000!3d25.033964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346823ccc336fff7%3A0x45dbb0e69cc4a953!2z5pel5pel5pyd6aOfKOW5s-mOruW6lyk!5e0!3m2!1szh-TW!2stw!4v1731913967222!5m2!1szh-TW!2stw"
-          className="join-map"
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade" 
-        /> */}
+        <GoogleMapComponent
+        markers={[
+          ...markers,
+          ...joinin.filter(around => 
+            !markers.some(marker => 
+              marker.PositionX === around.PositionX && marker.PositionY === around.PositionY
+            )
+          ).map(around => ({
+            PositionX: around.PositionX,
+            PositionY: around.PositionY,
+            FullLocation: around.City + around.Township + around.Location,
+            type: 'nearby',
+            title: around.Title,
+            id: around.ID, // 假設每個活動都有唯一的 id
+          }))
+        ]}
+      
+        onMarkerClick={handleMarkerClick}
+      />
+        {/* <GoogleMapComponent markers={markers} /> */}
         <p className="py-1 text-center">{address}</p>
       </div>
     </form>
