@@ -47,10 +47,8 @@ export default function OrderDetail() {
         <title>會員中心 - 我的部落格</title> {/* 設置當前頁面的標題 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <article className="col-md-10">
         <div
-          className="bl-mem-content
- d-flex justify-content-between "
+          className="bl-mem-content d-flex justify-content-between "
         >
           <PageTitle title={'我的部落格'} subTitle={'Blog'} />
 
@@ -60,8 +58,8 @@ export default function OrderDetail() {
             needFilter={needFilter}
           />
         </div>
-        <div className="mb-card d-flex flex-column justify-content-center pt-5 px-4">
-          <div className="card-section d-flex flex-wrap gap-3  ">
+        <div className="mb-card d-flex flex-column pt-5 px-4">
+          <div className="card-section d-flex flex-wrap gap-3 justify-content-evenly ">
             {nowPageItems && nowPageItems.length > 0 ? (
               nowPageItems.map((blog) => {
                 return (
@@ -86,6 +84,13 @@ export default function OrderDetail() {
               </p>
             )}
           </div>
+          <MemCreateBtn
+            url="http://localhost:3000/blog/create"
+            className="ms-auto"
+          >
+            <BsPencilFill />
+          </MemCreateBtn>
+
           <div className="pt-5 justify-content-center ">
             {nowPageItems && nowPageItems.length > 0 && (
               <div>
@@ -99,13 +104,6 @@ export default function OrderDetail() {
             )}
           </div>
         </div>
-        <MemCreateBtn
-          url="http://localhost:3000/blog/create"
-          className="ms-auto"
-        >
-          <BsPencilFill />
-        </MemCreateBtn>
-      </article>
     </>
   );
 }
