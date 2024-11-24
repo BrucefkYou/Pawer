@@ -5,7 +5,6 @@ import FavoriteIcon from '@/components/join/list/item/favorite/FavoriteIcon/Favo
 import { useAuth } from '@/hooks/use-auth';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
-import { se } from 'date-fns/locale';
 
 export default function SignStatusCard({
   data = {},
