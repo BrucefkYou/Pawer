@@ -107,11 +107,14 @@ export default function BlogCreate() {
       memberId: uid,
     };
     localStorage.setItem('blogPreviewData', JSON.stringify(previewData));
+    // console.log(localStorage.getItem('blogPreviewData'))
+
     router.push('/blog/preview');
   };
 
   useEffect(() => {
     const saveBlogData = localStorage.getItem('blogTemData');
+    // console.log('從預覽頁回來的資料', saveBlogData);
     if (saveBlogData) {
       const { title, content, tags, imageName, previewImage } =
         JSON.parse(saveBlogData);
@@ -125,11 +128,21 @@ export default function BlogCreate() {
       if (imageName) setImageName(imageName);
       if (previewImage) setUploadedImageUrl(previewImage);
 
-      localStorage.removeItem('blogTemData')
+      // localStorage.removeItem('blogTemData')
 
     }
   }, []);
 
+  
+  const handleSaveDraftClean = (e) => {
+    handleSaveDraft(e, uid, title, data, tags, imageName, router, uploadedImageUrl);
+    localStorage.removeItem('blogTemData');
+  };
+
+  const handleSubmitClean = (e) => {
+    handleSubmit(e, uid, title, data, tags, imageName, router, uploadedImageUrl);
+    localStorage.removeItem('blogTemData');
+  }
   useEffect(() => {
     setEditorLoaded(true);
   }, []);
@@ -256,36 +269,13 @@ export default function BlogCreate() {
                 <button
                   type="button"
                   className="btn btn-outline-primary"
-                  onClick={(e) =>
-                    handleSaveDraft(
-                      e,
-                      uid,
-                      title,
-                      data,
-                      tags,
-                      imageName,
-                      router,
-                      uploadedImageUrl
-                    )
-                  }
-                >
+                  onClick={handleSaveDraftClean}                 >
                   儲存草稿
                 </button>
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={(e) =>
-                    handleSubmit(
-                      e,
-                      uid,
-                      title,
-                      data,
-                      tags,
-                      imageName,
-                      router,
-                      uploadedImageUrl
-                    )
-                  }
+                  onClick={handleSubmitClean}
                 >
                   發佈文章
                 </button>
@@ -311,36 +301,14 @@ export default function BlogCreate() {
           <button className="col btn-mobile">
             <BsBookmarkFill
               className="icon "
-              onClick={(e) =>
-                handleSaveDraft(
-                  e,
-                  uid,
-                  title,
-                  data,
-                  tags,
-                  imageName,
-                  router,
-                  uploadedImageUrl
-                )
-              }
+              onClick={handleSaveDraftClean}
             />
             儲存草稿
           </button>
 
           <button
             className="col btn-mobile"
-            onClick={(e) =>
-              handleSubmit(
-                e,
-                uid,
-                title,
-                data,
-                tags,
-                imageName,
-                router,
-                uploadedImageUrl
-              )
-            }
+            onClick={handleSubmitClean}
           >
             <FaUpload className="icon" />
             發佈文章
