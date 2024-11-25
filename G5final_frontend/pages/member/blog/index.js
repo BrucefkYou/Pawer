@@ -47,63 +47,63 @@ export default function OrderDetail() {
         <title>會員中心 - 我的部落格</title> {/* 設置當前頁面的標題 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <div
-          className="bl-mem-content d-flex justify-content-between "
-        >
+      <div className="bl-mem-content d-flex justify-content-between ">
+        <div className="d-none d-sm-block">
           <PageTitle title={'我的部落格'} subTitle={'Blog'} />
-
-          <MemberNav
-            newdata={newdata}
-            chooseFilter={chooseFilter}
-            needFilter={needFilter}
-          />
         </div>
-        <div className="mb-card d-flex flex-column pt-5 px-4">
-          <div className="card-section d-flex flex-wrap gap-3 justify-content-evenly ">
-            {nowPageItems && nowPageItems.length > 0 ? (
-              nowPageItems.map((blog) => {
-                return (
-                  <BlogDraftCard
-                    key={blog.ID}
-                    id={blog.ID}
-                    title={blog.Title}
-                    blogImg={blog.blogImg}
-                    createDate={blog.CreateDate}
-                    likeCount={blog.likeCount}
-                    favoriteCount={blog.favoriteCount}
-                    avatar={blog.MemberAvatar}
-                    name={blog.Nickname}
-                    status={blog.Status}
-                  />
-                );
-              })
-            ) : (
-              <p className="m-0">
-                開始建立文章！
-                <Link href={'http://localhost:3000/blog/create'}>立即發布</Link>
-              </p>
-            )}
-          </div>
-          <MemCreateBtn
-            url="http://localhost:3000/blog/create"
-            className="ms-auto"
-          >
-            <BsPencilFill />
-          </MemCreateBtn>
 
-          <div className="pt-5 justify-content-center ">
-            {nowPageItems && nowPageItems.length > 0 && (
-              <div>
-                <PageNav
-                  nowPage={nowPage}
-                  totalPage={totalPage}
-                  next={next}
-                  prev={prev}
+        <MemberNav
+          newdata={newdata}
+          chooseFilter={chooseFilter}
+          needFilter={needFilter}
+        />
+      </div>
+      <div className="mb-card d-flex flex-column pt-5 px-4">
+        <div className="card-section d-flex flex-wrap gap-3 justify-content-evenly ">
+          {nowPageItems && nowPageItems.length > 0 ? (
+            nowPageItems.map((blog) => {
+              return (
+                <BlogDraftCard
+                  key={blog.ID}
+                  id={blog.ID}
+                  title={blog.Title}
+                  blogImg={blog.blogImg}
+                  createDate={blog.CreateDate}
+                  likeCount={blog.likeCount}
+                  favoriteCount={blog.favoriteCount}
+                  avatar={blog.MemberAvatar}
+                  name={blog.Nickname}
+                  status={blog.Status}
                 />
-              </div>
-            )}
-          </div>
+              );
+            })
+          ) : (
+            <p className="m-0">
+              開始建立文章！
+              <Link href={'http://localhost:3000/blog/create'}>立即發布</Link>
+            </p>
+          )}
         </div>
+        <MemCreateBtn
+          url="http://localhost:3000/blog/create"
+          className="ms-auto"
+        >
+          <BsPencilFill />
+        </MemCreateBtn>
+
+        <div className="pt-5 justify-content-center ">
+          {nowPageItems && nowPageItems.length > 0 && (
+            <div>
+              <PageNav
+                nowPage={nowPage}
+                totalPage={totalPage}
+                next={next}
+                prev={prev}
+              />
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 }

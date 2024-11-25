@@ -44,7 +44,9 @@ export default function Index() {
       </Head>
       <div className="productList">
         <div className="card-favorite d-flex justify-content-between">
-          <PageTitle title={'收藏商品'} subTitle={'Favorite'} />
+          <div className="d-none d-sm-block">
+            <PageTitle title={'收藏商品'} subTitle={'Favorite'} />
+          </div>
           <div className="mb-pd-card-favorite">
             <MemberNav
               newdata={newdata}
