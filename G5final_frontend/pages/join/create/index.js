@@ -50,6 +50,34 @@ const Publish = () => {
     }
   };
 
+  const handleCancelClick = async () => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-danger mx-1 text-white',
+        cancelButton: 'btn btn-secondary text-secondary-emphasis mx-1',
+      },
+      buttonsStyling: false,
+    });
+
+    const result = await await swalWithBootstrapButtons.fire({
+      // title: '確定要取消報名這個活動嗎？',
+      text: '確定取消編輯？',
+      // icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '確定',
+      cancelButtonText: '返回',
+      reverseButtons: true,
+    });
+    if (result.isConfirmed) {
+      setLoading(true);
+      try {
+        router.push(`/member/join/release`);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   // CKEditor 設定
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [data, setData] = useState('');
@@ -71,6 +99,8 @@ const Publish = () => {
     lat: 25.033964,
     lng: 121.562321,
   });
+  const [loading, setLoading] = useState(false);
+
   const markers = []; // 根據需要設置標記數據
 
   const handleUserLocationChange = (newLocation) => {
@@ -479,7 +509,7 @@ const Publish = () => {
               className="ji-preview-btn btn btn-danger rounded-2"
               onClick={(e) => {
                 e.preventDefault();
-                saveDraft();
+                handleCancelClick();
               }}
             >
               取消
