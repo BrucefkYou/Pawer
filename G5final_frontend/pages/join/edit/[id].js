@@ -45,15 +45,22 @@ export default function JiEdit(props) {
   };
 
   const handleCancelClick = async () => {
-    const result = await Swal.fire({
-      title: '取消將不會保留您的修改',
-      text: '確定取消嗎?',
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-danger mx-1 text-white',
+        cancelButton: 'btn btn-secondary text-secondary-emphasis mx-1',
+      },
+      buttonsStyling: false,
+    });
+
+    const result = await swalWithBootstrapButtons.fire({
+      // title: '確定要取消報名這個活動嗎？',
+      text: '確定取消編輯？',
       // icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#22355c;',
-      confirmButtonText: '確認取消',
-      cancelButtonText: '返回修改',
+      confirmButtonText: '確定',
+      cancelButtonText: '返回',
+      reverseButtons: true,
     });
     if (result.isConfirmed) {
       setLoading(true);
