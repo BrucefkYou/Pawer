@@ -45,15 +45,22 @@ export default function JiEdit(props) {
   };
 
   const handleCancelClick = async () => {
-    const result = await Swal.fire({
-      title: '取消將不會保留您的修改',
-      text: '確定取消嗎?',
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-danger mx-1 text-white',
+        cancelButton: 'btn btn-secondary text-secondary-emphasis mx-1',
+      },
+      buttonsStyling: false,
+    });
+
+    const result = await swalWithBootstrapButtons.fire({
+      // title: '確定要取消報名這個活動嗎？',
+      text: '確定取消編輯？',
       // icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#22355c;',
-      confirmButtonText: '確認取消',
-      cancelButtonText: '返回修改',
+      confirmButtonText: '確定',
+      cancelButtonText: '返回',
+      reverseButtons: true,
     });
     if (result.isConfirmed) {
       setLoading(true);
@@ -141,7 +148,7 @@ export default function JiEdit(props) {
   const handleCountChange = (e) => {
     const value = e.target.value;
     if (isNaN(value)) {
-      Swal.fire({ title: '請輸入數字', confirmButtonColor: '#22355c' });
+      toast.error('請輸入數字');
       setCount(1);
     } else {
       setCount(Number(value));
@@ -158,10 +165,7 @@ export default function JiEdit(props) {
   const handleStartTimeChange = (date) => {
     const currentTime = moment();
     if (moment(date).isBefore(currentTime)) {
-      Swal.fire({
-        title: '開始時間不得早於當前時間',
-        confirmButtonColor: '#22355c',
-      });
+      toast.error('開始時間不得早於當前時間');
       setStartTime(newTime(currentTime));
     } else {
       setStartTime(newTime(date));
@@ -170,7 +174,7 @@ export default function JiEdit(props) {
 
   const handleEndTimeChange = (date) => {
     if (moment(date).isBefore(startTime)) {
-      Swal.fire({ title: '不得早於開始時間', confirmButtonColor: '#22355c' });
+      toast.error('結束時間不得早於開始時間');
       setEndTime(startTime);
     } else {
       setEndTime(newTime(date));
@@ -179,7 +183,7 @@ export default function JiEdit(props) {
 
   const handleSignEndDateChange = (date) => {
     if (moment(date).isAfter(endTime)) {
-      Swal.fire({ title: '不得晚於結束時間', confirmButtonColor: '#22355c' });
+      toast.error('截止時間不得晚於結束時間');
       setSignEndDate(startTime);
     } else {
       setSignEndDate(newTime(date));

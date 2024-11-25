@@ -30,6 +30,11 @@
 .coupon-message {
   color: #646464;
 }
+@media (max-width: 768px) {
+  .coupon-all {
+    transform: scale(0.8);
+  }
+}
 
 .badge {
   line-height: 1.5;

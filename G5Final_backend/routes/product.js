@@ -148,7 +148,7 @@ router.get('/check-favorite', async (req, res) => {
 
 // 會員頁撈收藏的商品
 router.get('/member/favorite', async function (req, res, next) {
-  const MemberID = req.query
+  const { MemberID } = req.query
   try {
     const [rows] = await db2.query(
       `SELECT 

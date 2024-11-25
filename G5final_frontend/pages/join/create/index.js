@@ -42,11 +42,39 @@ const Publish = () => {
   const handleCountChange = (e) => {
     const value = e.target.value;
     if (isNaN(value)) {
-      Swal.fire('請輸入數字');
+      toast.error('請輸入數字');
       // alert('請輸入數字');
       setCount(1);
     } else {
       setCount(Number(value));
+    }
+  };
+
+  const handleCancelClick = async () => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-danger mx-1 text-white',
+        cancelButton: 'btn btn-secondary text-secondary-emphasis mx-1',
+      },
+      buttonsStyling: false,
+    });
+
+    const result = await await swalWithBootstrapButtons.fire({
+      // title: '確定要取消報名這個活動嗎？',
+      text: '確定取消編輯？',
+      // icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '確定',
+      cancelButtonText: '返回',
+      reverseButtons: true,
+    });
+    if (result.isConfirmed) {
+      setLoading(true);
+      try {
+        router.push(`/member/join/release`);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -71,6 +99,8 @@ const Publish = () => {
     lat: 25.033964,
     lng: 121.562321,
   });
+  const [loading, setLoading] = useState(false);
+
   const markers = []; // 根據需要設置標記數據
 
   const handleUserLocationChange = (newLocation) => {
@@ -107,7 +137,7 @@ const Publish = () => {
   const handleStartTimeChange = (date) => {
     const currentTime = moment();
     if (moment(date).isBefore(currentTime)) {
-      Swal.fire('開始時間不得早於當前時間');
+      toast.error('開始時間不得早於當前時間');
       setStartTime(newTime(currentTime));
       // } else if(moment(date).isAfter(endTime)){
       //   Swal.fire('開始時間不得晚於結束時間');
@@ -119,7 +149,7 @@ const Publish = () => {
 
   const handleEndTimeChange = (date) => {
     if (moment(date).isBefore(startTime)) {
-      Swal.fire('不得早於開始時間');
+      toast.error('結束時間不得早於開始時間');
       setEndTime(startTime);
     } else {
       setEndTime(newTime(date));
@@ -128,7 +158,7 @@ const Publish = () => {
 
   const handleSignEndDateChange = (date) => {
     if (moment(date).isAfter(endTime)) {
-      Swal.fire('不得晚於結束時間');
+      toast.error('截止時間不得晚於結束時間');
       setSignEndDate(startTime);
     } else {
       setSignEndDate(newTime(date));
@@ -479,7 +509,7 @@ const Publish = () => {
               className="ji-preview-btn btn btn-danger rounded-2"
               onClick={(e) => {
                 e.preventDefault();
-                saveDraft();
+                handleCancelClick();
               }}
             >
               取消

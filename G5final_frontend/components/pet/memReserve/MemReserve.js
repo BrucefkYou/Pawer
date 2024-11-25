@@ -71,23 +71,26 @@ export default function MemReserve(props) {
   return (
     <>
       <div className="PT-reserve-card p-4 shadow">
-      <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between">
           {/* 標題 */}
-          <PageTitle title={`會員｜預約清單`} subTitle={'Reserve'} />
+          <div className="d-none d-sm-block">
+            <PageTitle title={`會員｜預約清單`} subTitle={'Reserve'} />
+          </div>
+
           {/* 頁籤 */}
           <MemberNav
             newdata={newdata}
             chooseFilter={chooseFilter}
             needFilter={needFilter}
           />
-      </div>
+        </div>
       </div>
       <div className="PT-reserve-card p-4 shadow mt-3">
         {/* 清單明細 */}
         {nowPageItems.length < 1 ? (
-          <div>查無預約紀錄 <a href={'/communicator'}>去逛逛</a>
+          <div>
+            查無預約紀錄 <a href={'/communicator'}>去逛逛</a>
           </div>
-
         ) : (
           <>
             <div className="row none title text-center mt-3 py-2">
@@ -99,7 +102,10 @@ export default function MemReserve(props) {
               <div className="col">預約時段</div>
               <div className="col-1" />
             </div>
-            <MemReserveList nowPageItems={nowPageItems} setMessage={setMessage} />
+            <MemReserveList
+              nowPageItems={nowPageItems}
+              setMessage={setMessage}
+            />
             <div className="d-flex justify-content-center">
               <PageNav
                 nowPage={nowPage}
@@ -111,7 +117,6 @@ export default function MemReserve(props) {
           </>
         )}
       </div>
-      
     </>
   );
 }

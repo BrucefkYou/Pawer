@@ -12,6 +12,7 @@ import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs';
 import { useLoader } from '@/hooks/use-loader';
 import toast from 'react-hot-toast';
 import logo from '@/public/LOGO.svg';
+import CartCoupon from '@/components/cart/cart-coupon';
 import { create, remove } from 'lodash';
 
 export default function CartInfo(props) {
@@ -176,8 +177,6 @@ export default function CartInfo(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('handleSubmit called');
-
     if (isSubmittingRef.current) {
       console.log('Already submitting, aborting');
       return;
@@ -252,6 +251,8 @@ export default function CartInfo(props) {
       } else if (selectedPayment === 'store') {
         router.push(`/cart/success?orderID=${createOrderNum}`);
       }
+      localStorage.removeItem('discount');
+      localStorage.removeItem('store711');
 
       // 重置表單或執行其他操作
     } catch (error) {
@@ -272,12 +273,12 @@ export default function CartInfo(props) {
   }, []);
 
   // 當離開頁面的時候，將 localStorage 裡面的 discount 移除
-  useEffect(() => {
-    return () => {
-      localStorage.removeItem('discount');
-      localStorage.removeItem('store711');
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     localStorage.removeItem('discount');
+  //     localStorage.removeItem('store711');
+  //   };
+  // }, []);
 
   // 當商品列表有變化時，重新計算總價
   useEffect(() => {
@@ -370,12 +371,7 @@ export default function CartInfo(props) {
                           : '未選擇優惠券'}
                       </div>
                       <div className="discount-svg">
-                        <Image
-                          width={288}
-                          height={123}
-                          src={'/member/coupon-bg.png'}
-                          alt="coupon"
-                        />
+                        <CartCoupon key={discount.ID} coupon={discount} />
                       </div>
                     </div>
                     <hr className="desktop-hr" />
@@ -422,7 +418,7 @@ export default function CartInfo(props) {
                               className="form-control"
                               value={receiver}
                               onChange={(e) => setReceiver(e.target.value)}
-                              required={selectedDelivery === 'convenience'}
+                              required={selectedDelivery === 'home'}
                             />
                           </div>
                         </div>
@@ -439,7 +435,7 @@ export default function CartInfo(props) {
                               type="tel"
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
-                              required={selectedDelivery === 'convenience'}
+                              required={selectedDelivery === 'home'}
                             />
                           </div>
                         </div>
@@ -783,7 +779,6 @@ export default function CartInfo(props) {
                   type="submit"
                   id="check-btn"
                   className="btn check-btn"
-                  onClick={handleSubmit}
                   disabled={isSubmittingRef.current}
                 >
                   {isSubmittingRef.current ? '提交中...' : '確認付款'}

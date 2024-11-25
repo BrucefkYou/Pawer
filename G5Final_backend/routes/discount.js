@@ -44,7 +44,7 @@ router.post('/registerDiscount', authenticate, async function (req, res, next) {
 router.post('/getMemberDicount', authenticate, async function (req, res, next) {
   const memberID = req.user.id
   const sql = `
-  SELECT d.ID, d.Name, d.EndTime, d.PromotionCondition, d.ConditionMinValue, d.Value, d.PromotionType, d.CalculateType
+  SELECT d.ID, d.Name, d.EndTime, d.PromotionCondition, d.ConditionMinValue, d.Value, d.PromotionType, d.CalculateType, mdm.Received_Date
   FROM MemberDiscountMapping mdm
   JOIN Discount d ON mdm.DiscountID = d.ID
   WHERE mdm.MemberID = ?
