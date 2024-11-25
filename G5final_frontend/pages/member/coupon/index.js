@@ -110,7 +110,7 @@ export default function MyCoupon() {
 
       {nowCoupons.length > 0 ? (
         <>
-          <div className="d-flex flex-wrap gap-4 pt-4 justify-content-evenly">
+          <div className="d-flex flex-wrap gap-md-4 pt-md-4 justify-content-evenly">
             {paginatedCoupons.map((coupon) => (
               <Coupon key={coupon.ID} coupon={coupon} />
             ))}

@@ -17,7 +17,7 @@ export default function Coupon({ coupon }) {
 
   return (
     <>
-      <div>
+      <div className={`${styles['coupon-all']}`}>
         <div
           className={`position-relative ${
             expired || used ? styles['dark'] : ''
