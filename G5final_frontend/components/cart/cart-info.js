@@ -204,7 +204,7 @@ export default function CartInfo(props) {
       const orderData = {
         MemberID: auth.memberData.id,
         ProductsAmount: items.filter((item) => item.checked).length,
-        CouponID: discount.ID,
+        CouponID: discount.checked ? discount.ID : 0,
         Receiver: receiver,
         ReceiverPhone: phone,
         country: country,
