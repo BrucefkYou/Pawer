@@ -381,15 +381,11 @@ const Publish = () => {
               <div className="mb-3">
                 <div className="row">
                   <div className="col">
-                    <label
-                      htmlFor="StartTime"
-                      className="form-label col-3 required"
-                    >
+                    <label htmlFor="StartTime" className="form-label required">
                       開始時間
                     </label>
                     <DatePicker
-                      showIcon
-                      icon={<BsCalendar />}
+                      // icon={<BsCalendar />}
                       selected={startTime}
                       onChange={handleStartTimeChange}
                       timeInputLabel="Time:"
@@ -400,15 +396,11 @@ const Publish = () => {
                   </div>
 
                   <div className=" col">
-                    <label
-                      htmlFor="EndTime"
-                      className="form-label col-3 required"
-                    >
+                    <label htmlFor="EndTime" className="form-label required">
                       結束時間
                     </label>
                     <DatePicker
-                      showIcon
-                      icon={<BsCalendar />}
+                      // icon={<BsCalendar />}
                       selected={endTime}
                       onChange={handleEndTimeChange}
                       timeInputLabel="Time:"
@@ -459,13 +451,12 @@ const Publish = () => {
                   <div className=" col">
                     <label
                       htmlFor="SignEndTime"
-                      className="form-label col-3 required"
+                      className="form-label required"
                     >
                       截團時間
                     </label>
                     <DatePicker
-                      showIcon
-                      icon={<BsCalendar />}
+                      // icon={<BsCalendar />}
                       selected={signEndDate}
                       onChange={handleSignEndDateChange}
                       timeInputLabel="Time:"
