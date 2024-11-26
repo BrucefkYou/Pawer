@@ -1,0 +1,19 @@
+快樂小狗的聚會
+
+最近天氣好好，想帶家裡的狗狗去新開的寵物公園玩耍～
+有人想要一起帶毛小孩去放風嗎？
+
+11/30 10:00 - 12/1 16:00
+
+11/28 
+
+人數 6 人
+
+台北市松山區迎風狗運動公園
+
+狗 寵物  #寵物公園
+
+
+http://localhost:3005/api/join-in/member/joined?memberId=${uid}
+
+<JoinListCard key={data.id} data={data} cancelBtn />
