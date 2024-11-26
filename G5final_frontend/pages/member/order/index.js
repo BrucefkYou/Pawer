@@ -51,7 +51,9 @@ export default function Order() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="mb-content d-flex justify-content-between">
-        <PageTitle title={'訂單查詢'} subTitle={'Order'} />
+        <div className="d-none d-sm-block">
+          <PageTitle title={'訂單查詢'} subTitle={'Order'} />
+        </div>
         <ul
           class="nav nav-tabs member-nav-tabs justify-content-center"
           id="myTab"

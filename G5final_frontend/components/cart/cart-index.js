@@ -19,7 +19,7 @@ export default function Cart(props) {
   const [discount, setDiscount] = useState(); // 優惠券數據
   const [checkPrice, setCheckPrice] = useState(0); // 結帳金額
 
-  // 要待到下一頁的優惠券的初始值
+  // 要帶到下一頁的優惠券的初始值
   const defaultDiscount = {
     ID: 0,
     Name: '',
@@ -27,6 +27,7 @@ export default function Cart(props) {
     EndTime: '',
     CalculateType: 0,
     Value: 0,
+    Received_Date: '',
     checked: false,
   };
   // 取得優惠券資料

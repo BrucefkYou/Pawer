@@ -60,8 +60,10 @@ export default function MyCoupon() {
         <title>會員中心 - 我的優惠券</title> {/* 設置當前頁面的標題 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mb-content d-flex justify-content-between">
-        <PageTitle title={'我的優惠券'} subTitle={'Coupon'} />
+      <div className="mb-content d-flex justify-content-between p-3">
+        <div className="d-none d-sm-block">
+          <PageTitle title={'我的優惠券'} subTitle={'Coupon'} />
+        </div>
         <ul
           class="nav nav-tabs member-nav-tabs justify-content-center"
           id="myTab"
@@ -108,7 +110,7 @@ export default function MyCoupon() {
 
       {nowCoupons.length > 0 ? (
         <>
-          <div className="d-flex flex-wrap gap-4 pt-4 justify-content-evenly">
+          <div className="d-flex flex-wrap gap-md-4 pt-md-4 justify-content-evenly">
             {paginatedCoupons.map((coupon) => (
               <Coupon key={coupon.ID} coupon={coupon} />
             ))}

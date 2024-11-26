@@ -44,7 +44,10 @@ export default function OrderDetail() {
       </Head>
       <div className="ji-member">
         <div className="card-favorite d-flex justify-content-between rounded-2">
-          <PageTitle title={'已報名活動'} subTitle={'Joined'} />
+          <div className="d-none d-sm-block">
+            <PageTitle title={'已報名活動'} subTitle={'Joined'} />
+          </div>
+
           <MemberNav
             newdata={newdata}
             chooseFilter={chooseFilter}

@@ -51,58 +51,57 @@ export default function OrderDetail() {
         <title>會員中心 - 收藏部落格</title> {/* 設置當前頁面的標題 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <div className="bl-mem-content d-flex justify-content-between">
+      <div className="bl-mem-content d-flex justify-content-between">
+        <div className="d-none d-sm-block">
           <PageTitle title={'我的部落格'} subTitle={'Blog'} />
-            <MemberNav
-              newdata={newdata}
-              chooseFilter={chooseFilter}
-              needFilter={needFilter}
-            />
         </div>
-        <div className="mb-card d-flex flex-column pt-5 px-4">
-          <div className="card-section d-flex flex-wrap justify-content-evenly gap-3  ">
-            {nowPageItems && nowPageItems.length > 0 ? (
-              nowPageItems.map((blog) => {
-                return (
-                  <BlogCard
-                    key={blog.ID}
-                    id={blog.ID}
-                    title={blog.Title}
-                    blogImg={blog.blogImg}
-                    createDate={blog.CreateDate}
-                    likeCount={blog.likeCount}
-                    favoriteCount={blog.favoriteCount}
-                    avatar={blog.MemberAvatar}
-                    name={blog.Nickname}
-                  />
-                );
-              })
-            ) : (
-              <div className="d-flex w-100 align-items-center">
-              <p>
-              去收藏喜歡的文章吧！
-              <Link
-                  href={'http://localhost:3000/blog'}
-                >
-                去逛逛
-                </Link>
-              </p>
-              </div>
-            )}
-          </div>
-          <div className="pt-5 justify-content-center ">
-            {nowPageItems && nowPageItems.length > 0 && (
-              <div>
-                <PageNav
-                  nowPage={nowPage}
-                  totalPage={totalPage}
-                  next={next}
-                  prev={prev}
+
+        <MemberNav
+          newdata={newdata}
+          chooseFilter={chooseFilter}
+          needFilter={needFilter}
+        />
+      </div>
+      <div className="mb-card d-flex flex-column pt-5 px-4">
+        <div className="card-section d-flex flex-wrap justify-content-evenly gap-3  ">
+          {nowPageItems && nowPageItems.length > 0 ? (
+            nowPageItems.map((blog) => {
+              return (
+                <BlogCard
+                  key={blog.ID}
+                  id={blog.ID}
+                  title={blog.Title}
+                  blogImg={blog.blogImg}
+                  createDate={blog.CreateDate}
+                  likeCount={blog.likeCount}
+                  favoriteCount={blog.favoriteCount}
+                  avatar={blog.MemberAvatar}
+                  name={blog.Nickname}
                 />
-              </div>
-            )}
-          </div>
+              );
+            })
+          ) : (
+            <div className="d-flex w-100 align-items-center">
+              <p>
+                去收藏喜歡的文章吧！
+                <Link href={'http://localhost:3000/blog'}>去逛逛</Link>
+              </p>
+            </div>
+          )}
         </div>
+        <div className="pt-5 justify-content-center ">
+          {nowPageItems && nowPageItems.length > 0 && (
+            <div>
+              <PageNav
+                nowPage={nowPage}
+                totalPage={totalPage}
+                next={next}
+                prev={prev}
+              />
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 }
