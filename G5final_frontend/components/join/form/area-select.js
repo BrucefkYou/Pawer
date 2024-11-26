@@ -33,7 +33,7 @@ export default function AreaSelect({
           活動地點
         </label>
         <div className="row g-3">
-          <div className="col-md-2">
+          <div className="col-6 col-md-2">
             <select
               className="form-select"
               value={city}
@@ -47,7 +47,7 @@ export default function AreaSelect({
               ))}
             </select>
           </div>
-          <div className="col-md-2">
+          <div className="col-6 col-md-2">
             <select
               className="form-select"
               value={township}

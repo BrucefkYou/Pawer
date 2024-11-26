@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { BsFileEarmarkPlus } from 'react-icons/bs';
+import { BsPlusLg } from 'react-icons/bs';
 import { useAuth } from '@/hooks/use-auth';
 import { v4 as uuidv4 } from 'uuid';
 import toast from 'react-hot-toast';
@@ -32,7 +32,7 @@ export default function JoinCCBtn({ show = true }) {
         <>
           {/* eslint-disable-next-line */}
       <div key={uuidv4()} className={`btn btn-primary text-white ms-auto mt-auto d-flex justify-content-center align-items-center ${style["create-btn"]}`} onClick={handleCreate}>
-            <BsFileEarmarkPlus />
+            <BsPlusLg />
           </div>
         </>
       )}

@@ -414,10 +414,7 @@ export default function JiEdit(props) {
           <div className="card">
             <div className="card-body">
               <div className="mb-3">
-                <label
-                  htmlFor="join-title"
-                  className="form-label col-3 required"
-                >
+                <label htmlFor="join-title" className="form-label required">
                   活動標題
                 </label>
                 <div className="col">
@@ -454,11 +451,10 @@ export default function JiEdit(props) {
               <div className="mb-3">
                 <div className="row">
                   <div className="col">
-                    <label htmlFor="StartTime" className="form-label col-3">
+                    <label htmlFor="StartTime" className="form-label">
                       活動開始時間
                     </label>
                     <DatePicker
-                      showIcon
                       icon={<BsCalendar />}
                       selected={startTime}
                       onChange={handleStartTimeChange}
@@ -469,11 +465,10 @@ export default function JiEdit(props) {
                   </div>
 
                   <div className=" col">
-                    <label htmlFor="EndTime" className="form-label col-3">
+                    <label htmlFor="EndTime" className="form-label">
                       活動結束時間
                     </label>
                     <DatePicker
-                      showIcon
                       icon={<BsCalendar />}
                       selected={endTime}
                       onChange={handleEndTimeChange}
@@ -520,11 +515,10 @@ export default function JiEdit(props) {
                     </div>
                   </div>
                   <div className=" col">
-                    <label htmlFor="SignEndTime" className="form-label col-3">
+                    <label htmlFor="SignEndTime" className="form-label">
                       截團時間
                     </label>
                     <DatePicker
-                      showIcon
                       icon={<BsCalendar />}
                       selected={signEndDate}
                       onChange={handleSignEndDateChange}
