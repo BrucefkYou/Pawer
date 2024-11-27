@@ -204,7 +204,7 @@ export default function CartInfo(props) {
       const orderData = {
         MemberID: auth.memberData.id,
         ProductsAmount: items.filter((item) => item.checked).length,
-        CouponID: discount.ID,
+        CouponID: discount.checked ? discount.ID : 0,
         Receiver: receiver,
         ReceiverPhone: phone,
         country: country,
@@ -264,6 +264,35 @@ export default function CartInfo(props) {
     }
   };
 
+  const checkInput = () => {
+    if (selectedDelivery) {
+      if (!receiver) {
+        toast.error('請填寫收貨人姓名');
+        return;
+      }
+      if (!phone) {
+        toast.error('請填寫手機號碼');
+        return;
+      }
+      if (selectedDelivery === 'home') {
+        if (!country || !township || !address) {
+          toast.error('請填寫地址資訊');
+          return;
+        }
+      }
+      if (selectedDelivery === 'convenience') {
+        if (!store711.storename) {
+          toast.error('請選擇便利商店');
+          return;
+        }
+      }
+    }
+    if (!selectedPayment) {
+      toast.error('請選擇付款方式');
+      return;
+    }
+  };
+
   // 一進頁面就要讀取localStorage的優惠券資料
   useEffect(() => {
     if (items.length === 0) {
@@ -271,14 +300,6 @@ export default function CartInfo(props) {
     }
     getDiscount();
   }, []);
-
-  // 當離開頁面的時候，將 localStorage 裡面的 discount 移除
-  // useEffect(() => {
-  //   return () => {
-  //     localStorage.removeItem('discount');
-  //     localStorage.removeItem('store711');
-  //   };
-  // }, []);
 
   // 當商品列表有變化時，重新計算總價
   useEffect(() => {
@@ -780,6 +801,7 @@ export default function CartInfo(props) {
                   id="check-btn"
                   className="btn check-btn"
                   disabled={isSubmittingRef.current}
+                  onClick={checkInput}
                 >
                   {isSubmittingRef.current ? '提交中...' : '確認付款'}
                 </button>

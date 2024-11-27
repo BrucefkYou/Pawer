@@ -8,7 +8,7 @@ import style from './join-c-c-btn.module.scss';
 
 export default function JoinCCBtn({ show = true }) {
   const router = useRouter();
-  const { auth } = useAuth();
+  const { auth, setNextRoute } = useAuth();
   const uid = auth.memberData.id;
 
   const handleCreate = () => {
@@ -19,6 +19,7 @@ export default function JoinCCBtn({ show = true }) {
       setTimeout(() => {
         router.push('/member/login');
       }, 1000);
+      setNextRoute('/join/create');
     } else {
       router.push('/join/create');
     }
