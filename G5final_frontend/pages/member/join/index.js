@@ -66,7 +66,7 @@ export default function OrderDetail() {
             </>
           ) : (
             <>
-              <p className="m-0 me-auto">
+              <p className="m-0 me-auto ps-3">
                 沒有參加的活動？
                 <Link href="/join" className="">
                   去逛逛
