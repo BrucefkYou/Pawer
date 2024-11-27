@@ -38,6 +38,7 @@
   }
 }
 
+
 .mb-content {
   padding: 30px 36px;
   background-color: #fff;
@@ -75,6 +76,7 @@
   }
 }
 
+
 .mb-card {
   background-color: #fff;
   border-radius: 4px;
@@ -94,6 +96,8 @@
     margin-bottom: 0;
   }
 }
+
+
 
 .required::after {
   content: ' *';
@@ -199,4 +203,10 @@
 .mb-offcanvas {
   padding-top: 84px;
   width: 350px !important; 
+}
+
+@media (max-width: 576px) {
+  .mb-content, .mb-card {
+    padding: 16px;
+  }
 }

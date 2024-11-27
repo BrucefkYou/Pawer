@@ -66,7 +66,7 @@ export default function Index() {
             </>
           ) : (
             <>
-              <p className="m-0">
+              <p className="m-0 me-auto ps-3">
                 沒有收藏活動？
                 <Link href="/join" className="">
                   去逛逛
