@@ -229,6 +229,7 @@
   {"FavoriteID":"228","MemberID":"6","BlogID":"95","ProductID":null,"JoininID":"0"},
   {"FavoriteID":"229","MemberID":"3","BlogID":"52","ProductID":null,"JoininID":"0"},
   {"FavoriteID":"230","MemberID":"9","BlogID":"65","ProductID":null,"JoininID":"0"},
-  {"FavoriteID":"231","MemberID":"1","BlogID":"96","ProductID":null,"JoininID":"0"}
-    
+  {"FavoriteID":"231","MemberID":"1","BlogID":"96","ProductID":null,"JoininID":"0"},
+  {"FavoriteID":"232","MemberID":"1","BlogID":null,"ProductID":null,"JoininID":"1"},
+  {"FavoriteID":"233","MemberID":"1","BlogID":null,"ProductID":null,"JoininID":"2"}
 ]
