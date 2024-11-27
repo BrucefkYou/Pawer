@@ -385,7 +385,7 @@ export default function JiEdit(props) {
         duration: 1800,
       });
       if (response.ok) {
-        router.push('/join');
+        router.push('/member/join/release');
       } else {
         alert(`寫入失敗: ${result.message}`);
       }

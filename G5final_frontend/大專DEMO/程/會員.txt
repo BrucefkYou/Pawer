@@ -1,0 +1,15 @@
+會員流程
+* 註冊一般會員會員
+    * ed.cheng07@gmail.com
+    * 網站密碼：as12345
+* 會員資料頁
+    * 修改會員資料 (全)
+    * 我的優惠券
+    * 忘記密碼
+* 註冊Google會員
+    * ed.cheng15@gmail.com
+    * 修改會員資料
+    * 嘗試用google會員進行一般登入
+* 訂單與優惠券頁面展示
+    * linpawer@gmail.com
+    * 信箱密碼：asdf12345_

@@ -244,7 +244,7 @@ const Publish = () => {
         toast('發佈成功', {
           duration: 1800,
         });
-        router.push('/join');
+        router.push('/member/join/release');
       } else {
         alert(`寫入失敗: ${result.message}`);
       }
@@ -299,7 +299,7 @@ const Publish = () => {
         toast('已儲存為草稿', {
           duration: 1800,
         });
-        router.push('/join');
+        router.push('/member/join/release');
       } else {
         alert(`寫入失敗: ${result.message}`);
       }
