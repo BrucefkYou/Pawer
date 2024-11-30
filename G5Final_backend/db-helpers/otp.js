@@ -98,14 +98,14 @@ const checkOTP = async (email, token) => {
   // 沒找到回傳false
   if (otpResult.length === 0) {
     console.log('ERROR - OTP Token資料不存在'.bgRed)
-    return { status: 'error', message: 'OTP Token資料不存在' }
+    return { status: 'error', message: '驗證碼錯誤' }
   }
   const foundOtp = otpResult[0]
 
   // 檢查 OTP 是否過期
   if (Date.now() > foundOtp.exp_timestamp) {
     console.log('ERROR - OTP Token已到期'.bgRed)
-    return { status: 'error', message: 'OTP Token資料不存在' }
+    return { status: 'error', message: '驗證碼過期，請重新取得' }
   }
 
   return { status: 'success', message: 'OTP Token資料通過', otpdata: foundOtp }

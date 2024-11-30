@@ -44,7 +44,10 @@ export default function Index() {
       </Head>
       <div className="ji-member">
         <div className="card-favorite d-flex justify-content-between rounded-2">
-          <PageTitle title={'已收藏活動'} subTitle={'Favorite'} />
+          <div className="d-none d-sm-block">
+            <PageTitle title={'已收藏活動'} subTitle={'Favorite'} />
+          </div>
+
           <MemberNav
             newdata={newdata}
             chooseFilter={chooseFilter}
@@ -52,7 +55,7 @@ export default function Index() {
           />
         </div>
 
-        <div className=" mb-card d-flex flex-wrap gap-4 my-3">
+        <div className=" mb-card d-flex flex-wrap justify-content-evenly gap-4 my-3">
           {nowPageItems.length > 0 ? (
             <>
               <div className=" d-flex flex-wrap justify-content-evenly gap-4">
@@ -63,7 +66,7 @@ export default function Index() {
             </>
           ) : (
             <>
-              <p className="m-0">
+              <p className="m-0 me-auto ps-3">
                 沒有收藏活動？
                 <Link href="/join" className="">
                   去逛逛

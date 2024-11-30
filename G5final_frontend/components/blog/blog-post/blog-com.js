@@ -4,12 +4,14 @@ import moment from 'moment';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/router';
 
 export default function BlogCom({ id }) {
-  const { auth } = useAuth();
+  const { auth, setNextRoute } = useAuth();
   const memberId = auth?.memberData?.id;
   const nickname = auth?.memberData?.nickname;
   const avatar = auth?.memberData?.avatar;
+  const router = useRouter()
 
   const [comments, setComments] = useState([]);
   const [commentContent, setCommentContent] = useState('');
@@ -38,6 +40,8 @@ export default function BlogCom({ id }) {
     fetchComments();
   }, [id]);
 
+
+
   // 發送留言
   const handleCommentSubmit = async () => {
     if (!commentContent.trim()) {
@@ -65,29 +69,37 @@ export default function BlogCom({ id }) {
 
       if (!response.ok) throw new Error('留言發送失敗');
       const result = await response.json();
-      toast('留言成功');
+      toast.success('留言成功');
 
       // console.log('留言發送成功:', result);
 
       setCommentContent('');
       fetchComments();
     } catch (error) {
-      toast('無法發送留言');
+      toast.error('無法發送留言');
       console.error('無法發送留言:', error);
     }
   };
 
   // 顯示更多留言
   const showMoreComments = () => {
-    setShowMore((prevCount) => prevCount + 3); 
+    setShowMore((prevCount) => prevCount + 3);
   };
 
   //   登入者的留言頭像
   const avatarPath = auth.memberData.avatar
     ? `http://localhost:3005/member/${auth.memberData.avatar}`
     : auth.memberData.google_avatar
-    ? auth.memberData.google_avatar
-    : `http://localhost:3005/member/avatar-default.png`;
+      ? auth.memberData.google_avatar
+      : `http://localhost:3005/member/avatar-default.png`;
+
+  // 登入後導頁
+  const islogin = () => {
+    if (!auth.isAuth) {
+      router.push('/member/login');
+      setNextRoute(`/blog/${id}`);
+    }
+  };
 
   return (
     <div className="commit-container">
@@ -127,13 +139,14 @@ export default function BlogCom({ id }) {
             </div>
           </>
         ) : (
-          <div className="h6 d-flex justify-content-center">
-            <Link
-              href={'http://localhost:3000/member/login'}
-              className="text-decoration-none"
+          <div className="d-flex justify-content-center  cursor-pointer">
+            <span
+              onClick={islogin}
+              className="h6 text-primary m-0 "
+              type='button'
             >
               登入會員即可開始評論
-            </Link>
+            </span>
           </div>
         )}
       </div>

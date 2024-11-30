@@ -26,8 +26,8 @@
   // 左側欄
   .left {
     ul {
-      min-height: 800px; /* 限制訊息列表的最低高度 */
-      max-height: 650px; /* 限制訊息列表的最大高度 */
+      min-height: 600px; /* 限制訊息列表的最低高度 */
+      max-height: 600px; /* 限制訊息列表的最大高度 */
 
       overflow-y: auto; /* 超出時顯示垂直滾動條 */
       list-style-type: none;
@@ -90,8 +90,8 @@
       background: rgba(255, 255, 255, 0.4);
     }
     ul {
-      min-height: 500px; /* 限制訊息列表的最低高度 */
-      max-height: 550px; /* 限制訊息列表的最大高度 */
+      min-height: 400px; /* 限制訊息列表的最低高度 */
+      max-height: 400px; /* 限制訊息列表的最大高度 */
       overflow-y: auto; /* 超出時顯示垂直滾動條 */
       list-style-type: none;
       padding-left: 0;

@@ -44,7 +44,10 @@ export default function OrderDetail() {
       </Head>
       <div className="ji-member">
         <div className="card-favorite d-flex justify-content-between rounded-2">
-          <PageTitle title={'已報名活動'} subTitle={'Joined'} />
+          <div className="d-none d-sm-block">
+            <PageTitle title={'已報名活動'} subTitle={'Joined'} />
+          </div>
+
           <MemberNav
             newdata={newdata}
             chooseFilter={chooseFilter}
@@ -52,10 +55,10 @@ export default function OrderDetail() {
           />
         </div>
 
-        <div className="  mb-card d-flex flex-column">
+        <div className=" mb-card d-flex flex-wrap justify-content-evenly gap-4 my-3">
           {nowPageItems.length > 0 ? (
             <>
-              <div className=" d-flex flex-wrap gap-4">
+              <div className="d-flex flex-wrap justify-content-evenly gap-4">
                 {nowPageItems.map((data) => (
                   <JoinListCard key={data.id} data={data} cancelBtn />
                 ))}
@@ -63,7 +66,7 @@ export default function OrderDetail() {
             </>
           ) : (
             <>
-              <p className="m-0 me-auto">
+              <p className="m-0 me-auto ps-3">
                 沒有參加的活動？
                 <Link href="/join" className="">
                   去逛逛

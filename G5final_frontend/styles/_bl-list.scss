@@ -96,3 +96,9 @@
     background-color: white;
     padding: 1.875rem 2.25rem;
 }
+
+@media (max-width: 576px) {
+    .bl-mem-content {
+        padding: 1.5rem;
+      }
+  }

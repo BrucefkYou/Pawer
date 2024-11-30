@@ -22,7 +22,7 @@ export default function Banner({ bgImgUrl = '', imgCover = 'cover' }) {
       //   console.log('router.query', router.query);
     }
     // eslint-disable-next-line
-  }, [router.isReady]);
+  }, [router.query.id]);
 
   const FTitle = menuItems.map((v, i) => {
     if (v.href === router.pathname) {

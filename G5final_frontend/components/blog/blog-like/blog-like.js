@@ -18,15 +18,6 @@ export default function BlogLike({ IconFilled, IconOutline, count, id }) {
     if (!uid) {
       toast('您需要登入才能按讚', {
         duration: 1800,
-        style: {
-          borderRadius: '10px',
-          borderTop: '15px #22355C solid',
-          background: '#F5F5F5',
-          color: '#646464',
-          marginTop: '80px',
-          width: '300px',
-          height: '100px',
-        },
       });
       return;
     }

@@ -59,7 +59,10 @@ export default function Index(props) {
       </Head>
       <div className="ji-member">
         <div className="card-favorite d-flex justify-content-between">
-          <PageTitle title={'已發起活動'} subTitle={'Release'} />
+          <div className="d-none d-sm-block">
+            <PageTitle title={'已發起活動'} subTitle={'Release'} />
+          </div>
+
           <MemberNav
             newdata={newdata}
             chooseFilter={chooseFilter}
